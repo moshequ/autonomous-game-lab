@@ -145,6 +145,20 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   const deployment = JSON.parse(await readFile('data/deployment-plan.json', 'utf8')) as {
     status: string
   }
+  const productionMeasurement = JSON.parse(await readFile('data/production-measurement-status.json', 'utf8')) as {
+    ownerUnlockPreflight?: {
+      status: string
+      combinedOwnerInputPreflight?: {
+        status: string
+        localEnvFile: string
+        unlockIds: string[]
+        summary: {
+          missingInputs: number
+          secretInputs: number
+        }
+      } | null
+    }
+  }
   await page.goto('/')
 
   await expect(page.getByRole('heading', { name: /Original board-game-inspired/i })).toBeVisible()
@@ -222,6 +236,23 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Support Feedback')).toContainText('Issues inspected')
   await expect(page.getByLabel('Public Repo Security')).toContainText('public-repo-security-ready')
   await expect(page.getByLabel('Public Repo Security')).toContainText('secretless-readonly')
+  await expect(page.getByLabel('Production Measurement')).toContainText('Production Measurement')
+  await expect(page.getByLabel('Production Measurement')).toContainText('Owner preflight')
+  await expect(page.getByLabel('Production Measurement')).toContainText('Combined owner pack')
+  await expect(page.getByLabel('Production Measurement')).toContainText(
+    productionMeasurement.ownerUnlockPreflight?.combinedOwnerInputPreflight?.status ?? 'missing',
+  )
+  await expect(page.getByLabel('Production Measurement')).toContainText(
+    productionMeasurement.ownerUnlockPreflight?.combinedOwnerInputPreflight?.localEnvFile ?? 'none',
+  )
+  await expect(page.getByLabel('Production Measurement')).toContainText(
+    productionMeasurement.ownerUnlockPreflight?.combinedOwnerInputPreflight?.unlockIds.join(' + ') ?? 'none',
+  )
+  await expect(page.getByLabel('Production Measurement')).toContainText(
+    productionMeasurement.ownerUnlockPreflight?.combinedOwnerInputPreflight
+      ? `${productionMeasurement.ownerUnlockPreflight.combinedOwnerInputPreflight.summary.missingInputs}/${productionMeasurement.ownerUnlockPreflight.combinedOwnerInputPreflight.summary.secretInputs}`
+      : '0/0',
+  )
   await expect(page.getByLabel('Player Evidence Watchdog')).toContainText(/watchdog-/)
   await expect(page.getByLabel('Player Evidence Watchdog')).toContainText('Raw events')
   await expect(page.getByLabel('Repository Channel')).toContainText(/blocked-no-local-git|waiting-for-gh-auth|repository-channel-ready|waiting-for-github-repository|waiting-for-repository-channel/)

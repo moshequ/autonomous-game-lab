@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-25T19:45:51.559Z",
+  "generatedAt": "2026-05-25T19:56:47.514Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-767f2e0ca726",
@@ -58,7 +58,26 @@ export const productionMeasurementStatus = {
     "missingInputCount": 4,
     "invalidInputCount": 0,
     "lowestInputMissingInputCount": 2,
-    "lowestInputSecretInputCount": 0
+    "lowestInputSecretInputCount": 0,
+    "combinedOwnerInputPreflight": {
+      "status": "combined-owner-input-preflight-waiting-on-input",
+      "readyForSetup": false,
+      "localEnvFile": ".env.production.local",
+      "unlockIds": [
+        "production-analytics-browser",
+        "support-contact"
+      ],
+      "analyticsPathId": "posthog-browser",
+      "supportUnlockId": "support-contact",
+      "missingInputCount": 3,
+      "secretInputCount": 0,
+      "invalidInputCount": 0,
+      "missingInputNames": [
+        "VITE_POSTHOG_KEY",
+        "VITE_POSTHOG_HOST",
+        "AGL_SUPPORT_EMAIL"
+      ]
+    }
   }
 } as const
 

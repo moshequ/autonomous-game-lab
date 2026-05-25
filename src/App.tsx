@@ -1087,6 +1087,27 @@ function App() {
       }
     }
   ).externalUnlockQueue
+  const productionMeasurementOwnerUnlockPreflight = (
+    productionMeasurementStatus as {
+      ownerUnlockPreflight?: {
+        status: string
+        combinedOwnerInputPreflight?: {
+          status: string
+          readyForSetup: boolean
+          localEnvFile: string
+          unlockIds: readonly string[]
+          analyticsPathId: string | null
+          supportUnlockId: string | null
+          missingInputCount: number | null
+          secretInputCount: number | null
+          invalidInputCount: number | null
+          missingInputNames: readonly string[]
+        } | null
+      }
+    }
+  ).ownerUnlockPreflight
+  const productionMeasurementCombinedOwnerInput =
+    productionMeasurementOwnerUnlockPreflight?.combinedOwnerInputPreflight
   const ownerExternalInputHandoff = (
     autonomousOwnerLoop as {
       externalInputHandoff?: {
@@ -3793,6 +3814,30 @@ function App() {
                 <div>
                   <span>Owner inputs</span>
                   <strong>{productionMeasurementExternalUnlockQueue?.ownerActionRequired ?? 0}</strong>
+                </div>
+                <div>
+                  <span>Owner preflight</span>
+                  <strong>{productionMeasurementOwnerUnlockPreflight?.status ?? 'missing'}</strong>
+                </div>
+                <div>
+                  <span>Combined owner pack</span>
+                  <strong>{productionMeasurementCombinedOwnerInput?.status ?? 'missing'}</strong>
+                </div>
+                <div>
+                  <span>Combined inputs</span>
+                  <strong>
+                    {productionMeasurementCombinedOwnerInput
+                      ? `${productionMeasurementCombinedOwnerInput.missingInputCount ?? 0}/${productionMeasurementCombinedOwnerInput.secretInputCount ?? 0}`
+                      : '0/0'}
+                  </strong>
+                </div>
+                <div>
+                  <span>Local env file</span>
+                  <strong>{productionMeasurementCombinedOwnerInput?.localEnvFile ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Combined unlocks</span>
+                  <strong>{productionMeasurementCombinedOwnerInput?.unlockIds.join(' + ') || 'none'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Repository Channel">

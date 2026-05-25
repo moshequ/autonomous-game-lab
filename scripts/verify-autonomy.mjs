@@ -1264,9 +1264,13 @@ if (
   analyticsUnlockHtml.includes('href="/analytics-unlock.json"') ||
   !appSource.includes('Production Measurement') ||
   !appSource.includes('Analytics unlock') ||
+  !appSource.includes('productionMeasurementCombinedOwnerInput') ||
+  !appSource.includes('Combined owner pack') ||
+  !appSource.includes('Combined unlocks') ||
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
   !productionMeasurementStatusSource.includes('playerEvidenceInvitePack') ||
   !productionMeasurementStatusSource.includes('zero-spend-player-evidence-invite-pack') ||
+  !productionMeasurementStatusSource.includes('appCombinedOwnerInputPreflight') ||
   !productionMeasurementStatusSource.includes('publicAnalyticsUnlock') ||
   !productionMeasurementStatusSource.includes('publicCollectorDeployment') ||
   !productionMeasurementStatusSource.includes('analyticsUnlockPayload') ||

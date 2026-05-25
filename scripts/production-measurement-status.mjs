@@ -990,6 +990,23 @@ const appAnalyticsUnlock = payload.analyticsUnlock
       validationCommandCount: payload.analyticsUnlock.validationCommandCount,
     }
   : null
+const appCombinedOwnerInputPreflight = payload.ownerUnlockPreflight.combinedOwnerInputPreflight
+  ? {
+      status: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.status,
+      readyForSetup: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.readyForSetup === true,
+      localEnvFile: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.localEnvFile,
+      unlockIds: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.unlockIds ?? [],
+      analyticsPathId: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.analyticsPathId ?? null,
+      supportUnlockId: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.supportUnlockId ?? null,
+      missingInputCount:
+        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.summary?.missingInputs ?? null,
+      secretInputCount:
+        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.summary?.secretInputs ?? null,
+      invalidInputCount:
+        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.summary?.invalidInputs ?? null,
+      missingInputNames: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.missingInputNames ?? [],
+    }
+  : null
 
 const appPayload = {
   generatedAt: payload.generatedAt,
@@ -1032,6 +1049,7 @@ const appPayload = {
     invalidInputCount: payload.ownerUnlockPreflight.summary?.invalidInputs ?? 0,
     lowestInputMissingInputCount: payload.ownerUnlockPreflight.summary?.lowestInputMissingInputs ?? null,
     lowestInputSecretInputCount: payload.ownerUnlockPreflight.summary?.lowestInputSecretInputs ?? null,
+    combinedOwnerInputPreflight: appCombinedOwnerInputPreflight,
   },
 }
 
