@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Owner Unlock Pack | Autonomous Game Lab</title>
+    <style>
+      :root {
+        color: #191713;
+        background: #fbf7ef;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(1040px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 44px 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 4rem);
+        max-width: 780px;
+      }
+
+      p {
+        max-width: 780px;
+      }
+
+      a {
+        color: #187f7a;
+        font-weight: 700;
+      }
+
+      code {
+        overflow-wrap: anywhere;
+      }
+
+      .eyebrow {
+        color: #7d2f18;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 28px 0;
+      }
+
+      .card {
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        background: #fffdf7;
+        padding: 16px;
+      }
+
+      .card span {
+        display: block;
+        color: #6d675c;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .card strong {
+        display: block;
+        margin-top: 8px;
+        overflow-wrap: anywhere;
+        font-size: 1.05rem;
+      }
+
+      section {
+        border-top: 1px solid #d9d0bf;
+        padding: 22px 0;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .actions a {
+        border: 1px solid #187f7a;
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Autonomous Game Lab</p>
+      <h1>Owner Unlock Pack</h1>
+      <p>This generated page exposes the smallest zero-secret owner input path for production analytics and store support readiness without storing values, creating accounts, dispatching workflows, enabling revenue, or submitting to app stores.</p>
+
+      <div class="grid" aria-label="Owner unlock status">
+        <div class="card">
+          <span>Status</span>
+          <strong>waiting-on-owner-input</strong>
+        </div>
+        <div class="card">
+          <span>Next unlock</span>
+          <strong>production-analytics-browser</strong>
+        </div>
+        <div class="card">
+          <span>Lowest-input path</span>
+          <strong>posthog-browser</strong>
+        </div>
+        <div class="card">
+          <span>Combined missing inputs</span>
+          <strong>3</strong>
+        </div>
+      </div>
+
+      <section>
+        <h2>Combined Zero-Secret Pack</h2>
+        <div class="grid" aria-label="Combined owner input pack">
+          <div class="card">
+            <span>Pack</span>
+            <strong>combined-zero-secret-owner-input-pack</strong>
+          </div>
+          <div class="card">
+            <span>Local env file</span>
+            <strong>.env.production.local</strong>
+          </div>
+          <div class="card">
+            <span>Secret inputs</span>
+            <strong>0</strong>
+          </div>
+          <div class="card">
+            <span>Unlocks</span>
+            <strong>production-analytics-browser, support-contact</strong>
+          </div>
+        </div>
+        <h3>Missing Input Names</h3>
+        <ul>
+          <li><code>VITE_POSTHOG_KEY</code></li>
+<li><code>VITE_POSTHOG_HOST</code></li>
+<li><code>AGL_SUPPORT_EMAIL</code></li>
+        </ul>
+        <h3>Local Env Template</h3>
+        <ul>
+          <li><code>VITE_POSTHOG_KEY=</code></li>
+<li><code>VITE_POSTHOG_HOST=</code></li>
+<li><code>AGL_SUPPORT_EMAIL=</code></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Minimal Analytics Path</h2>
+        <div class="grid" aria-label="Minimal analytics path">
+          <div class="card">
+            <span>Path</span>
+            <strong>posthog-browser</strong>
+          </div>
+          <div class="card">
+            <span>Missing inputs</span>
+            <strong>2</strong>
+          </div>
+          <div class="card">
+            <span>Missing secrets</span>
+            <strong>0</strong>
+          </div>
+          <div class="card">
+            <span>No secrets required</span>
+            <strong>true</strong>
+          </div>
+        </div>
+        <h3>Lowest-Input Missing Variables</h3>
+        <ul>
+          <li><code>VITE_POSTHOG_KEY</code></li>
+<li><code>VITE_POSTHOG_HOST</code></li>
+        </ul>
+        <h3>Setup Commands</h3>
+        <ul>
+          <li><code>./ops/github/setup-production.sh --analytics-input-template</code></li>
+<li><code>./ops/github/setup-production.sh</code></li>
+<li><code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li>
+<li><code>AGL_PRODUCTION_EVENT_EXPORT_FILES=/absolute/path/to/export.json npm run autonomous:collect-production-export</code></li>
+<li><code>npm run autonomous:readiness</code></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Parallel Owner Unlocks</h2>
+        <div class="grid" aria-label="Parallel owner unlocks">
+          <div class="card">
+            <span>measurement</span>
+            <strong>production-analytics-browser</strong>
+            <p>Browser production analytics needs 4 input(s) and 1 secret(s).</p>
+          </div>
+<div class="card">
+            <span>store-readiness</span>
+            <strong>support-contact</strong>
+            <p>Production support contact needs 1 input(s) and 0 secret(s).</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Validation</h2>
+        <ul>
+          <li><code>npm run autonomous:event-collector-smoke</code></li>
+<li><code>npm run autonomous:collector-deploy-plan</code></li>
+<li><code>npm run autonomous:readiness</code></li>
+<li><code>npm run test:e2e</code></li>
+        </ul>
+        <div class="actions">
+          <a href="./owner-unlock-brief.json">owner-unlock-brief.json</a>
+          <a href="./owner-unlock-preflight.json">owner-unlock-preflight.json</a>
+          <a href="./measurement-status.html">measurement-status.html</a>
+          <a href="./store-readiness.html">store-readiness.html</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

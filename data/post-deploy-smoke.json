@@ -1,10 +1,38 @@
 {
-  "generatedAt": "2026-05-26T08:45:38.585Z",
+  "generatedAt": "2026-05-26T09:15:03.088Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": ".env.production.local",
+        "keys": [
+          "VITE_POSTHOG_KEY",
+          "VITE_POSTHOG_HOST",
+          "AGL_SUPPORT_EMAIL"
+        ]
+      },
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL",
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -38,8 +66,8 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-ddd000316f0c",
-    "aggregateHash": "ddd000316f0c292200583e4dc452306d421fcfdc393a0c0519d8149ed34ac815",
+    "candidateId": "pwa-a6e2b4cd6867",
+    "aggregateHash": "a6e2b4cd6867b36cff69476828c35bd3c891b7a9f1d85c525f4b0089354e67bb",
     "strictManifestComparison": false
   },
   "liveRelease": {
@@ -66,8 +94,8 @@
     "status": "predeploy-artifact-smoke-passed",
     "artifactPath": "dist",
     "summary": {
-      "planned": 32,
-      "passed": 32,
+      "planned": 33,
+      "passed": 33,
       "failed": 0
     },
     "controls": {
@@ -103,7 +131,7 @@
         "file": "dist/sw.js",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 6444,
+        "bytes": 6540,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -143,7 +171,17 @@
         "file": "dist/measurement-status.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 109284,
+        "bytes": 108926,
+        "textMatched": true,
+        "detail": "Local production artifact matched required text."
+      },
+      {
+        "id": "owner-unlock-html",
+        "path": "/owner-unlock.html",
+        "file": "dist/owner-unlock.html",
+        "expectedStatus": 200,
+        "status": "pass",
+        "bytes": 6623,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -153,7 +191,7 @@
         "file": "dist/owner-unlock-brief.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 29556,
+        "bytes": 29841,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -163,7 +201,7 @@
         "file": "dist/owner-unlock-preflight.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 39848,
+        "bytes": 38816,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -183,7 +221,7 @@
         "file": "dist/analytics-unlock.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 82043,
+        "bytes": 81685,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -253,7 +291,7 @@
         "file": "dist/store-readiness.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 13438,
+        "bytes": 13480,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -393,11 +431,11 @@
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 38395,
+        "bytes": 38956,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-ddd000316f0c",
-        "localAggregateHash": "ddd000316f0c292200583e4dc452306d421fcfdc393a0c0519d8149ed34ac815",
+        "localCandidateId": "pwa-a6e2b4cd6867",
+        "localAggregateHash": "a6e2b4cd6867b36cff69476828c35bd3c891b7a9f1d85c525f4b0089354e67bb",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -853,7 +891,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-ddd000316f0c",
+      "requiredText": "pwa-a6e2b4cd6867",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T06:55:57.676Z",
+  "generatedAt": "2026-05-26T09:01:48.385Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -69,7 +69,7 @@
     "remoteRepository": "moshequ/autonomous-game-lab",
     "currentBranch": "main",
     "insideWorkTree": true,
-    "githubTokenConfigured": true,
+    "githubTokenConfigured": false,
     "githubCredentialConfigured": true,
     "directPushConfigured": false,
     "selfUpdateEnabled": false,
@@ -77,198 +77,30 @@
   },
   "sourceStatus": {
     "repositoryReadiness": "repository-channel-ready",
-    "productionReadiness": "ready-after-build",
+    "productionReadiness": "blocked",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 26,
+    "total": 2,
     "safe": [
       {
         "code": "M",
-        "path": "data/analytics-rollup.json",
-        "raw": " M data/analytics-rollup.json",
+        "path": "data/production-unlock-runner.json",
+        "raw": " M data/production-unlock-runner.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
       {
         "code": "M",
-        "path": "data/event-ingest-smoke.json",
-        "raw": " M data/event-ingest-smoke.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/event-ingest.json",
-        "raw": " M data/event-ingest.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/local-event-bridge.json",
-        "raw": " M data/local-event-bridge.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/player-evidence-watchdog.json",
-        "raw": " M data/player-evidence-watchdog.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/product-gate-recovery.json",
-        "raw": " M data/product-gate-recovery.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/product-gate-sample-plan.json",
-        "raw": " M data/product-gate-sample-plan.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/production-measurement-status.json",
-        "raw": " M data/production-measurement-status.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/retention-loop.json",
-        "raw": " M data/retention-loop.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/analytics-unlock.html",
-        "raw": " M public/analytics-unlock.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/analytics-unlock.json",
-        "raw": " M public/analytics-unlock.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/measurement-status.html",
-        "raw": " M public/measurement-status.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/measurement-status.json",
-        "raw": " M public/measurement-status.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/product-gate-recovery.json",
-        "raw": " M public/product-gate-recovery.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/analytics-rollup-latest.md",
-        "raw": " M reports/analytics-rollup-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/event-ingest-latest.md",
-        "raw": " M reports/event-ingest-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/event-ingest-smoke-latest.md",
-        "raw": " M reports/event-ingest-smoke-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/local-event-bridge-latest.md",
-        "raw": " M reports/local-event-bridge-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/player-evidence-watchdog-latest.md",
-        "raw": " M reports/player-evidence-watchdog-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/product-gate-recovery-latest.md",
-        "raw": " M reports/product-gate-recovery-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/product-gate-sample-plan-latest.md",
-        "raw": " M reports/product-gate-sample-plan-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/production-measurement-status-latest.md",
-        "raw": " M reports/production-measurement-status-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/retention-loop-latest.md",
-        "raw": " M reports/retention-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/localEventBridge.ts",
-        "raw": " M src/data/localEventBridge.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/productGateRecovery.ts",
-        "raw": " M src/data/productGateRecovery.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/productionMeasurementStatus.ts",
-        "raw": " M src/data/productionMeasurementStatus.ts",
+        "path": "reports/production-unlock-runner-latest.md",
+        "raw": " M reports/production-unlock-runner-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 26,
+    "safeCount": 2,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -281,32 +113,8 @@
       "npm run autonomous:self-update -- --assert-safe"
     ],
     "stagePaths": [
-      "data/analytics-rollup.json",
-      "data/event-ingest-smoke.json",
-      "data/event-ingest.json",
-      "data/local-event-bridge.json",
-      "data/player-evidence-watchdog.json",
-      "data/product-gate-recovery.json",
-      "data/product-gate-sample-plan.json",
-      "data/production-measurement-status.json",
-      "data/retention-loop.json",
-      "public/analytics-unlock.html",
-      "public/analytics-unlock.json",
-      "public/measurement-status.html",
-      "public/measurement-status.json",
-      "public/product-gate-recovery.json",
-      "reports/analytics-rollup-latest.md",
-      "reports/event-ingest-latest.md",
-      "reports/event-ingest-smoke-latest.md",
-      "reports/local-event-bridge-latest.md",
-      "reports/player-evidence-watchdog-latest.md",
-      "reports/product-gate-recovery-latest.md",
-      "reports/product-gate-sample-plan-latest.md",
-      "reports/production-measurement-status-latest.md",
-      "reports/retention-loop-latest.md",
-      "src/data/localEventBridge.ts",
-      "src/data/productGateRecovery.ts",
-      "src/data/productionMeasurementStatus.ts",
+      "data/production-unlock-runner.json",
+      "reports/production-unlock-runner-latest.md",
       "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
       "reports/autonomous-self-update-latest.md"
@@ -345,6 +153,7 @@
       "public/monetization.json",
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
+      "public/owner-unlock.html",
       "public/privacy.html",
       "public/product-gate-recovery.html",
       "public/product-gate-recovery.json",
@@ -432,7 +241,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "26 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "2 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",

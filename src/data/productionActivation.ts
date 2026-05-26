@@ -1,11 +1,39 @@
 export const productionActivation = {
-  "generatedAt": "2026-05-26T08:45:40.507Z",
+  "generatedAt": "2026-05-26T09:18:48.423Z",
   "status": "activation-ready",
   "mode": "dry-run",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": ".env.production.local",
+        "keys": [
+          "VITE_POSTHOG_KEY",
+          "VITE_POSTHOG_HOST",
+          "AGL_SUPPORT_EMAIL"
+        ]
+      },
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL",
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -37,7 +65,7 @@ export const productionActivation = {
   },
   "sourceStatus": {
     "repositoryReadiness": "repository-channel-ready",
-    "repositoryBootstrap": "repository-bootstrap-ready",
+    "repositoryBootstrap": "waiting-for-gh-auth",
     "productionBootstrap": "production-bootstrap-ready",
     "deployment": "ready-for-pages",
     "postDeploySmoke": "post-deploy-smoke-observed-live"

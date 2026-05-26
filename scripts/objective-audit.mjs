@@ -145,7 +145,7 @@ const generatedEvidenceWorktreePaths = [
   /^data\/[^/]+\.json$/,
   /^reports\/[^/]+\.md$/,
   /^src\/data\/[^/]+\.ts$/,
-  /^public\/(?:analytics-unlock|measurement-status|owner-unlock-brief|owner-unlock-preflight|product-gate-recovery|store-readiness|sample-next|sample-fastest|monetization)\.(?:html|json)$/,
+  /^public\/(?:analytics-unlock|measurement-status|owner-unlock|owner-unlock-brief|owner-unlock-preflight|product-gate-recovery|store-readiness|sample-next|sample-fastest|monetization)\.(?:html|json)$/,
   /^public\/(?:compliance|share-manifest|monetization|sample-next|sample-fastest|seed-next)\.json$/,
   /^public\/(?:gate-sample|seed-kit|seed-next|privacy|support|install|monetization|store-readiness|analytics-unlock|measurement-status|product-gate-recovery)\.html$/,
   /^public\/(?:app-ads\.txt|robots\.txt|sitemap\.xml)$/,

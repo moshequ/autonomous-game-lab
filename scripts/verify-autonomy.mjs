@@ -252,6 +252,7 @@ const requiredFiles = [
   'public/measurement-status.json',
   'public/product-gate-recovery.html',
   'public/product-gate-recovery.json',
+  'public/owner-unlock.html',
   'public/owner-unlock-brief.json',
   'public/owner-unlock-preflight.json',
   'public/install.html',
@@ -276,6 +277,7 @@ const requiredFiles = [
   'dist/monetization.html',
   'dist/store-readiness.html',
   'dist/store-readiness.json',
+  'dist/owner-unlock.html',
   'dist/owner-unlock-brief.json',
   'dist/owner-unlock-preflight.json',
   'dist/.well-known/assetlinks.json',
@@ -468,6 +470,7 @@ const productGateRecoveryHtml = await readFile(path.join(root, 'public', 'produc
 const publicProductGateRecovery = JSON.parse(
   await readFile(path.join(root, 'public', 'product-gate-recovery.json'), 'utf8'),
 )
+const ownerUnlockHtml = await readFile(path.join(root, 'public', 'owner-unlock.html'), 'utf8')
 const publicOwnerUnlockBrief = JSON.parse(await readFile(path.join(root, 'public', 'owner-unlock-brief.json'), 'utf8'))
 const publicOwnerUnlockPreflight = JSON.parse(
   await readFile(path.join(root, 'public', 'owner-unlock-preflight.json'), 'utf8'),
@@ -889,6 +892,7 @@ if (
   !publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/owner-unlock-brief.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/owner-unlock-preflight.json') ||
+  !publicEvidenceIntakeWorkflow.includes('public/owner-unlock.html') ||
   !publicEvidenceIntakeWorkflow.includes('public/owner-unlock-brief.json') ||
   !publicEvidenceIntakeWorkflow.includes('public/owner-unlock-preflight.json') ||
   !publicEvidenceIntakeWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
@@ -951,6 +955,7 @@ if (
   !productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') ||
   !productionInputWatchWorkflow.includes('data/owner-unlock-brief.json') ||
   !productionInputWatchWorkflow.includes('data/owner-unlock-preflight.json') ||
+  !productionInputWatchWorkflow.includes('public/owner-unlock.html') ||
   !productionInputWatchWorkflow.includes('public/owner-unlock-brief.json') ||
   !productionInputWatchWorkflow.includes('public/owner-unlock-preflight.json') ||
   !productionInputWatchWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
@@ -3779,6 +3784,17 @@ if (
   JSON.stringify(ownerUnlockBrief.brief) !== JSON.stringify(productionBlockerHandoff.ownerUnlockBrief) ||
   JSON.stringify(publicOwnerUnlockBrief) !== JSON.stringify(ownerUnlockBrief) ||
   ownerUnlockBrief.status !== productionBlockerHandoff.ownerUnlockBrief?.status ||
+  ownerUnlockBrief.publicRoutes?.ownerUnlock !== '/owner-unlock.html' ||
+  ownerUnlockBrief.publicRoutes?.ownerUnlockBriefJson !== '/owner-unlock-brief.json' ||
+  ownerUnlockBrief.publicRoutes?.ownerUnlockPreflightJson !== '/owner-unlock-preflight.json' ||
+  !ownerUnlockHtml.includes('Owner Unlock Pack') ||
+  !ownerUnlockHtml.includes('combined-zero-secret-owner-input-pack') ||
+  !ownerUnlockHtml.includes('.env.production.local') ||
+  !ownerUnlockHtml.includes('VITE_POSTHOG_KEY=') ||
+  !ownerUnlockHtml.includes('AGL_SUPPORT_EMAIL=') ||
+  !ownerUnlockHtml.includes('./owner-unlock-brief.json') ||
+  !ownerUnlockHtml.includes('./owner-unlock-preflight.json') ||
+  ownerUnlockHtml.includes('href="/owner-unlock-brief.json"') ||
   ownerUnlockBrief.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
   ownerUnlockBrief.sourceStatus?.storeReadiness !== storeReadiness.status ||
   ownerUnlockBrief.setup?.setupScript !== 'ops/github/setup-production.sh' ||
@@ -3889,6 +3905,8 @@ if (
   !ownerUnlockBriefSource.includes('workflowDispatchRequiresRunWorkflows') ||
   !ownerUnlockBriefSource.includes('noSecretValuesStored') ||
   !productionBlockerHandoffSource.includes('ownerUnlockBriefPayload') ||
+  !productionBlockerHandoffSource.includes('owner-unlock.html') ||
+  !productionBlockerHandoffSource.includes('Owner Unlock Pack') ||
   !productionBlockerHandoffSource.includes('combinedOwnerInputPack') ||
   !productionBlockerHandoffSource.includes('parallelOwnerUnlocks') ||
   !productionBlockerHandoffSource.includes('owner-unlock-brief.json') ||
@@ -4462,6 +4480,7 @@ if (
   !autonomousSelfUpdateSource.includes('public/measurement-status.json') ||
   !autonomousSelfUpdateSource.includes('public/product-gate-recovery.html') ||
   !autonomousSelfUpdateSource.includes('public/product-gate-recovery.json') ||
+  !autonomousSelfUpdateSource.includes('public/owner-unlock.html') ||
   !autonomousSelfUpdateSource.includes('public/owner-unlock-brief.json') ||
   !autonomousSelfUpdateSource.includes('public/owner-unlock-preflight.json') ||
   !autonomousSelfUpdateSource.includes('public/store-readiness.html') ||
@@ -5105,6 +5124,7 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock.html') ||
   !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') ||
   !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-preflight.json') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
@@ -6752,6 +6772,7 @@ const releaseCandidateRequiredFiles = new Set(
 const operationalFreshnessAssets = [
   'measurement-status.html',
   'measurement-status.json',
+  'owner-unlock.html',
   'owner-unlock-brief.json',
   'owner-unlock-preflight.json',
   'analytics-unlock.html',
@@ -6820,6 +6841,9 @@ if (
   !releaseCandidate.postDeploySmoke?.some(
     (item) => item.path === '/store-readiness.json' && item.requiredText === 'store-readiness',
   ) ||
+  !releaseCandidate.postDeploySmoke?.some(
+    (item) => item.path === '/owner-unlock.html' && item.requiredText === 'Owner Unlock Pack',
+  ) ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-brief.json') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-preflight.json') ||
   !releaseCandidate.postDeploySmoke?.some(
@@ -6845,6 +6869,7 @@ if (
   !releaseCandidateRequiredFiles.has('monetization.html') ||
   !releaseCandidateRequiredFiles.has('store-readiness.html') ||
   !releaseCandidateRequiredFiles.has('store-readiness.json') ||
+  !releaseCandidateRequiredFiles.has('owner-unlock.html') ||
   !releaseCandidateRequiredFiles.has('owner-unlock-brief.json') ||
   !releaseCandidateRequiredFiles.has('owner-unlock-preflight.json') ||
   !releaseCandidateRequiredFiles.has('.nojekyll') ||
@@ -7106,6 +7131,7 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock.html') ||
   !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') ||
   !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-preflight.json') ||
   !postDeployEvidenceSyncWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
@@ -7251,6 +7277,7 @@ if (
   !repositoryReadinessSource.includes('public/measurement-status.json') ||
   !repositoryReadinessSource.includes('public/product-gate-recovery.html') ||
   !repositoryReadinessSource.includes('public/product-gate-recovery.json') ||
+  !repositoryReadinessSource.includes('public/owner-unlock.html') ||
   !repositoryReadinessSource.includes('public/owner-unlock-brief.json') ||
   !repositoryReadinessSource.includes('public/owner-unlock-preflight.json') ||
   !repositoryReadinessSource.includes('public/sample-next.html') ||
@@ -7353,6 +7380,7 @@ if (
   !repositoryBootstrapSource.includes('public/install.html') ||
   !repositoryBootstrapSource.includes('public/product-gate-recovery.html') ||
   !repositoryBootstrapSource.includes('public/product-gate-recovery.json') ||
+  !repositoryBootstrapSource.includes('public/owner-unlock.html') ||
   !repositoryBootstrapSource.includes('public/owner-unlock-brief.json') ||
   !repositoryBootstrapSource.includes('public/owner-unlock-preflight.json') ||
   !repositoryBootstrapSource.includes('public/sample-next.html') ||

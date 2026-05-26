@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-26T08:45:31.051Z
+Generated: 2026-05-26T09:14:55.252Z
 Status: release-candidate-ready
-Candidate: pwa-ddd000316f0c
-Files: 91
-Size: 4081.2 KB
-Aggregate SHA-256: ddd000316f0c292200583e4dc452306d421fcfdc393a0c0519d8149ed34ac815
+Candidate: pwa-a6e2b4cd6867
+Files: 92
+Size: 4088.3 KB
+Aggregate SHA-256: a6e2b4cd6867b36cff69476828c35bd3c891b7a9f1d85c525f4b0089354e67bb
 
 ## Checks
 
-- pass: dist-inventory - 91 dist files inventoried.
-- pass: required-files - 36/36 required files present.
+- pass: dist-inventory - 92 dist files inventoried.
+- pass: required-files - 37/37 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 31 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 32 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -27,6 +27,7 @@ Aggregate SHA-256: ddd000316f0c292200583e4dc452306d421fcfdc393a0c0519d8149ed34ac
 - pass: support.html
 - pass: measurement-status.html
 - pass: measurement-status.json
+- pass: owner-unlock.html
 - pass: owner-unlock-brief.json
 - pass: owner-unlock-preflight.json
 - pass: analytics-unlock.html
@@ -66,6 +67,7 @@ Aggregate SHA-256: ddd000316f0c292200583e4dc452306d421fcfdc393a0c0519d8149ed34ac
 - 200: https://moshequ.github.io/autonomous-game-lab/support.html
 - 200: https://moshequ.github.io/autonomous-game-lab/measurement-status.html
 - 200: https://moshequ.github.io/autonomous-game-lab/measurement-status.json
+- 200: https://moshequ.github.io/autonomous-game-lab/owner-unlock.html
 - 200: https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json
 - 200: https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json
 - 200: https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html

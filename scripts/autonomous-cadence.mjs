@@ -818,6 +818,7 @@ const checks = [
       productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') &&
       productionInputWatchWorkflow.includes('data/owner-unlock-brief.json') &&
       productionInputWatchWorkflow.includes('data/owner-unlock-preflight.json') &&
+      productionInputWatchWorkflow.includes('public/owner-unlock.html') &&
       productionInputWatchWorkflow.includes('public/owner-unlock-brief.json') &&
       productionInputWatchWorkflow.includes('public/owner-unlock-preflight.json') &&
       productionInputWatchWorkflow.includes('data/production-unlock-runner.json') &&
@@ -882,6 +883,7 @@ const checks = [
       publicEvidenceIntakeWorkflow.includes('public/product-gate-recovery.json') &&
       publicEvidenceIntakeWorkflow.includes('data/owner-unlock-brief.json') &&
       publicEvidenceIntakeWorkflow.includes('data/owner-unlock-preflight.json') &&
+      publicEvidenceIntakeWorkflow.includes('public/owner-unlock.html') &&
       publicEvidenceIntakeWorkflow.includes('public/owner-unlock-brief.json') &&
       publicEvidenceIntakeWorkflow.includes('public/owner-unlock-preflight.json') &&
       publicEvidenceIntakeWorkflow.includes('data/production-environment.json') &&
@@ -993,6 +995,7 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') &&
+      postDeployEvidenceSyncWorkflow.includes('public/owner-unlock.html') &&
       postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') &&
       postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-preflight.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/product-optimization.json') &&

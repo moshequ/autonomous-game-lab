@@ -11,6 +11,7 @@ const outputTsPath = path.join(root, 'src', 'data', 'productionBlockerHandoff.ts
 const reportPath = path.join(reportsDir, 'production-blocker-handoff-latest.md')
 const ownerUnlockJsonPath = path.join(dataDir, 'owner-unlock-brief.json')
 const ownerUnlockPublicJsonPath = path.join(publicDir, 'owner-unlock-brief.json')
+const ownerUnlockPublicHtmlPath = path.join(publicDir, 'owner-unlock.html')
 const ownerUnlockReportPath = path.join(reportsDir, 'owner-unlock-brief-latest.md')
 
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
@@ -49,6 +50,13 @@ const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-d
 })
 
 const unique = (items) => [...new Set(items.filter(Boolean))]
+const escapeHtml = (value) =>
+  String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
 const setupAnalyticsLocalEnvTemplateCommand = './ops/github/setup-production.sh --analytics-input-template'
 const writeAnalyticsLocalEnvTemplateCommand = 'node scripts/owner-unlock-preflight.mjs --analytics-input-template'
 const envByName = new Map((productionEnvironment.requiredEnv ?? []).map((item) => [item.name, item]))
@@ -955,6 +963,13 @@ const ownerUnlockBriefPayload = {
     nextBestUnlockId: payload.summary.nextBestUnlockId,
     nextBestZeroCostUnlockId: payload.summary.nextBestZeroCostUnlockId,
   },
+  publicRoutes: {
+    ownerUnlock: '/owner-unlock.html',
+    ownerUnlockBriefJson: '/owner-unlock-brief.json',
+    ownerUnlockPreflightJson: '/owner-unlock-preflight.json',
+    measurementStatus: '/measurement-status.html',
+    storeReadiness: storeReadiness.publicRoutes?.storeReadiness ?? '/store-readiness.html',
+  },
   brief: payload.ownerUnlockBrief,
   ownerInputQueue: payload.ownerUnlockBrief?.parallelOwnerUnlocks ?? [],
   combinedOwnerInputPack: payload.ownerUnlockBrief?.combinedOwnerInputPack ?? null,
@@ -1002,6 +1017,245 @@ const ownerUnlockBriefPayload = {
         ...payload.ownerUnlockBrief.validationCommands,
       ]
     : ['No owner unlock brief is currently available; rerun npm run autonomous:blocker-handoff.'],
+}
+
+const listItemsHtml = (items, renderItem, emptyText = 'none') =>
+  items?.length ? items.map((item) => `<li>${renderItem(item)}</li>`).join('\n') : `<li>${escapeHtml(emptyText)}</li>`
+
+const commandItemsHtml = (commands, emptyText = 'none') =>
+  listItemsHtml(commands, (command) => `<code>${escapeHtml(command)}</code>`, emptyText)
+
+const ownerUnlockPageHtml = (briefPayload) => {
+  const currentBrief = briefPayload.brief
+  const combinedPack = briefPayload.combinedOwnerInputPack
+  const lowestPath = currentBrief?.lowestInputPath ?? null
+  const minimalPath = currentBrief?.minimalInterventionPath ?? null
+
+  return `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Owner Unlock Pack | Autonomous Game Lab</title>
+    <style>
+      :root {
+        color: #191713;
+        background: #fbf7ef;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        line-height: 1.5;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      main {
+        width: min(1040px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 44px 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.08;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 6vw, 4rem);
+        max-width: 780px;
+      }
+
+      p {
+        max-width: 780px;
+      }
+
+      a {
+        color: #187f7a;
+        font-weight: 700;
+      }
+
+      code {
+        overflow-wrap: anywhere;
+      }
+
+      .eyebrow {
+        color: #7d2f18;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin: 28px 0;
+      }
+
+      .card {
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        background: #fffdf7;
+        padding: 16px;
+      }
+
+      .card span {
+        display: block;
+        color: #6d675c;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .card strong {
+        display: block;
+        margin-top: 8px;
+        overflow-wrap: anywhere;
+        font-size: 1.05rem;
+      }
+
+      section {
+        border-top: 1px solid #d9d0bf;
+        padding: 22px 0;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .actions a {
+        border: 1px solid #187f7a;
+        border-radius: 8px;
+        padding: 10px 12px;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Autonomous Game Lab</p>
+      <h1>Owner Unlock Pack</h1>
+      <p>This generated page exposes the smallest zero-secret owner input path for production analytics and store support readiness without storing values, creating accounts, dispatching workflows, enabling revenue, or submitting to app stores.</p>
+
+      <div class="grid" aria-label="Owner unlock status">
+        <div class="card">
+          <span>Status</span>
+          <strong>${escapeHtml(briefPayload.status)}</strong>
+        </div>
+        <div class="card">
+          <span>Next unlock</span>
+          <strong>${escapeHtml(currentBrief?.nextUnlockId ?? 'none')}</strong>
+        </div>
+        <div class="card">
+          <span>Lowest-input path</span>
+          <strong>${escapeHtml(lowestPath?.id ?? currentBrief?.lowestInputPathId ?? 'none')}</strong>
+        </div>
+        <div class="card">
+          <span>Combined missing inputs</span>
+          <strong>${escapeHtml(combinedPack?.missingInputCount ?? 'n/a')}</strong>
+        </div>
+      </div>
+
+      <section>
+        <h2>Combined Zero-Secret Pack</h2>
+        <div class="grid" aria-label="Combined owner input pack">
+          <div class="card">
+            <span>Pack</span>
+            <strong>${escapeHtml(combinedPack?.id ?? 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Local env file</span>
+            <strong>${escapeHtml(combinedPack?.localEnvFile ?? 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Secret inputs</span>
+            <strong>${escapeHtml(combinedPack?.secretInputCount ?? 'n/a')}</strong>
+          </div>
+          <div class="card">
+            <span>Unlocks</span>
+            <strong>${escapeHtml(combinedPack?.unlockIds?.join(', ') || 'none')}</strong>
+          </div>
+        </div>
+        <h3>Missing Input Names</h3>
+        <ul>
+          ${listItemsHtml(combinedPack?.missingInputNames, (name) => `<code>${escapeHtml(name)}</code>`)}
+        </ul>
+        <h3>Local Env Template</h3>
+        <ul>
+          ${commandItemsHtml(combinedPack?.localEnvTemplateLines)}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Minimal Analytics Path</h2>
+        <div class="grid" aria-label="Minimal analytics path">
+          <div class="card">
+            <span>Path</span>
+            <strong>${escapeHtml(minimalPath?.id ?? lowestPath?.id ?? 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Missing inputs</span>
+            <strong>${escapeHtml(minimalPath?.missingInputCount ?? lowestPath?.missingInputCount ?? 'n/a')}</strong>
+          </div>
+          <div class="card">
+            <span>Missing secrets</span>
+            <strong>${escapeHtml(minimalPath?.missingSecretCount ?? lowestPath?.missingSecretCount ?? 'n/a')}</strong>
+          </div>
+          <div class="card">
+            <span>No secrets required</span>
+            <strong>${escapeHtml(minimalPath?.noSecretsRequired === true || lowestPath?.noSecretsRequired === true)}</strong>
+          </div>
+        </div>
+        <h3>Lowest-Input Missing Variables</h3>
+        <ul>
+          ${listItemsHtml(lowestPath?.missingVariables, (item) => `<code>${escapeHtml(item.repositoryName)}</code>`)}
+        </ul>
+        <h3>Setup Commands</h3>
+        <ul>
+          ${commandItemsHtml(lowestPath?.setupCommands)}
+        </ul>
+      </section>
+
+      <section>
+        <h2>Parallel Owner Unlocks</h2>
+        <div class="grid" aria-label="Parallel owner unlocks">
+          ${briefPayload.ownerInputQueue
+            .map(
+              (unlock) => `<div class="card">
+            <span>${escapeHtml(unlock.category)}</span>
+            <strong>${escapeHtml(unlock.id)}</strong>
+            <p>${escapeHtml(unlock.title)} needs ${escapeHtml(unlock.missingInputCount)} input(s) and ${escapeHtml(unlock.missingSecretCount)} secret(s).</p>
+          </div>`,
+            )
+            .join('\n')}
+        </div>
+      </section>
+
+      <section>
+        <h2>Validation</h2>
+        <ul>
+          ${commandItemsHtml(currentBrief?.validationCommands)}
+        </ul>
+        <div class="actions">
+          <a href="./owner-unlock-brief.json">owner-unlock-brief.json</a>
+          <a href="./owner-unlock-preflight.json">owner-unlock-preflight.json</a>
+          <a href="./measurement-status.html">measurement-status.html</a>
+          <a href="./store-readiness.html">store-readiness.html</a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+`
 }
 
 const ownerUnlockReport = [
@@ -1265,6 +1519,7 @@ await writeFile(
 await writeFile(reportPath, report.join('\n'))
 await writeFile(ownerUnlockJsonPath, JSON.stringify(ownerUnlockBriefPayload, null, 2) + '\n')
 await writeFile(ownerUnlockPublicJsonPath, JSON.stringify(ownerUnlockBriefPayload, null, 2) + '\n')
+await writeFile(ownerUnlockPublicHtmlPath, ownerUnlockPageHtml(ownerUnlockBriefPayload))
 await writeFile(ownerUnlockReportPath, ownerUnlockReport.join('\n'))
 
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
@@ -1272,4 +1527,5 @@ console.log(`Wrote ${path.relative(root, outputTsPath)}`)
 console.log(`Wrote ${path.relative(root, reportPath)}`)
 console.log(`Wrote ${path.relative(root, ownerUnlockJsonPath)}`)
 console.log(`Wrote ${path.relative(root, ownerUnlockPublicJsonPath)}`)
+console.log(`Wrote ${path.relative(root, ownerUnlockPublicHtmlPath)}`)
 console.log(`Wrote ${path.relative(root, ownerUnlockReportPath)}`)

@@ -1,12 +1,19 @@
 {
-  "generatedAt": "2026-05-26T08:45:37.375Z",
+  "generatedAt": "2026-05-26T09:18:54.324Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "546489369e34",
+  "sourceDataHash": "0f0a830cb207",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
     "nextBestUnlockId": "production-analytics-browser",
     "nextBestZeroCostUnlockId": "production-analytics-browser"
+  },
+  "publicRoutes": {
+    "ownerUnlock": "/owner-unlock.html",
+    "ownerUnlockBriefJson": "/owner-unlock-brief.json",
+    "ownerUnlockPreflightJson": "/owner-unlock-preflight.json",
+    "measurementStatus": "/measurement-status.html",
+    "storeReadiness": "/store-readiness.html"
   },
   "brief": {
     "id": "owner-next-unlock-brief",

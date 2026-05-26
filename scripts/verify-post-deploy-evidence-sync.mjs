@@ -33,6 +33,7 @@ const [
   ownerUnlockPreflight,
   publicOwnerUnlockBrief,
   publicOwnerUnlockPreflight,
+  publicOwnerUnlockHtml,
   productionMeasurementStatus,
   playerEvidenceWatchdog,
   publicMeasurementStatus,
@@ -69,6 +70,7 @@ const [
   readJson('data/owner-unlock-preflight.json'),
   readJson('public/owner-unlock-brief.json'),
   readJson('public/owner-unlock-preflight.json'),
+  readText('public/owner-unlock.html'),
   readJson('data/production-measurement-status.json'),
   readJson('data/player-evidence-watchdog.json'),
   readJson('public/measurement-status.json'),
@@ -353,6 +355,10 @@ if (
   ownerUnlockPreflight.controls?.noSecretValuesStored !== true ||
   ownerUnlockPreflight.controls?.noMutation !== true ||
   JSON.stringify(ownerUnlockPreflight).includes('"value"') ||
+  ownerUnlockBrief.publicRoutes?.ownerUnlock !== '/owner-unlock.html' ||
+  !publicOwnerUnlockHtml.includes('Owner Unlock Pack') ||
+  !publicOwnerUnlockHtml.includes('combined-zero-secret-owner-input-pack') ||
+  !publicOwnerUnlockHtml.includes('./owner-unlock-preflight.json') ||
   ownerUnlockBrief.setup?.workflowDispatchRequiresRunWorkflows !== true ||
   ownerUnlockBrief.controls?.noSecretValuesStored !== true ||
   ownerUnlockBrief.controls?.setupPrintModeHasNoGithubMutation !== true
@@ -438,6 +444,7 @@ if (
   !workflow.includes('reports/production-blocker-handoff-latest.md') ||
   !workflow.includes('data/owner-unlock-brief.json') ||
   !workflow.includes('data/owner-unlock-preflight.json') ||
+  !workflow.includes('public/owner-unlock.html') ||
   !workflow.includes('public/owner-unlock-brief.json') ||
   !workflow.includes('public/owner-unlock-preflight.json') ||
   !workflow.includes('reports/owner-unlock-brief-latest.md') ||

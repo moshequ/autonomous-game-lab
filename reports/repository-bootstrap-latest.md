@@ -1,7 +1,7 @@
 # Repository Bootstrap
 
-Generated: 2026-05-26T08:45:40.168Z
-Status: repository-bootstrap-ready
+Generated: 2026-05-26T09:18:31.145Z
+Status: waiting-for-gh-auth
 Mode: plan-only
 Workspace git: ready
 Repository: moshequ/autonomous-game-lab
@@ -12,11 +12,11 @@ Origin: moshequ/autonomous-game-lab
 ## Actions
 
 - done: inspect-repository-channel; Repository readiness is repository-channel-ready.
-- ready: initialize-local-git; Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
+- ready: initialize-local-git; Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: create-initial-commit; The local repository has at least one commit.
-- ready: commit-current-snapshot; 74 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready: commit-current-snapshot; 81 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - ready: set-or-create-origin; Origin remote resolves to moshequ/autonomous-game-lab.
-- ready-for-explicit-create-or-attach: create-github-repository; GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
+- credential-gated: create-github-repository; GitHub CLI auth or GH_TOKEN/GITHUB_TOKEN is required before remote repository creation.
 - ready-for-explicit-push: push-initial-snapshot; Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
 
 ## Controls
@@ -36,7 +36,7 @@ Origin: moshequ/autonomous-game-lab
 
 ## Blockers
 
-- none
+- Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 
 ## Explicit Repository Target Commands
 
