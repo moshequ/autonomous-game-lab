@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-26T13:33:52.694Z",
-  "status": "ready-for-pages",
+  "generatedAt": "2026-05-26T13:51:52.356Z",
+  "status": "blocked",
   "target": {
     "provider": "github-pages",
     "cost": "$0 platform hosting for public/internal experiment traffic",
@@ -8,13 +8,15 @@
     "artifactPath": "dist"
   },
   "repositoryChannel": {
-    "status": "repository-channel-ready",
+    "status": "waiting-for-repository-channel",
     "repository": "moshequ/autonomous-game-lab",
-    "source": "environment",
+    "source": "origin-remote",
     "insideWorkTree": true,
     "ghCliAvailable": true,
-    "workflowDispatchReady": true,
-    "blockers": []
+    "workflowDispatchReady": false,
+    "blockers": [
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
+    ]
   },
   "eventCollector": {
     "status": "blocked-needs-cloudflare-env",
@@ -50,11 +52,11 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-8e407211870e",
+    "candidateId": "pwa-acebc91c12ea",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "8e407211870e0567e14d38822e39a9143844ce5bd4852ddc89164381a9dac8f5",
+    "aggregateHash": "acebc91c12ea902051ac7f6b16c2e2a60aa77075ab4df11b13ec9943c98f2c2a",
     "totalFiles": 93,
-    "totalKb": 4088.8,
+    "totalKb": 4097.3,
     "postDeploySmokeUrls": 33
   },
   "compliance": {
@@ -82,8 +84,8 @@
     },
     {
       "id": "web-readiness",
-      "status": "pass",
-      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build."
+      "status": "blocker",
+      "detail": "Web readiness is blocked."
     },
     {
       "id": "release-health",
@@ -123,7 +125,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-8e407211870e."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-acebc91c12ea."
     },
     {
       "id": "deploy-workflow",

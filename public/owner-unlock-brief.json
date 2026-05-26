@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-26T13:33:42.824Z",
+  "generatedAt": "2026-05-26T13:50:07.883Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "2cdfdf9580a2",
+  "sourceDataHash": "ff52c49e688a",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -29,7 +29,7 @@
     "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
     "lowestInputMissingInputCount": 1,
-    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
+    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
     "lowestInputPath": {
       "id": "posthog-browser",
       "title": "PostHog browser capture",
@@ -39,7 +39,7 @@
       "missingVariableCount": 1,
       "missingSecretCount": 0,
       "missingInputCount": 1,
-      "manualInputReduction": 3,
+      "manualInputReduction": 7,
       "noSecretsRequired": true,
       "missingVariables": [
         {
@@ -84,9 +84,9 @@
       "missingInputCount": 1,
       "missingVariableCount": 1,
       "missingSecretCount": 0,
-      "manualInputReduction": 3,
+      "manualInputReduction": 7,
       "noSecretsRequired": true,
-      "reason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
+      "reason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
       "setupCommands": [
         "./ops/github/setup-production.sh --analytics-input-template",
         "./ops/github/setup-production.sh",
@@ -180,6 +180,18 @@
         "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
       },
       {
+        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "configured": false,
+        "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "configured": false,
+        "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
+      },
+      {
         "repositoryName": "VITE_EVENT_COLLECTOR_URL",
         "envName": "VITE_EVENT_COLLECTOR_URL",
         "configured": false,
@@ -198,36 +210,22 @@
         "envName": "CLOUDFLARE_API_TOKEN",
         "configured": false,
         "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-      }
-    ],
-    "configuredVariables": [
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true,
-        "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
       },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true,
-        "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
-      }
-    ],
-    "configuredSecrets": [
       {
         "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
         "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true,
+        "configured": false,
         "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
       },
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true,
+        "configured": false,
         "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
       }
     ],
+    "configuredVariables": [],
+    "configuredSecrets": [],
     "setupCommands": [
       "npm run autonomous:event-collector-smoke",
       "npm run autonomous:collector-deploy-plan",
@@ -265,9 +263,9 @@
         "recommendedPathId": "first-party-collector",
         "lowestInputPathId": "posthog-browser",
         "lowestInputUnlockId": null,
-        "missingVariableCount": 3,
-        "missingSecretCount": 1,
-        "missingInputCount": 4,
+        "missingVariableCount": 5,
+        "missingSecretCount": 3,
+        "missingInputCount": 8,
         "lowestInputMissingInputCount": 1,
         "lowestInputMissingSecretCount": 0,
         "missingVariables": [
@@ -276,6 +274,18 @@
             "envName": "CLOUDFLARE_ACCOUNT_ID",
             "configured": false,
             "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+          },
+          {
+            "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+            "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+            "configured": false,
+            "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+          },
+          {
+            "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+            "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+            "configured": false,
+            "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_URL",
@@ -296,36 +306,22 @@
             "envName": "CLOUDFLARE_API_TOKEN",
             "configured": false,
             "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-          }
-        ],
-        "configuredVariables": [
-          {
-            "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configured": true,
-            "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
-          {
-            "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configured": true,
-            "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
-          }
-        ],
-        "configuredSecrets": [
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
+        "configuredVariables": [],
+        "configuredSecrets": [],
         "setupCommands": [
           "npm run autonomous:event-collector-smoke",
           "npm run autonomous:collector-deploy-plan",
@@ -444,9 +440,9 @@
       "recommendedPathId": "first-party-collector",
       "lowestInputPathId": "posthog-browser",
       "lowestInputUnlockId": null,
-      "missingVariableCount": 3,
-      "missingSecretCount": 1,
-      "missingInputCount": 4,
+      "missingVariableCount": 5,
+      "missingSecretCount": 3,
+      "missingInputCount": 8,
       "lowestInputMissingInputCount": 1,
       "lowestInputMissingSecretCount": 0,
       "missingVariables": [
@@ -455,6 +451,18 @@
           "envName": "CLOUDFLARE_ACCOUNT_ID",
           "configured": false,
           "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
+        },
+        {
+          "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+          "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+          "configured": false,
+          "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+        },
+        {
+          "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+          "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+          "configured": false,
+          "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
         },
         {
           "repositoryName": "VITE_EVENT_COLLECTOR_URL",
@@ -475,36 +483,22 @@
           "envName": "CLOUDFLARE_API_TOKEN",
           "configured": false,
           "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-        }
-      ],
-      "configuredVariables": [
-        {
-          "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-          "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-          "configured": true,
-          "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
         },
-        {
-          "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-          "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-          "configured": true,
-          "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
-        }
-      ],
-      "configuredSecrets": [
         {
           "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "configured": true,
+          "configured": false,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
         {
           "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "configured": true,
+          "configured": false,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         }
       ],
+      "configuredVariables": [],
+      "configuredSecrets": [],
       "setupCommands": [
         "npm run autonomous:event-collector-smoke",
         "npm run autonomous:collector-deploy-plan",

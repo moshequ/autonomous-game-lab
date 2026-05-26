@@ -1,11 +1,11 @@
 # Production Measurement Status
 
-Generated: 2026-05-26T13:33:50.546Z
+Generated: 2026-05-26T13:50:20.815Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
 Live candidate: pwa-553c32cffe5a
 Exact live manifest: /release-candidate.json
-Source hash: 9a75a8960d1e
+Source hash: a1e971c818b0
 
 ## Analytics
 
@@ -25,6 +25,8 @@ Source hash: 9a75a8960d1e
 - player evidence invite pack: player-evidence-invite-pack-ready
 - player evidence primary route: /sample-next.html
 - player evidence follow-up: npm run autonomous:collect-local-event-drops && npm run autonomous:player-evidence-watchdog && npm run autonomous:measurement-status
+- measurement page export: measurement-page-export-ready
+- measurement page export import: npm run autonomous:collect-local-event-drops
 
 ## Public Routes
 
@@ -55,6 +57,7 @@ Source hash: 9a75a8960d1e
 - aggregateEvidenceDoesNotPassGates: true
 - manualReviewRequiredForGateDecisions: true
 - noAutomaticPublicUpload: true
+- measurementPageLocalEventDropExport: true
 - noStoreSubmission: true
 - noRevenueEnablement: true
 

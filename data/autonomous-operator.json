@@ -1,35 +1,39 @@
 {
-  "generatedAt": "2026-05-26T13:33:52.273Z",
+  "generatedAt": "2026-05-26T13:51:19.440Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "collect-gate-sample-local-drops",
-    "command": "npm run autonomous:collect-local-event-drops",
+    "actionId": "prepare-repository-channel",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "collect-gate-sample-local-drops",
+    "id": "prepare-repository-channel",
     "status": "armed",
-    "command": "npm run autonomous:collect-local-event-drops",
+    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
     "targets": [
-      "firstGameCompletion",
-      "gate-sample-20260526-firstGameCompletion",
-      "gate-sample-20260526-replayRate"
+      "moshequ/autonomous-game-lab"
     ],
-    "reason": "Imports only the local inbox or explicitly configured drop folders, refreshes analytics and gate recovery, and never scans Downloads.",
+    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
+    "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
     "optimize-daily-retention",
+    "measure-pwa-install-loop",
     "collect-gate-sample-local-drops",
     "refresh-completion-loop",
     "refresh-replay-loop",
+    "prepare-repository-channel",
+    "refresh-production-blocker-handoff",
+    "refresh-objective-audit",
+    "optimize-store-listing",
     "apply-safe-improvements",
     "collect-live-events"
   ],
@@ -54,9 +58,9 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:self-update",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "seed-portfolio-traffic",
@@ -84,9 +88,9 @@
     },
     {
       "id": "measure-pwa-install-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:pwa-install",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "check-performance-budget",
@@ -131,6 +135,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "collect-gate-sample-local-drops",
+      "status": "armed",
+      "command": "npm run autonomous:collect-local-event-drops",
+      "reason": "not-selected-this-run"
+    },
+    {
       "id": "collect-gate-sample-downloads",
       "status": "monitor",
       "command": "npm run autonomous:collect-sample-downloads",
@@ -167,12 +177,6 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "prepare-repository-channel",
-      "status": "monitor",
-      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "status-monitor"
-    },
-    {
       "id": "bootstrap-production-setup",
       "status": "monitor",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
@@ -186,9 +190,9 @@
     },
     {
       "id": "refresh-production-blocker-handoff",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:blocker-handoff",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "run-production-unlock-runner",
@@ -210,15 +214,15 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:objective-audit",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-store-listing",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-android-signing",
@@ -234,9 +238,9 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "ready-when-repository-pages-enabled",
+      "status": "blocked-needs-repository-channel",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-ready-when-repository-pages-enabled"
+      "reason": "status-blocked-needs-repository-channel"
     },
     {
       "id": "collect-live-events",
@@ -247,8 +251,12 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:collect-local-event-drops",
-      "script": "autonomous:collect-local-event-drops"
+      "segment": "npm run autonomous:repo-readiness",
+      "script": "autonomous:repo-readiness"
+    },
+    {
+      "segment": "npm run autonomous:repo-bootstrap",
+      "script": "autonomous:repo-bootstrap"
     }
   ],
   "execution": {
@@ -325,7 +333,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=collect-gate-sample-local-drops to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

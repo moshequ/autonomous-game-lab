@@ -43,6 +43,8 @@ const clickSharedFirstBoardCell = async (page: Page) => {
 const runtimeHref = (value: string) => (value.startsWith('/') ? `.${value}` : value)
 const eventDropDownloadFileNamePattern = /^player-events-\d{4}-\d{2}-\d{2}T.*-[a-z0-9-]+\.json$/
 
+test.use({ acceptDownloads: true })
+
 test('event drop filenames sanitize export surfaces for local evidence imports', () => {
   expect(sanitizeEventDropFileNamePart('Product Gate Sample')).toBe('product-gate-sample')
   expect(sanitizeEventDropFileNamePart('../../manual export !!!')).toBe('manual-export')
@@ -50,6 +52,64 @@ test('event drop filenames sanitize export surfaces for local evidence imports',
   expect(eventDropFileName('../manual/private', '2026-05-26T07:52:53.123Z')).toBe(
     'player-events-2026-05-26T07-52-53-123Z-manual-private.json',
   )
+})
+
+test('measurement status creates an importable local event drop', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem(
+      'agl.analytics.events',
+      JSON.stringify([
+        {
+          id: 'evt-smoke-1',
+          name: 'game_started',
+          properties: {
+            gameId: 'harbor-rings',
+            acquisitionSource: 'gate_sample',
+            acquisitionCampaign: 'gate-sample-smoke',
+          },
+          createdAt: '2026-05-26T08:00:00.000Z',
+        },
+      ]),
+    )
+  })
+
+  await page.goto('/measurement-status.html')
+  await expect(page.getByRole('heading', { name: 'Production Measurement Status' })).toBeVisible()
+  await expect(page.getByText('measurement-page-export-ready')).toBeVisible()
+
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download local event drop' }).click()
+  const download = await downloadPromise
+  expect(download.suggestedFilename()).toMatch(eventDropDownloadFileNamePattern)
+
+  const downloadedPath = await download.path()
+  if (!downloadedPath) {
+    throw new Error('Expected measurement status event drop download path.')
+  }
+
+  const events = JSON.parse(await readFile(downloadedPath, 'utf8')) as Array<{
+    name: string
+    properties?: { exportSurface?: string; exportSurfaceDetail?: string; noExternalUpload?: boolean }
+  }>
+  expect(events).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        name: 'analytics_exported',
+        properties: expect.objectContaining({
+          exportSurface: 'measurement-status',
+          exportSurfaceDetail: 'public-measurement-status-page',
+          noExternalUpload: true,
+        }),
+      }),
+    ]),
+  )
+
+  const receipt = await page.evaluate(() => JSON.parse(window.localStorage.getItem('agl.analytics.localExportReceipt') ?? '{}'))
+  expect(receipt).toMatchObject({
+    exportSurface: 'measurement-status',
+    exportedEventCount: events.length,
+  })
+  await expect(page.getByText('Local event drop downloaded.')).toBeVisible()
 })
 
 test('trend radar only boosts evidence-bearing public trend signals', async () => {
@@ -373,6 +433,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Daily Retention')).toContainText(retention.dailyChallenge.title)
   await expect(page.getByLabel('Daily Retention')).toContainText('Return intent')
   await expect(page.getByLabel('PWA Install Loop')).toContainText('pwa-install-loop-ready')
+  await expect(page.getByLabel('Local Event Bridge').getByRole('button', { name: 'Export now' })).toBeVisible()
   await expect(page.getByLabel('Local Learning Router')).toContainText('local-play-router')
   await expect(page.getByLabel('Local Learning Router')).toContainText('Next route')
   await expect(page.getByLabel('Revenue runtime')).toContainText('guarded-disabled')

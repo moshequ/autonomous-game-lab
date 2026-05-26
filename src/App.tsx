@@ -4438,6 +4438,14 @@ function App() {
                   <button
                     className="tinyButton"
                     type="button"
+                    onClick={() => exportLocalAnalytics({ exportSurface: 'local-event-bridge-card' })}
+                  >
+                    <Download size={14} aria-hidden="true" />
+                    Export now
+                  </button>
+                  <button
+                    className="tinyButton"
+                    type="button"
                     onClick={() => openAggregateEvidenceIssue()}
                     disabled={!supportChannel.repository.target}
                   >

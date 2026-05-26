@@ -170,6 +170,11 @@
             <strong>bridge-waiting-for-export</strong>
           </div>
         </div>
+        <div class="actions">
+          <button type="button" id="export-local-event-drop">Download local event drop</button>
+          <a href="./gate-sample.html">Open gate sample</a>
+        </div>
+        <p class="localExportStatus" id="local-export-status" aria-live="polite">measurement-page-export-ready</p>
       </section>
 
       <section>
@@ -323,11 +328,11 @@
           </div>
           <div class="card">
             <span>Missing variables</span>
-            <strong>3</strong>
+            <strong>5</strong>
           </div>
           <div class="card">
             <span>Missing secrets</span>
-            <strong>1</strong>
+            <strong>3</strong>
           </div>
           <div class="card">
             <span>Minimal inputs</span>
@@ -339,7 +344,7 @@
           </div>
         </div>
         <h3>Parallel Owner Unlocks</h3>
-        <ul><li><strong>production-analytics-browser</strong>: measurement - 4 missing input(s), status <a href="./measurement-status.html">/measurement-status.html</a></li><li><strong>support-contact</strong>: store-readiness - 1 missing input(s), status <a href="./store-readiness.html">/store-readiness.html</a></li></ul>
+        <ul><li><strong>production-analytics-browser</strong>: measurement - 8 missing input(s), status <a href="./measurement-status.html">/measurement-status.html</a></li><li><strong>support-contact</strong>: store-readiness - 1 missing input(s), status <a href="./store-readiness.html">/store-readiness.html</a></li></ul>
         <h3>Combined Owner Input Pack</h3>
               <div class="grid" aria-label="Combined owner input pack">
                 <div class="card">
@@ -365,9 +370,9 @@
               <h4>Commands</h4>
               <ol><li><strong>printBrief</strong> <code>node scripts/owner-unlock-brief.mjs --print</code></li><li><strong>combinedPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>analyticsPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>storeReadiness</strong> <code>npm run autonomous:store-readiness</code></li><li><strong>setupPreflight</strong> <code>./ops/github/setup-production.sh --owner-unlock-preflight</code></li><li><strong>npmWriteAnalyticsLocalEnvTemplate</strong> <code>npm run autonomous:analytics-input-template</code></li><li><strong>writeAnalyticsLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --analytics-input-template</code></li><li><strong>setupWriteAnalyticsLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --analytics-input-template</code></li><li><strong>npmWriteLocalEnvTemplate</strong> <code>npm run autonomous:owner-input-template</code></li><li><strong>writeLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --write-local-env-template</code></li><li><strong>setupWriteLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --owner-input-template</code></li><li><strong>npmWriteSupportLocalEnvTemplate</strong> <code>npm run autonomous:support-input-template</code></li><li><strong>syncConfiguredValues</strong> <code>./ops/github/setup-production.sh</code></li><li><strong>workflowDispatch</strong> <code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><strong>zeroSecretRuntimeConfig</strong> <code>npm run autonomous:owner-zero-secret-input-sync</code></li><li><strong>productionInputWatchUi</strong> <code>Production Input Watch workflow dispatch: publish_zero_secret_runtime_config + vite_posthog_key + vite_posthog_host + agl_support_email</code></li></ol>
         <h3>Missing Variables</h3>
-        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
         <h3>Missing Secrets</h3>
-        <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
         <h3>Setup Commands</h3>
         <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>./ops/github/setup-production.sh</code></li><li><code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><code>npm run autonomous:readiness</code></li></ol>
         <h3>Validation Commands</h3>
@@ -387,7 +392,7 @@
           </div>
           <div class="card">
             <span>Ready inputs</span>
-            <strong>4/8</strong>
+            <strong>0/8</strong>
           </div>
           <div class="card">
             <span>Lowest-input path</span>
@@ -438,10 +443,10 @@
               <ul><li><code>VITE_POSTHOG_KEY=</code></li><li><code>AGL_SUPPORT_EMAIL=</code></li></ul>
         <h3>Path Options</h3>
         <ul>
-          <li><strong>recommended</strong>: first-party-collector - 4 missing input(s), 3 secret input(s)</li><li><strong>lowest-input</strong>: posthog-browser - 1 missing input(s), 0 secret input(s)</li>
+          <li><strong>recommended</strong>: first-party-collector - 8 missing input(s), 3 secret input(s)</li><li><strong>lowest-input</strong>: posthog-browser - 1 missing input(s), 0 secret input(s)</li>
         </ul>
         <h3>Missing Inputs</h3>
-        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
         <h3>Invalid Inputs</h3>
         <p>none</p>
       </section>
@@ -537,7 +542,7 @@
             <span>First-party event collector</span>
             <strong>needs-variables-and-secrets</strong>
             <p>zero-spend-use-existing-cloudflare-free-tier</p>
-            <p>Missing inputs: 3 variable(s), 1 secret(s)</p>
+            <p>Missing inputs: 5 variable(s), 3 secret(s)</p>
             <p>Variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL</p>
             <p>Secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN</p>
             <p>Commands: npm run autonomous:event-collector-smoke &amp;&amp; npm run autonomous:collector-deploy-plan &amp;&amp; ./ops/github/setup-production.sh &amp;&amp; RUN_WORKFLOWS=1 ./ops/github/setup-production.sh &amp;&amp; npm run autonomous:readiness</p>
@@ -575,7 +580,7 @@
           </div>
           <div class="card">
             <span>Missing secrets</span>
-            <strong>3</strong>
+            <strong>5</strong>
           </div>
         </div>
         <article class="card">
@@ -681,6 +686,10 @@
     </main>
     <script>
       (() => {
+        const analyticsKey = 'agl.analytics.events'
+        const localExportReceiptKey = 'agl.analytics.localExportReceipt'
+        const exportSurface = "measurement-status"
+        const exportSurfaceDetail = "public-measurement-status-page"
         const readJson = (key, fallback) => {
           try {
             const raw = window.localStorage.getItem(key)
@@ -689,12 +698,111 @@
             return fallback
           }
         }
-        const events = readJson('agl.analytics.events', [])
-        const receipt = readJson('agl.analytics.localExportReceipt', null)
-        const latest = Array.isArray(events) && events.length ? events[events.length - 1] : null
-        document.getElementById('local-event-count').textContent = Array.isArray(events) ? String(events.length) : '0'
-        document.getElementById('local-event-latest').textContent = latest?.createdAt ? latest.createdAt.slice(0, 19) : 'none'
-        document.getElementById('local-export-latest').textContent = receipt?.exportedAt ? receipt.exportedAt.slice(0, 19) : 'never'
+        const writeJson = (key, value) => {
+          try {
+            window.localStorage.setItem(key, JSON.stringify(value))
+          } catch {
+            // A download can still happen even if the receipt cannot be stored.
+          }
+        }
+        const readEvents = () => {
+          const events = readJson(analyticsKey, [])
+          return Array.isArray(events) ? events : []
+        }
+        const createId = (prefix) =>
+          window.crypto?.randomUUID
+            ? prefix + '-' + window.crypto.randomUUID()
+            : prefix + '-' + Date.now() + '-' + Math.random().toString(16).slice(2)
+        const sanitizeFilePart = (value) => {
+          const cleaned = String(value || 'manual')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+          return cleaned || 'manual'
+        }
+        const eventDropFileName = (surface, timestamp) =>
+          'player-events-' +
+          timestamp.replace(/[:.]/g, '-') +
+          '-' +
+          sanitizeFilePart(surface) +
+          '.json'
+        const exportCoverage = (events, receipt) => {
+          const exportedEventCount = Number(receipt?.exportedEventCount)
+          const unexportedEvents = receipt
+            ? Math.max(0, events.length - (Number.isFinite(exportedEventCount) ? exportedEventCount : 0))
+            : events.length
+          return {
+            exportedEventCount: events.length - unexportedEvents,
+            unexportedEvents,
+            coverageRatio: events.length ? (events.length - unexportedEvents) / events.length : receipt ? 1 : 0,
+          }
+        }
+        const updateLocalEvidenceStats = (message) => {
+          const events = readEvents()
+          const receipt = readJson(localExportReceiptKey, null)
+          const latest = events.length ? events[events.length - 1] : null
+          document.getElementById('local-event-count').textContent = String(events.length)
+          document.getElementById('local-event-latest').textContent = latest?.createdAt ? latest.createdAt.slice(0, 19) : 'none'
+          document.getElementById('local-export-latest').textContent = receipt?.exportedAt ? receipt.exportedAt.slice(0, 19) : 'never'
+          const exportStatus = document.getElementById('local-export-status')
+          if (exportStatus && message) {
+            exportStatus.textContent = message
+          }
+        }
+        const markLocalAnalyticsExported = (events, exportedAt) => {
+          const latest = events.length ? events[events.length - 1] : null
+          writeJson(localExportReceiptKey, {
+            exportedAt,
+            exportSurface,
+            exportedEventCount: events.length,
+            latestEventId: latest?.id ?? null,
+            latestEventAt: latest?.createdAt ?? null,
+          })
+        }
+        const downloadEvents = (events, fileName) => {
+          const blob = new Blob([JSON.stringify(events, null, 2)], { type: 'application/json' })
+          const url = URL.createObjectURL(blob)
+          const anchor = document.createElement('a')
+          anchor.href = url
+          anchor.download = fileName
+          anchor.click()
+          URL.revokeObjectURL(url)
+        }
+        const exportLocalEventDrop = () => {
+          const eventsBeforeExport = readEvents()
+          const receipt = readJson(localExportReceiptKey, null)
+          const coverage = exportCoverage(eventsBeforeExport, receipt)
+          const exportedAt = new Date().toISOString()
+          const fileName = eventDropFileName(exportSurface, exportedAt)
+          const exportEvent = {
+            id: createId('measurement-export'),
+            name: 'analytics_exported',
+            properties: {
+              destination: 'local_file',
+              exportSurface,
+              exportSurfaceDetail,
+              eventDropFileName: fileName,
+              eventDropMode: 'download',
+              eventCountAtExport: eventsBeforeExport.length + 1,
+              unexportedEventsBeforeExport: coverage.unexportedEvents,
+              exportedEventCountBeforeExport: coverage.exportedEventCount,
+              exportCoverageRatioBeforeExport: Math.round(coverage.coverageRatio * 1000) / 1000,
+              exportCoverageStatusBeforeExport: receipt ? (coverage.unexportedEvents ? 'export-due' : 'fresh') : 'waiting-for-first-export',
+              noExternalUpload: true,
+              playerInitiated: true,
+              noSyntheticEvents: true,
+              noRevenueEnablement: true,
+            },
+            createdAt: exportedAt,
+          }
+          const events = [...eventsBeforeExport, exportEvent].slice(-300)
+          writeJson(analyticsKey, events)
+          markLocalAnalyticsExported(events, exportedAt)
+          downloadEvents(events, fileName)
+          updateLocalEvidenceStats("Local event drop downloaded. Import it with npm run autonomous:collect-local-event-drops.")
+        }
+        document.getElementById('export-local-event-drop')?.addEventListener('click', exportLocalEventDrop)
+        updateLocalEvidenceStats()
         const syncedLiveCandidate = "pwa-553c32cffe5a"
         const exactLiveCandidate = document.getElementById('exact-live-candidate')
         const exactLiveMatch = document.getElementById('exact-live-match')

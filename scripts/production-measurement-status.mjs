@@ -235,6 +235,7 @@ const aggregateEvidencePrivacyControls = {
   playerInitiatedOnly: true,
   zeroPaidSpend: true,
   noAutomaticPublicUpload: true,
+  measurementPageExportsLocalEventDrops: true,
   noRevenueEnablement: true,
 }
 const sumAggregateField = (notes, field) =>
@@ -464,6 +465,43 @@ const playerEvidenceInvitePack = {
     'Keep revenue, store submission, and product-gate pass decisions blocked until real event evidence clears thresholds.',
   ],
 }
+const measurementPageExport = {
+  id: 'measurement-status-local-event-drop-export',
+  title: 'Measurement status local event drop export',
+  status: localEvidenceReady ? 'measurement-page-export-ready' : 'measurement-page-export-needs-bridge',
+  route: '/measurement-status.html',
+  storageKey: 'agl.analytics.events',
+  receiptStorageKey: 'agl.analytics.localExportReceipt',
+  exportSurface: 'measurement-status',
+  exportSurfaceDetail: 'public-measurement-status-page',
+  filenamePattern: 'player-events-*-measurement-status.json',
+  acceptedByBridgePattern: localEventBridge.eventDropContract?.filenamePattern ?? 'player-events*.json',
+  importCommand:
+    localEventBridge.eventDropContract?.localDropImportCommand ?? 'npm run autonomous:collect-local-event-drops',
+  followUpCommands: [
+    localEventBridge.eventDropContract?.localDropImportCommand ?? 'npm run autonomous:collect-local-event-drops',
+    localEventBridge.eventDropContract?.rollupCommand ?? 'npm run autonomous:analytics',
+    localEventBridge.eventDropContract?.recoveryCommand ?? 'npm run autonomous:gate-recovery',
+    'npm run autonomous:measurement-status',
+  ],
+  controls: {
+    zeroPaidSpend: true,
+    playerInitiatedOnly: true,
+    localBrowserStorageOnly: true,
+    noExternalUpload: true,
+    noAutomaticPublicIssue: true,
+    noSyntheticEvents: true,
+    noGateDecisionFromExportAlone: true,
+    bridgeSanitizesSensitiveProperties: localEventBridge.privacy?.piiStrippingEnabled === true,
+    noRevenueEnablement: true,
+    noStoreSubmission: true,
+  },
+  nextActions: [
+    'Use the measurement status page export when local browser events exist outside the main app export controls.',
+    'Place the downloaded player-events file in data/player-events/inbox or import from an explicit configured drop directory.',
+    'Run the local event drop collection loop before trusting product-gate recovery metrics.',
+  ],
+}
 const publicEvidenceHandoff = {
   status: publicEvidenceHandoffStatus,
   source: 'support-feedback-public-issues',
@@ -487,6 +525,7 @@ const publicEvidenceHandoff = {
     topMissions: aggregateEvidenceMissions.slice(0, 5),
   },
   playerInvitePack: playerEvidenceInvitePack,
+  measurementPageExport,
   controls: aggregateEvidencePrivacyControls,
   nextActions: [
     aggregateEvidenceNotes.length
@@ -945,6 +984,7 @@ const payload = {
     aggregateEvidenceDoesNotPassGates: true,
     manualReviewRequiredForGateDecisions: true,
     noAutomaticPublicUpload: true,
+    measurementPageLocalEventDropExport: true,
     noStoreSubmission: true,
     noRevenueEnablement: true,
   },
@@ -1547,11 +1587,27 @@ const analyticsUnlockHtml = `<!doctype html>
         gap: 10px;
       }
 
-      .actions a {
+      .actions a,
+      .actions button {
         border: 1px solid #187f7a;
         border-radius: 8px;
+        background: transparent;
+        color: #187f7a;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
         padding: 10px 12px;
         text-decoration: none;
+      }
+
+      .actions button:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+      }
+
+      .localExportStatus {
+        color: #6d675c;
+        font-weight: 700;
       }
     </style>
   </head>
@@ -1857,6 +1913,11 @@ const html = `<!doctype html>
             <strong>${escapeHtml(payload.analytics.localEvidence.bridgeStatus)}</strong>
           </div>
         </div>
+        <div class="actions">
+          <button type="button" id="export-local-event-drop">Download local event drop</button>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.gateSample))}">Open gate sample</a>
+        </div>
+        <p class="localExportStatus" id="local-export-status" aria-live="polite">${escapeHtml(payload.publicEvidenceHandoff.measurementPageExport.status)}</p>
       </section>
 
       <section>
@@ -2129,6 +2190,10 @@ const html = `<!doctype html>
     </main>
     <script>
       (() => {
+        const analyticsKey = 'agl.analytics.events'
+        const localExportReceiptKey = 'agl.analytics.localExportReceipt'
+        const exportSurface = ${JSON.stringify(measurementPageExport.exportSurface)}
+        const exportSurfaceDetail = ${JSON.stringify(measurementPageExport.exportSurfaceDetail)}
         const readJson = (key, fallback) => {
           try {
             const raw = window.localStorage.getItem(key)
@@ -2137,12 +2202,113 @@ const html = `<!doctype html>
             return fallback
           }
         }
-        const events = readJson('agl.analytics.events', [])
-        const receipt = readJson('agl.analytics.localExportReceipt', null)
-        const latest = Array.isArray(events) && events.length ? events[events.length - 1] : null
-        document.getElementById('local-event-count').textContent = Array.isArray(events) ? String(events.length) : '0'
-        document.getElementById('local-event-latest').textContent = latest?.createdAt ? latest.createdAt.slice(0, 19) : 'none'
-        document.getElementById('local-export-latest').textContent = receipt?.exportedAt ? receipt.exportedAt.slice(0, 19) : 'never'
+        const writeJson = (key, value) => {
+          try {
+            window.localStorage.setItem(key, JSON.stringify(value))
+          } catch {
+            // A download can still happen even if the receipt cannot be stored.
+          }
+        }
+        const readEvents = () => {
+          const events = readJson(analyticsKey, [])
+          return Array.isArray(events) ? events : []
+        }
+        const createId = (prefix) =>
+          window.crypto?.randomUUID
+            ? prefix + '-' + window.crypto.randomUUID()
+            : prefix + '-' + Date.now() + '-' + Math.random().toString(16).slice(2)
+        const sanitizeFilePart = (value) => {
+          const cleaned = String(value || 'manual')
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+          return cleaned || 'manual'
+        }
+        const eventDropFileName = (surface, timestamp) =>
+          'player-events-' +
+          timestamp.replace(/[:.]/g, '-') +
+          '-' +
+          sanitizeFilePart(surface) +
+          '.json'
+        const exportCoverage = (events, receipt) => {
+          const exportedEventCount = Number(receipt?.exportedEventCount)
+          const unexportedEvents = receipt
+            ? Math.max(0, events.length - (Number.isFinite(exportedEventCount) ? exportedEventCount : 0))
+            : events.length
+          return {
+            exportedEventCount: events.length - unexportedEvents,
+            unexportedEvents,
+            coverageRatio: events.length ? (events.length - unexportedEvents) / events.length : receipt ? 1 : 0,
+          }
+        }
+        const updateLocalEvidenceStats = (message) => {
+          const events = readEvents()
+          const receipt = readJson(localExportReceiptKey, null)
+          const latest = events.length ? events[events.length - 1] : null
+          document.getElementById('local-event-count').textContent = String(events.length)
+          document.getElementById('local-event-latest').textContent = latest?.createdAt ? latest.createdAt.slice(0, 19) : 'none'
+          document.getElementById('local-export-latest').textContent = receipt?.exportedAt ? receipt.exportedAt.slice(0, 19) : 'never'
+          const exportStatus = document.getElementById('local-export-status')
+          if (exportStatus && message) {
+            exportStatus.textContent = message
+          }
+        }
+        const markLocalAnalyticsExported = (events, exportedAt) => {
+          const latest = events.length ? events[events.length - 1] : null
+          writeJson(localExportReceiptKey, {
+            exportedAt,
+            exportSurface,
+            exportedEventCount: events.length,
+            latestEventId: latest?.id ?? null,
+            latestEventAt: latest?.createdAt ?? null,
+          })
+        }
+        const downloadEvents = (events, fileName) => {
+          const blob = new Blob([JSON.stringify(events, null, 2)], { type: 'application/json' })
+          const url = URL.createObjectURL(blob)
+          const anchor = document.createElement('a')
+          anchor.href = url
+          anchor.download = fileName
+          anchor.click()
+          URL.revokeObjectURL(url)
+        }
+        const exportLocalEventDrop = () => {
+          const eventsBeforeExport = readEvents()
+          const receipt = readJson(localExportReceiptKey, null)
+          const coverage = exportCoverage(eventsBeforeExport, receipt)
+          const exportedAt = new Date().toISOString()
+          const fileName = eventDropFileName(exportSurface, exportedAt)
+          const exportEvent = {
+            id: createId('measurement-export'),
+            name: 'analytics_exported',
+            properties: {
+              destination: 'local_file',
+              exportSurface,
+              exportSurfaceDetail,
+              eventDropFileName: fileName,
+              eventDropMode: 'download',
+              eventCountAtExport: eventsBeforeExport.length + 1,
+              unexportedEventsBeforeExport: coverage.unexportedEvents,
+              exportedEventCountBeforeExport: coverage.exportedEventCount,
+              exportCoverageRatioBeforeExport: Math.round(coverage.coverageRatio * 1000) / 1000,
+              exportCoverageStatusBeforeExport: receipt ? (coverage.unexportedEvents ? 'export-due' : 'fresh') : 'waiting-for-first-export',
+              noExternalUpload: true,
+              playerInitiated: true,
+              noSyntheticEvents: true,
+              noRevenueEnablement: true,
+            },
+            createdAt: exportedAt,
+          }
+          const events = [...eventsBeforeExport, exportEvent].slice(-300)
+          writeJson(analyticsKey, events)
+          markLocalAnalyticsExported(events, exportedAt)
+          downloadEvents(events, fileName)
+          updateLocalEvidenceStats(${JSON.stringify(
+            `Local event drop downloaded. Import it with ${measurementPageExport.importCommand}.`,
+          )})
+        }
+        document.getElementById('export-local-event-drop')?.addEventListener('click', exportLocalEventDrop)
+        updateLocalEvidenceStats()
         const syncedLiveCandidate = ${JSON.stringify(payload.liveRelease.syncedCandidateId)}
         const exactLiveCandidate = document.getElementById('exact-live-candidate')
         const exactLiveMatch = document.getElementById('exact-live-match')
@@ -2201,6 +2367,8 @@ const report = [
   `- player evidence invite pack: ${payload.publicEvidenceHandoff.playerInvitePack.status}`,
   `- player evidence primary route: ${payload.publicEvidenceHandoff.playerInvitePack.routes[0]?.path ?? 'missing'}`,
   `- player evidence follow-up: ${payload.publicEvidenceHandoff.playerInvitePack.followUpCommands.join(' && ')}`,
+  `- measurement page export: ${payload.publicEvidenceHandoff.measurementPageExport.status}`,
+  `- measurement page export import: ${payload.publicEvidenceHandoff.measurementPageExport.importCommand}`,
   '',
   '## Public Routes',
   '',
