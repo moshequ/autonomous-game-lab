@@ -3296,6 +3296,9 @@ if (
   !appSource.includes('completionLoop.localRouterPolicy.actions') ||
   !appSource.includes("actionType === 'finish-line-coach'") ||
   !appSource.includes("actionType === 'completion-nudge'") ||
+  !appSource.includes("'local_router_choice_dismissed'") ||
+  !appSource.includes('localRouterDismissedStorageKey') ||
+  !appSource.includes('Skip route') ||
   !harborRingsSceneSource.includes('recommendedMove()') ||
   !completionLoopSource.includes('runtime-best-immediate-score') ||
   !gameCanvasSource.includes('activeRunId') ||

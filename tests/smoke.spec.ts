@@ -721,6 +721,7 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Local Event Bridge').getByRole('button', { name: 'Export now' })).toBeVisible()
   await expect(page.getByLabel('Local Learning Router')).toContainText('local-play-router')
   await expect(page.getByLabel('Local Learning Router')).toContainText('Next route')
+  await expect(page.getByLabel('Local Learning Router').getByRole('button', { name: 'Skip route' })).toBeVisible()
   await expect(page.getByLabel('Revenue runtime')).toContainText('guarded-disabled')
 
   const canvas = page.locator('canvas').first()
@@ -1052,6 +1053,35 @@ test('local learning router routes players to the next zero-spend evidence actio
     noSyntheticEvents: true,
     noRevenueEnablement: true,
     succeeded: true,
+  })
+
+  await router.getByRole('button', { name: 'Skip route' }).click()
+  await expect(router).toContainText('Skipped route')
+
+  const dismissedState = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return {
+      dismissedKey: window.localStorage.getItem('agl.localRouter.dismissedRecommendation') ?? '',
+      dismissed: events.findLast((event: { name: string }) => event.name === 'local_router_choice_dismissed'),
+    }
+  })
+
+  expect(dismissedState.dismissedKey).toContain(routedRecommendationId)
+  expect(dismissedState.dismissed?.properties).toMatchObject({
+    recommendationId: routedRecommendationId,
+    actionType: 'gate-sample',
+    gameId: routedMission.gameId,
+    campaignId: routedMission.campaignId,
+    gateId: routedMission.gateId,
+    currentRecommendationSkipped: false,
+    playerInitiatedOnly: true,
+    preservesPromptCooldowns: true,
+    noAutoMove: true,
+    noRuleChange: true,
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
   })
 
   if (fastestMission.campaignId !== routedMission.campaignId) {

@@ -490,6 +490,16 @@ type LocalRouterRecommendation = {
   priority: number
 }
 
+const localRouterDismissedStorageKey = 'agl.localRouter.dismissedRecommendation'
+const localRouterRecommendationKey = (recommendation: LocalRouterRecommendation) =>
+  [
+    recommendation.id,
+    recommendation.actionType,
+    recommendation.gameId,
+    recommendation.campaignId ?? 'none',
+    recommendation.sampleStatus,
+  ].join(':')
+
 const hasProductGateSampleReturnHandoff = (
   mission: ProductGateSampleMission,
 ): mission is ProductGateSampleMissionWithReturnHandoff => Boolean(mission.returnHandoff)
@@ -676,6 +686,9 @@ function App() {
   )
   const [finishLineAcceptedRunKey, setFinishLineAcceptedRunKey] = useState(() =>
     readStringStorage(completionLoop.localState.finishLineAcceptedRunKey),
+  )
+  const [localRouterDismissedRecommendationKey, setLocalRouterDismissedRecommendationKey] = useState(() =>
+    readStringStorage(localRouterDismissedStorageKey),
   )
   const [pwaPromptEvent, setPwaPromptEvent] = useState<BeforeInstallPromptEvent | null>(null)
   const [lateOpsData, setLateOpsData] = useState<LateOpsData | null>(null)
@@ -1683,6 +1696,10 @@ function App() {
   }, {})
   const localRouterViews = eventCounts.local_router_card_viewed ?? 0
   const localRouterChoices = eventCounts.local_router_choice_clicked ?? 0
+  const localRouterDismissals = eventCounts.local_router_choice_dismissed ?? 0
+  const currentLocalRouterRecommendationKey = localRouterRecommendationKey(localRouterRecommendation)
+  const currentLocalRouterSkipped =
+    localRouterDismissedRecommendationKey === currentLocalRouterRecommendationKey
   const toggleExternalAnalytics = () => {
     const next = !externalAnalyticsOptedOut
     setExternalAnalyticsOptOut(next)
@@ -2372,6 +2389,11 @@ function App() {
     localEvents: events.length,
     localRouterViews,
     localRouterChoices,
+    localRouterDismissals,
+    dismissedRecommendationKey: localRouterDismissedRecommendationKey || null,
+    currentRecommendationKey: localRouterRecommendationKey(recommendation),
+    currentRecommendationSkipped:
+      localRouterDismissedRecommendationKey === localRouterRecommendationKey(recommendation),
     localTrafficStarts,
     localTrafficSignals,
     zeroPaidSpend: true,
@@ -2380,11 +2402,27 @@ function App() {
   }), [
     events.length,
     localRouterChoices,
+    localRouterDismissals,
+    localRouterDismissedRecommendationKey,
     localRouterRecommendation,
     localRouterViews,
     localTrafficSignals,
     localTrafficStarts,
   ])
+  const dismissLocalRouterRecommendation = () => {
+    const recommendationKey = localRouterRecommendationKey(localRouterRecommendation)
+    window.localStorage.setItem(localRouterDismissedStorageKey, recommendationKey)
+    setLocalRouterDismissedRecommendationKey(recommendationKey)
+    trackEvent('local_router_choice_dismissed', {
+      ...localRouterEventProperties(),
+      dismissedRecommendationKey: recommendationKey,
+      surface: 'autonomy-cockpit-local-router',
+      playerInitiatedOnly: true,
+      preservesPromptCooldowns: true,
+      noAutoMove: true,
+      noRuleChange: true,
+    })
+  }
   const chooseFastestGateSampleRecommendation = () => {
     if (!fastestGateSampleRecommendation || !productGateSampleFastestDistinct) {
       return
@@ -3420,9 +3458,15 @@ function App() {
               <div>
                 <span>Local proof</span>
                 <strong>
-                  {localRouterChoices} choices / {localRouterViews} views
+                  {localRouterChoices} choices / {localRouterDismissals} skips / {localRouterViews} views
                 </strong>
               </div>
+              {currentLocalRouterSkipped ? (
+                <div>
+                  <span>Skipped route</span>
+                  <strong>{localRouterRecommendation.label}</strong>
+                </div>
+              ) : null}
               {fastestGateSampleRecommendation && productGateSampleFastestProgress ? (
                 <div>
                   <span>Fastest gate</span>
@@ -3456,6 +3500,9 @@ function App() {
                 <button className="tinyButton subtleButton" type="button" onClick={shareLocalRouterRecommendation}>
                   <Share2 size={14} aria-hidden="true" />
                   Share route
+                </button>
+                <button className="tinyButton subtleButton" type="button" onClick={dismissLocalRouterRecommendation}>
+                  Skip route
                 </button>
               </div>
             </div>
