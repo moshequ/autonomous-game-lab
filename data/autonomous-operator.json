@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T20:35:33.706Z",
+  "generatedAt": "2026-05-26T21:09:15.413Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
@@ -127,9 +127,9 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "status-monitor"
+      "reason": "owner-decision-held"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -199,9 +199,9 @@
     },
     {
       "id": "collect-gate-sample-local-drops",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -313,9 +313,9 @@
     },
     {
       "id": "collect-live-events",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     }
   ],
   "commandPlan": [],
