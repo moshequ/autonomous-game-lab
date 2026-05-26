@@ -1,6 +1,6 @@
 # Post-Deploy Artifact Sync
 
-Generated: 2026-05-26T14:34:47.449Z
+Generated: 2026-05-26T14:42:47.031Z
 Status: post-deploy-artifact-sync-passed
 Repository: moshequ/autonomous-game-lab
 Workflow: web-pwa-deploy.yml
@@ -8,12 +8,12 @@ Run: 26454733907
 Origin: https://moshequ.github.io/autonomous-game-lab/
 Artifact candidate: pwa-c94b7dcecf97
 Live candidate: pwa-c94b7dcecf97
-Deployment freshness: current-head-deployed
+Deployment freshness: post-deploy-evidence-head-synced
 
 ## Summary
 
 - Planned: 7
-- Passed: 7
+- Passed: 6
 - Failed: 0
 - Blocked: 0
 
@@ -27,9 +27,9 @@ Deployment freshness: current-head-deployed
 
 ## Deployment Freshness
 
-- currentHeadSha: 2ac8fdb0ca510db84ffddb9a9264166e11ce907c
+- currentHeadSha: b7dab1d1a308936c2d1d08bea0ef780bbbc4e9f4
 - selectedRunHeadSha: 2ac8fdb0ca510db84ffddb9a9264166e11ce907c
-- currentHeadDeployed: true
+- currentHeadDeployed: false
 - currentHeadQueuedOrRunning: false
 - liveMatchesCurrentLocalCandidate: false
 
@@ -41,7 +41,7 @@ Deployment freshness: current-head-deployed
 - pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26454733907.
 - pass: strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
-- pass: deployment-freshness - Current main 2ac8fdb0ca51 is deployed.
+- monitor: deployment-freshness - Current main b7dab1d1a308 is the post-deploy evidence commit for deployed source 2ac8fdb0ca51.
 
 ## Controls
 
@@ -60,6 +60,6 @@ Deployment freshness: current-head-deployed
 
 ## Next Actions
 
-- Current main is deployed; keep strict live artifact evidence in sync after each Pages run.
+- Current main is the post-deploy evidence commit for the deployed source; deploy again only when public evidence pages must mirror the evidence commit immediately.
 - Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.
 - Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass.
