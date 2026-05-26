@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T17:24:13.803Z",
+  "generatedAt": "2026-05-26T17:35:35.588Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
@@ -44,7 +44,7 @@
       "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 79,
+      "dirtyFiles": 78,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -111,7 +111,6 @@
         "reports/store-readiness-latest.md",
         "src/data/liveSiteMonitor.ts",
         "src/data/ownerZeroSecretInputSync.ts",
-        "src/data/performanceBudget.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
@@ -126,7 +125,7 @@
         "src/data/storeListingOptimizer.ts",
         "src/data/storeReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 79,
+      "generatedEvidenceDirtyFiles": 78,
       "generatedEvidenceDirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -193,7 +192,6 @@
         "reports/store-readiness-latest.md",
         "src/data/liveSiteMonitor.ts",
         "src/data/ownerZeroSecretInputSync.ts",
-        "src/data/performanceBudget.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
@@ -218,7 +216,7 @@
       "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 79,
+      "dirtyFiles": 78,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -285,7 +283,6 @@
         "reports/store-readiness-latest.md",
         "src/data/liveSiteMonitor.ts",
         "src/data/ownerZeroSecretInputSync.ts",
-        "src/data/performanceBudget.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
@@ -300,7 +297,7 @@
         "src/data/storeListingOptimizer.ts",
         "src/data/storeReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 79,
+      "generatedEvidenceDirtyFiles": 78,
       "generatedEvidenceDirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -367,7 +364,6 @@
         "reports/store-readiness-latest.md",
         "src/data/liveSiteMonitor.ts",
         "src/data/ownerZeroSecretInputSync.ts",
-        "src/data/performanceBudget.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
@@ -418,7 +414,7 @@
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-4ed05e8b647d",
+    "releaseCandidateId": "pwa-55a832f55429",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
@@ -508,7 +504,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "79 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "78 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",
