@@ -75,6 +75,7 @@
       }
 
       .metric,
+      .recommended,
       .mission,
       .handoff {
         border: 1px solid #cbd8d4;
@@ -112,6 +113,40 @@
         color: #17211f;
         font-size: 0.75rem;
         font-weight: 800;
+      }
+
+      .recommended {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        gap: 18px;
+        align-items: start;
+        margin-bottom: 14px;
+        padding: 20px;
+        border-left: 4px solid #0f766e;
+      }
+
+      .recommended h2 {
+        font-size: clamp(1.45rem, 3vw, 2rem);
+      }
+
+      .recommendedLead {
+        display: grid;
+        gap: 10px;
+      }
+
+      .recommendedStats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .recommendedActions {
+        display: flex;
+        flex-wrap: wrap;
+        grid-column: 1 / -1;
+        gap: 10px;
+      }
+
+      .recommendedActions .play {
+        min-width: min(100%, 230px);
       }
 
       .missions {
@@ -237,6 +272,7 @@
       }
 
       @media (max-width: 860px) {
+        .recommended,
         .summary,
         .missions,
         .missionActions {
@@ -258,6 +294,30 @@
         <div class="metric"><span>Prompt views needed</span><strong>70</strong></div>
         <div class="metric"><span>Observed successes</span><strong>139</strong></div>
         <div class="metric"><span>Cost</span><strong>$0.00</strong></div>
+      </section>
+      <section class="recommended" aria-label="Recommended sample route" data-default-route-campaign="gate-sample-20260526-firstGameCompletion" data-gate-id="firstGameCompletion">
+        <div class="recommendedLead">
+          <p class="eyebrow">Recommended next sample</p>
+          <span class="badge">Primary bottleneck</span>
+          <h2>Harbor Rings</h2>
+          <p>First game completion is the primary revenue-blocking gap and can collect same-session evidence from the next player.</p>
+        </div>
+        <dl class="recommendedStats">
+          <div><dt>Gate</dt><dd>firstGameCompletion</dd></div>
+          <div><dt>Campaign</dt><dd>gate-sample-20260526-firstGameCompletion</dd></div>
+          <div><dt>Prompt views</dt><dd>30</dd></div>
+          <div><dt>Observed successes</dt><dd>128</dd></div>
+          <div><dt>Local events</dt><dd data-local-events="gate-sample-20260526-firstGameCompletion">0</dd></div>
+          <div><dt>Local wins</dt><dd data-local-successes="gate-sample-20260526-firstGameCompletion">0</dd></div>
+          <div><dt>Local debt</dt><dd data-local-debt="gate-sample-20260526-firstGameCompletion">30 views / 128 wins</dd></div>
+          <div><dt>Evidence</dt><dd>waiting-for-player-export</dd></div>
+        </dl>
+        <div class="recommendedActions">
+          <a class="play" href="./?game=harbor-rings&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260526-firstGameCompletion">Start recommended sample</a>
+          <button class="share" type="button" data-share-campaign="gate-sample-20260526-firstGameCompletion">Share mission</button>
+          <button class="export" type="button" data-export-campaign="gate-sample-20260526-firstGameCompletion">Export evidence</button>
+          <button class="evidence" type="button" data-evidence-campaign="gate-sample-20260526-firstGameCompletion">Share evidence</button>
+        </div>
       </section>
       <section class="missions" aria-label="Gate sample missions">
         <article class="mission" data-mission-id="collect-firstGameCompletion-sample" data-gate-id="firstGameCompletion" data-campaign-id="gate-sample-20260526-firstGameCompletion" data-sample-role="primary-bottleneck">
@@ -855,23 +915,21 @@
 
           for (const mission of missions) {
             const progress = missionProgress(mission, events)
-            const localEvents = document.querySelector(`[data-local-events="${mission.campaignId}"]`)
-            const localSuccesses = document.querySelector(`[data-local-successes="${mission.campaignId}"]`)
-            const localDebt = document.querySelector(`[data-local-debt="${mission.campaignId}"]`)
+            const localEvents = document.querySelectorAll(`[data-local-events="${mission.campaignId}"]`)
+            const localSuccesses = document.querySelectorAll(`[data-local-successes="${mission.campaignId}"]`)
+            const localDebt = document.querySelectorAll(`[data-local-debt="${mission.campaignId}"]`)
 
-            if (localEvents) {
-              localEvents.textContent = String(progress.campaignEvents)
-            }
-
-            if (localSuccesses) {
-              localSuccesses.textContent = String(progress.successes)
-            }
-
-            if (localDebt) {
-              localDebt.textContent = progress.sampleDecisionReady
+            localEvents.forEach((element) => {
+              element.textContent = String(progress.campaignEvents)
+            })
+            localSuccesses.forEach((element) => {
+              element.textContent = String(progress.successes)
+            })
+            localDebt.forEach((element) => {
+              element.textContent = progress.sampleDecisionReady
                 ? 'decision-ready'
                 : `${progress.promptViewsRemaining} views / ${progress.successesRemaining} wins`
-            }
+            })
           }
         }
 

@@ -298,6 +298,25 @@ const defaultRouteMission =
     .sort(compareDefaultRouteMissions)[0] ??
   primaryMission ??
   fastestMission
+const defaultRouteSelectionReason = (mission) => {
+  if (!mission) {
+    return 'No failing product gate currently needs a default sample route.'
+  }
+
+  if (mission.gateId === primaryMission?.gateId && mission.sampleTiming?.sameSessionPlayable) {
+    return `${mission.label} is the primary revenue-blocking gap and can collect same-session evidence from the next player.`
+  }
+
+  if (mission.gateId === fastestMission?.gateId) {
+    return `${mission.label} needs the fastest real-player validation before revenue or store gates can move.`
+  }
+
+  if (mission.sampleTiming?.sameSessionPlayable) {
+    return `${mission.label} can collect same-session evidence without paid traffic, synthetic runs, or rule changes.`
+  }
+
+  return `${mission.label} is the selected zero-spend sample route while stricter gates stay closed.`
+}
 const totalPromptViewsNeeded = missions.reduce((sum, mission) => sum + mission.needed.promptViews, 0)
 const totalObservedSuccessesNeeded = missions.reduce((sum, mission) => sum + mission.needed.successes, 0)
 const sampleReadyCount = missions.filter((mission) => mission.status === 'ready-for-recovery-decision').length
@@ -436,6 +455,37 @@ const supportingAggregateEvidenceNotes = missionsWithEvidence.reduce(
   0,
 )
 const returnHandoffMissions = missionsWithEvidence.filter((mission) => mission.returnHandoff)
+const defaultRouteMissionWithEvidence = defaultRouteMission
+  ? (missionsWithEvidence.find((mission) => mission.campaignId === defaultRouteMission.campaignId) ?? defaultRouteMission)
+  : null
+const defaultRoute = defaultRouteMissionWithEvidence
+  ? {
+      status: 'active',
+      gateId: defaultRouteMissionWithEvidence.gateId,
+      label: defaultRouteMissionWithEvidence.label,
+      title: defaultRouteMissionWithEvidence.title,
+      ownerLoop: defaultRouteMissionWithEvidence.ownerLoop,
+      gameId: defaultRouteMissionWithEvidence.gameId,
+      campaignId: defaultRouteMissionWithEvidence.campaignId,
+      playPath: defaultRouteMissionWithEvidence.playPath,
+      sampleRole: defaultRouteMissionWithEvidence.sampleRole,
+      evidenceStatus: defaultRouteMissionWithEvidence.evidence.status,
+      neededPromptViews: defaultRouteMissionWithEvidence.needed.promptViews,
+      neededSuccesses: defaultRouteMissionWithEvidence.needed.successes,
+      minimumPromptViewsForDecision: defaultRouteMissionWithEvidence.needed.minimumPromptViewsForDecision,
+      latencyDays: defaultRouteMissionWithEvidence.sampleTiming?.latencyDays ?? null,
+      sameSessionPlayable: defaultRouteMissionWithEvidence.sampleTiming?.sameSessionPlayable === true,
+      returnHandoffRequired: defaultRouteMissionWithEvidence.sampleTiming?.returnHandoffRequired === true,
+      returnHandoff: defaultRouteMissionWithEvidence.returnHandoff,
+      selectionReason: defaultRouteSelectionReason(defaultRouteMissionWithEvidence),
+      controls: {
+        zeroPaidSpend: true,
+        playerInitiatedOnly: true,
+        noSyntheticEvents: defaultRouteMissionWithEvidence.controls.noSyntheticEvents,
+        noRevenueEnablement: defaultRouteMissionWithEvidence.controls.noRevenueEnablement,
+      },
+    }
+  : null
 const collectSampleDownloadsCommand = 'npm run autonomous:collect-sample-downloads'
 const collectLocalEventDropsCommand = 'npm run autonomous:collect-local-event-drops'
 const aggregateEvidenceRepository =
@@ -515,6 +565,7 @@ const payload = {
     primaryCampaignId: primaryMission?.campaignId ?? null,
     fastestCampaignId: fastestMission?.campaignId ?? null,
     defaultRouteCampaignId: defaultRouteMission?.campaignId ?? null,
+    defaultRoute,
     localProgressEnabled: true,
     autonomousDefaultRoutingEnabled: Boolean(defaultRouteMission),
     playerInitiatedExportEnabled: true,
@@ -616,7 +667,13 @@ const payload = {
       gateId: defaultRouteMission?.gateId ?? null,
       campaignId: defaultRouteMission?.campaignId ?? null,
       gameId: defaultRouteMission?.gameId ?? null,
+      label: defaultRoute?.label ?? null,
+      title: defaultRoute?.title ?? null,
+      neededPromptViews: defaultRoute?.neededPromptViews ?? null,
+      neededSuccesses: defaultRoute?.neededSuccesses ?? null,
       latencyDays: defaultRouteMission?.sampleTiming?.latencyDays ?? null,
+      sameSessionPlayable: defaultRoute?.sameSessionPlayable ?? null,
+      selectionReason: defaultRoute?.selectionReason ?? null,
       source: 'gate_sample',
       channel: 'product-gate-sample',
       appliesWhen: 'direct-root-visit-without-explicit-game-or-campaign',
@@ -726,14 +783,21 @@ const appPayload = {
   status: payload.status,
   summary: {
     fastestGateId: payload.summary.fastestGateId,
+    defaultRouteGateId: payload.summary.defaultRouteGateId,
     defaultRouteCampaignId: payload.summary.defaultRouteCampaignId,
     totalPromptViewsNeeded: payload.summary.totalPromptViewsNeeded,
   },
   runtimeEvidencePolicy: {
     defaultRouting: {
+      gateId: payload.runtimeEvidencePolicy.defaultRouting.gateId,
       campaignId: payload.runtimeEvidencePolicy.defaultRouting.campaignId,
+      gameId: payload.runtimeEvidencePolicy.defaultRouting.gameId,
+      neededPromptViews: payload.runtimeEvidencePolicy.defaultRouting.neededPromptViews,
+      neededSuccesses: payload.runtimeEvidencePolicy.defaultRouting.neededSuccesses,
+      selectionReason: payload.runtimeEvidencePolicy.defaultRouting.selectionReason,
     },
   },
+  defaultRoute,
   controls: {
     zeroPaidSpend: payload.controls.zeroPaidSpend,
     sampleStartCreatesFreshRun: payload.controls.sampleStartCreatesFreshRun,
@@ -777,6 +841,7 @@ const report = [
   `Analytics source: ${payload.sourceStatus.analyticsSource}`,
   `Primary gate: ${payload.summary.primaryGateId ?? 'none'}`,
   `Default route: ${payload.summary.defaultRouteGateId ?? 'none'} (${payload.summary.defaultRouteCampaignId ?? 'none'})`,
+  `Default route reason: ${payload.publicSamplePage.defaultRoute?.selectionReason ?? 'none'}`,
   `Prompt views needed: ${payload.summary.totalPromptViewsNeeded}`,
   `Observed successes needed: ${payload.summary.totalObservedSuccessesNeeded}`,
   `Imported gate-sample events: ${payload.summary.importedGateSampleEvents}`,
@@ -862,6 +927,40 @@ ${mission.returnHandoff
       </article>`,
   )
   .join('\n')
+
+const recommendedMissionPanel = defaultRoute
+  ? `<section class="recommended" aria-label="Recommended sample route" data-default-route-campaign="${escapeHtml(
+      defaultRoute.campaignId,
+    )}" data-gate-id="${escapeHtml(defaultRoute.gateId)}">
+        <div class="recommendedLead">
+          <p class="eyebrow">Recommended next sample</p>
+          <span class="badge">${escapeHtml(sampleRoleLabel(defaultRoute))}</span>
+          <h2>${escapeHtml(defaultRoute.title)}</h2>
+          <p>${escapeHtml(defaultRoute.selectionReason)}</p>
+        </div>
+        <dl class="recommendedStats">
+          <div><dt>Gate</dt><dd>${escapeHtml(defaultRoute.gateId)}</dd></div>
+          <div><dt>Campaign</dt><dd>${escapeHtml(defaultRoute.campaignId)}</dd></div>
+          <div><dt>Prompt views</dt><dd>${defaultRoute.neededPromptViews}</dd></div>
+          <div><dt>Observed successes</dt><dd>${defaultRoute.neededSuccesses}</dd></div>
+          <div><dt>Local events</dt><dd data-local-events="${escapeHtml(defaultRoute.campaignId)}">0</dd></div>
+          <div><dt>Local wins</dt><dd data-local-successes="${escapeHtml(defaultRoute.campaignId)}">0</dd></div>
+          <div><dt>Local debt</dt><dd data-local-debt="${escapeHtml(defaultRoute.campaignId)}">${defaultRoute.minimumPromptViewsForDecision} views / ${defaultRoute.neededSuccesses} wins</dd></div>
+          <div><dt>Evidence</dt><dd>${escapeHtml(defaultRoute.evidenceStatus)}</dd></div>
+        </dl>
+        <div class="recommendedActions">
+          <a class="play" href="${escapeHtml(runtimeHref(defaultRoute.playPath))}">Start recommended sample</a>
+          <button class="share" type="button" data-share-campaign="${escapeHtml(defaultRoute.campaignId)}">Share mission</button>
+          <button class="export" type="button" data-export-campaign="${escapeHtml(defaultRoute.campaignId)}">Export evidence</button>
+${defaultRoute.returnHandoff
+  ? `          <button class="returnLink" type="button" data-copy-return-campaign="${escapeHtml(defaultRoute.campaignId)}">${escapeHtml(defaultRoute.returnHandoff.copyCta)}</button>
+          <button class="calendar" type="button" data-calendar-return-campaign="${escapeHtml(defaultRoute.campaignId)}">${escapeHtml(defaultRoute.returnHandoff.calendarCta)}</button>`
+  : ''}${defaultRoute.returnHandoff && aggregateEvidenceRepository ? '\n' : ''}${aggregateEvidenceRepository
+    ? `          <button class="evidence" type="button" data-evidence-campaign="${escapeHtml(defaultRoute.campaignId)}">Share evidence</button>`
+    : ''}
+        </div>
+      </section>`
+  : ''
 
 const publicMissionEvidence = payload.missions.map((mission) => ({
   id: mission.id,
@@ -965,6 +1064,7 @@ const gateSamplePage = `<!doctype html>
       }
 
       .metric,
+      .recommended,
       .mission,
       .handoff {
         border: 1px solid #cbd8d4;
@@ -1002,6 +1102,40 @@ const gateSamplePage = `<!doctype html>
         color: #17211f;
         font-size: 0.75rem;
         font-weight: 800;
+      }
+
+      .recommended {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+        gap: 18px;
+        align-items: start;
+        margin-bottom: 14px;
+        padding: 20px;
+        border-left: 4px solid #0f766e;
+      }
+
+      .recommended h2 {
+        font-size: clamp(1.45rem, 3vw, 2rem);
+      }
+
+      .recommendedLead {
+        display: grid;
+        gap: 10px;
+      }
+
+      .recommendedStats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .recommendedActions {
+        display: flex;
+        flex-wrap: wrap;
+        grid-column: 1 / -1;
+        gap: 10px;
+      }
+
+      .recommendedActions .play {
+        min-width: min(100%, 230px);
       }
 
       .missions {
@@ -1127,6 +1261,7 @@ const gateSamplePage = `<!doctype html>
       }
 
       @media (max-width: 860px) {
+        .recommended,
         .summary,
         .missions,
         .missionActions {
@@ -1149,6 +1284,7 @@ const gateSamplePage = `<!doctype html>
         <div class="metric"><span>Observed successes</span><strong>${payload.summary.totalObservedSuccessesNeeded}</strong></div>
         <div class="metric"><span>Cost</span><strong>$0.00</strong></div>
       </section>
+      ${recommendedMissionPanel}
       <section class="missions" aria-label="Gate sample missions">
         ${missionCards}
       </section>
@@ -1675,23 +1811,21 @@ const gateSamplePage = `<!doctype html>
 
           for (const mission of missions) {
             const progress = missionProgress(mission, events)
-            const localEvents = document.querySelector(\`[data-local-events="\${mission.campaignId}"]\`)
-            const localSuccesses = document.querySelector(\`[data-local-successes="\${mission.campaignId}"]\`)
-            const localDebt = document.querySelector(\`[data-local-debt="\${mission.campaignId}"]\`)
+            const localEvents = document.querySelectorAll(\`[data-local-events="\${mission.campaignId}"]\`)
+            const localSuccesses = document.querySelectorAll(\`[data-local-successes="\${mission.campaignId}"]\`)
+            const localDebt = document.querySelectorAll(\`[data-local-debt="\${mission.campaignId}"]\`)
 
-            if (localEvents) {
-              localEvents.textContent = String(progress.campaignEvents)
-            }
-
-            if (localSuccesses) {
-              localSuccesses.textContent = String(progress.successes)
-            }
-
-            if (localDebt) {
-              localDebt.textContent = progress.sampleDecisionReady
+            localEvents.forEach((element) => {
+              element.textContent = String(progress.campaignEvents)
+            })
+            localSuccesses.forEach((element) => {
+              element.textContent = String(progress.successes)
+            })
+            localDebt.forEach((element) => {
+              element.textContent = progress.sampleDecisionReady
                 ? 'decision-ready'
                 : \`\${progress.promptViewsRemaining} views / \${progress.successesRemaining} wins\`
-            }
+            })
           }
         }
 

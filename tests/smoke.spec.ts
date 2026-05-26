@@ -9135,6 +9135,22 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
       primaryCampaignId: string
       fastestCampaignId: string
       defaultRouteCampaignId: string
+      defaultRoute: {
+        status: string
+        gateId: string
+        campaignId: string
+        gameId: string
+        title: string
+        neededPromptViews: number
+        neededSuccesses: number
+        selectionReason: string
+        controls: {
+          zeroPaidSpend: boolean
+          playerInitiatedOnly: boolean
+          noSyntheticEvents: boolean
+          noRevenueEnablement: boolean
+        }
+      } | null
       localProgressEnabled: boolean
       autonomousDefaultRoutingEnabled: boolean
       playerInitiatedExportEnabled: boolean
@@ -9160,12 +9176,16 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
       playPath: string
       sampleRole: string
       gameId: string
-      needed: { minimumPromptViewsForDecision: number; successes: number }
+      needed: { promptViews: number; minimumPromptViewsForDecision: number; successes: number }
       telemetry: { view: string[]; success: string[] }
     }>
   }
   const mission = samplePlan.missions[0]
   const fastestMission = samplePlan.missions.find((item) => item.sampleRole.includes('fastest-validation'))
+  const defaultRoute = samplePlan.publicSamplePage.defaultRoute
+  const defaultRouteMission = samplePlan.missions.find(
+    (item) => item.campaignId === samplePlan.publicSamplePage.defaultRouteCampaignId,
+  )
 
   await page.addInitScript(({ campaignId, gameId, viewEvent, successEvent }) => {
     window.localStorage.setItem(
@@ -9213,6 +9233,23 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   expect(samplePlan.publicSamplePage.primaryCampaignId).toBe(mission.campaignId)
   expect(samplePlan.publicSamplePage.fastestCampaignId).toBe(fastestMission?.campaignId)
   expect(samplePlan.publicSamplePage.defaultRouteCampaignId).toBeTruthy()
+  expect(defaultRouteMission).toBeTruthy()
+  expect(defaultRoute).toMatchObject({
+    status: 'active',
+    gateId: defaultRouteMission?.gateId,
+    campaignId: defaultRouteMission?.campaignId,
+    gameId: defaultRouteMission?.gameId,
+    title: defaultRouteMission?.title,
+    neededPromptViews: defaultRouteMission?.needed.promptViews,
+    neededSuccesses: defaultRouteMission?.needed.successes,
+    controls: {
+      zeroPaidSpend: true,
+      playerInitiatedOnly: true,
+      noSyntheticEvents: true,
+      noRevenueEnablement: true,
+    },
+  })
+  expect(defaultRoute?.selectionReason).toContain(defaultRouteMission?.label)
   expect(samplePlan.publicSamplePage.localProgressEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.autonomousDefaultRoutingEnabled).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedExportEnabled).toBe(true)
@@ -9231,6 +9268,17 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   expect(samplePlan.publicSamplePage.noSyntheticEvents).toBe(true)
 
   const firstMission = page.locator(`[data-mission-id="${mission.id}"]`)
+  const recommended = page.locator('section[aria-label="Recommended sample route"]')
+  await expect(recommended).toHaveAttribute('data-default-route-campaign', defaultRouteMission?.campaignId ?? '')
+  await expect(recommended).toContainText('Recommended next sample')
+  await expect(recommended).toContainText(defaultRouteMission?.title ?? '')
+  await expect(recommended).toContainText(defaultRouteMission?.campaignId ?? '')
+  await expect(recommended.getByRole('link', { name: 'Start recommended sample' })).toHaveAttribute(
+    'href',
+    `.${defaultRouteMission?.playPath}`,
+  )
+  await expect(recommended.getByRole('button', { name: 'Share mission' })).toBeVisible()
+  await expect(recommended.getByRole('button', { name: 'Export evidence' })).toBeVisible()
   await expect(firstMission).toContainText(mission.title)
   await expect(firstMission).toHaveAttribute('data-gate-id', mission.gateId)
   await expect(firstMission).toHaveAttribute('data-campaign-id', mission.campaignId)

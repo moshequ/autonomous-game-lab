@@ -2,12 +2,44 @@ export const productGateSamplePlan = {
   "status": "product-gate-sample-plan-ready",
   "summary": {
     "fastestGateId": "d1Retention",
+    "defaultRouteGateId": "firstGameCompletion",
     "defaultRouteCampaignId": "gate-sample-20260526-firstGameCompletion",
     "totalPromptViewsNeeded": 70
   },
   "runtimeEvidencePolicy": {
     "defaultRouting": {
-      "campaignId": "gate-sample-20260526-firstGameCompletion"
+      "gateId": "firstGameCompletion",
+      "campaignId": "gate-sample-20260526-firstGameCompletion",
+      "gameId": "harbor-rings",
+      "neededPromptViews": 30,
+      "neededSuccesses": 128,
+      "selectionReason": "First game completion is the primary revenue-blocking gap and can collect same-session evidence from the next player."
+    }
+  },
+  "defaultRoute": {
+    "status": "active",
+    "gateId": "firstGameCompletion",
+    "label": "First game completion",
+    "title": "Harbor Rings",
+    "ownerLoop": "completion-loop",
+    "gameId": "harbor-rings",
+    "campaignId": "gate-sample-20260526-firstGameCompletion",
+    "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-firstGameCompletion",
+    "sampleRole": "primary-bottleneck",
+    "evidenceStatus": "waiting-for-player-export",
+    "neededPromptViews": 30,
+    "neededSuccesses": 128,
+    "minimumPromptViewsForDecision": 30,
+    "latencyDays": 0,
+    "sameSessionPlayable": true,
+    "returnHandoffRequired": false,
+    "returnHandoff": null,
+    "selectionReason": "First game completion is the primary revenue-blocking gap and can collect same-session evidence from the next player.",
+    "controls": {
+      "zeroPaidSpend": true,
+      "playerInitiatedOnly": true,
+      "noSyntheticEvents": true,
+      "noRevenueEnablement": true
     }
   },
   "controls": {

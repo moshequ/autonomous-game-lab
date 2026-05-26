@@ -1,11 +1,12 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-26T15:04:58.964Z
+Generated: 2026-05-26T16:04:31.223Z
 Status: product-gate-sample-plan-ready
 Source hash: 82a95bc8a474
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
 Default route: firstGameCompletion (gate-sample-20260526-firstGameCompletion)
+Default route reason: First game completion is the primary revenue-blocking gap and can collect same-session evidence from the next player.
 Prompt views needed: 70
 Observed successes needed: 139
 Imported gate-sample events: 0
