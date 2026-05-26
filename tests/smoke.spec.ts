@@ -5,6 +5,7 @@ import { createServer } from 'node:http'
 import type { AddressInfo } from 'node:net'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
+import { eventDropFileName, sanitizeEventDropFileNamePart } from '../src/lib/eventDropFileName'
 
 const execFileAsync = (
   command: string,
@@ -41,6 +42,15 @@ const clickSharedFirstBoardCell = async (page: Page) => {
 
 const runtimeHref = (value: string) => (value.startsWith('/') ? `.${value}` : value)
 const eventDropDownloadFileNamePattern = /^player-events-\d{4}-\d{2}-\d{2}T.*-[a-z0-9-]+\.json$/
+
+test('event drop filenames sanitize export surfaces for local evidence imports', () => {
+  expect(sanitizeEventDropFileNamePart('Product Gate Sample')).toBe('product-gate-sample')
+  expect(sanitizeEventDropFileNamePart('../../manual export !!!')).toBe('manual-export')
+  expect(sanitizeEventDropFileNamePart('')).toBe('manual')
+  expect(eventDropFileName('../manual/private', '2026-05-26T07:52:53.123Z')).toBe(
+    'player-events-2026-05-26T07-52-53-123Z-manual-private.json',
+  )
+})
 
 test('trend radar only boosts evidence-bearing public trend signals', async () => {
   const trend = JSON.parse(await readFile('data/trend-signals.json', 'utf8')) as {

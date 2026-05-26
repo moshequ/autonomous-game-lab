@@ -69,6 +69,7 @@ import {
   markMonetizationOfferConsumed,
   wasMonetizationOfferConsumed,
 } from './lib/monetization'
+import { eventDropFileName } from './lib/eventDropFileName'
 import { isExternalAnalyticsOptedOut, setExternalAnalyticsOptOut } from './lib/privacy'
 
 const GameCanvas = lazy(() =>
@@ -457,9 +458,6 @@ const writeEventDropFile = async (
   await writable.write(payload)
   await writable.close()
 }
-
-const eventDropFileName = (exportSurface: string, timestamp: string) =>
-  `player-events-${timestamp.replace(/[:.]/g, '-')}-${exportSurface}.json`
 
 type ProductGateSampleMission = (typeof productGateSamplePlan.missions)[number]
 type ProductGateSampleReturnHandoff = NonNullable<ProductGateSampleMission['returnHandoff']>

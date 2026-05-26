@@ -1346,11 +1346,22 @@ const gateSamplePage = `<!doctype html>
           })
         }
 
+        const sanitizeEventDropFileNamePart = (value) => {
+          const cleaned = String(value || '')
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+            .slice(0, 80)
+
+          return cleaned || 'manual'
+        }
+
         const eventDropFileName = (exportSurface) =>
           'player-events-' +
           new Date().toISOString().replace(/[:.]/g, '-') +
           '-' +
-          exportSurface +
+          sanitizeEventDropFileNamePart(exportSurface) +
           '.json'
 
         const missionReturnUrl = (mission) =>
