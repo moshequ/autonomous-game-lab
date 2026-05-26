@@ -529,6 +529,28 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   const storeListingOptimizer = JSON.parse(await readFile('data/store-listing-optimizer.json', 'utf8')) as {
     recommendation: { title: string }
   }
+  const storeReadiness = JSON.parse(await readFile('data/store-readiness.json', 'utf8')) as {
+    storeOwnerUnlockSummary: {
+      lowestInputUnlockId: string | null
+    }
+    supportOwnerInputPack: {
+      unlockId: string
+      status: string
+      localEnvFile: string
+      missingInputNames: string[]
+      missingInputCount: number
+      secretInputCount: number
+      localEnvTemplateLines: string[]
+      browserLocalActionPack?: {
+        status: string
+      }
+      controls: {
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+      }
+    }
+  }
   const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
     dailyChallenge: { title: string }
   }
@@ -654,6 +676,37 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByLabel('Production Activation')).toContainText(/dry-run|apply-configured-actions/)
   await expect(page.getByLabel('Support Channel')).toContainText(/support-channel-ready|support-channel-planned/)
   await expect(page.getByLabel('Support Channel')).toContainText('github-issues')
+  const storeSupportUnlock = page.getByLabel('Store Support Unlock')
+  await expect(storeSupportUnlock).toContainText(storeReadiness.supportOwnerInputPack.status)
+  await expect(storeSupportUnlock).toContainText(storeReadiness.supportOwnerInputPack.unlockId)
+  await expect(storeSupportUnlock).toContainText(storeReadiness.supportOwnerInputPack.localEnvFile)
+  await expect(storeSupportUnlock).toContainText(
+    `${storeReadiness.supportOwnerInputPack.missingInputCount}/${storeReadiness.supportOwnerInputPack.secretInputCount}`,
+  )
+  await expect(storeSupportUnlock).toContainText(
+    storeReadiness.storeOwnerUnlockSummary.lowestInputUnlockId ??
+      storeReadiness.supportOwnerInputPack.unlockId,
+  )
+  await expect(storeSupportUnlock).toContainText(
+    storeReadiness.supportOwnerInputPack.browserLocalActionPack?.status ?? 'missing',
+  )
+  for (const inputName of storeReadiness.supportOwnerInputPack.missingInputNames) {
+    await expect(storeSupportUnlock).toContainText(inputName)
+  }
+  for (const templateLine of storeReadiness.supportOwnerInputPack.localEnvTemplateLines) {
+    await expect(storeSupportUnlock).toContainText(templateLine)
+  }
+  if (
+    storeReadiness.supportOwnerInputPack.controls.noAccountCreation &&
+    storeReadiness.supportOwnerInputPack.controls.noStoreSubmission &&
+    storeReadiness.supportOwnerInputPack.controls.noRevenueEnablement
+  ) {
+    await expect(storeSupportUnlock).toContainText('no account/store/revenue')
+  }
+  await expect(storeSupportUnlock.getByRole('button', { name: 'Support template' })).toBeVisible()
+  await expect(storeSupportUnlock.getByRole('button', { name: 'Support helper' })).toBeVisible()
+  await expect(storeSupportUnlock.getByRole('button', { name: 'Validate' })).toBeVisible()
+  await expect(storeSupportUnlock.getByRole('button', { name: 'Sync support' })).toBeVisible()
   await expect(page.getByLabel('Support Feedback')).toContainText(/support-feedback-ready|support-feedback-empty|support-feedback-planned/)
   await expect(page.getByLabel('Support Feedback')).toContainText('Issues inspected')
   await expect(page.getByLabel('Public Repo Security')).toContainText('public-repo-security-ready')

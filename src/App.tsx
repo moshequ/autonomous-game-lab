@@ -222,6 +222,7 @@ type LateOpsData = {
   eventCollectorDeployment: typeof import('./data/eventCollectorDeployment').eventCollectorDeployment
   nativePackage: typeof import('./data/nativePackage').nativePackage
   androidRelease: typeof import('./data/androidRelease').androidRelease
+  storeReadiness: typeof import('./data/storeReadiness').storeReadiness
   storeCompliance: typeof import('./data/storeCompliance').storeCompliance
   storeListingOptimizer: typeof import('./data/storeListingOptimizer').storeListingOptimizer
   androidSigning: typeof import('./data/androidSigning').androidSigning
@@ -979,6 +980,7 @@ function App() {
         eventCollectorDeploymentModule,
         nativePackageModule,
         androidReleaseModule,
+        storeReadinessModule,
         storeComplianceModule,
         storeListingOptimizerModule,
         androidSigningModule,
@@ -999,6 +1001,7 @@ function App() {
         import('./data/eventCollectorDeployment'),
         import('./data/nativePackage'),
         import('./data/androidRelease'),
+        import('./data/storeReadiness'),
         import('./data/storeCompliance'),
         import('./data/storeListingOptimizer'),
         import('./data/androidSigning'),
@@ -1025,6 +1028,7 @@ function App() {
         eventCollectorDeployment: eventCollectorDeploymentModule.eventCollectorDeployment,
         nativePackage: nativePackageModule.nativePackage,
         androidRelease: androidReleaseModule.androidRelease,
+        storeReadiness: storeReadinessModule.storeReadiness,
         storeCompliance: storeComplianceModule.storeCompliance,
         storeListingOptimizer: storeListingOptimizerModule.storeListingOptimizer,
         androidSigning: androidSigningModule.androidSigning,
@@ -1174,6 +1178,18 @@ function App() {
   const supportChannelStatus = supportChannel.status as string
   const supportChannelRepository = supportChannel.repository.target ?? 'missing'
   const supportChannelReady = supportChannelStatus === 'support-channel-ready'
+  const storeSupportInputPack = lateOpsData?.storeReadiness.supportOwnerInputPack
+  const storeSupportUnlockSummary = lateOpsData?.storeReadiness.storeOwnerUnlockSummary
+  const storeSupportTemplateText = (storeSupportInputPack?.localEnvTemplateLines ?? []).join('\n').trim()
+  const storeSupportTemplateCommand =
+    storeSupportInputPack?.commands.setupWriteLocalEnvTemplate ??
+    storeSupportInputPack?.commands.writeLocalEnvTemplate ??
+    ''
+  const storeSupportValidateCommand =
+    storeSupportInputPack?.commands.validate ?? storeSupportInputPack?.commands.refreshStoreReadiness ?? ''
+  const storeSupportSyncCommand = storeSupportInputPack?.commands.syncConfiguredValues ?? ''
+  const storeSupportControls = storeSupportInputPack?.controls
+  const storeSupportBrowserPack = storeSupportInputPack?.browserLocalActionPack
   const supportFeedbackTopSignal = (supportFeedback.topSignals as readonly { label: string }[])[0]
   const supportFeedbackAggregateEvidence = supportFeedback.aggregateEvidence
   const productionMeasurementPublicHandoff = (
@@ -4474,6 +4490,143 @@ function App() {
                   </strong>
                 </div>
               </div>
+              {storeSupportInputPack ? (
+                <div className="monetizationRuntime priorityRuntime" aria-label="Store Support Unlock">
+                  <div>
+                    <span>Store Support Unlock</span>
+                    <strong>{storeSupportInputPack.status}</strong>
+                  </div>
+                  <div>
+                    <span>Unlock</span>
+                    <strong>{storeSupportInputPack.unlockId}</strong>
+                  </div>
+                  <div>
+                    <span>Local env</span>
+                    <strong>{storeSupportInputPack.localEnvFile}</strong>
+                  </div>
+                  <div>
+                    <span>Missing / secrets</span>
+                    <strong>
+                      {storeSupportInputPack.missingInputCount}/{storeSupportInputPack.secretInputCount}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Required input</span>
+                    <strong>{storeSupportInputPack.missingInputNames.join(' + ') || 'none'}</strong>
+                  </div>
+                  <div>
+                    <span>Immediate unlock</span>
+                    <strong>{storeSupportUnlockSummary?.lowestInputUnlockId ?? storeSupportInputPack.unlockId}</strong>
+                  </div>
+                  <div>
+                    <span>Browser pack</span>
+                    <strong>{storeSupportBrowserPack?.status ?? 'missing'}</strong>
+                  </div>
+                  <div>
+                    <span>Guardrails</span>
+                    <strong>
+                      {storeSupportControls?.noAccountCreation &&
+                      storeSupportControls.noStoreSubmission &&
+                      storeSupportControls.noRevenueEnablement
+                        ? 'no account/store/revenue'
+                        : 'review'}
+                    </strong>
+                  </div>
+                  <ul className="ownerUnlockList">
+                    {(storeSupportInputPack.localEnvTemplateLines ?? []).map((line) => (
+                      <li key={line}>
+                        <code>{line}</code>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="ownerUnlockActions">
+                    <button
+                      className="tinyButton"
+                      type="button"
+                      disabled={!storeSupportTemplateText}
+                      onClick={() =>
+                        copyOwnerUnlockPackText('store-support-template', storeSupportTemplateText, {
+                          inputCount: storeSupportInputPack.missingInputCount,
+                          localEnvFile: storeSupportInputPack.localEnvFile,
+                          noGithubMutation: storeSupportControls?.localTemplateWriteNoGithubMutation ?? true,
+                          noSecretValuesStored: storeSupportControls?.noSecretValuesStored ?? true,
+                          noWorkflowDispatchFromPage: storeSupportControls?.noWorkflowDispatch ?? true,
+                          pathId: storeSupportInputPack.unlockId,
+                          publicValuesOnly: storeSupportBrowserPack?.controls.publicValuesOnly ?? true,
+                          secretInputCount: storeSupportInputPack.secretInputCount,
+                          unlockIds: storeSupportInputPack.unlockId,
+                        })
+                      }
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Support template
+                    </button>
+                    <button
+                      className="tinyButton subtleButton"
+                      type="button"
+                      disabled={!storeSupportTemplateCommand}
+                      onClick={() =>
+                        copyOwnerUnlockPackText('store-support-helper', storeSupportTemplateCommand, {
+                          inputCount: storeSupportInputPack.missingInputCount,
+                          localEnvFile: storeSupportInputPack.localEnvFile,
+                          noGithubMutation: storeSupportControls?.localTemplateWriteNoGithubMutation ?? true,
+                          noSecretValuesStored: storeSupportControls?.noSecretValuesStored ?? true,
+                          noWorkflowDispatchFromPage: storeSupportControls?.noWorkflowDispatch ?? true,
+                          pathId: storeSupportInputPack.unlockId,
+                          publicValuesOnly: storeSupportBrowserPack?.controls.publicValuesOnly ?? true,
+                          secretInputCount: storeSupportInputPack.secretInputCount,
+                          unlockIds: storeSupportInputPack.unlockId,
+                        })
+                      }
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Support helper
+                    </button>
+                    <button
+                      className="tinyButton subtleButton"
+                      type="button"
+                      disabled={!storeSupportValidateCommand}
+                      onClick={() =>
+                        copyOwnerUnlockPackText('store-support-validate', storeSupportValidateCommand, {
+                          inputCount: storeSupportInputPack.missingInputCount,
+                          localEnvFile: storeSupportInputPack.localEnvFile,
+                          noGithubMutation: true,
+                          noSecretValuesStored: storeSupportControls?.noSecretValuesStored ?? true,
+                          noWorkflowDispatchFromPage: true,
+                          pathId: storeSupportInputPack.unlockId,
+                          publicValuesOnly: storeSupportBrowserPack?.controls.publicValuesOnly ?? true,
+                          secretInputCount: storeSupportInputPack.secretInputCount,
+                          unlockIds: storeSupportInputPack.unlockId,
+                        })
+                      }
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Validate
+                    </button>
+                    <button
+                      className="tinyButton subtleButton"
+                      type="button"
+                      disabled={!storeSupportSyncCommand}
+                      onClick={() =>
+                        copyOwnerUnlockPackText('store-support-sync', storeSupportSyncCommand, {
+                          inputCount: storeSupportInputPack.missingInputCount,
+                          localEnvFile: storeSupportInputPack.localEnvFile,
+                          noGithubMutation: false,
+                          noSecretValuesStored: storeSupportControls?.noSecretValuesStored ?? true,
+                          noWorkflowDispatchFromPage: storeSupportControls?.noWorkflowDispatch ?? true,
+                          pathId: storeSupportInputPack.unlockId,
+                          publicValuesOnly: storeSupportBrowserPack?.controls.publicValuesOnly ?? true,
+                          secretInputCount: storeSupportInputPack.secretInputCount,
+                          unlockIds: storeSupportInputPack.unlockId,
+                        })
+                      }
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Sync support
+                    </button>
+                  </div>
+                </div>
+              ) : null}
               <div className="monetizationRuntime" aria-label="Support Feedback">
                 <div>
                   <span>Support Feedback</span>

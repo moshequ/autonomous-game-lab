@@ -1,10 +1,38 @@
 export const postDeployArtifactSync = {
-  "generatedAt": "2026-05-26T23:14:42.745Z",
+  "generatedAt": "2026-05-26T23:19:46.846Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": ".env.production.local",
+        "keys": [
+          "VITE_POSTHOG_KEY",
+          "VITE_POSTHOG_HOST",
+          "AGL_SUPPORT_EMAIL"
+        ]
+      },
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL",
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -36,7 +64,7 @@ export const postDeployArtifactSync = {
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "environment-or-cli"
+    "source": "origin-remote"
   },
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
@@ -49,20 +77,20 @@ export const postDeployArtifactSync = {
     "runListAvailable": true
   },
   "deploymentFreshness": {
-    "status": "current-head-deployed",
-    "currentHeadSha": "d2093989913a27061faebbdef25a1e24f6cc925a",
-    "currentHeadParentSha": "25896946fec6c87a800167c45da7ded3e4a8bf2d",
+    "status": "post-deploy-evidence-head-synced",
+    "currentHeadSha": "f558ff90e037fec1772993abb54de79aa8fb0555",
+    "currentHeadParentSha": "d2093989913a27061faebbdef25a1e24f6cc925a",
     "currentBranch": "main",
-    "currentHeadSubject": "Refresh owner loop after audit sync",
+    "currentHeadSubject": "Autonomous post-deploy evidence sync",
     "selectedRunHeadSha": "d2093989913a27061faebbdef25a1e24f6cc925a",
-    "selectedRunHeadMatchesCurrent": true,
+    "selectedRunHeadMatchesCurrent": false,
     "selectedRunHeadMatchesDeploySource": true,
-    "currentHeadIsPostDeployEvidenceCommit": false,
-    "currentHeadDeployed": true,
+    "currentHeadIsPostDeployEvidenceCommit": true,
+    "currentHeadDeployed": false,
     "deploySourceHeadSha": "d2093989913a27061faebbdef25a1e24f6cc925a",
     "deploySourceDeployed": true,
     "currentHeadQueuedOrRunning": false,
-    "currentHeadSuccessfulRunId": 26480509660,
+    "currentHeadSuccessfulRunId": null,
     "currentHeadActiveRunId": null,
     "latestRunId": 26480509660,
     "latestRunStatus": "completed",
@@ -70,9 +98,9 @@ export const postDeployArtifactSync = {
     "latestRunHeadSha": "d2093989913a27061faebbdef25a1e24f6cc925a",
     "liveMatchesCurrentLocalCandidate": false,
     "liveCandidateId": "pwa-6ce42ef57690",
-    "localCandidateId": "pwa-ef5033e60599",
+    "localCandidateId": "pwa-e15b652f161e",
     "liveAggregateHash": "6ce42ef57690f2f9e8e8231a0e0ea1c3e3f1244228df4fcf85fd8eec1d9bc0bb",
-    "localAggregateHash": "ef5033e60599b0fe52ed334b5a913146a79d7239092e48665e17a302537bb208",
+    "localAggregateHash": "e15b652f161ec535380c18ca98265a40ce4e01c34c50b687047695afa4364eb0",
     "workflowRunListAvailable": true
   },
   "artifact": {
@@ -141,7 +169,7 @@ export const postDeployArtifactSync = {
   },
   "summary": {
     "planned": 7,
-    "passed": 7,
+    "passed": 6,
     "failed": 0,
     "blocked": 0
   },
@@ -192,12 +220,12 @@ export const postDeployArtifactSync = {
     },
     {
       "id": "deployment-freshness",
-      "status": "pass",
-      "detail": "Current main d2093989913a is deployed."
+      "status": "monitor",
+      "detail": "Current main f558ff90e037 is the post-deploy evidence commit for deployed source d2093989913a."
     }
   ],
   "nextActions": [
-    "Current main is deployed; keep strict live artifact evidence in sync after each Pages run.",
+    "Current main is the post-deploy evidence commit for the deployed source; deploy again only when public evidence pages must mirror the evidence commit immediately.",
     "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.",
     "Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass."
   ]

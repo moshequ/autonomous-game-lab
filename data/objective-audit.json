@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T23:14:57.379Z",
+  "generatedAt": "2026-05-26T23:20:09.282Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -19,7 +19,7 @@
         "Web readiness: ready-after-build",
         "Manifest in dist: true",
         "Service worker in dist: true",
-        "Release candidate: release-candidate-ready; 93 files",
+        "Release candidate: release-candidate-ready; 94 files",
         "Deployment plan: ready-for-pages"
       ],
       "blockers": [],
@@ -88,7 +88,7 @@
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
-        "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
+        "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-held",
         "Operator history: operator-history-ready; records 40; executed 6",
@@ -243,14 +243,14 @@
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 105,
-    "currentGitWorktreeDirtyFiles": 105,
+    "currentWorktreeClean": false,
+    "currentWorktreeDirtyFiles": 107,
+    "currentGitWorktreeDirtyFiles": 107,
     "currentGeneratedEvidenceDirtyFiles": 105,
-    "currentNonGeneratedWorktreeDirtyFiles": 0,
-    "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
+    "currentNonGeneratedWorktreeDirtyFiles": 2,
+    "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "c9fdf8e5de6c",
+    "productionBootstrapSourceDataHash": "c358cf0a3757",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
