@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T19:42:18.940Z",
+  "generatedAt": "2026-05-26T19:46:16.717Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -904,7 +904,7 @@
       },
       {
         "id": "production-unlock-runner",
-        "status": "blocker",
+        "status": "pass",
         "detail": "Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0."
       },
       {
@@ -6004,7 +6004,7 @@
     "mode": "execute-unlocked-local-followups",
     "sourceStatus": {
       "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
-      "productionBlockerHandoffSourceDataHash": "5b57e78aea25"
+      "productionBlockerHandoffSourceDataHash": "6e24a6b1e01a"
     },
     "summary": {
       "handoffItems": 8,

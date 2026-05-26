@@ -1,14 +1,14 @@
 # Deployment Plan
 
-Generated: 2026-05-26T19:42:23.336Z
-Status: blocked
+Generated: 2026-05-26T19:46:30.477Z
+Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
 
 ## Checks
 
 - pass: web-promotion - Web promotion decision is promotable-internal: Promote the current PWA build to an internal/public web experiment when hosting is connected.
-- blocker: web-readiness - Web readiness is blocked.
+- pass: web-readiness - Pre-deploy web readiness passed; live post-deploy smoke remains blocked.
 - pass: release-health - Release health is monitoring.
 - pass: unit-economics-guard - Spend mode is no-spend; max daily paid spend is $0.00.
 - pass: production-response - Production response is guarded-operations; rollback required is false.

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-26T19:42:23.336Z",
-  "status": "blocked",
+  "generatedAt": "2026-05-26T19:46:30.477Z",
+  "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
     "cost": "$0 platform hosting for public/internal experiment traffic",
@@ -82,8 +82,8 @@
     },
     {
       "id": "web-readiness",
-      "status": "blocker",
-      "detail": "Web readiness is blocked."
+      "status": "pass",
+      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains blocked."
     },
     {
       "id": "release-health",

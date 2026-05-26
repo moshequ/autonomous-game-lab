@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-26T19:42:18.940Z
+Generated: 2026-05-26T19:46:16.717Z
 
 ## Environment
 
@@ -71,7 +71,7 @@ Status: blocked
 - pass: production-environment - Production environment status is production-env-missing.
 - pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 16.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
-- blocker: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
+- pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
 - pass: autonomous-operator - Autonomous operator is operator-executed; selected bootstrap-production-setup; execution executed.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 6.
