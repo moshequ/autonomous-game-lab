@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T13:29:05.707Z",
+  "generatedAt": "2026-05-26T13:33:52.273Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -28,7 +28,6 @@
     "refresh-organic-seed-loop",
     "optimize-daily-retention",
     "collect-gate-sample-local-drops",
-    "refresh-first-move-coach",
     "refresh-completion-loop",
     "refresh-replay-loop",
     "apply-safe-improvements",
@@ -151,9 +150,9 @@
     },
     {
       "id": "refresh-first-move-coach",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:first-move-coach",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-completion-loop",

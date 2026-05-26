@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-26T13:29:05.707Z
+Generated: 2026-05-26T13:33:52.273Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: collect-gate-sample-local-drops
@@ -34,7 +34,6 @@ Execution: not-requested
 - refresh-organic-seed-loop
 - optimize-daily-retention
 - collect-gate-sample-local-drops
-- refresh-first-move-coach
 - refresh-completion-loop
 - refresh-replay-loop
 - apply-safe-improvements
