@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import { gameBalance } from '../data/gameBalance'
-import type { GameSceneSink, GameSnapshot } from './gameTypes'
+import type { FirstMoveCoachRuntime, GameSceneSink, GameSnapshot } from './gameTypes'
 
 type OrbitCard = 'scout' | 'camp' | 'map' | 'relic'
 type Cell = OrbitCard | null
@@ -39,16 +39,20 @@ export class OrbitAtlasScene extends Phaser.Scene {
   private moves = 0
   private completed = false
   private tutorialCompleted = false
+  private firstMoveCoachShown = false
+  private firstMoveCoachResolved = false
   private sink: GameSceneSink
   private pacingVariant: string
+  private firstMoveCoach: FirstMoveCoachRuntime | null
   private hudLayer?: Phaser.GameObjects.Container
   private boardLayer?: Phaser.GameObjects.Container
   private marketLayer?: Phaser.GameObjects.Container
 
-  constructor(options: { sink: GameSceneSink; pacingVariant: string }) {
+  constructor(options: { sink: GameSceneSink; pacingVariant: string; firstMoveCoach?: FirstMoveCoachRuntime | null }) {
     super('OrbitAtlas')
     this.sink = options.sink
     this.pacingVariant = options.pacingVariant
+    this.firstMoveCoach = options.firstMoveCoach ?? null
   }
 
   create() {
@@ -60,6 +64,7 @@ export class OrbitAtlasScene extends Phaser.Scene {
       targetScore,
     })
     this.emitMetric('game_started', { gameId: 'orbit-atlas', targetScore })
+    this.emitFirstMoveCoachShown()
     this.emitSnapshot()
   }
 
@@ -72,6 +77,8 @@ export class OrbitAtlasScene extends Phaser.Scene {
     this.moves = 0
     this.completed = false
     this.tutorialCompleted = false
+    this.firstMoveCoachShown = false
+    this.firstMoveCoachResolved = false
   }
 
   private draw() {
@@ -233,6 +240,7 @@ export class OrbitAtlasScene extends Phaser.Scene {
         tile.lineStyle(2, 0xd9d0bf, 1)
         tile.fillRoundedRect(x, y, cellWidth, cellHeight, 8)
         tile.strokeRoundedRect(x, y, cellWidth, cellHeight, 8)
+        this.drawFirstMoveCoach(row, col, x, y, cellWidth, cellHeight)
 
         const zone = this.add
           .zone(x, y, cellWidth, cellHeight)
@@ -290,6 +298,8 @@ export class OrbitAtlasScene extends Phaser.Scene {
     if (this.board[row][col]) {
       return
     }
+
+    this.resolveFirstMoveCoach(row, col)
 
     if (!this.tutorialCompleted) {
       this.tutorialCompleted = true
@@ -361,6 +371,77 @@ export class OrbitAtlasScene extends Phaser.Scene {
     }
 
     return `Draft a card, build an expedition row, beat ${targetScore}.`
+  }
+
+  private shouldShowFirstMoveCoach() {
+    return Boolean(this.firstMoveCoach && this.moves === 0 && !this.completed)
+  }
+
+  private drawFirstMoveCoach(row: number, col: number, x: number, y: number, width: number, height: number) {
+    if (!this.boardLayer || !this.shouldShowFirstMoveCoach()) {
+      return
+    }
+
+    if (this.firstMoveCoach?.recommendedCell.row !== row || this.firstMoveCoach.recommendedCell.col !== col) {
+      return
+    }
+
+    const ring = this.add.graphics()
+    ring.lineStyle(4, 0x357a38, 1)
+    ring.strokeRoundedRect(x + 4, y + 4, width - 8, height - 8, 10)
+    ring.fillStyle(0x357a38, 0.12)
+    ring.fillRoundedRect(x + 4, y + 4, width - 8, height - 8, 10)
+
+    const label = this.add
+      .text(x + width / 2, y + height / 2 - 8, this.firstMoveCoach.copy, {
+        align: 'center',
+        color: '#1f5b2e',
+        fontFamily: 'system-ui',
+        fontSize: '13px',
+        fontStyle: '800',
+      })
+      .setOrigin(0.5, 0)
+
+    this.boardLayer.add([ring, label])
+  }
+
+  private emitFirstMoveCoachShown() {
+    if (!this.shouldShowFirstMoveCoach() || this.firstMoveCoachShown || !this.firstMoveCoach) {
+      return
+    }
+
+    this.firstMoveCoachShown = true
+    this.emitMetric('first_move_coach_shown', {
+      gameId: 'orbit-atlas',
+      variantId: this.pacingVariant,
+      surface: this.firstMoveCoach.surface,
+      telemetryId: this.firstMoveCoach.telemetryId,
+      recommendedRow: this.firstMoveCoach.recommendedCell.row,
+      recommendedCol: this.firstMoveCoach.recommendedCell.col,
+      targetScore,
+    })
+  }
+
+  private resolveFirstMoveCoach(row: number, col: number) {
+    if (!this.shouldShowFirstMoveCoach() || this.firstMoveCoachResolved || !this.firstMoveCoach) {
+      return
+    }
+
+    this.firstMoveCoachResolved = true
+    const used =
+      row === this.firstMoveCoach.recommendedCell.row && col === this.firstMoveCoach.recommendedCell.col
+
+    this.emitMetric(used ? 'first_move_coach_used' : 'first_move_coach_skipped', {
+      gameId: 'orbit-atlas',
+      variantId: this.pacingVariant,
+      surface: this.firstMoveCoach.surface,
+      telemetryId: this.firstMoveCoach.telemetryId,
+      row,
+      col,
+      recommendedRow: this.firstMoveCoach.recommendedCell.row,
+      recommendedCol: this.firstMoveCoach.recommendedCell.col,
+      targetScore,
+    })
   }
 
   private currentSnapshot(): GameSnapshot {

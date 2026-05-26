@@ -31,22 +31,22 @@ const createScene = async ({
 
   if (gameId === 'foundry-ledger') {
     const { FoundryLedgerScene } = await import('../game/FoundryLedgerScene')
-    return new FoundryLedgerScene({ sink: onEvent, pacingVariant: variantId })
+    return new FoundryLedgerScene({ sink: onEvent, pacingVariant: variantId, firstMoveCoach: firstMoveCoachTarget })
   }
 
   if (gameId === 'orbit-atlas') {
     const { OrbitAtlasScene } = await import('../game/OrbitAtlasScene')
-    return new OrbitAtlasScene({ sink: onEvent, pacingVariant: variantId })
+    return new OrbitAtlasScene({ sink: onEvent, pacingVariant: variantId, firstMoveCoach: firstMoveCoachTarget })
   }
 
   if (gameId === 'harbor-circuit') {
     const { HarborCircuitScene } = await import('../game/HarborCircuitScene')
-    return new HarborCircuitScene({ sink: onEvent, pacingVariant: variantId })
+    return new HarborCircuitScene({ sink: onEvent, pacingVariant: variantId, firstMoveCoach: firstMoveCoachTarget })
   }
 
   if (gameId === 'lantern-relay') {
     const { LanternRelayScene } = await import('../game/LanternRelayScene')
-    return new LanternRelayScene({ sink: onEvent, pacingVariant: variantId })
+    return new LanternRelayScene({ sink: onEvent, pacingVariant: variantId, firstMoveCoach: firstMoveCoachTarget })
   }
 
   const generatedConfig = generatedPlayableGames.find((game) => game.id === gameId)

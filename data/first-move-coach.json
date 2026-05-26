@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T19:50:10.722Z",
+  "generatedAt": "2026-05-26T20:02:37.538Z",
   "sourceDataHash": "14b56ea245c6",
   "status": "first-move-coach-ready",
   "sourceStatus": {
@@ -34,7 +34,7 @@
   "summary": {
     "enabled": true,
     "targets": 10,
-    "enabledTargets": 6,
+    "enabledTargets": 10,
     "primaryTargetId": "harbor-rings",
     "completionGap": 0.153,
     "tutorialGap": 0.097,
@@ -179,7 +179,7 @@
     {
       "gameId": "foundry-ledger",
       "title": "Foundry Ledger",
-      "enabled": false,
+      "enabled": true,
       "variantId": "fast-start",
       "surface": "game-board-first-turn",
       "recommendedCell": {
@@ -192,7 +192,7 @@
         "cols": 4
       },
       "generatedRuntime": false,
-      "runtimeSupported": false,
+      "runtimeSupported": true,
       "priorityScore": 0,
       "evidence": {
         "shown": 0,
@@ -243,7 +243,7 @@
     {
       "gameId": "harbor-circuit",
       "title": "Harbor Circuit",
-      "enabled": false,
+      "enabled": true,
       "variantId": "fast-start",
       "surface": "game-board-first-turn",
       "recommendedCell": {
@@ -256,7 +256,7 @@
         "cols": 4
       },
       "generatedRuntime": false,
-      "runtimeSupported": false,
+      "runtimeSupported": true,
       "priorityScore": 0,
       "evidence": {
         "shown": 0,
@@ -275,7 +275,7 @@
     {
       "gameId": "lantern-relay",
       "title": "Lantern Relay",
-      "enabled": false,
+      "enabled": true,
       "variantId": "fast-start",
       "surface": "game-board-first-turn",
       "recommendedCell": {
@@ -288,7 +288,7 @@
         "cols": 5
       },
       "generatedRuntime": false,
-      "runtimeSupported": false,
+      "runtimeSupported": true,
       "priorityScore": 0,
       "evidence": {
         "shown": 0,
@@ -371,7 +371,7 @@
     {
       "gameId": "orbit-atlas",
       "title": "Orbit Atlas",
-      "enabled": false,
+      "enabled": true,
       "variantId": "fast-start",
       "surface": "game-board-first-turn",
       "recommendedCell": {
@@ -384,7 +384,7 @@
         "cols": 4
       },
       "generatedRuntime": false,
-      "runtimeSupported": false,
+      "runtimeSupported": true,
       "priorityScore": 0,
       "evidence": {
         "shown": 0,

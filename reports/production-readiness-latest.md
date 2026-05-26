@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-26T19:50:11.707Z
+Generated: 2026-05-26T20:03:27.123Z
 
 ## Environment
 
@@ -59,12 +59,12 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 670.5 KB / 178.6 KB gzip; deferred game chunk GameCanvas-DUZrAL4v.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 670.1 KB / 178.3 KB gzip; deferred game chunk GameCanvas-BPsZ1wtZ.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 93; smoke URLs 33.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed; live matches synced deploy true.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
-- pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 6; primary harbor-rings.
+- pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 10; primary harbor-rings.
 - pass: completion-loop - Completion loop is completion-loop-ready; prompt armed; target harbor-rings.
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
@@ -122,24 +122,24 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 670.5 KB (178.6 KB gzip)
-Deferred game chunk: GameCanvas-DUZrAL4v.js
-- pass: performance-initial-js-target - Initial JS is 670.5 KB; target is 686 KB.
-- pass: performance-initial-js-budget - Initial JS is 670.5 KB; deploy cap is 700 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 178.6 KB; budget is 200 KB.
+Initial JS: 670.1 KB (178.3 KB gzip)
+Deferred game chunk: GameCanvas-BPsZ1wtZ.js
+- pass: performance-initial-js-target - Initial JS is 670.1 KB; target is 686 KB.
+- pass: performance-initial-js-budget - Initial JS is 670.1 KB; deploy cap is 700 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 178.3 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 12 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-DUZrAL4v.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas-BPsZ1wtZ.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-625bf75f84d1
+Candidate: pwa-a3d646cb2239
 Files: 93
-Aggregate SHA-256: 625bf75f84d1fa3378732faf03f724cf3726183458663bf89fa34438db558e7f
+Aggregate SHA-256: a3d646cb2239d11c41d837b5eebb013d3dd44cf9bba72ab880d2425c96d8a547
 - pass: release-dist-inventory - 93 dist files inventoried.
 - pass: release-required-files - 38/38 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -241,14 +241,14 @@ Replay: 0.309 / 0.35
 ## First Move Coach
 
 Status: first-move-coach-ready
-Enabled targets: 6
+Enabled targets: 10
 Primary target: harbor-rings
 - enabled: coach-harbor-rings - completion 39% and tutorial 67%
 - enabled: coach-canopy-bloom - generated daily/portfolio game without live row yet
-- monitor: coach-foundry-ledger - playable game without live row yet
+- enabled: coach-foundry-ledger - playable game without live row yet
 - enabled: coach-guild-garden - generated daily/portfolio game without live row yet
-- monitor: coach-harbor-circuit - playable game without live row yet
-- monitor: coach-lantern-relay - playable game without live row yet
+- enabled: coach-harbor-circuit - playable game without live row yet
+- enabled: coach-lantern-relay - playable game without live row yet
 - enabled: coach-market-pulse - generated daily/portfolio game without live row yet
 - enabled: coach-metro-loom - generated daily/portfolio game without live row yet
 

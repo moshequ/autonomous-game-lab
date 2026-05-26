@@ -53,6 +53,13 @@ const sourceDataHash = hashSourceData({
 const playableIds = new Set(playable.games ?? [])
 const analyticsRows = new Map((analytics.games ?? []).map((game) => [game.gameId, game]))
 const generatedById = new Map((generatedPlayable.games ?? []).map((game) => [game.id, game]))
+const nativeCoachGameIds = new Set([
+  'foundry-ledger',
+  'harbor-circuit',
+  'harbor-rings',
+  'lantern-relay',
+  'orbit-atlas',
+])
 const pacingPolicy = experimentPolicy.experiments?.first_session_pacing
 const fastStartWeight = pacingPolicy?.variants?.find((variant) => variant.id === 'fast-start')?.weight ?? 0
 const guidedWeight = pacingPolicy?.variants?.find((variant) => variant.id === 'guided')?.weight ?? 0
@@ -146,7 +153,7 @@ const targets = [...playableIds]
     const row = rowFor(shape.rows)
     const col = colFor(shape.cols)
     const generatedRuntime = Boolean(generated)
-    const runtimeSupported = gameId === 'harbor-rings' || generatedRuntime
+    const runtimeSupported = nativeCoachGameIds.has(gameId) || generatedRuntime
     const priorityScore = scoreTarget(gameId)
     const evidence = targetEvidenceFor(gameId)
     const sourceReason = analyticsRow

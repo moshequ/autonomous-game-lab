@@ -3963,7 +3963,7 @@ test('direct root visits route into the default gate sample without paid traffic
 test('first move coach highlights a safe opening and records coach telemetry', async ({ page }) => {
   const coach = JSON.parse(await readFile('data/first-move-coach.json', 'utf8')) as {
     status: string
-    summary: { enabledTargets: number; coachSampleStatus: string; coachDecision: string }
+    summary: { targets: number; enabledTargets: number; coachSampleStatus: string; coachDecision: string }
     metrics: { shown: number; used: number; skipped: number; usageRate: number; skipRate: number }
     samplePolicy: {
       status: string
@@ -3986,9 +3986,12 @@ test('first move coach highlights a safe opening and records coach telemetry', a
     }>
   }
   const harborTarget = coach.targets.find((target) => target.gameId === 'harbor-rings')
+  const foundryTarget = coach.targets.find((target) => target.gameId === 'foundry-ledger')
+  const nativeCoachTargets = ['foundry-ledger', 'harbor-circuit', 'lantern-relay', 'orbit-atlas']
 
   expect(coach.status).toBe('first-move-coach-ready')
-  expect(coach.summary.enabledTargets).toBeGreaterThan(0)
+  expect(coach.summary.targets).toBe(coach.targets.length)
+  expect(coach.summary.enabledTargets).toBe(coach.targets.length)
   expect(coach.summary.coachSampleStatus).toBe(coach.samplePolicy.status)
   expect(coach.summary.coachDecision).toBe(coach.decisionPolicy.currentDecision)
   expect(coach.metrics).toMatchObject({ shown: 0, used: 0, skipped: 0 })
@@ -4011,11 +4014,21 @@ test('first move coach highlights a safe opening and records coach telemetry', a
   expect(coach.controls.firstTurnOnly).toBe(true)
   expect(coach.controls.noAutoMove).toBe(true)
   expect(coach.controls.noDecisionWithoutSample).toBe(true)
+  for (const gameId of nativeCoachTargets) {
+    const target = coach.targets.find((item) => item.gameId === gameId)
+    expect(target?.enabled).toBe(true)
+    expect(target?.runtimeSupported).toBe(true)
+    expect(target?.variantId).toBe('fast-start')
+  }
   expect(harborTarget?.enabled).toBe(true)
   expect(harborTarget?.runtimeSupported).toBe(true)
   expect(harborTarget?.variantId).toBe('fast-start')
   expect(harborTarget?.recommendedCell).toMatchObject({ row: 2, col: 2 })
   expect(harborTarget?.evidence).toMatchObject({ shown: 0, used: 0, skipped: 0, sampleReady: false })
+  expect(foundryTarget?.enabled).toBe(true)
+  expect(foundryTarget?.runtimeSupported).toBe(true)
+  expect(foundryTarget?.recommendedCell).toMatchObject({ row: 1, col: 1 })
+  expect(foundryTarget?.evidence).toMatchObject({ shown: 0, used: 0, skipped: 0, sampleReady: false })
 
   await page.addInitScript(() => {
     window.localStorage.setItem('agl.experiment.first_session_pacing', 'fast-start')
@@ -4064,6 +4077,47 @@ test('first move coach highlights a safe opening and records coach telemetry', a
   expect(tutorialEvent.properties.tutorialCopySentences).toBe(1)
   expect(tutorialEvent.properties.tutorialCopyChars).toBeLessThanOrEqual(60)
   expect(tutorialEvent.properties.targetGate).toBe('firstGameCompletion')
+
+  await page.goto('/?game=foundry-ledger')
+  await expect(
+    page.getByLabel('Autonomy cockpit').getByRole('heading', { name: 'Foundry Ledger' }),
+  ).toBeVisible()
+  await expect(page.getByLabel('First Move Coach')).toContainText(coach.samplePolicy.status)
+  await expect(page.getByLabel('First Move Coach')).toContainText(coach.decisionPolicy.currentDecision)
+
+  const foundryBox = await canvas.boundingBox()
+  expect(foundryBox).not.toBeNull()
+
+  if (!foundryBox || !foundryTarget) {
+    return
+  }
+
+  await page.mouse.click(foundryBox.x + (212 / 560) * foundryBox.width, foundryBox.y + (232 / 500) * foundryBox.height)
+  await expect(page.getByText(/^1\/\d+$/).first()).toBeVisible()
+
+  const foundryCoachEvents = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    const events = raw ? JSON.parse(raw) : []
+    return {
+      shown: events.findLast(
+        (event: { name: string; properties: { gameId?: string } }) =>
+          event.name === 'first_move_coach_shown' && event.properties.gameId === 'foundry-ledger',
+      ),
+      used: events.findLast(
+        (event: { name: string; properties: { gameId?: string } }) =>
+          event.name === 'first_move_coach_used' && event.properties.gameId === 'foundry-ledger',
+      ),
+    }
+  })
+
+  expect(foundryCoachEvents.shown.properties.gameId).toBe('foundry-ledger')
+  expect(foundryCoachEvents.shown.properties.recommendedRow).toBe(foundryTarget.recommendedCell.row)
+  expect(foundryCoachEvents.shown.properties.recommendedCol).toBe(foundryTarget.recommendedCell.col)
+  expect(foundryCoachEvents.used.properties.gameId).toBe('foundry-ledger')
+  expect(foundryCoachEvents.used.properties.row).toBe(foundryTarget.recommendedCell.row)
+  expect(foundryCoachEvents.used.properties.col).toBe(foundryTarget.recommendedCell.col)
+  expect(foundryCoachEvents.used.properties.recommendedRow).toBe(foundryTarget.recommendedCell.row)
+  expect(foundryCoachEvents.used.properties.recommendedCol).toBe(foundryTarget.recommendedCell.col)
 })
 
 test('production bootstrap emits zero-spend setup handoff artifacts', async ({ page }) => {
