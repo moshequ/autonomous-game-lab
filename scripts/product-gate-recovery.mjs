@@ -72,6 +72,10 @@ const replayLoopSourceEvidence = {
 }
 const retentionLoopSourceEvidence = {
   status: retentionLoop.status,
+  rewardSurfacePolicy: {
+    surface: retentionLoop.rewardSurfacePolicy?.surface ?? null,
+    telemetry: retentionLoop.rewardSurfacePolicy?.telemetry ?? null,
+  },
   promptPolicy: {
     telemetry: retentionLoop.promptPolicy?.telemetry ?? null,
   },
@@ -152,10 +156,12 @@ const gateRows = [
     ownerLoop: 'retention-loop',
     runtimeSurface: retentionLoop.returnIntentPolicy?.surface,
     viewTelemetry: [
+      retentionLoop.rewardSurfacePolicy?.telemetry?.viewed,
       retentionLoop.promptPolicy?.telemetry?.viewed,
       retentionLoop.returnIntentPolicy?.telemetry?.viewed,
     ].filter(Boolean),
     actionTelemetry: [
+      retentionLoop.rewardSurfacePolicy?.telemetry?.clicked,
       retentionLoop.promptPolicy?.telemetry?.clicked,
       retentionLoop.returnLinkPolicy?.telemetry?.copied,
       retentionLoop.returnCalendarPolicy?.telemetry?.downloaded,

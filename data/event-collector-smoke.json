@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T18:53:13.065Z",
+  "generatedAt": "2026-05-26T19:39:45.269Z",
   "status": "pass",
   "fixture": {
     "sourceFile": "data/generated-playable-games.json",
@@ -9,11 +9,11 @@
   "collector": {
     "postStatus": "accepted",
     "beaconStatus": "accepted",
-    "storedEvents": 21,
-    "exportedEvents": 21,
+    "storedEvents": 22,
+    "exportedEvents": 22,
     "files": 2,
     "summaryStatus": 200,
-    "summaryEvents": 21,
+    "summaryEvents": 22,
     "summaryFilesIncluded": 2,
     "ownerUnlockPackCopied": 1,
     "summaryAggregateOnly": true,
@@ -24,7 +24,7 @@
   },
   "ingest": {
     "status": "imported",
-    "importedEvents": 21,
+    "importedEvents": 22,
     "remoteCollectorStatus": "available"
   },
   "analytics": {
@@ -45,6 +45,7 @@
       "tutorial_completed": 1,
       "completion_nudge_viewed": 1,
       "replay_prompt_clicked": 1,
+      "daily_goal_reward_clicked": 1,
       "daily_return_prompt_clicked": 1,
       "pwa_install_prompt_available": 1,
       "pwa_install_prompt_clicked": 1,

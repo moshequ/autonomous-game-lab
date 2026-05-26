@@ -19,6 +19,51 @@ export const retentionLoop = {
     "returnIntentStartedKey": "agl.retention.returnIntentStartedDate",
     "returnIntentClearedKey": "agl.retention.returnIntentClearedDate"
   },
+  "rewardPolicy": {
+    "recommendedVariant": "daily-streak",
+    "runnerUpVariant": "score-booster",
+    "confidence": 95,
+    "currentDailyStreakWeight": 80,
+    "primaryMetric": "replayRate",
+    "winnerReplayRate": 0.354,
+    "runnerUpReplayRate": 0.226,
+    "replayRateLift": 0.128,
+    "action": "promote-winner",
+    "reason": "daily-streak beat score-booster on replayRate with 95% confidence",
+    "controls": {
+      "localOnly": true,
+      "noPaidRewards": true,
+      "noAds": true,
+      "noCurrency": true,
+      "noAccountRequired": true,
+      "noRevenueEnablement": true
+    }
+  },
+  "rewardSurfacePolicy": {
+    "status": "armed",
+    "surface": "autonomy-cockpit-daily-reward-result",
+    "trigger": "after-completed-run",
+    "label": "Daily reward",
+    "ctaLabel": "Queue tomorrow",
+    "copy": "Streak credit banked. Save tomorrow's board to turn this finish into a real D1 return.",
+    "animation": "streak-pulse",
+    "reason": "Daily-streak reward framing is the current reward_offer winner; show it as the post-run result moment.",
+    "telemetry": {
+      "viewed": "daily_goal_reward_viewed",
+      "clicked": "daily_goal_reward_clicked"
+    },
+    "controls": {
+      "localOnly": true,
+      "playerInitiatedOnly": true,
+      "noPaidRewards": true,
+      "noAds": true,
+      "noCurrency": true,
+      "noNotificationPermissionRequest": true,
+      "noPushNotifications": true,
+      "noAccountRequired": true,
+      "noRevenueEnablement": true
+    }
+  },
   "samplePolicy": {
     "status": "collecting-sample",
     "campaignId": "gate-sample-20260526-d1Retention",

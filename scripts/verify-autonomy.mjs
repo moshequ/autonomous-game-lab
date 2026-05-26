@@ -1669,6 +1669,7 @@ if (
   eventCollectorSmoke.analytics?.counts?.first_move_coach_shown < 1 ||
   eventCollectorSmoke.analytics?.counts?.completion_nudge_viewed < 1 ||
   eventCollectorSmoke.analytics?.counts?.replay_prompt_clicked < 1 ||
+  eventCollectorSmoke.analytics?.counts?.daily_goal_reward_clicked < 1 ||
   eventCollectorSmoke.analytics?.counts?.daily_return_prompt_clicked < 1 ||
   eventCollectorSmoke.analytics?.counts?.pwa_install_prompt_available < 1 ||
   eventCollectorSmoke.analytics?.counts?.pwa_install_prompt_clicked < 1 ||
@@ -2221,6 +2222,8 @@ if (
 
 const retentionMissionIds = new Set((retentionLoop.missions ?? []).map((mission) => mission.id))
 const retentionPromptEvents = [
+  'daily_goal_reward_viewed',
+  'daily_goal_reward_clicked',
   'daily_return_prompt_viewed',
   'daily_return_prompt_clicked',
   'daily_return_prompt_dismissed',
@@ -2264,6 +2267,18 @@ if (
   retentionLoop.localState?.returnIntentClearedKey !== 'agl.retention.returnIntentClearedDate' ||
   retentionLoop.rewardPolicy?.recommendedVariant !== (rewardOfferWinner ?? 'daily-streak') ||
   retentionLoop.rewardPolicy?.currentDailyStreakWeight !== dailyStreakWeight ||
+  !['armed', 'monitor'].includes(retentionLoop.rewardSurfacePolicy?.status) ||
+  retentionLoop.rewardSurfacePolicy?.surface !== 'autonomy-cockpit-daily-reward-result' ||
+  retentionLoop.rewardSurfacePolicy?.trigger !== 'after-completed-run' ||
+  retentionLoop.rewardSurfacePolicy?.telemetry?.viewed !== 'daily_goal_reward_viewed' ||
+  retentionLoop.rewardSurfacePolicy?.telemetry?.clicked !== 'daily_goal_reward_clicked' ||
+  retentionLoop.rewardSurfacePolicy?.animation !== 'streak-pulse' ||
+  retentionLoop.rewardSurfacePolicy?.controls?.playerInitiatedOnly !== true ||
+  retentionLoop.rewardSurfacePolicy?.controls?.noPaidRewards !== true ||
+  retentionLoop.rewardSurfacePolicy?.controls?.noAds !== true ||
+  retentionLoop.rewardSurfacePolicy?.controls?.noNotificationPermissionRequest !== true ||
+  retentionLoop.rewardSurfacePolicy?.controls?.noPushNotifications !== true ||
+  retentionLoop.rewardSurfacePolicy?.controls?.noRevenueEnablement !== true ||
   !['armed', 'monitor'].includes(retentionLoop.promptPolicy?.status) ||
   retentionLoop.promptPolicy?.surface !== 'autonomy-cockpit-retention-card' ||
   retentionLoop.promptPolicy?.trigger !== 'after-completed-run' ||
@@ -2339,6 +2354,7 @@ if (
   retentionLoop.controls?.returnIntentPlayerInitiatedOnly !== true ||
   retentionLoop.controls?.noBackgroundWakeups !== true ||
   !retentionMissionIds.has('finish-daily-challenge') ||
+  !retentionMissionIds.has('show-daily-goal-reward') ||
   !retentionMissionIds.has('return-tomorrow') ||
   !retentionMissionIds.has('confirm-return-intent') ||
   !retentionMissionIds.has('copy-return-link') ||
@@ -2351,6 +2367,12 @@ if (
       mission.event === 'daily_challenge_completed' &&
       mission.gameId === retentionLoop.dailyChallenge?.gameId &&
       mission.status === 'armed',
+  ) ||
+  !retentionLoop.missions?.some(
+    (mission) =>
+      mission.id === 'show-daily-goal-reward' &&
+      mission.event === 'daily_goal_reward_viewed' &&
+      mission.gameId === retentionLoop.dailyChallenge?.gameId,
   ) ||
   !retentionLoop.missions?.some(
     (mission) =>
@@ -2704,6 +2726,10 @@ const productGateRecoverySourceDataHash = hashSourceData({
   },
   retentionLoop: {
     status: retentionLoop.status,
+    rewardSurfacePolicy: {
+      surface: retentionLoop.rewardSurfacePolicy?.surface ?? null,
+      telemetry: retentionLoop.rewardSurfacePolicy?.telemetry ?? null,
+    },
     promptPolicy: {
       telemetry: retentionLoop.promptPolicy?.telemetry ?? null,
     },

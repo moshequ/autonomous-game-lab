@@ -1,5 +1,5 @@
 export const localEventBridge = {
-  "generatedAt": "2026-05-26T14:23:06.955Z",
+  "generatedAt": "2026-05-26T19:14:36.948Z",
   "status": "bridge-waiting-for-export",
   "mode": "local-zero-spend-event-drop-bridge",
   "inbox": {
@@ -81,6 +81,8 @@ export const localEventBridge = {
         "level_completed",
         "replay_prompt_viewed",
         "replay_clicked",
+        "daily_goal_reward_viewed",
+        "daily_goal_reward_clicked",
         "daily_return_link_copied",
         "daily_return_calendar_downloaded",
         "daily_return_intent_started"
@@ -105,7 +107,7 @@ export const localEventBridge = {
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T13:53:13.086Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 96.5,
+    "scanAgeHours": 101.36,
     "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
   },

@@ -6836,6 +6836,21 @@ test('daily return prompt captures a local return intent after a completed run',
   const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
     localState: { returnIntentKey: string }
     promptPolicy: { ctaLabel: string; copy: string; nextChallengeDate: string; telemetry: { clicked: string; viewed: string } }
+    rewardSurfacePolicy: {
+      label: string
+      ctaLabel: string
+      copy: string
+      animation: string
+      surface: string
+      telemetry: { viewed: string; clicked: string }
+      controls: {
+        noPaidRewards: boolean
+        noAds: boolean
+        noNotificationPermissionRequest: boolean
+        noPushNotifications: boolean
+        noRevenueEnablement: boolean
+      }
+    }
     returnLinkPolicy: {
       ctaLabel: string
       queryParam: string
@@ -6940,8 +6955,17 @@ test('daily return prompt captures a local return intent after a completed run',
   }
 
   const dailyRetention = page.getByLabel('Daily Retention')
+  const dailyReward = dailyRetention.getByLabel('Daily goal reward result')
+  await expect(dailyReward).toContainText(retention.rewardSurfacePolicy.label)
+  await expect(dailyReward).toContainText(retention.rewardSurfacePolicy.copy)
   await expect(dailyRetention).toContainText('Return prompt')
   await expect(dailyRetention).toContainText(retention.promptPolicy.copy)
+  expect(retention.rewardSurfacePolicy.animation).toBe('streak-pulse')
+  expect(retention.rewardSurfacePolicy.controls.noPaidRewards).toBe(true)
+  expect(retention.rewardSurfacePolicy.controls.noAds).toBe(true)
+  expect(retention.rewardSurfacePolicy.controls.noNotificationPermissionRequest).toBe(true)
+  expect(retention.rewardSurfacePolicy.controls.noPushNotifications).toBe(true)
+  expect(retention.rewardSurfacePolicy.controls.noRevenueEnablement).toBe(true)
   expect(retention.rewardPolicy.recommendedVariant).toBe('daily-streak')
   expect(retention.rewardPolicy.controls.noPaidRewards).toBe(true)
   expect(retention.rewardPolicy.controls.noAds).toBe(true)
@@ -6999,6 +7023,12 @@ test('daily return prompt captures a local return intent after a completed run',
   const viewed = events.findLast(
     (event: { name: string }) => event.name === 'daily_return_prompt_viewed',
   )
+  const rewardViewed = events.findLast(
+    (event: { name: string }) => event.name === retention.rewardSurfacePolicy.telemetry.viewed,
+  )
+  const rewardClicked = events.findLast(
+    (event: { name: string }) => event.name === retention.rewardSurfacePolicy.telemetry.clicked,
+  )
   const clicked = events.findLast(
     (event: { name: string }) => event.name === 'daily_return_prompt_clicked',
   )
@@ -7018,6 +7048,13 @@ test('daily return prompt captures a local return intent after a completed run',
   )
   expect(returnUrl.searchParams.get('utm_source')).toBe('gate_sample')
   expect(viewed.properties.gameId).toBe('harbor-rings')
+  expect(rewardViewed.properties.surface).toBe(retention.rewardSurfacePolicy.surface)
+  expect(rewardViewed.properties.animation).toBe(retention.rewardSurfacePolicy.animation)
+  expect(rewardClicked.properties.surface).toBe(retention.rewardSurfacePolicy.surface)
+  expect(rewardClicked.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
+  expect(rewardClicked.properties.noPushNotifications).toBe(true)
+  expect(rewardClicked.properties.noNotificationPermissionRequest).toBe(true)
+  expect(rewardClicked.properties.noRevenueEnablement).toBe(true)
   expect(copied.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
   expect(copied.properties.noPushNotifications).toBe(true)
   expect(copied.properties.noNotificationPermissionRequest).toBe(true)

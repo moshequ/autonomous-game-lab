@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-26T19:01:30.054Z",
-  "sourceDataHash": "4fe46b3a5091",
+  "generatedAt": "2026-05-26T19:35:14.458Z",
+  "sourceDataHash": "458a7de02e26",
   "status": "product-gate-recovery-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -117,10 +117,12 @@
       "ownerLoop": "retention-loop",
       "runtimeSurface": "autonomy-cockpit-return-intent-card",
       "viewTelemetry": [
+        "daily_goal_reward_viewed",
         "daily_return_prompt_viewed",
         "daily_return_intent_viewed"
       ],
       "actionTelemetry": [
+        "daily_goal_reward_clicked",
         "daily_return_prompt_clicked",
         "daily_return_link_copied",
         "daily_return_calendar_downloaded",
@@ -189,7 +191,7 @@
       "promptViewsNeeded": 10,
       "experimentStatus": "collecting-sample",
       "recommendedChange": "hold-current-runtime-copy",
-      "nextMeasurement": "daily_return_prompt_viewed, daily_return_intent_viewed, daily_return_prompt_clicked, daily_return_link_copied, daily_return_calendar_downloaded, daily_return_intent_started, daily_return_intent_started",
+      "nextMeasurement": "daily_goal_reward_viewed, daily_return_prompt_viewed, daily_return_intent_viewed, daily_goal_reward_clicked, daily_return_prompt_clicked, daily_return_link_copied, daily_return_calendar_downloaded, daily_return_intent_started, daily_return_intent_started",
       "reason": "D1 retention is the fastest gate to re-test with real retained-player evidence."
     }
   ],

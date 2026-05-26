@@ -1,6 +1,6 @@
 # Retention Loop
 
-Generated: 2026-05-26T14:23:07.988Z
+Generated: 2026-05-26T19:32:37.179Z
 Status: retention-loop-ready
 Daily challenge: Market Pulse (market-pulse)
 D1 retention: 17%
@@ -9,6 +9,7 @@ Replay rate: 31%
 ## Missions
 
 - armed: finish-daily-challenge - Finish Market Pulse
+- armed: show-daily-goal-reward - Show daily goal reward after a finished run
 - armed: return-tomorrow - Return tomorrow for a fresh board
 - armed: confirm-return-intent - Queue 2026-05-27 board intent
 - armed: copy-return-link - Copy 2026-05-27 return link
@@ -22,6 +23,14 @@ Replay rate: 31%
 - Daily streak weight: 80
 - Replay-rate lift: 13%
 - Reason: daily-streak beat score-booster on replayRate with 95% confidence
+
+## Reward Surface
+
+- Status: armed
+- Surface: autonomy-cockpit-daily-reward-result
+- Copy: Streak credit banked. Save tomorrow's board to turn this finish into a real D1 return.
+- Animation: streak-pulse
+- Telemetry: daily_goal_reward_viewed, daily_goal_reward_clicked
 
 ## Return Prompt
 

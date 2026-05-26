@@ -1,11 +1,11 @@
 # Autonomous Operator
 
-Generated: 2026-05-26T19:01:31.887Z
-Status: operator-held
-Mode: plan-only
-Owner decision: hold-for-external-input
-Selected action: none
-Execution: not-requested
+Generated: 2026-05-26T19:40:49.308Z
+Status: operator-executed
+Mode: execute-one-action
+Owner decision: bootstrap-production-setup
+Selected action: bootstrap-production-setup
+Execution: executed
 
 ## Controls
 
@@ -18,23 +18,32 @@ Execution: not-requested
 
 ## Selected Action
 
-- none: no eligible local actions
+- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 
 ## External Input Handoff
 
-- next unlock: production-analytics-browser
-- recommended path: first-party-collector
-- lowest-input path: posthog-browser
-- public status: /measurement-status.html
-- missing inputs: 4 variable(s), 1 secret(s)
-- validate: npm run autonomous:event-collector-smoke
-- validate: npm run autonomous:collector-deploy-plan
-- validate: npm run autonomous:readiness
-- validate: npm run test:e2e
+- none
+- recommended path: none
+- lowest-input path: none
+- public status: none
+- missing inputs: none
 
 ## Eligible Local Actions
 
-- none
+- seed-portfolio-traffic
+- refresh-organic-seed-loop
+- prepare-release-candidate
+- run-post-deploy-smoke
+- refresh-product-gate-recovery
+- collect-gate-sample-local-drops
+- refresh-first-move-coach
+- refresh-completion-loop
+- refresh-replay-loop
+- bootstrap-production-setup
+- run-production-unlock-runner
+- refresh-objective-audit
+- apply-safe-improvements
+- collect-live-events
 
 ## Blocked Actions
 
@@ -42,11 +51,11 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
-- seed-portfolio-traffic: owner-decision-held
-- refresh-organic-seed-loop: owner-decision-held
+- seed-portfolio-traffic: not-selected-this-run
+- refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
-- prepare-release-candidate: status-monitor
-- run-post-deploy-smoke: status-monitor
+- prepare-release-candidate: not-selected-this-run
+- run-post-deploy-smoke: not-selected-this-run

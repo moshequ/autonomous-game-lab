@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-26T16:29:45.315Z",
-  "sourceDataHash": "82a95bc8a474",
+  "generatedAt": "2026-05-26T19:32:40.904Z",
+  "sourceDataHash": "f65a03f09582",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -39,7 +39,7 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T13:53:13.086Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 98.61,
+    "scanAgeHours": 101.66,
     "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
   },
@@ -516,10 +516,12 @@
       },
       "telemetry": {
         "view": [
+          "daily_goal_reward_viewed",
           "daily_return_prompt_viewed",
           "daily_return_intent_viewed"
         ],
         "action": [
+          "daily_goal_reward_clicked",
           "daily_return_prompt_clicked",
           "daily_return_link_copied",
           "daily_return_calendar_downloaded",
@@ -533,8 +535,10 @@
           "daily_return_intent_cleared"
         ],
         "collectionEvents": [
+          "daily_goal_reward_viewed",
           "daily_return_prompt_viewed",
           "daily_return_intent_viewed",
+          "daily_goal_reward_clicked",
           "daily_return_prompt_clicked",
           "daily_return_link_copied",
           "daily_return_calendar_downloaded",

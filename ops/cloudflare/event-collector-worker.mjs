@@ -56,6 +56,8 @@ const allowedEventNames = new Set([
   'daily_challenge_viewed',
   'daily_challenge_started',
   'daily_challenge_completed',
+  'daily_goal_reward_viewed',
+  'daily_goal_reward_clicked',
   'daily_return_prompt_viewed',
   'daily_return_prompt_clicked',
   'daily_return_prompt_dismissed',

@@ -346,6 +346,8 @@ const localEventDropAutosaveEvents = new Set<AnalyticsEventName>([
   'replay_prompt_viewed',
   'replay_prompt_clicked',
   'replay_clicked',
+  'daily_goal_reward_viewed',
+  'daily_goal_reward_clicked',
   'daily_return_prompt_viewed',
   'daily_return_prompt_clicked',
   'daily_return_link_copied',
@@ -705,6 +707,7 @@ function App() {
     )
   const monetizationGateEventRef = useRef('')
   const dailyChallengeCompletionRef = useRef('')
+  const dailyGoalRewardRef = useRef('')
   const dailyReturnPromptRef = useRef('')
   const dailyReturnIntentRef = useRef('')
   const replayPromptRef = useRef('')
@@ -1437,6 +1440,13 @@ function App() {
     snapshot.completed &&
     replayRunKey !== '' &&
     replayPromptDismissedRunKey !== replayRunKey
+  const dailyGoalRewardVisible =
+    dailyReturnPromptVisible &&
+    retentionLoop.rewardSurfacePolicy.status === 'armed' &&
+    replayRunKey !== ''
+  const dailyGoalRewardRunKey = dailyGoalRewardVisible
+    ? `${retentionLoop.dailyChallenge.date}:${selectedGameId}:${replayRunKey}`
+    : ''
   const pwaInstallCooldownActive = isWithinCooldownDays(
     pwaDismissedAt,
     pwaInstallLoop.promptPolicy.cooldownDaysAfterDismissal,
@@ -1953,14 +1963,44 @@ function App() {
       rewardVariantId: rewardVariant.id,
     })
   }
-  const queueDailyReturn = () => {
+  const queueDailyReturn = (source: 'return-prompt' | 'daily-goal-reward' = 'return-prompt') => {
     window.localStorage.setItem(retentionLoop.localState.returnIntentKey, nextDailyChallengeDate)
     setDailyReturnIntentDate(nextDailyChallengeDate)
+    if (source === 'daily-goal-reward') {
+      trackEvent(retentionLoop.rewardSurfacePolicy.telemetry.clicked, {
+        gameId: selectedGameId,
+        challengeDate: retentionLoop.dailyChallenge.date,
+        intentDate: nextDailyChallengeDate,
+        runKey: dailyGoalRewardRunKey,
+        score: snapshot.score,
+        moves: snapshot.moves,
+        result: snapshot.result,
+        surface: retentionLoop.rewardSurfacePolicy.surface,
+        trigger: retentionLoop.rewardSurfacePolicy.trigger,
+        rewardVariantId: rewardVariant.id,
+        recommendedVariant: retentionLoop.rewardPolicy.recommendedVariant,
+        streak: dailyStreak,
+        bestStreak: bestDailyStreak,
+        zeroPaidSpend: true,
+        noPaidRewards: retentionLoop.rewardSurfacePolicy.controls.noPaidRewards,
+        noAds: retentionLoop.rewardSurfacePolicy.controls.noAds,
+        noNotificationPermissionRequest:
+          retentionLoop.rewardSurfacePolicy.controls.noNotificationPermissionRequest,
+        noPushNotifications: retentionLoop.rewardSurfacePolicy.controls.noPushNotifications,
+        noRevenueEnablement: retentionLoop.rewardSurfacePolicy.controls.noRevenueEnablement,
+      })
+    }
     trackEvent('daily_return_prompt_clicked', {
       gameId: selectedGameId,
       challengeDate: retentionLoop.dailyChallenge.date,
       intentDate: nextDailyChallengeDate,
-      surface: retentionLoop.promptPolicy.surface,
+      surface:
+        source === 'daily-goal-reward'
+          ? retentionLoop.rewardSurfacePolicy.surface
+          : retentionLoop.promptPolicy.surface,
+      promptSurface: retentionLoop.promptPolicy.surface,
+      rewardSurface:
+        source === 'daily-goal-reward' ? retentionLoop.rewardSurfacePolicy.surface : null,
       streak: dailyStreak,
       rewardVariantId: rewardVariant.id,
     })
@@ -2624,6 +2664,47 @@ function App() {
     rewardVariant.id,
     selectedGameId,
     snapshot.completed,
+    snapshot.moves,
+    snapshot.result,
+    snapshot.score,
+  ])
+  useEffect(() => {
+    if (!dailyGoalRewardVisible || dailyGoalRewardRef.current === dailyGoalRewardRunKey) {
+      return
+    }
+
+    dailyGoalRewardRef.current = dailyGoalRewardRunKey
+    trackEvent(retentionLoop.rewardSurfacePolicy.telemetry.viewed, {
+      gameId: selectedGameId,
+      challengeDate: retentionLoop.dailyChallenge.date,
+      nextChallengeDate: nextDailyChallengeDate,
+      runKey: dailyGoalRewardRunKey,
+      score: snapshot.score,
+      moves: snapshot.moves,
+      result: snapshot.result,
+      surface: retentionLoop.rewardSurfacePolicy.surface,
+      trigger: retentionLoop.rewardSurfacePolicy.trigger,
+      animation: retentionLoop.rewardSurfacePolicy.animation,
+      rewardVariantId: rewardVariant.id,
+      recommendedVariant: retentionLoop.rewardPolicy.recommendedVariant,
+      streak: dailyStreak,
+      bestStreak: bestDailyStreak,
+      zeroPaidSpend: true,
+      noPaidRewards: retentionLoop.rewardSurfacePolicy.controls.noPaidRewards,
+      noAds: retentionLoop.rewardSurfacePolicy.controls.noAds,
+      noNotificationPermissionRequest:
+        retentionLoop.rewardSurfacePolicy.controls.noNotificationPermissionRequest,
+      noPushNotifications: retentionLoop.rewardSurfacePolicy.controls.noPushNotifications,
+      noRevenueEnablement: retentionLoop.rewardSurfacePolicy.controls.noRevenueEnablement,
+    })
+  }, [
+    bestDailyStreak,
+    dailyGoalRewardRunKey,
+    dailyGoalRewardVisible,
+    dailyStreak,
+    nextDailyChallengeDate,
+    rewardVariant.id,
+    selectedGameId,
     snapshot.moves,
     snapshot.result,
     snapshot.score,
@@ -3595,6 +3676,24 @@ function App() {
               ) : null}
               {dailyReturnPromptVisible ? (
                 <>
+                  {dailyGoalRewardVisible ? (
+                    <div className="dailyRewardResult" aria-label="Daily goal reward result">
+                      <div className="dailyRewardPulse" aria-hidden="true">
+                        <Sparkles size={16} />
+                      </div>
+                      <div className="dailyRewardText">
+                        <span>{retentionLoop.rewardSurfacePolicy.label}</span>
+                        <strong>{retentionLoop.rewardSurfacePolicy.copy}</strong>
+                      </div>
+                      <button
+                        className="tinyButton dailyRewardButton"
+                        type="button"
+                        onClick={() => queueDailyReturn('daily-goal-reward')}
+                      >
+                        {retentionLoop.rewardSurfacePolicy.ctaLabel}
+                      </button>
+                    </div>
+                  ) : null}
                   <div>
                     <span>Return prompt</span>
                     <strong>{retentionLoop.promptPolicy.status}</strong>
@@ -3608,9 +3707,11 @@ function App() {
                     <strong>{nextDailyChallengeDate}</strong>
                   </div>
                   <div className="retentionActions">
-                    <button className="tinyButton" type="button" onClick={queueDailyReturn}>
-                      {retentionLoop.promptPolicy.ctaLabel}
-                    </button>
+                    {dailyGoalRewardVisible ? null : (
+                      <button className="tinyButton" type="button" onClick={() => queueDailyReturn()}>
+                        {retentionLoop.promptPolicy.ctaLabel}
+                      </button>
+                    )}
                     <button className="tinyButton" type="button" onClick={copyDailyReturnLink}>
                       <Share2 size={14} aria-hidden="true" />
                       {retentionLoop.returnLinkPolicy.ctaLabel}

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-26T14:23:07.988Z",
+  "generatedAt": "2026-05-26T19:32:37.179Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "1ad647835cf2",
+  "sourceDataHash": "716f46226e65",
   "dailyChallenge": {
     "date": "2026-05-26",
     "gameId": "market-pulse",
@@ -54,6 +54,31 @@
       "noPaidRewards": true,
       "noAds": true,
       "noCurrency": true,
+      "noAccountRequired": true,
+      "noRevenueEnablement": true
+    }
+  },
+  "rewardSurfacePolicy": {
+    "status": "armed",
+    "surface": "autonomy-cockpit-daily-reward-result",
+    "trigger": "after-completed-run",
+    "label": "Daily reward",
+    "ctaLabel": "Queue tomorrow",
+    "copy": "Streak credit banked. Save tomorrow's board to turn this finish into a real D1 return.",
+    "animation": "streak-pulse",
+    "reason": "Daily-streak reward framing is the current reward_offer winner; show it as the post-run result moment.",
+    "telemetry": {
+      "viewed": "daily_goal_reward_viewed",
+      "clicked": "daily_goal_reward_clicked"
+    },
+    "controls": {
+      "localOnly": true,
+      "playerInitiatedOnly": true,
+      "noPaidRewards": true,
+      "noAds": true,
+      "noCurrency": true,
+      "noNotificationPermissionRequest": true,
+      "noPushNotifications": true,
       "noAccountRequired": true,
       "noRevenueEnablement": true
     }
@@ -168,10 +193,12 @@
     },
     "telemetry": {
       "view": [
+        "daily_goal_reward_viewed",
         "daily_return_prompt_viewed",
         "daily_return_intent_viewed"
       ],
       "action": [
+        "daily_goal_reward_clicked",
         "daily_return_prompt_clicked",
         "daily_return_link_copied",
         "daily_return_calendar_downloaded",
@@ -200,7 +227,7 @@
       "evidenceReadyNow": false,
       "lastScanAt": "2026-05-22T13:53:13.086Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 96.5,
+      "scanAgeHours": 101.36,
       "cooldownRemainingHours": 0,
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
     },
@@ -237,6 +264,14 @@
       "event": "daily_challenge_completed",
       "gameId": "market-pulse",
       "reward": "streak-credit",
+      "status": "armed"
+    },
+    {
+      "id": "show-daily-goal-reward",
+      "label": "Show daily goal reward after a finished run",
+      "event": "daily_goal_reward_viewed",
+      "gameId": "market-pulse",
+      "reward": "streak-result-animation",
       "status": "armed"
     },
     {

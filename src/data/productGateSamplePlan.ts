@@ -194,10 +194,12 @@ export const productGateSamplePlan = {
       },
       "telemetry": {
         "view": [
+          "daily_goal_reward_viewed",
           "daily_return_prompt_viewed",
           "daily_return_intent_viewed"
         ],
         "action": [
+          "daily_goal_reward_clicked",
           "daily_return_prompt_clicked",
           "daily_return_link_copied",
           "daily_return_calendar_downloaded",
@@ -211,8 +213,10 @@ export const productGateSamplePlan = {
           "daily_return_intent_cleared"
         ],
         "collectionEvents": [
+          "daily_goal_reward_viewed",
           "daily_return_prompt_viewed",
           "daily_return_intent_viewed",
+          "daily_goal_reward_clicked",
           "daily_return_prompt_clicked",
           "daily_return_link_copied",
           "daily_return_calendar_downloaded",

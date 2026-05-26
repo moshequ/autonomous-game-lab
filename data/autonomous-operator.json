@@ -1,105 +1,44 @@
 {
-  "generatedAt": "2026-05-26T19:01:31.887Z",
-  "status": "operator-held",
-  "mode": "plan-only",
+  "generatedAt": "2026-05-26T19:40:49.308Z",
+  "status": "operator-executed",
+  "mode": "execute-one-action",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "bootstrap-production-setup",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
-  "externalInputHandoff": {
-    "status": "handoff-waiting-on-owner-inputs",
-    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
-    "nextUnlockId": "production-analytics-browser",
-    "title": "Browser production analytics unlock kit",
-    "recommendedPathId": "first-party-collector",
-    "recommendedPathStatus": "needs-variables-and-secrets",
-    "lowestInputPathId": "posthog-browser",
-    "lowestInputPathStatus": "needs-public-project-key",
-    "lowestInputMissingVariableCount": 1,
-    "lowestInputMissingSecretCount": 0,
-    "lowestInputMissingInputCount": 1,
-    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
-    "publicStatusPage": "/measurement-status.html",
-    "publicStatusJson": "/measurement-status.json",
-    "setupScript": "ops/github/setup-production.sh",
-    "envTemplate": "ops/production.env.example",
-    "missingVariableCount": 4,
-    "missingSecretCount": 1,
-    "commandCount": 7,
-    "validationCommandCount": 4,
-    "requiredVariables": [
-      {
-        "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
-        "envName": "CLOUDFLARE_ACCOUNT_ID",
-        "configured": false
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true
-      },
-      {
-        "repositoryName": "VITE_EVENT_COLLECTOR_URL",
-        "envName": "VITE_EVENT_COLLECTOR_URL",
-        "configured": false
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
-        "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
-        "configured": false
-      }
+  "externalInputHandoff": null,
+  "requestedActionId": "bootstrap-production-setup",
+  "selectedAction": {
+    "id": "bootstrap-production-setup",
+    "status": "armed",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
+    "targets": [
+      "github-pages",
+      "repository-config",
+      "event-collector"
     ],
-    "requiredSecrets": [
-      {
-        "repositoryName": "CLOUDFLARE_API_TOKEN",
-        "envName": "CLOUDFLARE_API_TOKEN",
-        "configured": false
-      },
-      {
-        "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true
-      }
-    ],
-    "commandSequence": [
-      "npm run autonomous:event-collector-smoke",
-      "npm run autonomous:collector-deploy-plan",
-      "./ops/github/setup-production.sh",
-      "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
-      "npm run autonomous:readiness"
-    ],
-    "validationCommands": [
-      "npm run autonomous:event-collector-smoke",
-      "npm run autonomous:collector-deploy-plan",
-      "npm run autonomous:readiness",
-      "npm run test:e2e"
-    ],
-    "controls": {
-      "zeroPaidSpend": true,
-      "noSecretValues": true,
-      "noSecretValuesStored": true,
-      "noAccountCreation": true,
-      "noStoreSubmission": true,
-      "noRevenueEnablement": true,
-      "operatorWillNotRunExternalWorkflow": true
-    }
+    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
+    "costUsd": 0
   },
-  "requestedActionId": null,
-  "selectedAction": null,
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop",
+    "prepare-release-candidate",
+    "run-post-deploy-smoke",
+    "refresh-product-gate-recovery",
+    "collect-gate-sample-local-drops",
+    "refresh-first-move-coach",
+    "refresh-completion-loop",
+    "refresh-replay-loop",
+    "bootstrap-production-setup",
+    "run-production-unlock-runner",
+    "refresh-objective-audit",
+    "apply-safe-improvements",
+    "collect-live-events"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -129,13 +68,13 @@
       "id": "seed-portfolio-traffic",
       "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "owner-decision-held"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
       "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "owner-decision-held"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-support-feedback",
@@ -163,15 +102,15 @@
     },
     {
       "id": "prepare-release-candidate",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "run-post-deploy-smoke",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:post-deploy-smoke",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "sync-post-deploy-artifact",
@@ -193,15 +132,15 @@
     },
     {
       "id": "refresh-product-gate-recovery",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "collect-gate-sample-local-drops",
       "status": "armed",
       "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "owner-decision-held"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -217,38 +156,32 @@
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:sample-plan",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-first-move-coach",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:first-move-coach",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-completion-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:completion-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-replay-loop",
       "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "owner-decision-held"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "bootstrap-production-setup",
-      "status": "monitor",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "reason": "status-monitor"
     },
     {
@@ -265,9 +198,9 @@
     },
     {
       "id": "run-production-unlock-runner",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:unlock-runner -- --execute",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "run-autonomous-operator",
@@ -283,9 +216,9 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:objective-audit",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-store-listing",
@@ -303,28 +236,81 @@
       "id": "apply-safe-improvements",
       "status": "armed",
       "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-      "reason": "owner-decision-held"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "deploy-web-pwa",
-      "status": "ready-when-repository-pages-enabled",
+      "status": "held",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-ready-when-repository-pages-enabled"
+      "reason": "status-held"
     },
     {
       "id": "collect-live-events",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:release-candidate",
+      "script": "autonomous:release-candidate"
+    },
+    {
+      "segment": "npm run autonomous:deploy-plan",
+      "script": "autonomous:deploy-plan"
+    },
+    {
+      "segment": "npm run autonomous:bootstrap",
+      "script": "autonomous:bootstrap"
+    }
+  ],
   "execution": {
-    "requested": false,
-    "status": "not-requested",
+    "requested": true,
+    "status": "executed",
     "maxActionsPerRun": 1,
-    "attemptedActionId": null,
-    "results": []
+    "attemptedActionId": "bootstrap-production-setup",
+    "results": [
+      {
+        "script": "autonomous:release-candidate",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:release-candidate",
+          "> node scripts/release-candidate.mjs",
+          "Wrote data/release-candidate.json",
+          "Wrote src/data/releaseCandidate.ts",
+          "Wrote reports/release-candidate-latest.md",
+          "Wrote dist/release-candidate.json"
+        ],
+        "stderrTail": []
+      },
+      {
+        "script": "autonomous:deploy-plan",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:deploy-plan",
+          "> node scripts/deployment-plan.mjs",
+          "Wrote data/deployment-plan.json",
+          "Wrote src/data/deploymentPlan.ts",
+          "Wrote reports/deployment-plan-latest.md"
+        ],
+        "stderrTail": []
+      },
+      {
+        "script": "autonomous:bootstrap",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:bootstrap",
+          "> node scripts/production-bootstrap.mjs",
+          "Wrote data/production-bootstrap.json",
+          "Wrote src/data/productionBootstrap.ts",
+          "Wrote reports/production-bootstrap-latest.md",
+          "Wrote ops/github/setup-production.sh",
+          "Wrote ops/github/README.md"
+        ],
+        "stderrTail": []
+      }
+    ]
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -393,7 +379,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Resolve production-analytics-browser through /measurement-status.html, then rerun npm run autonomous:readiness.",
+    "Review bootstrap-production-setup execution results before another operator run.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

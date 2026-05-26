@@ -159,6 +159,14 @@ const missions = [
     status: dailyChallengePlayable ? 'armed' : 'blocked-missing-game',
   },
   {
+    id: 'show-daily-goal-reward',
+    label: 'Show daily goal reward after a finished run',
+    event: 'daily_goal_reward_viewed',
+    gameId: dailyChallenge?.gameId ?? null,
+    reward: 'streak-result-animation',
+    status: returnPromptNeeded ? 'armed' : 'monitor',
+  },
+  {
     id: 'return-tomorrow',
     label: 'Return tomorrow for a fresh board',
     event: 'daily_return_prompt_viewed',
@@ -261,6 +269,34 @@ const payload = {
       noPaidRewards: true,
       noAds: true,
       noCurrency: true,
+      noAccountRequired: true,
+      noRevenueEnablement: true,
+    },
+  },
+  rewardSurfacePolicy: {
+    status: returnPromptNeeded ? 'armed' : 'monitor',
+    surface: 'autonomy-cockpit-daily-reward-result',
+    trigger: 'after-completed-run',
+    label: 'Daily reward',
+    ctaLabel: 'Queue tomorrow',
+    copy: "Streak credit banked. Save tomorrow's board to turn this finish into a real D1 return.",
+    animation: 'streak-pulse',
+    reason:
+      rewardExperiment?.winnerVariant === 'daily-streak'
+        ? 'Daily-streak reward framing is the current reward_offer winner; show it as the post-run result moment.'
+        : 'Use local-only daily reward framing to make the return intent clearer without paid rewards.',
+    telemetry: {
+      viewed: 'daily_goal_reward_viewed',
+      clicked: 'daily_goal_reward_clicked',
+    },
+    controls: {
+      localOnly: true,
+      playerInitiatedOnly: true,
+      noPaidRewards: true,
+      noAds: true,
+      noCurrency: true,
+      noNotificationPermissionRequest: true,
+      noPushNotifications: true,
       noAccountRequired: true,
       noRevenueEnablement: true,
     },
@@ -384,8 +420,13 @@ const payload = {
       minimumPromptViewsForDecision: d1Gate?.minimumPromptViewsForDecision ?? 10,
     },
     telemetry: {
-      view: d1Gate?.viewTelemetry ?? ['daily_return_prompt_viewed', 'daily_return_intent_viewed'],
+      view: d1Gate?.viewTelemetry ?? [
+        'daily_goal_reward_viewed',
+        'daily_return_prompt_viewed',
+        'daily_return_intent_viewed',
+      ],
       action: d1Gate?.actionTelemetry ?? [
+        'daily_goal_reward_clicked',
         'daily_return_prompt_clicked',
         'daily_return_link_copied',
         'daily_return_calendar_downloaded',
@@ -462,6 +503,14 @@ const report = [
   `- Replay-rate lift: ${pct(payload.rewardPolicy.replayRateLift)}`,
   `- Reason: ${payload.rewardPolicy.reason}`,
   '',
+  '## Reward Surface',
+  '',
+  `- Status: ${payload.rewardSurfacePolicy.status}`,
+  `- Surface: ${payload.rewardSurfacePolicy.surface}`,
+  `- Copy: ${payload.rewardSurfacePolicy.copy}`,
+  `- Animation: ${payload.rewardSurfacePolicy.animation}`,
+  `- Telemetry: ${payload.rewardSurfacePolicy.telemetry.viewed}, ${payload.rewardSurfacePolicy.telemetry.clicked}`,
+  '',
   '## Return Prompt',
   '',
   `- Status: ${payload.promptPolicy.status}`,
@@ -525,6 +574,8 @@ const appPayload = {
     d1Retention: payload.metrics.d1Retention,
   },
   localState: payload.localState,
+  rewardPolicy: payload.rewardPolicy,
+  rewardSurfacePolicy: payload.rewardSurfacePolicy,
   samplePolicy: {
     status: payload.samplePolicy.status,
     campaignId: payload.samplePolicy.campaignId,
