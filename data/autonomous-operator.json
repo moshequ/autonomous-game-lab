@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T20:17:30.305Z",
+  "generatedAt": "2026-05-26T20:24:45.584Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
@@ -127,9 +127,9 @@
     },
     {
       "id": "seed-portfolio-traffic",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -193,9 +193,9 @@
     },
     {
       "id": "refresh-product-gate-recovery",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     },
     {
       "id": "collect-gate-sample-local-drops",
@@ -247,9 +247,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "status-monitor"
+      "reason": "owner-decision-held"
     },
     {
       "id": "activate-production-when-configured",

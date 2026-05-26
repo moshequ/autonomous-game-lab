@@ -1,5 +1,5 @@
 export const acquisitionLearning = {
-  "generatedAt": "2026-05-26T20:09:01.673Z",
+  "generatedAt": "2026-05-26T20:19:11.575Z",
   "status": "acquisition-learning-ready",
   "sourceDataHash": "26e7a49041b3",
   "sourceStatus": {

@@ -1460,6 +1460,13 @@ const trafficSeedingSourceEvidence = {
   growth,
   analytics,
   unitEconomics,
+  retentionLoop: {
+    status: retention.status,
+    dailyChallenge: retention.dailyChallenge,
+    returnLinkPolicy: retention.returnLinkPolicy,
+    returnCalendarPolicy: retention.returnCalendarPolicy,
+    promptPolicy: retention.promptPolicy,
+  },
   supportChannel: {
     status: supportChannel.status,
     repository:
@@ -1549,6 +1556,10 @@ const productGateRecoverySourceEvidence = {
   },
   retentionLoop: {
     status: retention.status,
+    rewardSurfacePolicy: {
+      surface: retention.rewardSurfacePolicy?.surface ?? null,
+      telemetry: retention.rewardSurfacePolicy?.telemetry ?? null,
+    },
     promptPolicy: {
       telemetry: retention.promptPolicy?.telemetry ?? null,
     },
@@ -1675,6 +1686,8 @@ const trafficSeedingFreshness = sourceFreshness({
     { id: 'growth-plan', data: growth },
     { id: 'analytics-rollup', data: analytics },
     { id: 'unit-economics', data: unitEconomics },
+    { id: 'retention-loop', data: retention },
+    { id: 'support-channel', data: supportChannel },
   ],
   sourceDataHash: hashSourceData(trafficSeedingSourceEvidence),
 })

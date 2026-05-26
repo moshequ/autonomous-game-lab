@@ -5176,6 +5176,12 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
       nextRecommendedScanAt: string
     }
   }
+  const trafficSeeding = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
+    sourceDataHash: string
+  }
+  const productGateRecovery = JSON.parse(await readFile('data/product-gate-recovery.json', 'utf8')) as {
+    sourceDataHash: string
+  }
   const lastExecutedRecord = [...history.records]
     .reverse()
     .find((record) => record.execution.requested === true && record.execution.status === 'executed')
@@ -5627,6 +5633,19 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     expect(freshness.sourceDataHash).toMatch(/^[a-f0-9]{12}$/)
     expect(freshness.evaluatedInputIds.length).toBeGreaterThan(0)
   }
+  expect(ownerLoop.executionMemory.sourceFreshness.trafficSeeding.artifactSourceDataHash).toBe(
+    trafficSeeding.sourceDataHash,
+  )
+  expect(ownerLoop.executionMemory.sourceFreshness.trafficSeeding.sourceDataHash).toBe(trafficSeeding.sourceDataHash)
+  expect(ownerLoop.executionMemory.sourceFreshness.trafficSeeding.evaluatedInputIds).toEqual([
+    'playable-games',
+    'portfolio-policy',
+    'growth-plan',
+    'analytics-rollup',
+    'unit-economics',
+    'retention-loop',
+    'support-channel',
+  ])
   if (seedPortfolioFreshnesses.every((freshness) => freshness.current)) {
     expect(seedPortfolioAction?.status).toBe('monitor')
     expect(ownerLoop.ownerDecision.nextBestActionId).not.toBe('seed-portfolio-traffic')
@@ -5692,6 +5711,12 @@ test('autonomous operator history keeps a capped audit trail', async ({ page }) 
     ownerLoop.executionMemory.sourceFreshness.productGateRecovery.current &&
     ownerLoop.executionMemory.sourceFreshness.productGateSamplePlan.current
   ) {
+    expect(ownerLoop.executionMemory.sourceFreshness.productGateRecovery.artifactSourceDataHash).toBe(
+      productGateRecovery.sourceDataHash,
+    )
+    expect(ownerLoop.executionMemory.sourceFreshness.productGateRecovery.sourceDataHash).toBe(
+      productGateRecovery.sourceDataHash,
+    )
     expect(refreshGateRecoveryAction?.status).toBe('monitor')
     expect(refreshGateRecoveryAction?.reason).toContain('already match current gate')
     expect(refreshSamplePlanAction?.status).toBe('monitor')
