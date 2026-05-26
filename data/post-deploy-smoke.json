@@ -1,27 +1,10 @@
 {
-  "generatedAt": "2026-05-26T04:46:59.553Z",
+  "generatedAt": "2026-05-26T04:51:38.247Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -55,14 +38,14 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-9ebcdd2ab96d",
-    "aggregateHash": "9ebcdd2ab96da209f96a4b0fa1bf59261f20ff6b367c9dbe4d0904a74d9fc73d",
+    "candidateId": "pwa-f2e18e2190c9",
+    "aggregateHash": "f2e18e2190c976154cab7888f44e58710710851aff6136cf1089f4999cf0cb1a",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-69b6674bc9c0",
-    "aggregateHash": "69b6674bc9c01c8c105a9046f953e4f2d150e82378493b49bf80d669215c7bd1",
+    "candidateId": "pwa-4e11a6c3bdd2",
+    "aggregateHash": "4e11a6c3bdd2d7211c896b84b4ce0d7d786aa03b47b9eb65350220214fd83b64",
     "localCandidateMatches": false,
     "strictManifestComparison": false,
     "postDeploySmokeUrls": 31,
@@ -413,8 +396,8 @@
         "bytes": 38395,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-9ebcdd2ab96d",
-        "localAggregateHash": "9ebcdd2ab96da209f96a4b0fa1bf59261f20ff6b367c9dbe4d0904a74d9fc73d",
+        "localCandidateId": "pwa-f2e18e2190c9",
+        "localAggregateHash": "f2e18e2190c976154cab7888f44e58710710851aff6136cf1089f4999cf0cb1a",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -526,7 +509,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 108337,
+      "bytes": 107790,
       "textMatched": true
     },
     {
@@ -554,7 +537,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 39182,
+      "bytes": 37920,
       "textMatched": true
     },
     {
@@ -582,7 +565,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 81096,
+      "bytes": 80549,
       "textMatched": true
     },
     {
@@ -870,7 +853,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-9ebcdd2ab96d",
+      "requiredText": "pwa-f2e18e2190c9",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
@@ -882,8 +865,8 @@
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-69b6674bc9c0",
-      "deployedAggregateHash": "69b6674bc9c01c8c105a9046f953e4f2d150e82378493b49bf80d669215c7bd1",
+      "deployedCandidateId": "pwa-4e11a6c3bdd2",
+      "deployedAggregateHash": "4e11a6c3bdd2d7211c896b84b4ce0d7d786aa03b47b9eb65350220214fd83b64",
       "deployedPostDeploySmoke": [
         {
           "id": "app-shell",
@@ -1107,7 +1090,7 @@
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-69b6674bc9c0; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-4e11a6c3bdd2; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 }
