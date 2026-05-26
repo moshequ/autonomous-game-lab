@@ -211,6 +211,192 @@ test('measurement status copies and downloads the player evidence invite pack', 
   await expect(page.locator('#player-invite-pack-status')).toContainText('Invite pack downloaded')
 })
 
+test('owner unlock page packages zero-secret analytics inputs locally', async ({ page }) => {
+  const ownerUnlockBrief = JSON.parse(await readFile('data/owner-unlock-brief.json', 'utf8')) as {
+    browserLocalActionPack: {
+      id: string
+      sourcePackId: string
+      localEnvFile: string
+      missingInputNames: string[]
+      templateDownloadFileName: string
+      filledDownloadFileName: string
+      receiptStorageKey: string
+      localEnvTemplateText: string
+      runtimeConfigPreview: {
+        downloadFileName: string
+        targetPublicPath: string
+        defaultPosthogHost: string
+      }
+      productionInputWatchCommand: {
+        workflowFile: string
+        requiredFlag: string
+        controls: { commandRequiresOwnerRun: boolean; noWorkflowDispatchFromPage: boolean }
+      }
+      controls: {
+        browserLocalOnly: boolean
+        publicValuesOnly: boolean
+        noSecretValuesStored: boolean
+        noWorkflowDispatchFromPage: boolean
+        noRevenueEnablement: boolean
+        noStoreSubmission: boolean
+      }
+    }
+  }
+  const pack = ownerUnlockBrief.browserLocalActionPack
+
+  expect(pack).toMatchObject({
+    id: 'browser-local-owner-unlock-input-pack',
+    sourcePackId: 'combined-zero-secret-owner-input-pack',
+    localEnvFile: '.env.production.local',
+    templateDownloadFileName: 'agl-owner-unlock-template.env',
+    filledDownloadFileName: 'agl-owner-unlock-filled.env',
+    receiptStorageKey: 'agl.ownerUnlockPageActionReceipt',
+  })
+  expect(pack.missingInputNames).toEqual(expect.arrayContaining(['VITE_POSTHOG_KEY', 'AGL_SUPPORT_EMAIL']))
+  expect(pack.runtimeConfigPreview).toMatchObject({
+    downloadFileName: 'owner-runtime-config.preview.json',
+    targetPublicPath: 'public/owner-runtime-config.json',
+    defaultPosthogHost: 'https://us.i.posthog.com',
+  })
+  expect(pack.productionInputWatchCommand).toMatchObject({
+    workflowFile: 'production-input-watch.yml',
+    requiredFlag: 'publish_zero_secret_runtime_config=true',
+  })
+  expect(pack.productionInputWatchCommand.controls.commandRequiresOwnerRun).toBe(true)
+  expect(pack.productionInputWatchCommand.controls.noWorkflowDispatchFromPage).toBe(true)
+  expect(pack.controls.browserLocalOnly).toBe(true)
+  expect(pack.controls.publicValuesOnly).toBe(true)
+  expect(pack.controls.noSecretValuesStored).toBe(true)
+  expect(pack.controls.noWorkflowDispatchFromPage).toBe(true)
+  expect(pack.controls.noRevenueEnablement).toBe(true)
+  expect(pack.controls.noStoreSubmission).toBe(true)
+  expect(JSON.stringify(pack)).not.toContain('"value"')
+
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: (text: string) => {
+          ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = text
+          return Promise.resolve()
+        },
+      },
+    })
+  })
+
+  await page.goto('/owner-unlock.html')
+  await expect(page.getByRole('heading', { name: 'Owner Unlock Pack' })).toBeVisible()
+  const ownerUnlockRegion = page.locator('section[aria-label="Browser-local owner unlock action pack"]')
+  await expect(ownerUnlockRegion).toContainText('browser-local-owner-unlock-input-pack')
+  await expect(ownerUnlockRegion).toContainText('agl-owner-unlock-template.env')
+  await expect(ownerUnlockRegion).toContainText('agl-owner-unlock-filled.env')
+  await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeDisabled()
+
+  const templateDownloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download local env template' }).click()
+  const templateDownload = await templateDownloadPromise
+  expect(templateDownload.suggestedFilename()).toBe(pack.templateDownloadFileName)
+  const templatePath = await templateDownload.path()
+  if (!templatePath) {
+    throw new Error('Expected owner unlock template download path.')
+  }
+  const templateText = await readFile(templatePath, 'utf8')
+  expect(templateText).toBe(pack.localEnvTemplateText)
+  let receipt = await page.evaluate((storageKey) => JSON.parse(window.localStorage.getItem(storageKey) ?? '{}'), pack.receiptStorageKey)
+  expect(receipt).toMatchObject({
+    action: 'download-local-env-template',
+    packId: pack.id,
+    sourcePackId: pack.sourcePackId,
+    noSecretValuesStored: true,
+    noWorkflowDispatchFromPage: true,
+    storeSubmissionStillBlocked: true,
+    revenueStillBlocked: true,
+  })
+
+  await page.getByLabel('PostHog browser project key').fill('phc_owner_unlock_key')
+  await page.getByRole('button', { name: 'Check zero-secret values' }).click()
+  await expect(page.locator('#owner-unlock-action-status')).toContainText(
+    'Production analytics value passed local checks',
+  )
+  await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeEnabled()
+  await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeEnabled()
+
+  const analyticsRuntimePreviewDownloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download runtime config preview' }).click()
+  const analyticsRuntimePreviewDownload = await analyticsRuntimePreviewDownloadPromise
+  expect(analyticsRuntimePreviewDownload.suggestedFilename()).toBe(pack.runtimeConfigPreview.downloadFileName)
+  const analyticsRuntimePreviewPath = await analyticsRuntimePreviewDownload.path()
+  if (!analyticsRuntimePreviewPath) {
+    throw new Error('Expected analytics owner runtime preview download path.')
+  }
+  const analyticsRuntimePreview = JSON.parse(await readFile(analyticsRuntimePreviewPath, 'utf8')) as {
+    source: string
+    configuredPublicInputNames: string[]
+    missingPublicInputNames: string[]
+    analytics: { posthogKey: string; posthogHost: string }
+    support: { configured: boolean; email: string | null }
+  }
+  expect(analyticsRuntimePreview.source).toBe('owner-unlock-browser-local-preview')
+  expect(analyticsRuntimePreview.configuredPublicInputNames).toEqual(['VITE_POSTHOG_KEY'])
+  expect(analyticsRuntimePreview.missingPublicInputNames).toEqual(['AGL_SUPPORT_EMAIL'])
+  expect(analyticsRuntimePreview.analytics.posthogKey).toBe('phc_owner_unlock_key')
+  expect(analyticsRuntimePreview.analytics.posthogHost).toBe('https://us.i.posthog.com')
+  expect(analyticsRuntimePreview.support).toEqual({ configured: false, email: null })
+  receipt = await page.evaluate((storageKey) => JSON.parse(window.localStorage.getItem(storageKey) ?? '{}'), pack.receiptStorageKey)
+  expect(receipt).toMatchObject({
+    action: 'download-owner-runtime-config-preview',
+    validationStatus: 'passed',
+    publicRuntimeConfigPreview: true,
+    noValuesStored: true,
+  })
+  expect(receipt.validatedInputNames).toEqual(['VITE_POSTHOG_KEY'])
+  expect(JSON.stringify(receipt)).not.toContain('phc_owner_unlock_key')
+
+  await page.getByRole('button', { name: 'Copy input watch command' }).click()
+  let copiedCommand = await page.evaluate(
+    () => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? '',
+  )
+  expect(copiedCommand).toContain('gh workflow run production-input-watch.yml --ref main')
+  expect(copiedCommand).toContain('-f publish_zero_secret_runtime_config=true')
+  expect(copiedCommand).toContain("-f vite_posthog_key='phc_owner_unlock_key'")
+  expect(copiedCommand).toContain("-f agl_support_email=''")
+
+  await page.getByLabel('Production support email').fill('support@example.com')
+  await page.getByRole('button', { name: 'Check zero-secret values' }).click()
+  await expect(page.locator('#owner-unlock-action-status')).toContainText('Zero-secret values passed local checks')
+  await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeEnabled()
+  const filledDownloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download filled local env' }).click()
+  const filledDownload = await filledDownloadPromise
+  expect(filledDownload.suggestedFilename()).toBe(pack.filledDownloadFileName)
+  const filledPath = await filledDownload.path()
+  if (!filledPath) {
+    throw new Error('Expected owner unlock filled env download path.')
+  }
+  const filledText = await readFile(filledPath, 'utf8')
+  expect(filledText).toContain('VITE_POSTHOG_KEY=phc_owner_unlock_key\n')
+  expect(filledText).toContain('AGL_SUPPORT_EMAIL=support@example.com\n')
+  receipt = await page.evaluate((storageKey) => JSON.parse(window.localStorage.getItem(storageKey) ?? '{}'), pack.receiptStorageKey)
+  expect(receipt).toMatchObject({
+    action: 'download-filled-local-env-template',
+    validationStatus: 'passed',
+    noValuesStored: true,
+  })
+  expect(receipt.validatedInputNames).toEqual(['VITE_POSTHOG_KEY', 'AGL_SUPPORT_EMAIL'])
+  expect(JSON.stringify(receipt)).not.toContain('phc_owner_unlock_key')
+  expect(JSON.stringify(receipt)).not.toContain('support@example.com')
+
+  await page.getByRole('button', { name: 'Copy input watch command' }).click()
+  copiedCommand = await page.evaluate(
+    () => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? '',
+  )
+  expect(copiedCommand).toContain("-f vite_posthog_host='https://us.i.posthog.com'")
+  expect(copiedCommand).toContain("-f agl_support_email='support@example.com'")
+})
+
 test('trend radar only boosts evidence-bearing public trend signals', async () => {
   const trend = JSON.parse(await readFile('data/trend-signals.json', 'utf8')) as {
     sourceStatus: {

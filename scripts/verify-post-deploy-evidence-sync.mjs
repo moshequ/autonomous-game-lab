@@ -397,8 +397,19 @@ if (
   publicOwnerRuntimeConfig.controls?.zeroSecretInputsOnly !== true ||
   !publicOwnerUnlockHtml.includes('Owner Unlock Pack') ||
   !publicOwnerUnlockHtml.includes('combined-zero-secret-owner-input-pack') ||
+  !publicOwnerUnlockHtml.includes('Browser-Local Owner Unlock') ||
+  !publicOwnerUnlockHtml.includes('browser-local-owner-unlock-input-pack') ||
+  !publicOwnerUnlockHtml.includes('owner-unlock-download-runtime-preview') ||
+  !publicOwnerUnlockHtml.includes('owner-unlock-copy-input-watch-command') ||
+  !publicOwnerUnlockHtml.includes('agl.ownerUnlockPageActionReceipt') ||
   !publicOwnerUnlockHtml.includes('./owner-unlock-preflight.json') ||
   !publicOwnerUnlockHtml.includes('./owner-runtime-config.json') ||
+  ownerUnlockBrief.browserLocalActionPack?.id !== 'browser-local-owner-unlock-input-pack' ||
+  ownerUnlockBrief.browserLocalActionPack?.controls?.noSecretValuesStored !== true ||
+  ownerUnlockBrief.browserLocalActionPack?.controls?.noWorkflowDispatchFromPage !== true ||
+  ownerUnlockBrief.browserLocalActionPack?.runtimeConfigPreview?.targetPublicPath !==
+    'public/owner-runtime-config.json' ||
+  ownerUnlockBrief.browserLocalActionPack?.productionInputWatchCommand?.controls?.commandRequiresOwnerRun !== true ||
   ownerUnlockBrief.setup?.workflowDispatchRequiresRunWorkflows !== true ||
   ownerUnlockBrief.setup?.zeroSecretRuntimeConfigCommand !== 'npm run autonomous:owner-zero-secret-input-sync' ||
   ownerUnlockBrief.controls?.noSecretValuesStored !== true ||

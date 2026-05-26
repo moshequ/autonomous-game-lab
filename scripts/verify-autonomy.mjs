@@ -3728,6 +3728,11 @@ const ownerUnlockCombinedInputPackTemplateLines = new Set(ownerUnlockCombinedInp
 const ownerUnlockCombinedInputPackCommands = new Set(
   Object.values(ownerUnlockCombinedInputPack?.commands ?? {}).filter(Boolean),
 )
+const ownerUnlockBrowserActionPack = ownerUnlockBrief.browserLocalActionPack ?? null
+const ownerUnlockBrowserActionPackFields = ownerUnlockBrowserActionPack?.valueValidation?.fields ?? []
+const ownerUnlockBrowserActionPackFieldNames = new Set(
+  ownerUnlockBrowserActionPackFields.map((field) => field.envName),
+)
 const ownerUnlockCombinedInputPreflight = ownerUnlockPreflight.combinedOwnerInputPreflight ?? null
 const ownerUnlockCombinedInputPreflightNames = new Set(ownerUnlockCombinedInputPreflight?.missingInputNames ?? [])
 const ownerUnlockCombinedInputPreflightTemplateLines = new Set(
@@ -3912,6 +3917,15 @@ if (
   ownerUnlockBrief.publicRoutes?.ownerRuntimeConfigJson !== '/owner-runtime-config.json' ||
   !ownerUnlockHtml.includes('Owner Unlock Pack') ||
   !ownerUnlockHtml.includes('combined-zero-secret-owner-input-pack') ||
+  !ownerUnlockHtml.includes('Browser-Local Owner Unlock') ||
+  !ownerUnlockHtml.includes('browser-local-owner-unlock-input-pack') ||
+  !ownerUnlockHtml.includes('owner-unlock-check-values') ||
+  !ownerUnlockHtml.includes('owner-unlock-download-runtime-preview') ||
+  !ownerUnlockHtml.includes('owner-unlock-copy-input-watch-command') ||
+  !ownerUnlockHtml.includes('owner-unlock-browser-local-preview') ||
+  !ownerUnlockHtml.includes('agl-owner-unlock-template.env') ||
+  !ownerUnlockHtml.includes('agl-owner-unlock-filled.env') ||
+  !ownerUnlockHtml.includes('agl.ownerUnlockPageActionReceipt') ||
   !ownerUnlockHtml.includes('Zero-Secret Runtime Config') ||
   !ownerUnlockHtml.includes('publish_zero_secret_runtime_config') ||
   !ownerUnlockHtml.includes('.env.production.local') ||
@@ -4004,6 +4018,38 @@ if (
   ownerUnlockCombinedInputPack?.controls?.localTemplateWriteNoGithubMutation !== true ||
   ownerUnlockCombinedInputPack?.controls?.onlyZeroSecretInputs !== true ||
   ownerUnlockCombinedInputPack?.controls?.publicRuntimeConfigCanUseZeroSecretInputs !== true ||
+  ownerUnlockBrowserActionPack?.id !== 'browser-local-owner-unlock-input-pack' ||
+  ownerUnlockBrowserActionPack?.sourcePackId !== ownerUnlockCombinedInputPack?.id ||
+  ownerUnlockBrowserActionPack?.localEnvFile !== '.env.production.local' ||
+  ownerUnlockBrowserActionPack?.templateDownloadFileName !== 'agl-owner-unlock-template.env' ||
+  ownerUnlockBrowserActionPack?.filledDownloadFileName !== 'agl-owner-unlock-filled.env' ||
+  ownerUnlockBrowserActionPack?.receiptStorageKey !== 'agl.ownerUnlockPageActionReceipt' ||
+  ownerUnlockBrowserActionPack?.runtimeConfigPreview?.downloadFileName !==
+    'owner-runtime-config.preview.json' ||
+  ownerUnlockBrowserActionPack?.runtimeConfigPreview?.targetPublicPath !== 'public/owner-runtime-config.json' ||
+  ownerUnlockBrowserActionPack?.runtimeConfigPreview?.defaultPosthogHost !== 'https://us.i.posthog.com' ||
+  ownerUnlockBrowserActionPack?.runtimeConfigPreview?.controls?.browserLocalOnly !== true ||
+  ownerUnlockBrowserActionPack?.runtimeConfigPreview?.controls?.publicValuesOnly !== true ||
+  ownerUnlockBrowserActionPack?.productionInputWatchCommand?.workflowFile !== 'production-input-watch.yml' ||
+  ownerUnlockBrowserActionPack?.productionInputWatchCommand?.requiredFlag !==
+    'publish_zero_secret_runtime_config=true' ||
+  ownerUnlockBrowserActionPack?.productionInputWatchCommand?.controls?.noWorkflowDispatchFromPage !== true ||
+  ownerUnlockBrowserActionPack?.productionInputWatchCommand?.controls?.commandRequiresOwnerRun !== true ||
+  !ownerUnlockBrowserActionPackFieldNames.has('VITE_POSTHOG_KEY') ||
+  !ownerUnlockBrowserActionPackFieldNames.has('AGL_SUPPORT_EMAIL') ||
+  ownerUnlockBrowserActionPackFields.some((field) => field.publicValue !== true) ||
+  ownerUnlockBrowserActionPack?.valueValidation?.controls?.browserLocalOnly !== true ||
+  ownerUnlockBrowserActionPack?.valueValidation?.controls?.noGeneratedValueSerialization !== true ||
+  ownerUnlockBrowserActionPack?.valueValidation?.controls?.noGithubMutation !== true ||
+  ownerUnlockBrowserActionPack?.controls?.zeroPaidSpend !== true ||
+  ownerUnlockBrowserActionPack?.controls?.browserLocalOnly !== true ||
+  ownerUnlockBrowserActionPack?.controls?.publicValuesOnly !== true ||
+  ownerUnlockBrowserActionPack?.controls?.noSecretValuesStored !== true ||
+  ownerUnlockBrowserActionPack?.controls?.noGeneratedValueSerialization !== true ||
+  ownerUnlockBrowserActionPack?.controls?.noGithubMutation !== true ||
+  ownerUnlockBrowserActionPack?.controls?.noWorkflowDispatchFromPage !== true ||
+  ownerUnlockBrowserActionPack?.controls?.storeSubmissionStillBlocked !== true ||
+  ownerUnlockBrowserActionPack?.controls?.revenueStillBlocked !== true ||
   JSON.stringify(ownerUnlockBrief.ownerInputQueue ?? []) !== JSON.stringify(ownerUnlockParallelItems) ||
   !ownerUnlockParallelIds.has('production-analytics-browser') ||
   !ownerUnlockParallelIds.has('support-contact') ||
@@ -4050,6 +4096,9 @@ if (
   !productionBlockerHandoffSource.includes('owner-unlock-brief-latest.md') ||
   !productionBlockerHandoffSource.includes('owner-unlock-preflight') ||
   !productionBlockerHandoffSource.includes('owner-runtime-config.json') ||
+  !productionBlockerHandoffSource.includes('buildOwnerUnlockBrowserActionPack') ||
+  !productionBlockerHandoffSource.includes('browser-local-owner-unlock-input-pack') ||
+  !productionBlockerHandoffSource.includes('owner-unlock-browser-local-preview') ||
   !productionBlockerHandoffSource.includes('writeLocalEnvTemplate') ||
   !productionMeasurementStatusSource.includes('Combined Owner Input Pack') ||
   !measurementStatusHtml.includes('Combined Owner Input Pack') ||

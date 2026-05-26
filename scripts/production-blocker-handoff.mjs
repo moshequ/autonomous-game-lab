@@ -709,6 +709,7 @@ const summarizeStoreParallelUnlock = (unlock, summary) =>
     : null
 const templateLinesForNames = (names) => names.map((name) => `${name}=`)
 const shellExportLinesForNames = (names) => names.map((name) => `export ${name}=`)
+const defaultPosthogHost = 'https://us.i.posthog.com'
 const summarizeCombinedOwnerInputPack = (analyticsPath, supportPack, supportUnlock) => {
   const analyticsMissingVariables = summarizeConfigInputs(analyticsPath?.requiredVariables).filter(
     (item) => !item.configured,
@@ -793,6 +794,133 @@ const summarizeCombinedOwnerInputPack = (analyticsPath, supportPack, supportUnlo
     },
   }
 }
+const buildOwnerUnlockBrowserActionPack = (combinedPack) =>
+  combinedPack
+    ? {
+        id: 'browser-local-owner-unlock-input-pack',
+        sourcePackId: combinedPack.id,
+        status: 'waiting-on-owner-values',
+        localEnvFile: combinedPack.localEnvFile,
+        unlockIds: combinedPack.unlockIds,
+        analyticsPathId: combinedPack.analyticsPathId,
+        supportUnlockId: combinedPack.supportUnlockId,
+        missingInputNames: combinedPack.missingInputNames,
+        missingInputCount: combinedPack.missingInputCount,
+        secretInputCount: combinedPack.secretInputCount,
+        localEnvTemplateLines: combinedPack.localEnvTemplateLines,
+        shellExportTemplateLines: combinedPack.shellExportTemplateLines,
+        localEnvTemplateText: `${combinedPack.localEnvTemplateLines.join('\n')}\n`,
+        shellExportTemplateText: `${combinedPack.shellExportTemplateLines.join('\n')}\n`,
+        templateDownloadFileName: 'agl-owner-unlock-template.env',
+        filledDownloadFileName: 'agl-owner-unlock-filled.env',
+        receiptStorageKey: 'agl.ownerUnlockPageActionReceipt',
+        runtimeConfigPreview: {
+          id: 'browser-local-owner-unlock-runtime-config-preview',
+          status: 'ready',
+          downloadFileName: 'owner-runtime-config.preview.json',
+          targetPublicPath: 'public/owner-runtime-config.json',
+          defaultPosthogHost,
+          provider: 'posthog-browser',
+          minimumPublicInputNames: ['VITE_POSTHOG_KEY'],
+          optionalPublicInputNames: ['AGL_SUPPORT_EMAIL'],
+          analyticsOnlyAllowed: true,
+          controls: {
+            browserLocalOnly: true,
+            publicValuesOnly: true,
+            noSecretValues: true,
+            noGeneratedValueSerialization: true,
+            noGithubMutation: true,
+            noWorkflowDispatch: true,
+            noStoreSubmission: true,
+            noRevenueEnablement: true,
+          },
+        },
+        productionInputWatchCommand: {
+          id: 'browser-local-owner-unlock-production-input-watch-command',
+          status: 'ready',
+          workflowFile: 'production-input-watch.yml',
+          workflowPath: '.github/workflows/production-input-watch.yml',
+          ref: 'main',
+          requiredFlag: 'publish_zero_secret_runtime_config=true',
+          defaultPosthogHost,
+          minimumPublicInputNames: ['VITE_POSTHOG_KEY'],
+          optionalPublicInputNames: ['AGL_SUPPORT_EMAIL'],
+          controls: {
+            browserLocalOnly: true,
+            publicValuesOnly: true,
+            noSecretValues: true,
+            noGeneratedValueSerialization: true,
+            noGithubMutation: true,
+            noWorkflowDispatchFromPage: true,
+            commandRequiresOwnerRun: true,
+            noStoreSubmission: true,
+            noRevenueEnablement: true,
+          },
+        },
+        valueValidation: {
+          id: 'browser-local-owner-unlock-zero-secret-check',
+          status: 'ready',
+          fields: [
+            {
+              envName: 'VITE_POSTHOG_KEY',
+              title: 'PostHog browser project key',
+              inputId: 'owner-unlock-vite-posthog-key',
+              validationKind: 'posthog-public-key',
+              inputType: 'text',
+              placeholder: 'phc_public_project_key',
+              required: true,
+              runtimeConfigRequired: true,
+              publicValue: true,
+              maxLength: 256,
+            },
+            {
+              envName: 'AGL_SUPPORT_EMAIL',
+              title: 'Production support email',
+              inputId: 'owner-unlock-agl-support-email',
+              validationKind: 'email-shape',
+              inputType: 'email',
+              placeholder: 'support@example.com',
+              required: true,
+              runtimeConfigRequired: false,
+              publicValue: true,
+              maxLength: 254,
+            },
+          ],
+          controls: {
+            browserLocalOnly: true,
+            publicValuesOnly: true,
+            noSecretValues: true,
+            noGeneratedValueSerialization: true,
+            noGithubMutation: true,
+            noWorkflowDispatch: true,
+          },
+        },
+        commands: {
+          combinedPreflight: combinedPack.commands.combinedPreflight,
+          setupWriteLocalEnvTemplate: combinedPack.commands.setupWriteLocalEnvTemplate,
+          syncConfiguredValues: combinedPack.commands.syncConfiguredValues,
+          workflowDispatch: combinedPack.commands.workflowDispatch,
+        },
+        controls: {
+          zeroPaidSpend: true,
+          browserLocalOnly: true,
+          publicValuesOnly: true,
+          noSecretValues: true,
+          noSecretValuesStored: true,
+          noGeneratedValueSerialization: true,
+          noGithubMutation: true,
+          noWorkflowDispatchFromPage: true,
+          noAccountCreation: true,
+          noStoreSubmission: true,
+          noRevenueEnablement: true,
+          productGatesStillRequiredForRevenue: true,
+          storeSubmissionStillBlocked: true,
+          revenueStillBlocked: true,
+          localOnlyReceipt: true,
+          localTemplateWriteNoGithubMutation: true,
+        },
+      }
+    : null
 const parallelOwnerUnlocks = [
   summarizeAnalyticsParallelUnlock(nextOwnerAction, nextUnlockKit, recommendedUnlockPath, lowestInputUnlockPath),
   summarizeStoreParallelUnlock(storeOwnerNextUnlock, storeOwnerUnlockSummary),
@@ -802,6 +930,7 @@ const combinedOwnerInputPack = summarizeCombinedOwnerInputPack(
   storeReadiness.supportOwnerInputPack,
   storeOwnerNextUnlock,
 )
+const ownerUnlockBrowserActionPack = buildOwnerUnlockBrowserActionPack(combinedOwnerInputPack)
 const ownerUnlockBrief =
   nextUnlockKit && recommendedUnlockPath
     ? {
@@ -1006,6 +1135,7 @@ const ownerUnlockBriefPayload = {
   brief: payload.ownerUnlockBrief,
   ownerInputQueue: payload.ownerUnlockBrief?.parallelOwnerUnlocks ?? [],
   combinedOwnerInputPack: payload.ownerUnlockBrief?.combinedOwnerInputPack ?? null,
+  browserLocalActionPack: ownerUnlockBrowserActionPack,
   setup: {
     setupScript: 'ops/github/setup-production.sh',
     printCommand: './ops/github/setup-production.sh --owner-unlock-brief',
@@ -1072,10 +1202,16 @@ const listItemsHtml = (items, renderItem, emptyText = 'none') =>
 
 const commandItemsHtml = (commands, emptyText = 'none') =>
   listItemsHtml(commands, (command) => `<code>${escapeHtml(command)}</code>`, emptyText)
+const scriptJson = (value) =>
+  JSON.stringify(value)
+    .replaceAll('<', '\\u003c')
+    .replaceAll('>', '\\u003e')
+    .replaceAll('&', '\\u0026')
 
 const ownerUnlockPageHtml = (briefPayload) => {
   const currentBrief = briefPayload.brief
   const combinedPack = briefPayload.combinedOwnerInputPack
+  const browserActionPack = briefPayload.browserLocalActionPack
   const lowestPath = currentBrief?.lowestInputPath ?? null
   const minimalPath = currentBrief?.minimalInterventionPath ?? null
 
@@ -1180,11 +1316,56 @@ const ownerUnlockPageHtml = (briefPayload) => {
         gap: 10px;
       }
 
-      .actions a {
+      .actions a,
+      button {
         border: 1px solid #187f7a;
         border-radius: 8px;
+        background: #fffdf7;
+        color: #115956;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 800;
         padding: 10px 12px;
         text-decoration: none;
+      }
+
+      button:disabled {
+        border-color: #d9d0bf;
+        color: #8a8376;
+        cursor: not-allowed;
+      }
+
+      .ownerInputFields {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 12px;
+        margin: 16px 0;
+      }
+
+      .ownerInputField {
+        display: grid;
+        gap: 6px;
+      }
+
+      .ownerInputField span {
+        color: #5f584e;
+        font-size: 0.86rem;
+        font-weight: 800;
+      }
+
+      input {
+        border: 1px solid #d0c6b3;
+        border-radius: 8px;
+        color: #191713;
+        font: inherit;
+        padding: 10px 12px;
+      }
+
+      .localStatus {
+        background: #f2eadc;
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        padding: 10px 12px;
       }
     </style>
   </head>
@@ -1242,6 +1423,53 @@ const ownerUnlockPageHtml = (briefPayload) => {
           ${commandItemsHtml(combinedPack?.localEnvTemplateLines)}
         </ul>
       </section>
+
+      ${
+        browserActionPack
+          ? `<section aria-label="Browser-local owner unlock action pack">
+        <h2>Browser-Local Owner Unlock</h2>
+        <div class="grid" aria-label="Browser-local owner unlock summary">
+          <div class="card">
+            <span>Action pack</span>
+            <strong>${escapeHtml(browserActionPack.id)}</strong>
+          </div>
+          <div class="card">
+            <span>Template download</span>
+            <strong>${escapeHtml(browserActionPack.templateDownloadFileName)}</strong>
+          </div>
+          <div class="card">
+            <span>Filled env download</span>
+            <strong>${escapeHtml(browserActionPack.filledDownloadFileName)}</strong>
+          </div>
+          <div class="card">
+            <span>Runtime preview</span>
+            <strong>${escapeHtml(browserActionPack.runtimeConfigPreview.downloadFileName)}</strong>
+          </div>
+        </div>
+        <div class="ownerInputFields" aria-label="Owner unlock zero-secret value check">
+          ${browserActionPack.valueValidation.fields
+            .map(
+              (field) => `<label class="ownerInputField" for="${escapeHtml(field.inputId)}">
+            <span>${escapeHtml(field.title)}</span>
+            <input id="${escapeHtml(field.inputId)}" type="${escapeHtml(field.inputType)}" inputmode="${field.validationKind === 'email-shape' ? 'email' : 'text'}" autocomplete="off" spellcheck="false" maxlength="${field.maxLength}" placeholder="${escapeHtml(field.placeholder)}" data-owner-unlock-input="${escapeHtml(field.envName)}" data-validation-kind="${escapeHtml(field.validationKind)}" />
+          </label>`,
+            )
+            .join('\n          ')}
+        </div>
+        <div class="actions">
+          <button type="button" id="owner-unlock-copy-template">Copy local env template</button>
+          <button type="button" id="owner-unlock-download-template">Download local env template</button>
+          <button type="button" id="owner-unlock-copy-shell-template">Copy shell exports</button>
+          <button type="button" id="owner-unlock-check-values">Check zero-secret values</button>
+          <button type="button" id="owner-unlock-download-filled-env" disabled>Download filled local env</button>
+          <button type="button" id="owner-unlock-copy-filled-shell" disabled>Copy filled shell exports</button>
+          <button type="button" id="owner-unlock-download-runtime-preview" disabled>Download runtime config preview</button>
+          <button type="button" id="owner-unlock-copy-input-watch-command" disabled>Copy input watch command</button>
+        </div>
+        <p class="localStatus" id="owner-unlock-action-status" aria-live="polite">Ready for browser-local values. No value is stored by generated evidence.</p>
+      </section>`
+          : ''
+      }
 
       <section>
         <h2>Zero-Secret Runtime Config</h2>
@@ -1337,6 +1565,287 @@ const ownerUnlockPageHtml = (briefPayload) => {
         </div>
       </section>
     </main>
+    <script>
+      const ownerUnlockActionPack = ${scriptJson(browserActionPack)};
+      const writeOwnerUnlockReceipt = (action, details = {}) => {
+        if (!ownerUnlockActionPack) {
+          return;
+        }
+        const receipt = {
+          action,
+          actedAt: new Date().toISOString(),
+          packId: ownerUnlockActionPack.id,
+          sourcePackId: ownerUnlockActionPack.sourcePackId,
+          localEnvFile: ownerUnlockActionPack.localEnvFile,
+          noSecretValues: true,
+          noSecretValuesStored: true,
+          noGeneratedValueSerialization: true,
+          noGithubMutation: true,
+          noWorkflowDispatchFromPage: true,
+          storeSubmissionStillBlocked: true,
+          revenueStillBlocked: true,
+          ...details,
+        };
+        window.localStorage.setItem(ownerUnlockActionPack.receiptStorageKey, JSON.stringify(receipt));
+      };
+      const setOwnerUnlockStatus = (message) => {
+        const status = document.getElementById('owner-unlock-action-status');
+        if (status) {
+          status.textContent = message;
+        }
+      };
+      const downloadText = (text, fileName) => {
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = fileName;
+        document.body.append(link);
+        link.click();
+        URL.revokeObjectURL(link.href);
+        link.remove();
+      };
+      const copyText = async (text, action, successMessage, details = {}) => {
+        try {
+          await navigator.clipboard.writeText(text);
+          writeOwnerUnlockReceipt(action, details);
+          setOwnerUnlockStatus(successMessage);
+        } catch {
+          setOwnerUnlockStatus('Clipboard unavailable. Use a download action instead.');
+        }
+      };
+      const ownerUnlockFields = () => ownerUnlockActionPack?.valueValidation?.fields ?? [];
+      const ownerUnlockElement = (field) => document.getElementById(field.inputId);
+      const readOwnerUnlockEntries = () =>
+        ownerUnlockFields().map((field) => ({
+          field,
+          value: String(ownerUnlockElement(field)?.value ?? '').trim(),
+        }));
+      const validateOwnerUnlockField = (field, value, { allowMissing = false } = {}) => {
+        const problems = [
+          !allowMissing && !value ? field.envName + ' is missing' : null,
+          /[\\r\\n]/.test(value) ? field.envName + ' must be a single line' : null,
+          /\\s/.test(value) ? field.envName + ' must not include whitespace' : null,
+          value.length > field.maxLength ? field.envName + ' is too long' : null,
+        ].filter(Boolean);
+
+        if (field.validationKind === 'email-shape' && value && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value)) {
+          problems.push(field.envName + ' must look like an email address');
+        }
+
+        return problems;
+      };
+      const setOwnerUnlockButtons = ({ combinedEnabled, runtimeConfigEnabled }) => {
+        document.getElementById('owner-unlock-download-filled-env')?.toggleAttribute('disabled', !combinedEnabled);
+        document.getElementById('owner-unlock-copy-filled-shell')?.toggleAttribute('disabled', !combinedEnabled);
+        document
+          .getElementById('owner-unlock-download-runtime-preview')
+          ?.toggleAttribute('disabled', !runtimeConfigEnabled);
+        document
+          .getElementById('owner-unlock-copy-input-watch-command')
+          ?.toggleAttribute('disabled', !runtimeConfigEnabled);
+      };
+      const validateOwnerUnlockValues = () => {
+        const entries = readOwnerUnlockEntries();
+        const combinedProblems = entries.flatMap(({ field, value }) => validateOwnerUnlockField(field, value));
+        const runtimeProblems = entries.flatMap(({ field, value }) =>
+          validateOwnerUnlockField(field, value, { allowMissing: field.runtimeConfigRequired !== true }),
+        );
+        const hasRuntimeMinimum = entries.some(
+          ({ field, value }) => field.runtimeConfigRequired === true && value.length > 0,
+        );
+        const combinedValid = entries.length > 0 && combinedProblems.length === 0;
+        const runtimeConfigValid = entries.length > 0 && hasRuntimeMinimum && runtimeProblems.length === 0;
+        setOwnerUnlockButtons({ combinedEnabled: combinedValid, runtimeConfigEnabled: runtimeConfigValid });
+        setOwnerUnlockStatus(
+          combinedValid
+            ? 'Zero-secret values passed local checks.'
+            : runtimeConfigValid
+              ? 'Production analytics value passed local checks; support email can be added later.'
+              : 'Waiting for valid zero-secret values: ' + (runtimeProblems.join('; ') || 'none') + '.',
+        );
+        return { combinedValid, runtimeConfigValid, entries };
+      };
+      const shellQuote = (value) =>
+        String.fromCharCode(39) +
+        String(value).replace(/'/g, String.fromCharCode(39, 92, 39, 39)) +
+        String.fromCharCode(39);
+      const ownerUnlockValueMap = (entries) =>
+        Object.fromEntries(entries.map(({ field, value }) => [field.envName, value]));
+      const filledEnvText = (entries) =>
+        entries.map(({ field, value }) => field.envName + '=' + value).join('\\n') + '\\n';
+      const filledShellText = (entries) =>
+        entries.map(({ field, value }) => 'export ' + field.envName + '=' + shellQuote(value)).join('\\n') + '\\n';
+      const runtimePreviewText = (entries) => {
+        const values = ownerUnlockValueMap(entries);
+        const posthogKey = values.VITE_POSTHOG_KEY || null;
+        const supportEmail = values.AGL_SUPPORT_EMAIL || null;
+        const defaultHost =
+          ownerUnlockActionPack?.runtimeConfigPreview?.defaultPosthogHost || '${defaultPosthogHost}';
+        const configuredPublicInputNames = entries
+          .filter(({ value }) => value.length > 0)
+          .map(({ field }) => field.envName);
+        const missingPublicInputNames = ownerUnlockFields()
+          .filter((field) => !configuredPublicInputNames.includes(field.envName))
+          .map((field) => field.envName);
+        return JSON.stringify(
+          {
+            generatedAt: new Date().toISOString(),
+            id: 'owner-runtime-config-preview',
+            status: 'owner-runtime-config-preview-ready',
+            source: 'owner-unlock-browser-local-preview',
+            targetPublicPath:
+              ownerUnlockActionPack?.runtimeConfigPreview?.targetPublicPath || 'public/owner-runtime-config.json',
+            publicInputNames: ownerUnlockFields().map((field) => field.envName),
+            configuredPublicInputNames,
+            defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
+            missingPublicInputNames,
+            invalidPublicInputNames: [],
+            analytics: {
+              provider: posthogKey ? ownerUnlockActionPack?.runtimeConfigPreview?.provider || 'posthog-browser' : null,
+              posthogConfigured: Boolean(posthogKey),
+              posthogKey,
+              posthogHost: defaultHost,
+            },
+            support: {
+              configured: Boolean(supportEmail),
+              email: supportEmail,
+            },
+            controls: {
+              zeroPaidSpend: true,
+              zeroSecretInputsOnly: true,
+              publicValuesOnly: true,
+              browserLocalOnly: true,
+              noSecretValues: true,
+              noGeneratedValueSerialization: true,
+              noGithubMutation: true,
+              noWorkflowDispatch: true,
+              noStoreSubmission: true,
+              noRevenueEnablement: true,
+            },
+          },
+          null,
+          2,
+        ) + '\\n';
+      };
+      const inputWatchCommandText = (entries) => {
+        const values = ownerUnlockValueMap(entries);
+        const command = ownerUnlockActionPack?.productionInputWatchCommand;
+        const defaultHost = command?.defaultPosthogHost || '${defaultPosthogHost}';
+        return [
+          'gh',
+          'workflow',
+          'run',
+          command?.workflowFile || 'production-input-watch.yml',
+          '--ref',
+          command?.ref || 'main',
+          '-f',
+          command?.requiredFlag || 'publish_zero_secret_runtime_config=true',
+          '-f',
+          'vite_posthog_key=' + shellQuote(values.VITE_POSTHOG_KEY || ''),
+          '-f',
+          'vite_posthog_host=' + shellQuote(defaultHost),
+          '-f',
+          'agl_support_email=' + shellQuote(values.AGL_SUPPORT_EMAIL || ''),
+        ].join(' ');
+      };
+      const writeValidatedOwnerUnlockReceipt = (action, entries, details = {}) => {
+        writeOwnerUnlockReceipt(action, {
+          validatedInputNames: entries.filter(({ value }) => value.length > 0).map(({ field }) => field.envName),
+          validationStatus: 'passed',
+          noValuesStored: true,
+          ...details,
+        });
+      };
+      document
+        .getElementById('owner-unlock-copy-template')
+        ?.addEventListener('click', () =>
+          copyText(
+            ownerUnlockActionPack.localEnvTemplateText,
+            'copy-local-env-template',
+            'Local env template copied.',
+          ),
+        );
+      document.getElementById('owner-unlock-download-template')?.addEventListener('click', () => {
+        downloadText(ownerUnlockActionPack.localEnvTemplateText, ownerUnlockActionPack.templateDownloadFileName);
+        writeOwnerUnlockReceipt('download-local-env-template', {
+          missingInputNames: ownerUnlockActionPack.missingInputNames,
+        });
+        setOwnerUnlockStatus('Local env template downloaded.');
+      });
+      document
+        .getElementById('owner-unlock-copy-shell-template')
+        ?.addEventListener('click', () =>
+          copyText(
+            ownerUnlockActionPack.shellExportTemplateText,
+            'copy-shell-export-template',
+            'Shell export template copied.',
+          ),
+        );
+      document.getElementById('owner-unlock-check-values')?.addEventListener('click', validateOwnerUnlockValues);
+      document.getElementById('owner-unlock-download-filled-env')?.addEventListener('click', () => {
+        const validation = validateOwnerUnlockValues();
+        if (!validation.combinedValid) {
+          return;
+        }
+        downloadText(filledEnvText(validation.entries), ownerUnlockActionPack.filledDownloadFileName);
+        writeValidatedOwnerUnlockReceipt('download-filled-local-env-template', validation.entries);
+        setOwnerUnlockStatus('Filled local env downloaded.');
+      });
+      document
+        .getElementById('owner-unlock-copy-filled-shell')
+        ?.addEventListener('click', async () => {
+          const validation = validateOwnerUnlockValues();
+          if (!validation.combinedValid) {
+            return;
+          }
+          await copyText(
+            filledShellText(validation.entries),
+            'copy-filled-shell-export-template',
+            'Filled shell exports copied.',
+          );
+          writeValidatedOwnerUnlockReceipt('copy-filled-shell-export-template', validation.entries);
+        });
+      document.getElementById('owner-unlock-download-runtime-preview')?.addEventListener('click', () => {
+        const validation = validateOwnerUnlockValues();
+        if (!validation.runtimeConfigValid) {
+          return;
+        }
+        downloadText(
+          runtimePreviewText(validation.entries),
+          ownerUnlockActionPack.runtimeConfigPreview.downloadFileName,
+        );
+        writeValidatedOwnerUnlockReceipt('download-owner-runtime-config-preview', validation.entries, {
+          runtimeConfigPreviewFileName: ownerUnlockActionPack.runtimeConfigPreview.downloadFileName,
+          targetPublicPath: ownerUnlockActionPack.runtimeConfigPreview.targetPublicPath,
+          defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
+          publicRuntimeConfigPreview: true,
+        });
+        setOwnerUnlockStatus('Runtime config preview downloaded.');
+      });
+      document
+        .getElementById('owner-unlock-copy-input-watch-command')
+        ?.addEventListener('click', async () => {
+          const validation = validateOwnerUnlockValues();
+          if (!validation.runtimeConfigValid) {
+            return;
+          }
+          await copyText(
+            inputWatchCommandText(validation.entries),
+            'copy-production-input-watch-command',
+            'Production Input Watch command copied.',
+          );
+          writeValidatedOwnerUnlockReceipt('copy-production-input-watch-command', validation.entries, {
+            workflowFile: ownerUnlockActionPack.productionInputWatchCommand.workflowFile,
+            workflowPath: ownerUnlockActionPack.productionInputWatchCommand.workflowPath,
+            workflowRef: ownerUnlockActionPack.productionInputWatchCommand.ref,
+            commandRequiresOwnerRun: true,
+            copiedCommandStoresPublicValuesOnly: true,
+          });
+        });
+      ownerUnlockFields().forEach((field) => {
+        ownerUnlockElement(field)?.addEventListener('input', validateOwnerUnlockValues);
+      });
+    </script>
   </body>
 </html>
 `
@@ -1412,6 +1921,15 @@ const ownerUnlockReport = [
   `- unlocks: ${ownerUnlockBriefPayload.combinedOwnerInputPack?.unlockIds?.join(', ') || 'none'}`,
   `- store submission still blocked: ${ownerUnlockBriefPayload.combinedOwnerInputPack?.controls?.storeSubmissionStillBlocked === true}`,
   `- revenue still blocked: ${ownerUnlockBriefPayload.combinedOwnerInputPack?.controls?.revenueStillBlocked === true}`,
+  '',
+  '## Browser Local Action Pack',
+  '',
+  `- id: ${ownerUnlockBriefPayload.browserLocalActionPack?.id ?? 'none'}`,
+  `- receipt storage key: ${ownerUnlockBriefPayload.browserLocalActionPack?.receiptStorageKey ?? 'none'}`,
+  `- template download: ${ownerUnlockBriefPayload.browserLocalActionPack?.templateDownloadFileName ?? 'none'}`,
+  `- filled env download: ${ownerUnlockBriefPayload.browserLocalActionPack?.filledDownloadFileName ?? 'none'}`,
+  `- runtime preview: ${ownerUnlockBriefPayload.browserLocalActionPack?.runtimeConfigPreview?.downloadFileName ?? 'none'}`,
+  `- no workflow dispatch from page: ${ownerUnlockBriefPayload.browserLocalActionPack?.controls?.noWorkflowDispatchFromPage === true}`,
   '',
   '### Combined Local Env Template',
   '',
