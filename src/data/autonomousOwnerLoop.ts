@@ -15,7 +15,7 @@ export const autonomousOwnerLoop = {
     "heldActionCount": 1,
     "executableWithoutRepeatCount": 0,
     "nextResumeAt": "2026-05-27T08:51:05.423Z",
-    "nextResumeInHours": 16.054,
+    "nextResumeInHours": 15.73,
     "heldActionIds": [
       "seed-portfolio-traffic"
     ]
