@@ -1,10 +1,10 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-26T16:11:04.639Z",
+  "generatedAt": "2026-05-26T16:18:35.987Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-206b48eed9e6",
+  "liveCandidate": "pwa-4bee188c23c1",
   "liveRelease": {
-    "syncedCandidateId": "pwa-206b48eed9e6",
+    "syncedCandidateId": "pwa-4bee188c23c1",
     "exactManifestPath": "/release-candidate.json",
     "staticJsonMayLagBehindLatestDeploy": true
   },
@@ -47,15 +47,15 @@ export const productionMeasurementStatus = {
       "status": "waiting-on-owner-input",
       "nextUnlockId": "production-analytics-browser",
       "recommendedPathId": "first-party-collector",
-      "missingVariableCount": 5,
-      "missingSecretCount": 3
+      "missingVariableCount": 3,
+      "missingSecretCount": 1
     }
   },
   "ownerUnlockPreflight": {
     "status": "owner-unlock-preflight-waiting-on-input",
     "readyForSetup": false,
     "lowestInputPathId": "posthog-browser",
-    "missingInputCount": 8,
+    "missingInputCount": 4,
     "invalidInputCount": 0,
     "lowestInputMissingInputCount": 1,
     "lowestInputSecretInputCount": 0,
