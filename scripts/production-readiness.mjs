@@ -1601,8 +1601,11 @@ const payload = {
   },
   promotion: {
     nextAction:
-      deploymentFreshnessTracked && deploymentFreshness.status !== 'current-head-deployed'
+      deploymentFreshnessTracked &&
+      !['current-head-deployed', 'post-deploy-evidence-head-synced'].includes(deploymentFreshness.status)
         ? 'Wait for Web PWA Deploy to publish the current main head before treating live Pages as current.'
+        : deploymentFreshness.status === 'post-deploy-evidence-head-synced'
+          ? 'Live Pages matches the deployed source; redeploy only when public evidence pages must mirror the post-deploy evidence commit immediately.'
         : statusFromChecks(webChecks, 'ready-after-build') === 'ready-after-build'
           ? 'Deploy web/PWA experiment when hosting credentials exist.'
           : 'Fix web/PWA blockers before external traffic.',

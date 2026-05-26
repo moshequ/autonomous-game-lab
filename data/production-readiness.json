@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T12:57:57.315Z",
+  "generatedAt": "2026-05-26T13:02:17.615Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -3331,14 +3331,20 @@
       "runListAvailable": true
     },
     "deploymentFreshness": {
-      "status": "current-head-not-deployed",
-      "currentHeadSha": "85d70aa70f5865b0956b2dcb35775ad3aee58729",
+      "status": "post-deploy-evidence-head-synced",
+      "currentHeadSha": "4f82407ad827c1f6fb2c4b5b884389385b5e7bdb",
+      "currentHeadParentSha": "85d70aa70f5865b0956b2dcb35775ad3aee58729",
       "currentBranch": "main",
+      "currentHeadSubject": "Autonomous post-deploy evidence sync",
       "selectedRunHeadSha": "85d70aa70f5865b0956b2dcb35775ad3aee58729",
-      "selectedRunHeadMatchesCurrent": true,
+      "selectedRunHeadMatchesCurrent": false,
+      "selectedRunHeadMatchesDeploySource": true,
+      "currentHeadIsPostDeployEvidenceCommit": true,
       "currentHeadDeployed": false,
+      "deploySourceHeadSha": "85d70aa70f5865b0956b2dcb35775ad3aee58729",
+      "deploySourceDeployed": true,
       "currentHeadQueuedOrRunning": false,
-      "currentHeadSuccessfulRunId": 26449251198,
+      "currentHeadSuccessfulRunId": null,
       "currentHeadActiveRunId": null,
       "latestRunId": 26449251198,
       "latestRunStatus": "completed",
@@ -3469,7 +3475,7 @@
       {
         "id": "deployment-freshness",
         "status": "monitor",
-        "detail": "Current main 85d70aa70f58 is not the latest strict deployed artifact; freshness current-head-not-deployed."
+        "detail": "Current main 4f82407ad827 is the post-deploy evidence commit for deployed source 85d70aa70f58."
       }
     ]
   },
@@ -8103,7 +8109,7 @@
     }
   },
   "promotion": {
-    "nextAction": "Wait for Web PWA Deploy to publish the current main head before treating live Pages as current.",
+    "nextAction": "Live Pages matches the deployed source; redeploy only when public evidence pages must mirror the post-deploy evidence commit immediately.",
     "storeRule": "Do not package native apps until retention gates, privacy URL, and account credentials exist."
   }
 }

@@ -145,9 +145,16 @@ const remoteResult = await run('git', ['remote', 'get-url', 'origin'], 4_000)
 const repository = parseGithubRepository(explicitRepo) ?? repositoryFromRemote(remoteResult.ok ? remoteResult.stdout : null)
 const currentHeadResult = await run('git', ['rev-parse', 'HEAD'], 4_000)
 const currentBranchResult = await run('git', ['branch', '--show-current'], 4_000)
+const currentHeadParentResult = await run('git', ['rev-parse', 'HEAD^'], 4_000)
+const currentHeadSubjectResult = await run('git', ['log', '-1', '--pretty=%s'], 4_000)
 const currentHeadSha =
   currentHeadResult.ok && /^[a-f0-9]{40}$/.test(currentHeadResult.stdout) ? currentHeadResult.stdout : null
+const currentHeadParentSha =
+  currentHeadParentResult.ok && /^[a-f0-9]{40}$/.test(currentHeadParentResult.stdout)
+    ? currentHeadParentResult.stdout
+    : null
 const currentBranch = currentBranchResult.ok && currentBranchResult.stdout ? currentBranchResult.stdout : null
+const currentHeadSubject = currentHeadSubjectResult.ok ? currentHeadSubjectResult.stdout : null
 
 if (
   existingSync?.status === 'post-deploy-artifact-sync-passed' &&
@@ -409,19 +416,31 @@ const currentHeadSuccessfulRun = currentHeadRuns.find(
   (item) => item.status === 'completed' && item.conclusion === 'success',
 )
 const latestRun = workflowRuns[0] ?? null
-const selectedRunHeadMatchesCurrent = Boolean(currentHeadSha && selectedRun?.headSha === currentHeadSha)
+const selectedRunHeadSha = selectedRun?.headSha ?? existingSync?.workflow?.headSha ?? null
+const selectedRunHeadMatchesCurrent = Boolean(currentHeadSha && selectedRunHeadSha === currentHeadSha)
+const currentHeadIsPostDeployEvidenceCommit = Boolean(
+  currentHeadSha &&
+    currentHeadParentSha &&
+    selectedRunHeadSha === currentHeadParentSha &&
+    currentHeadSubject === 'Autonomous post-deploy evidence sync',
+)
+const deploySourceHeadSha = currentHeadIsPostDeployEvidenceCommit ? currentHeadParentSha : currentHeadSha
+const selectedRunHeadMatchesDeploySource = Boolean(deploySourceHeadSha && selectedRunHeadSha === deploySourceHeadSha)
 const liveMatchesCurrentLocalCandidate =
   liveManifest?.status === 200 &&
   liveManifest?.parsed?.status === 'release-candidate-ready' &&
   liveCandidateId === releaseCandidate.candidateId &&
   liveAggregateHash === releaseCandidate.integrity?.aggregateHash
-const currentHeadDeployed = selectedRunHeadMatchesCurrent && liveMatchesCurrentLocalCandidate
+const deploySourceDeployed = selectedRunHeadMatchesDeploySource && liveMatchesArtifact
+const currentHeadDeployed = selectedRunHeadMatchesCurrent && liveMatchesArtifact
 const deploymentFreshnessStatus = currentHeadSha
   ? currentHeadDeployed
     ? 'current-head-deployed'
-    : currentHeadActiveRun
-      ? 'current-head-deploy-pending'
-      : 'current-head-not-deployed'
+    : currentHeadIsPostDeployEvidenceCommit && deploySourceDeployed
+      ? 'post-deploy-evidence-head-synced'
+      : currentHeadActiveRun
+        ? 'current-head-deploy-pending'
+        : 'current-head-not-deployed'
   : 'current-head-unknown'
 
 checks.push({
@@ -439,6 +458,8 @@ checks.push({
   detail: currentHeadSha
     ? currentHeadDeployed
       ? `Current ${currentBranch ?? 'HEAD'} ${currentHeadSha.slice(0, 12)} is deployed.`
+      : currentHeadIsPostDeployEvidenceCommit && deploySourceDeployed
+        ? `Current ${currentBranch ?? 'HEAD'} ${currentHeadSha.slice(0, 12)} is the post-deploy evidence commit for deployed source ${deploySourceHeadSha?.slice(0, 12) ?? 'missing'}.`
       : `Current ${currentBranch ?? 'HEAD'} ${currentHeadSha.slice(0, 12)} is not the latest strict deployed artifact; freshness ${deploymentFreshnessStatus}.`
     : 'Current git HEAD could not be resolved for deployment freshness tracking.',
 })
@@ -472,10 +493,16 @@ let payload = {
   deploymentFreshness: {
     status: deploymentFreshnessStatus,
     currentHeadSha,
+    currentHeadParentSha,
     currentBranch,
-    selectedRunHeadSha: selectedRun?.headSha ?? null,
+    currentHeadSubject,
+    selectedRunHeadSha,
     selectedRunHeadMatchesCurrent,
+    selectedRunHeadMatchesDeploySource,
+    currentHeadIsPostDeployEvidenceCommit,
     currentHeadDeployed,
+    deploySourceHeadSha,
+    deploySourceDeployed,
     currentHeadQueuedOrRunning: Boolean(currentHeadActiveRun),
     currentHeadSuccessfulRunId: currentHeadSuccessfulRun?.databaseId ?? null,
     currentHeadActiveRunId: currentHeadActiveRun?.databaseId ?? null,
@@ -544,6 +571,8 @@ let payload = {
   nextActions: [
     deploymentFreshnessStatus === 'current-head-deployed'
       ? 'Current main is deployed; keep strict live artifact evidence in sync after each Pages run.'
+      : deploymentFreshnessStatus === 'post-deploy-evidence-head-synced'
+        ? 'Current main is the post-deploy evidence commit for the deployed source; deploy again only when public evidence pages must mirror the evidence commit immediately.'
       : 'Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.',
     status === 'post-deploy-artifact-sync-passed'
       ? 'Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.'

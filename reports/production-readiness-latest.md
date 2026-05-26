@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-26T12:57:57.315Z
+Generated: 2026-05-26T13:02:17.615Z
 
 ## Environment
 
@@ -197,7 +197,7 @@ Workflow run: 26449251198
 Artifact candidate: pwa-834480f69b0d
 Live candidate: pwa-834480f69b0d
 Live matches artifact: true
-Deployment freshness: current-head-not-deployed
+Deployment freshness: post-deploy-evidence-head-synced
 Current head deployed: false
 Current head queued/running: false
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
@@ -206,7 +206,7 @@ Current head queued/running: false
 - pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26449251198.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
-- monitor: artifact-sync-deployment-freshness - Current main 85d70aa70f58 is not the latest strict deployed artifact; freshness current-head-not-deployed.
+- monitor: artifact-sync-deployment-freshness - Current main 4f82407ad827 is the post-deploy evidence commit for deployed source 85d70aa70f58.
 
 ## Live Site Monitor
 

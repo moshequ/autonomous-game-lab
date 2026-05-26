@@ -1897,9 +1897,14 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
     deploymentFreshness: {
       status: string
       currentHeadSha: string | null
+      currentHeadParentSha: string | null
       selectedRunHeadSha: string | null
       selectedRunHeadMatchesCurrent: boolean
+      selectedRunHeadMatchesDeploySource: boolean
+      currentHeadIsPostDeployEvidenceCommit: boolean
       currentHeadDeployed: boolean
+      deploySourceHeadSha: string | null
+      deploySourceDeployed: boolean
       currentHeadQueuedOrRunning: boolean
       liveMatchesCurrentLocalCandidate: boolean
     }
@@ -1958,6 +1963,7 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(sync.live.aggregateHash).toBe(sync.artifact.target?.aggregateHash)
   expect([
     'current-head-deployed',
+    'post-deploy-evidence-head-synced',
     'current-head-deploy-pending',
     'current-head-not-deployed',
     'current-head-unknown',
@@ -1969,7 +1975,11 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   )
   if (sync.deploymentFreshness.status === 'current-head-deployed') {
     expect(sync.deploymentFreshness.selectedRunHeadMatchesCurrent).toBe(true)
-    expect(sync.deploymentFreshness.liveMatchesCurrentLocalCandidate).toBe(true)
+  }
+  if (sync.deploymentFreshness.status === 'post-deploy-evidence-head-synced') {
+    expect(sync.deploymentFreshness.currentHeadIsPostDeployEvidenceCommit).toBe(true)
+    expect(sync.deploymentFreshness.deploySourceDeployed).toBe(true)
+    expect(sync.deploymentFreshness.selectedRunHeadMatchesDeploySource).toBe(true)
   }
   expect(sync.validation.artifactPassed).toBe(true)
   expect(sync.validation.artifactStrict).toBe(true)

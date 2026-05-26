@@ -7039,6 +7039,7 @@ const postDeployArtifactSyncReady =
   postDeployArtifactSync.controls?.olderDeployNotTreatedAsCurrentHead === true
 const deploymentFreshnessStatuses = new Set([
   'current-head-deployed',
+  'post-deploy-evidence-head-synced',
   'current-head-deploy-pending',
   'current-head-not-deployed',
   'current-head-unknown',
@@ -7051,6 +7052,8 @@ const deploymentFreshnessTracked =
   (deploymentFreshness.selectedRunHeadSha === null ||
     /^[a-f0-9]{40}$/.test(deploymentFreshness.selectedRunHeadSha ?? '')) &&
   typeof deploymentFreshness.currentHeadDeployed === 'boolean' &&
+  typeof deploymentFreshness.currentHeadIsPostDeployEvidenceCommit === 'boolean' &&
+  typeof deploymentFreshness.deploySourceDeployed === 'boolean' &&
   typeof deploymentFreshness.currentHeadQueuedOrRunning === 'boolean' &&
   typeof deploymentFreshness.liveMatchesCurrentLocalCandidate === 'boolean'
 const normalizeLiveOriginForCompare = (value) => {
@@ -7174,8 +7177,11 @@ if (
   !deploymentFreshnessTracked ||
   (deploymentFreshness.status === 'current-head-deployed' &&
     (deploymentFreshness.currentHeadDeployed !== true ||
-      deploymentFreshness.liveMatchesCurrentLocalCandidate !== true ||
       deploymentFreshness.selectedRunHeadMatchesCurrent !== true)) ||
+  (deploymentFreshness.status === 'post-deploy-evidence-head-synced' &&
+    (deploymentFreshness.currentHeadIsPostDeployEvidenceCommit !== true ||
+      deploymentFreshness.deploySourceDeployed !== true ||
+      deploymentFreshness.selectedRunHeadMatchesDeploySource !== true)) ||
   packageJson.scripts?.['autonomous:post-deploy-artifact-sync'] !==
     'node scripts/post-deploy-artifact-sync.mjs' ||
   packageJson.scripts?.['autonomous:verify-post-deploy-sync'] !==
