@@ -519,7 +519,7 @@ const envExample = [
   '# Public support contact for privacy policy and store listings.',
   'AGL_SUPPORT_EMAIL=support@your-domain.example',
   '',
-  '# Optional browser analytics forwarding.',
+  '# Optional browser analytics forwarding; VITE_POSTHOG_HOST defaults to https://us.i.posthog.com when omitted.',
   'VITE_POSTHOG_KEY=phc_your_public_project_key',
   'VITE_POSTHOG_HOST=https://us.i.posthog.com',
   '',

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-26T10:37:13.037Z",
+  "generatedAt": "2026-05-26T10:56:26.898Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "e537490a514e",
+  "sourceDataHash": "e5a9b62bb33b",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -26,20 +26,20 @@
     "lowestInputPathId": "posthog-browser",
     "lowestInputPathTitle": "PostHog browser capture",
     "lowestInputPathStatus": "needs-public-project-key",
-    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
-    "lowestInputMissingInputCount": 2,
-    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+    "lowestInputMissingInputCount": 1,
+    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
     "lowestInputPath": {
       "id": "posthog-browser",
       "title": "PostHog browser capture",
       "status": "needs-public-project-key",
       "costMode": "zero-spend-use-existing-posthog-free-project",
       "ownerInputRequired": true,
-      "missingVariableCount": 2,
+      "missingVariableCount": 1,
       "missingSecretCount": 0,
-      "missingInputCount": 2,
-      "manualInputReduction": 2,
+      "missingInputCount": 1,
+      "manualInputReduction": 3,
       "noSecretsRequired": true,
       "missingVariables": [
         {
@@ -47,17 +47,23 @@
           "envName": "VITE_POSTHOG_KEY",
           "configured": false,
           "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-        },
-        {
-          "repositoryName": "VITE_POSTHOG_HOST",
-          "envName": "VITE_POSTHOG_HOST",
-          "configured": false,
-          "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
         }
       ],
       "missingSecrets": [],
       "configuredVariables": [],
       "configuredSecrets": [],
+      "optionalVariables": [
+        {
+          "id": "var-vite-posthog-host",
+          "repositoryName": "VITE_POSTHOG_HOST",
+          "envName": "VITE_POSTHOG_HOST",
+          "configured": false,
+          "valueSource": "missing",
+          "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\"",
+          "defaultValue": "https://us.i.posthog.com",
+          "purpose": "Optional PostHog ingestion host override; omit it to use the default browser capture host."
+        }
+      ],
       "setupCommands": [
         "./ops/github/setup-production.sh --analytics-input-template",
         "./ops/github/setup-production.sh",
@@ -75,12 +81,12 @@
       "title": "PostHog browser capture",
       "status": "needs-public-project-key",
       "costMode": "zero-spend-use-existing-posthog-free-project",
-      "missingInputCount": 2,
-      "missingVariableCount": 2,
+      "missingInputCount": 1,
+      "missingVariableCount": 1,
       "missingSecretCount": 0,
-      "manualInputReduction": 2,
+      "manualInputReduction": 3,
       "noSecretsRequired": true,
-      "reason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+      "reason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
       "setupCommands": [
         "./ops/github/setup-production.sh --analytics-input-template",
         "./ops/github/setup-production.sh",
@@ -98,22 +104,19 @@
       "title": "Combined zero-secret owner input pack",
       "status": "waiting-on-owner-input",
       "localEnvFile": ".env.production.local",
-      "inputCount": 3,
-      "missingInputCount": 3,
+      "inputCount": 2,
+      "missingInputCount": 2,
       "secretInputCount": 0,
       "missingInputNames": [
         "VITE_POSTHOG_KEY",
-        "VITE_POSTHOG_HOST",
         "AGL_SUPPORT_EMAIL"
       ],
       "localEnvTemplateLines": [
         "VITE_POSTHOG_KEY=",
-        "VITE_POSTHOG_HOST=",
         "AGL_SUPPORT_EMAIL="
       ],
       "shellExportTemplateLines": [
         "export VITE_POSTHOG_KEY=",
-        "export VITE_POSTHOG_HOST=",
         "export AGL_SUPPORT_EMAIL="
       ],
       "unlockIds": [
@@ -265,7 +268,7 @@
         "missingVariableCount": 3,
         "missingSecretCount": 1,
         "missingInputCount": 4,
-        "lowestInputMissingInputCount": 2,
+        "lowestInputMissingInputCount": 1,
         "lowestInputMissingSecretCount": 0,
         "missingVariables": [
           {
@@ -408,7 +411,7 @@
     "steps": [
       "Use First-party event collector (first-party-collector) for the next zero-spend measurement unlock.",
       "Use PostHog browser capture (posthog-browser) when the lowest-input owner path is more important than the first-party collector recommendation.",
-      "Minimal-intervention setup currently needs 2 input(s) and 0 secret(s).",
+      "Minimal-intervention setup currently needs 1 input(s) and 0 secret(s).",
       "Use the parallel owner unlocks queue to resolve store support-contact inputs alongside analytics inputs when an existing support inbox is available.",
       "Set only the missing repository variables shown in this brief.",
       "Set missing repository secrets with the stdin-fed gh secret commands; never paste secret values into files or issues.",
@@ -444,7 +447,7 @@
       "missingVariableCount": 3,
       "missingSecretCount": 1,
       "missingInputCount": 4,
-      "lowestInputMissingInputCount": 2,
+      "lowestInputMissingInputCount": 1,
       "lowestInputMissingSecretCount": 0,
       "missingVariables": [
         {
@@ -589,22 +592,19 @@
     "title": "Combined zero-secret owner input pack",
     "status": "waiting-on-owner-input",
     "localEnvFile": ".env.production.local",
-    "inputCount": 3,
-    "missingInputCount": 3,
+    "inputCount": 2,
+    "missingInputCount": 2,
     "secretInputCount": 0,
     "missingInputNames": [
       "VITE_POSTHOG_KEY",
-      "VITE_POSTHOG_HOST",
       "AGL_SUPPORT_EMAIL"
     ],
     "localEnvTemplateLines": [
       "VITE_POSTHOG_KEY=",
-      "VITE_POSTHOG_HOST=",
       "AGL_SUPPORT_EMAIL="
     ],
     "shellExportTemplateLines": [
       "export VITE_POSTHOG_KEY=",
-      "export VITE_POSTHOG_HOST=",
       "export AGL_SUPPORT_EMAIL="
     ],
     "unlockIds": [
@@ -692,7 +692,6 @@
     "configuredPublicInputNames": [],
     "missingPublicInputNames": [
       "VITE_POSTHOG_KEY",
-      "VITE_POSTHOG_HOST",
       "AGL_SUPPORT_EMAIL"
     ],
     "invalidPublicInputNames": [],

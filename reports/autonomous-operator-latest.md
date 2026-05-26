@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-26T10:37:20.163Z
+Generated: 2026-05-26T10:56:42.209Z
 Status: operator-held
 Mode: plan-only
 Owner decision: hold-for-external-input
@@ -26,7 +26,7 @@ Execution: not-requested
 - recommended path: first-party-collector
 - lowest-input path: posthog-browser
 - public status: /measurement-status.html
-- missing inputs: 5 variable(s), 1 secret(s)
+- missing inputs: 4 variable(s), 1 secret(s)
 - validate: npm run autonomous:event-collector-smoke
 - validate: npm run autonomous:collector-deploy-plan
 - validate: npm run autonomous:readiness

@@ -1,5 +1,5 @@
 export const ownerZeroSecretInputSync = {
-  "generatedAt": "2026-05-26T10:36:37.388Z",
+  "generatedAt": "2026-05-26T10:55:46.412Z",
   "status": "owner-zero-secret-input-sync-waiting-on-input",
   "mode": "zero-secret-public-owner-inputs",
   "source": {
@@ -13,6 +13,8 @@ export const ownerZeroSecretInputSync = {
       "title": "PostHog browser project key",
       "source": "missing",
       "status": "missing",
+      "required": true,
+      "defaulted": false,
       "publicConfigGroup": "analytics",
       "publicConfigKey": "posthogKey",
       "validation": {
@@ -26,14 +28,42 @@ export const ownerZeroSecretInputSync = {
       "envName": "VITE_POSTHOG_HOST",
       "inputEnvName": "AGL_OWNER_INPUT_VITE_POSTHOG_HOST",
       "title": "PostHog browser host",
-      "source": "missing",
-      "status": "missing",
+      "source": "built-in-posthog-browser-host",
+      "status": "defaulted",
+      "required": false,
+      "defaulted": true,
       "publicConfigGroup": "analytics",
       "publicConfigKey": "posthogHost",
       "validation": {
-        "checked": false,
-        "status": "not-checked-missing-input",
-        "checks": [],
+        "checked": true,
+        "status": "pass",
+        "checks": [
+          {
+            "id": "non-empty",
+            "passed": true,
+            "detail": "PostHog host must be present."
+          },
+          {
+            "id": "single-line",
+            "passed": true,
+            "detail": "PostHog host must be a single line."
+          },
+          {
+            "id": "parseable-url",
+            "passed": true,
+            "detail": "PostHog host must parse as a URL."
+          },
+          {
+            "id": "https-only",
+            "passed": true,
+            "detail": "PostHog host must use https://."
+          },
+          {
+            "id": "has-hostname",
+            "passed": true,
+            "detail": "PostHog host must include a hostname."
+          }
+        ],
         "failedCheckIds": []
       }
     },
@@ -43,6 +73,8 @@ export const ownerZeroSecretInputSync = {
       "title": "Production support email",
       "source": "missing",
       "status": "missing",
+      "required": true,
+      "defaulted": false,
       "publicConfigGroup": "support",
       "publicConfigKey": "email",
       "validation": {
@@ -56,12 +88,15 @@ export const ownerZeroSecretInputSync = {
   "summary": {
     "inputCount": 3,
     "validInputCount": 0,
-    "missingInputCount": 3,
+    "defaultedInputCount": 1,
+    "missingInputCount": 2,
     "invalidInputCount": 0,
     "validInputNames": [],
+    "defaultedInputNames": [
+      "VITE_POSTHOG_HOST"
+    ],
     "missingInputNames": [
       "VITE_POSTHOG_KEY",
-      "VITE_POSTHOG_HOST",
       "AGL_SUPPORT_EMAIL"
     ],
     "invalidInputNames": []
@@ -70,9 +105,11 @@ export const ownerZeroSecretInputSync = {
     "path": "public/owner-runtime-config.json",
     "status": "owner-runtime-config-waiting-on-input",
     "configuredPublicInputNames": [],
+    "defaultedPublicInputNames": [
+      "VITE_POSTHOG_HOST"
+    ],
     "missingPublicInputNames": [
       "VITE_POSTHOG_KEY",
-      "VITE_POSTHOG_HOST",
       "AGL_SUPPORT_EMAIL"
     ],
     "invalidPublicInputNames": [],
@@ -80,7 +117,7 @@ export const ownerZeroSecretInputSync = {
     "containsSecretValues": false
   },
   "githubEnvExport": {
-    "status": "skipped-no-valid-inputs",
+    "status": "skipped-no-github-env",
     "exportedInputNames": []
   },
   "workflowDispatch": {

@@ -222,7 +222,12 @@ const analyticsUnlockPaths = [
     status: posthogBrowserReady ? 'configured' : 'needs-public-project-key',
     costMode: 'zero-spend-use-existing-posthog-free-project',
     ownerInputRequired: !posthogBrowserReady,
-    requiredVariables: configActions(variableByRepositoryName, ['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST']),
+    requiredVariables: configActions(variableByRepositoryName, ['VITE_POSTHOG_KEY']),
+    optionalVariables: configActions(variableByRepositoryName, ['VITE_POSTHOG_HOST']).map((item) => ({
+      ...item,
+      defaultValue: 'https://us.i.posthog.com',
+      purpose: 'Optional PostHog ingestion host override; omit it to use the default browser capture host.',
+    })),
     requiredSecrets: [],
     commandSequence: [
       setupAnalyticsLocalEnvTemplateCommand,
@@ -234,6 +239,7 @@ const analyticsUnlockPaths = [
     validationCommands: ['npm run autonomous:readiness', 'npm run test:e2e'],
     unlocks: [
       'Browser events can forward to an existing PostHog project.',
+      'The browser PostHog host defaults to https://us.i.posthog.com, so the owner only needs a public project key unless their project uses another region.',
       'Owner-downloaded PostHog or collector JSON exports can be imported explicitly without server export credentials.',
       'Autonomous rollups still require a server-side export credential before scheduled production learning.',
     ],
@@ -327,6 +333,7 @@ const summarizeUnlockKit = (kit) =>
           commandCount: unlockPath.commandCount,
           validationCommandCount: unlockPath.validationCommandCount,
           requiredVariables: unlockPath.requiredVariables,
+          optionalVariables: unlockPath.optionalVariables ?? [],
           requiredSecrets: unlockPath.requiredSecrets,
           commandSequence: unlockPath.commandSequence,
           validationCommands: unlockPath.validationCommands,
@@ -571,6 +578,10 @@ const summarizeOwnerUnlockPath = (unlockPath, recommendedPath) =>
         missingSecrets: summarizeConfigInputs(unlockPath.requiredSecrets).filter((item) => !item.configured),
         configuredVariables: summarizeConfigInputs(unlockPath.requiredVariables).filter((item) => item.configured),
         configuredSecrets: summarizeConfigInputs(unlockPath.requiredSecrets).filter((item) => item.configured),
+        optionalVariables: (unlockPath.optionalVariables ?? []).map((item) => ({
+          ...item,
+          configured: item.configured === true,
+        })),
         setupCommands: unlockPath.commandSequence ?? [],
         validationCommands: unlockPath.validationCommands ?? [],
       }
@@ -1277,6 +1288,14 @@ const ownerUnlockPageHtml = (briefPayload) => {
         <ul>
           ${listItemsHtml(lowestPath?.missingVariables, (item) => `<code>${escapeHtml(item.repositoryName)}</code>`)}
         </ul>
+        <h3>Optional Defaults</h3>
+        <ul>
+          ${listItemsHtml(
+            lowestPath?.optionalVariables,
+            (item) =>
+              `<code>${escapeHtml(item.repositoryName)}</code> defaults to <code>${escapeHtml(item.defaultValue ?? 'configured default')}</code>`,
+          )}
+        </ul>
         <h3>Setup Commands</h3>
         <ul>
           ${commandItemsHtml(lowestPath?.setupCommands)}
@@ -1412,6 +1431,14 @@ const ownerUnlockReport = [
   '',
   ...(ownerUnlockBriefPayload.brief?.lowestInputPath?.missingVariables.length
     ? ownerUnlockBriefPayload.brief.lowestInputPath.missingVariables.map((item) => `- ${item.repositoryName}: ${item.command}`)
+    : ['- none']),
+  '',
+  '### Lowest-Input Optional Defaults',
+  '',
+  ...(ownerUnlockBriefPayload.brief?.lowestInputPath?.optionalVariables?.length
+    ? ownerUnlockBriefPayload.brief.lowestInputPath.optionalVariables.map(
+        (item) => `- ${item.repositoryName}: defaults to ${item.defaultValue ?? 'configured default'}`,
+      )
     : ['- none']),
   '',
   '### Lowest-Input Missing Secrets',

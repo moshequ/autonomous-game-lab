@@ -133,7 +133,7 @@
         <div class="grid" aria-label="Live release evidence">
           <div class="card">
             <span>Synced evidence candidate</span>
-            <strong>pwa-ae3647ad9362</strong>
+            <strong>pwa-356aaef63de4</strong>
           </div>
           <div class="card">
             <span>Exact live manifest</span>
@@ -331,7 +331,7 @@
           </div>
           <div class="card">
             <span>Minimal inputs</span>
-            <strong>2</strong>
+            <strong>1</strong>
           </div>
           <div class="card">
             <span>Minimal secrets</span>
@@ -348,7 +348,7 @@
                 </div>
                 <div class="card">
                   <span>Missing inputs</span>
-                  <strong>3</strong>
+                  <strong>2</strong>
                 </div>
                 <div class="card">
                   <span>Secret inputs</span>
@@ -361,7 +361,7 @@
               </div>
               <p>One ignored local env edit can cover production-analytics-browser, support-contact while revenue and store submission stay blocked.</p>
               <h4>Local Env Template</h4>
-              <ul><li><code>VITE_POSTHOG_KEY=</code></li><li><code>VITE_POSTHOG_HOST=</code></li><li><code>AGL_SUPPORT_EMAIL=</code></li></ul>
+              <ul><li><code>VITE_POSTHOG_KEY=</code></li><li><code>AGL_SUPPORT_EMAIL=</code></li></ul>
               <h4>Commands</h4>
               <ol><li><strong>printBrief</strong> <code>node scripts/owner-unlock-brief.mjs --print</code></li><li><strong>combinedPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>analyticsPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>storeReadiness</strong> <code>npm run autonomous:store-readiness</code></li><li><strong>setupPreflight</strong> <code>./ops/github/setup-production.sh --owner-unlock-preflight</code></li><li><strong>npmWriteAnalyticsLocalEnvTemplate</strong> <code>npm run autonomous:analytics-input-template</code></li><li><strong>writeAnalyticsLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --analytics-input-template</code></li><li><strong>setupWriteAnalyticsLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --analytics-input-template</code></li><li><strong>npmWriteLocalEnvTemplate</strong> <code>npm run autonomous:owner-input-template</code></li><li><strong>writeLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --write-local-env-template</code></li><li><strong>setupWriteLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --owner-input-template</code></li><li><strong>npmWriteSupportLocalEnvTemplate</strong> <code>npm run autonomous:support-input-template</code></li><li><strong>syncConfiguredValues</strong> <code>./ops/github/setup-production.sh</code></li><li><strong>workflowDispatch</strong> <code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><strong>zeroSecretRuntimeConfig</strong> <code>npm run autonomous:owner-zero-secret-input-sync</code></li><li><strong>productionInputWatchUi</strong> <code>Production Input Watch workflow dispatch: publish_zero_secret_runtime_config + vite_posthog_key + vite_posthog_host + agl_support_email</code></li></ol>
         <h3>Missing Variables</h3>
@@ -395,7 +395,7 @@
           </div>
           <div class="card">
             <span>Lowest-input missing</span>
-            <strong>2</strong>
+            <strong>1</strong>
           </div>
           <div class="card">
             <span>Invalid inputs</span>
@@ -419,26 +419,26 @@
           </div>
           <div class="card">
             <span>Combined missing</span>
-            <strong>3</strong>
+            <strong>2</strong>
           </div>
         </div>
         <h3>Owner Input Pack</h3>
         <ul>
-          <li><code>VITE_POSTHOG_KEY=</code></li><li><code>VITE_POSTHOG_HOST=</code></li>
+          <li><code>VITE_POSTHOG_KEY=</code></li>
         </ul>
         <h3>Combined Owner Input Preflight</h3>
               <ul>
                 <li><strong>Status</strong>: combined-owner-input-preflight-waiting-on-input</li>
                 <li><strong>Local env</strong>: <code>.env.production.local</code></li>
-                <li><strong>Missing</strong>: VITE_POSTHOG_KEY, VITE_POSTHOG_HOST, AGL_SUPPORT_EMAIL</li>
+                <li><strong>Missing</strong>: VITE_POSTHOG_KEY, AGL_SUPPORT_EMAIL</li>
                 <li><strong>Secrets</strong>: 0</li>
                 <li><strong>Support validation</strong>: not-checked-missing-input</li>
               </ul>
               <h4>Combined Local Env Template</h4>
-              <ul><li><code>VITE_POSTHOG_KEY=</code></li><li><code>VITE_POSTHOG_HOST=</code></li><li><code>AGL_SUPPORT_EMAIL=</code></li></ul>
+              <ul><li><code>VITE_POSTHOG_KEY=</code></li><li><code>AGL_SUPPORT_EMAIL=</code></li></ul>
         <h3>Path Options</h3>
         <ul>
-          <li><strong>recommended</strong>: first-party-collector - 4 missing input(s), 3 secret input(s)</li><li><strong>lowest-input</strong>: posthog-browser - 2 missing input(s), 0 secret input(s)</li>
+          <li><strong>recommended</strong>: first-party-collector - 4 missing input(s), 3 secret input(s)</li><li><strong>lowest-input</strong>: posthog-browser - 1 missing input(s), 0 secret input(s)</li>
         </ul>
         <h3>Missing Inputs</h3>
         <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li></ul>
@@ -518,7 +518,7 @@
           </div>
           <div class="card">
             <span>Minimal inputs</span>
-            <strong>2</strong>
+            <strong>1</strong>
           </div>
           <div class="card">
             <span>Minimal secrets</span>
@@ -546,8 +546,8 @@
             <span>PostHog browser capture</span>
             <strong>needs-public-project-key</strong>
             <p>zero-spend-use-existing-posthog-free-project</p>
-            <p>Missing inputs: 2 variable(s), 0 secret(s)</p>
-            <p>Variables: VITE_POSTHOG_KEY, VITE_POSTHOG_HOST</p>
+            <p>Missing inputs: 1 variable(s), 0 secret(s)</p>
+            <p>Variables: VITE_POSTHOG_KEY</p>
             <p>Secrets: none</p>
             <p>Commands: ./ops/github/setup-production.sh --analytics-input-template &amp;&amp; ./ops/github/setup-production.sh &amp;&amp; RUN_WORKFLOWS=1 ./ops/github/setup-production.sh &amp;&amp; AGL_PRODUCTION_EVENT_EXPORT_FILES=/absolute/path/to/export.json npm run autonomous:collect-production-export &amp;&amp; npm run autonomous:readiness</p>
           </article>
@@ -661,7 +661,7 @@
         <h2>Next Actions</h2>
         <ul>
           <li>Use the player-initiated local evidence route until PostHog or the first-party collector is configured.</li>
-          <li>Unlock production analytics with first-party-collector; minimal-intervention path is posthog-browser with 2 missing input(s) and 0 secret(s).</li>
+          <li>Unlock production analytics with first-party-collector; minimal-intervention path is posthog-browser with 1 missing input(s) and 0 secret(s).</li>
           <li>First-party collector deployment is blocked-needs-cloudflare-env; smoke is pass.</li>
           <li>External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.</li>
           <li>Product gate recovery is product-gate-recovery-ready; public recovery route is /product-gate-recovery.html.</li>
@@ -695,7 +695,7 @@
         document.getElementById('local-event-count').textContent = Array.isArray(events) ? String(events.length) : '0'
         document.getElementById('local-event-latest').textContent = latest?.createdAt ? latest.createdAt.slice(0, 19) : 'none'
         document.getElementById('local-export-latest').textContent = receipt?.exportedAt ? receipt.exportedAt.slice(0, 19) : 'never'
-        const syncedLiveCandidate = "pwa-ae3647ad9362"
+        const syncedLiveCandidate = "pwa-356aaef63de4"
         const exactLiveCandidate = document.getElementById('exact-live-candidate')
         const exactLiveMatch = document.getElementById('exact-live-match')
         const readLiveReleaseManifest = async () => {

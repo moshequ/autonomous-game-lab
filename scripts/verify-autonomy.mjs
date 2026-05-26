@@ -3818,8 +3818,12 @@ if (
   ownerZeroSecretInputSync.runtimeConfig?.path !== 'public/owner-runtime-config.json' ||
   ownerZeroSecretInputSync.runtimeConfig?.status !== publicOwnerRuntimeConfig.status ||
   ownerZeroSecretInputSync.runtimeConfig?.containsSecretValues !== false ||
+  !ownerZeroSecretInputSync.summary?.defaultedInputNames?.includes('VITE_POSTHOG_HOST') ||
+  !ownerZeroSecretInputSync.runtimeConfig?.defaultedPublicInputNames?.includes('VITE_POSTHOG_HOST') ||
   publicOwnerRuntimeConfig.id !== 'owner-runtime-config' ||
   publicOwnerRuntimeConfig.source !== 'owner-zero-secret-input-sync' ||
+  !publicOwnerRuntimeConfig.defaultedPublicInputNames?.includes('VITE_POSTHOG_HOST') ||
+  publicOwnerRuntimeConfig.analytics?.posthogHost !== 'https://us.i.posthog.com' ||
   publicOwnerRuntimeConfig.controls?.zeroPaidSpend !== true ||
   publicOwnerRuntimeConfig.controls?.zeroSecretInputsOnly !== true ||
   publicOwnerRuntimeConfig.controls?.noSecretValues !== true ||
@@ -3836,6 +3840,7 @@ if (
     'node scripts/owner-zero-secret-input-sync.mjs --print' ||
   !ownerZeroSecretInputSyncSource.includes('GITHUB_ENV') ||
   !ownerZeroSecretInputSyncSource.includes('AGL_ENABLE_ZERO_SECRET_WORKFLOW_INPUTS') ||
+  !ownerZeroSecretInputSyncSource.includes('built-in-posthog-browser-host') ||
   !ownerZeroSecretInputSyncSource.includes('publicRuntimeConfigMayStoreProvidedPublicValues') ||
   !analyticsLibSource.includes('owner-runtime-config.json') ||
   !analyticsLibSource.includes('loadRuntimePosthogConfig') ||
@@ -3903,7 +3908,10 @@ if (
   ownerUnlockLowestInputPath?.missingInputCount !== posthogBrowserUnlockPath?.missingInputCount ||
   ownerUnlockLowestInputPath?.noSecretsRequired !== true ||
   !ownerUnlockLowestInputPath?.missingVariables?.some((item) => item.repositoryName === 'VITE_POSTHOG_KEY') ||
-  !ownerUnlockLowestInputPath?.missingVariables?.some((item) => item.repositoryName === 'VITE_POSTHOG_HOST') ||
+  ownerUnlockLowestInputPath?.missingVariables?.some((item) => item.repositoryName === 'VITE_POSTHOG_HOST') ||
+  !ownerUnlockLowestInputPath?.optionalVariables?.some(
+    (item) => item.repositoryName === 'VITE_POSTHOG_HOST' && item.defaultValue === 'https://us.i.posthog.com',
+  ) ||
   (ownerUnlockLowestInputPath?.missingSecrets?.length ?? 1) !== 0 ||
   !ownerUnlockLowestInputPath?.setupCommands?.includes('./ops/github/setup-production.sh --analytics-input-template') ||
   !ownerUnlockLowestInputPath?.setupCommands?.includes('./ops/github/setup-production.sh') ||
@@ -3913,13 +3921,13 @@ if (
   ownerUnlockCombinedInputPack?.id !== 'combined-zero-secret-owner-input-pack' ||
   ownerUnlockCombinedInputPack?.localEnvFile !== '.env.production.local' ||
   ownerUnlockCombinedInputPack?.inputCount !== ownerUnlockCombinedInputPack?.missingInputNames?.length ||
-  ownerUnlockCombinedInputPack?.missingInputCount !== 3 ||
+  ownerUnlockCombinedInputPack?.missingInputCount !== 2 ||
   ownerUnlockCombinedInputPack?.secretInputCount !== 0 ||
   !ownerUnlockCombinedInputPackNames.has('VITE_POSTHOG_KEY') ||
-  !ownerUnlockCombinedInputPackNames.has('VITE_POSTHOG_HOST') ||
+  ownerUnlockCombinedInputPackNames.has('VITE_POSTHOG_HOST') ||
   !ownerUnlockCombinedInputPackNames.has('AGL_SUPPORT_EMAIL') ||
   !ownerUnlockCombinedInputPackTemplateLines.has('VITE_POSTHOG_KEY=') ||
-  !ownerUnlockCombinedInputPackTemplateLines.has('VITE_POSTHOG_HOST=') ||
+  ownerUnlockCombinedInputPackTemplateLines.has('VITE_POSTHOG_HOST=') ||
   !ownerUnlockCombinedInputPackTemplateLines.has('AGL_SUPPORT_EMAIL=') ||
   !ownerUnlockCombinedInputPack?.unlockIds?.includes('production-analytics-browser') ||
   !ownerUnlockCombinedInputPack?.unlockIds?.includes('support-contact') ||
@@ -4064,9 +4072,9 @@ if (
   ownerUnlockInputPack?.commands?.setupWriteCombinedLocalEnvTemplate !==
     './ops/github/setup-production.sh --owner-input-template' ||
   !ownerUnlockInputPackNames.has('VITE_POSTHOG_KEY') ||
-  !ownerUnlockInputPackNames.has('VITE_POSTHOG_HOST') ||
+  ownerUnlockInputPackNames.has('VITE_POSTHOG_HOST') ||
   !ownerUnlockInputPackTemplateLines.has('VITE_POSTHOG_KEY=') ||
-  !ownerUnlockInputPackTemplateLines.has('VITE_POSTHOG_HOST=') ||
+  ownerUnlockInputPackTemplateLines.has('VITE_POSTHOG_HOST=') ||
   ownerUnlockInputPack?.controls?.zeroPaidSpend !== true ||
   ownerUnlockInputPack?.controls?.noSecretValuesStored !== true ||
   ownerUnlockInputPack?.controls?.gitIgnoredLocalEnvFile !== true ||
@@ -4074,28 +4082,26 @@ if (
   ownerUnlockInputPack?.controls?.localTemplateWritePreservesExistingValues !== true ||
   ownerUnlockInputPack?.controls?.localTemplateWriteNoGithubMutation !== true ||
   ownerUnlockInputPack?.controls?.onlyMinimalPathInputs !== true ||
-  ownerUnlockInputPack?.inputInstructions?.find((input) => input.envName === 'VITE_POSTHOG_HOST')?.validation?.kind !==
-    'url-shape' ||
+  ownerUnlockInputPack?.inputInstructions?.some((input) => input.envName === 'VITE_POSTHOG_HOST') ||
   ownerUnlockCombinedInputPreflight?.id !== 'combined-zero-secret-owner-input-pack' ||
   ownerUnlockCombinedInputPreflight?.localEnvFile !== '.env.production.local' ||
-  ownerUnlockCombinedInputPreflight?.summary?.totalInputs !== 3 ||
+  ownerUnlockCombinedInputPreflight?.summary?.totalInputs !== 2 ||
   ownerUnlockCombinedInputPreflight?.summary?.secretInputs !== 0 ||
-  ownerUnlockCombinedInputPreflight?.summary?.missingInputs !== 3 ||
+  ownerUnlockCombinedInputPreflight?.summary?.missingInputs !== 2 ||
   ownerUnlockCombinedInputPreflight?.summary?.invalidInputs !== 0 ||
   ownerUnlockCombinedInputPreflight?.analyticsPathId !== 'posthog-browser' ||
   ownerUnlockCombinedInputPreflight?.supportUnlockId !== 'support-contact' ||
   !ownerUnlockCombinedInputPreflight?.unlockIds?.includes('production-analytics-browser') ||
   !ownerUnlockCombinedInputPreflight?.unlockIds?.includes('support-contact') ||
   !ownerUnlockCombinedInputPreflightNames.has('VITE_POSTHOG_KEY') ||
-  !ownerUnlockCombinedInputPreflightNames.has('VITE_POSTHOG_HOST') ||
+  ownerUnlockCombinedInputPreflightNames.has('VITE_POSTHOG_HOST') ||
   !ownerUnlockCombinedInputPreflightNames.has('AGL_SUPPORT_EMAIL') ||
   !ownerUnlockCombinedInputPreflightTemplateLines.has('VITE_POSTHOG_KEY=') ||
-  !ownerUnlockCombinedInputPreflightTemplateLines.has('VITE_POSTHOG_HOST=') ||
+  ownerUnlockCombinedInputPreflightTemplateLines.has('VITE_POSTHOG_HOST=') ||
   !ownerUnlockCombinedInputPreflightTemplateLines.has('AGL_SUPPORT_EMAIL=') ||
   ownerUnlockCombinedInputPreflight?.inputs?.find((input) => input.envName === 'AGL_SUPPORT_EMAIL')?.validation
     ?.kind !== 'email-shape' ||
-  ownerUnlockCombinedInputPreflight?.inputs?.find((input) => input.envName === 'VITE_POSTHOG_HOST')?.validation
-    ?.kind !== 'url-shape' ||
+  ownerUnlockCombinedInputPreflight?.inputs?.some((input) => input.envName === 'VITE_POSTHOG_HOST') ||
   ownerUnlockCombinedInputPreflight?.commands?.combinedPreflight !==
     'node scripts/owner-unlock-preflight.mjs --assert --print' ||
   ownerUnlockCombinedInputPreflight?.commands?.storeReadiness !== 'npm run autonomous:store-readiness' ||

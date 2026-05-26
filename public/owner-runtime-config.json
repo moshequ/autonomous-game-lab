@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T10:36:37.388Z",
+  "generatedAt": "2026-05-26T10:55:46.412Z",
   "id": "owner-runtime-config",
   "status": "owner-runtime-config-waiting-on-input",
   "source": "owner-zero-secret-input-sync",
@@ -9,9 +9,11 @@
     "AGL_SUPPORT_EMAIL"
   ],
   "configuredPublicInputNames": [],
+  "defaultedPublicInputNames": [
+    "VITE_POSTHOG_HOST"
+  ],
   "missingPublicInputNames": [
     "VITE_POSTHOG_KEY",
-    "VITE_POSTHOG_HOST",
     "AGL_SUPPORT_EMAIL"
   ],
   "invalidPublicInputNames": [],
@@ -19,7 +21,7 @@
     "provider": null,
     "posthogConfigured": false,
     "posthogKey": null,
-    "posthogHost": null
+    "posthogHost": "https://us.i.posthog.com"
   },
   "support": {
     "configured": false,

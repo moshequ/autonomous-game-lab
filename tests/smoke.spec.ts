@@ -11509,7 +11509,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBriefReport).toContain('Parallel Owner Unlocks')
   expect(ownerUnlockBriefReport).toContain('Combined Owner Input Pack')
   expect(ownerUnlockBriefReport).toContain('.env.production.local')
-  expect(ownerUnlockBriefReport).toContain('VITE_POSTHOG_HOST=')
+  expect(ownerUnlockBriefReport).toContain('VITE_POSTHOG_HOST: defaults to https://us.i.posthog.com')
   expect(ownerUnlockBriefReport).toContain('AGL_SUPPORT_EMAIL=')
   expect(ownerUnlockBriefReport).toContain('support-contact')
   expect(ownerUnlockBriefReport).toContain('AGL_SUPPORT_EMAIL')
@@ -11548,7 +11548,18 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.lowestInputPath?.id).toBe(ownerUnlockBrief.brief?.lowestInputPathId)
   expect(ownerUnlockBrief.brief?.lowestInputPath?.id).toBe('posthog-browser')
   expect(ownerUnlockBrief.brief?.lowestInputPath?.missingVariables.map((item) => item.repositoryName)).toEqual(
-    expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST']),
+    expect.arrayContaining(['VITE_POSTHOG_KEY']),
+  )
+  expect(ownerUnlockBrief.brief?.lowestInputPath?.missingVariables.map((item) => item.repositoryName)).not.toContain(
+    'VITE_POSTHOG_HOST',
+  )
+  expect(ownerUnlockBrief.brief?.lowestInputPath?.optionalVariables).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        repositoryName: 'VITE_POSTHOG_HOST',
+        defaultValue: 'https://us.i.posthog.com',
+      }),
+    ]),
   )
     expect(ownerUnlockBrief.brief?.lowestInputPath?.missingSecrets).toEqual([])
     expect(ownerUnlockBrief.brief?.lowestInputPath?.noSecretsRequired).toBe(true)
@@ -11568,17 +11579,20 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(combinedOwnerInputPack?.id).toBe('combined-zero-secret-owner-input-pack')
   expect(combinedOwnerInputPack?.localEnvFile).toBe('.env.production.local')
   expect(combinedOwnerInputPack?.inputCount).toBe(combinedOwnerInputPack?.missingInputNames.length)
-  expect(combinedOwnerInputPack?.missingInputCount).toBe(3)
+  expect(combinedOwnerInputPack?.missingInputCount).toBe(2)
   expect(combinedOwnerInputPack?.secretInputCount).toBe(0)
   expect(combinedOwnerInputPack?.missingInputNames).toEqual(
-    expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST', 'AGL_SUPPORT_EMAIL']),
+    expect.arrayContaining(['VITE_POSTHOG_KEY', 'AGL_SUPPORT_EMAIL']),
   )
+  expect(combinedOwnerInputPack?.missingInputNames).not.toContain('VITE_POSTHOG_HOST')
   expect(combinedOwnerInputPack?.localEnvTemplateLines).toEqual(
-    expect.arrayContaining(['VITE_POSTHOG_KEY=', 'VITE_POSTHOG_HOST=', 'AGL_SUPPORT_EMAIL=']),
+    expect.arrayContaining(['VITE_POSTHOG_KEY=', 'AGL_SUPPORT_EMAIL=']),
   )
+  expect(combinedOwnerInputPack?.localEnvTemplateLines).not.toContain('VITE_POSTHOG_HOST=')
   expect(combinedOwnerInputPack?.shellExportTemplateLines).toEqual(
-    expect.arrayContaining(['export VITE_POSTHOG_KEY=', 'export VITE_POSTHOG_HOST=', 'export AGL_SUPPORT_EMAIL=']),
+    expect.arrayContaining(['export VITE_POSTHOG_KEY=', 'export AGL_SUPPORT_EMAIL=']),
   )
+  expect(combinedOwnerInputPack?.shellExportTemplateLines).not.toContain('export VITE_POSTHOG_HOST=')
   expect(combinedOwnerInputPack?.unlockIds).toEqual(
     expect.arrayContaining(['production-analytics-browser', 'support-contact']),
   )
@@ -11647,14 +11661,17 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.ownerInputPack?.pathId).toBe('posthog-browser')
   expect(ownerUnlockPreflight.ownerInputPack?.localEnvFile).toBe('.env.production.local')
   expect(ownerUnlockPreflight.ownerInputPack?.missingInputNames).toEqual(
-    expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST']),
+    expect.arrayContaining(['VITE_POSTHOG_KEY']),
   )
+  expect(ownerUnlockPreflight.ownerInputPack?.missingInputNames).not.toContain('VITE_POSTHOG_HOST')
   expect(ownerUnlockPreflight.ownerInputPack?.localEnvTemplateLines).toEqual(
-    expect.arrayContaining(['VITE_POSTHOG_KEY=', 'VITE_POSTHOG_HOST=']),
+    expect.arrayContaining(['VITE_POSTHOG_KEY=']),
   )
+  expect(ownerUnlockPreflight.ownerInputPack?.localEnvTemplateLines).not.toContain('VITE_POSTHOG_HOST=')
   expect(ownerUnlockPreflight.ownerInputPack?.shellExportTemplateLines).toEqual(
-    expect.arrayContaining(['export VITE_POSTHOG_KEY=', 'export VITE_POSTHOG_HOST=']),
+    expect.arrayContaining(['export VITE_POSTHOG_KEY=']),
   )
+  expect(ownerUnlockPreflight.ownerInputPack?.shellExportTemplateLines).not.toContain('export VITE_POSTHOG_HOST=')
     expect(ownerUnlockPreflight.ownerInputPack?.secretInputCount).toBe(0)
     expect(ownerUnlockPreflight.ownerInputPack?.commands.writeLocalEnvTemplate).toBe(
       'node scripts/owner-unlock-preflight.mjs --analytics-input-template',
@@ -11676,9 +11693,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.ownerInputPack?.controls.localTemplateWriteNoGithubMutation).toBe(true)
   expect(ownerUnlockPreflight.ownerInputPack?.controls.onlyMinimalPathInputs).toBe(true)
   expect(
-    ownerUnlockPreflight.ownerInputPack?.inputInstructions.find((input) => input.envName === 'VITE_POSTHOG_HOST')
-      ?.validation.kind,
-  ).toBe('url-shape')
+    ownerUnlockPreflight.ownerInputPack?.inputInstructions.some((input) => input.envName === 'VITE_POSTHOG_HOST'),
+  ).toBe(false)
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.id).toBe('combined-zero-secret-owner-input-pack')
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.status).toBe(
     'combined-owner-input-preflight-waiting-on-input',
@@ -11689,7 +11705,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.analyticsPathId).toBe('posthog-browser')
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.supportUnlockId).toBe('support-contact')
-  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.summary.totalInputs).toBe(3)
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.summary.totalInputs).toBe(2)
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.summary.secretInputs).toBe(0)
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.summary.missingInputs).toBe(
     ownerUnlockPreflight.combinedOwnerInputPreflight?.inputs.filter((input) => !input.ready).length,
@@ -11700,22 +11716,26 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockPreflight.summary.combinedInvalidInputs).toBe(0)
   expect(ownerUnlockPreflight.summary.combinedSecretInputs).toBe(0)
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.missingInputNames).toEqual(
-    expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST', 'AGL_SUPPORT_EMAIL']),
+    expect.arrayContaining(['VITE_POSTHOG_KEY', 'AGL_SUPPORT_EMAIL']),
   )
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.missingInputNames).not.toContain('VITE_POSTHOG_HOST')
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.localEnvTemplateLines).toEqual(
-    expect.arrayContaining(['VITE_POSTHOG_KEY=', 'VITE_POSTHOG_HOST=', 'AGL_SUPPORT_EMAIL=']),
+    expect.arrayContaining(['VITE_POSTHOG_KEY=', 'AGL_SUPPORT_EMAIL=']),
   )
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.localEnvTemplateLines).not.toContain('VITE_POSTHOG_HOST=')
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.shellExportTemplateLines).toEqual(
-    expect.arrayContaining(['export VITE_POSTHOG_KEY=', 'export VITE_POSTHOG_HOST=', 'export AGL_SUPPORT_EMAIL=']),
+    expect.arrayContaining(['export VITE_POSTHOG_KEY=', 'export AGL_SUPPORT_EMAIL=']),
+  )
+  expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.shellExportTemplateLines).not.toContain(
+    'export VITE_POSTHOG_HOST=',
   )
   expect(
     ownerUnlockPreflight.combinedOwnerInputPreflight?.inputs.find((input) => input.envName === 'AGL_SUPPORT_EMAIL')
       ?.validation.kind,
   ).toBe('email-shape')
   expect(
-    ownerUnlockPreflight.combinedOwnerInputPreflight?.inputs.find((input) => input.envName === 'VITE_POSTHOG_HOST')
-      ?.validation.kind,
-  ).toBe('url-shape')
+    ownerUnlockPreflight.combinedOwnerInputPreflight?.inputs.some((input) => input.envName === 'VITE_POSTHOG_HOST'),
+  ).toBe(false)
   expect(ownerUnlockPreflight.combinedOwnerInputPreflight?.commands.combinedPreflight).toBe(
     'node scripts/owner-unlock-preflight.mjs --assert --print',
   )
@@ -11826,7 +11846,10 @@ test('production measurement status publishes public aggregate evidence handoff'
     'combined-zero-secret-owner-input-pack',
   )
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.combinedOwnerInputPack?.missingInputNames).toEqual(
-    expect.arrayContaining(['VITE_POSTHOG_KEY', 'VITE_POSTHOG_HOST', 'AGL_SUPPORT_EMAIL']),
+    expect.arrayContaining(['VITE_POSTHOG_KEY', 'AGL_SUPPORT_EMAIL']),
+  )
+  expect(measurement.externalUnlockQueue.ownerUnlockBrief?.combinedOwnerInputPack?.missingInputNames).not.toContain(
+    'VITE_POSTHOG_HOST',
   )
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.combinedOwnerInputPack?.secretInputCount).toBe(0)
   expect(measurement.externalUnlockQueue.ownerUnlockBrief?.combinedOwnerInputPack?.controls.noWorkflowDispatch).toBe(

@@ -62,7 +62,7 @@ export const productionBlockerHandoff = {
         "id": "production-analytics-browser",
         "recommendedPathId": "first-party-collector",
         "lowestInputPathId": "posthog-browser",
-        "lowestInputMissingVariableCount": 2,
+        "lowestInputMissingVariableCount": 1,
         "lowestInputMissingSecretCount": 0,
         "commandCount": 7,
         "validationCommandCount": 4
@@ -95,13 +95,13 @@ export const productionBlockerHandoff = {
     "lowestInputPathId": "posthog-browser",
     "lowestInputPathTitle": "PostHog browser capture",
     "lowestInputPathStatus": "needs-public-project-key",
-    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
-    "lowestInputMissingInputCount": 2,
-    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+    "lowestInputMissingInputCount": 1,
+    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
     "commandCount": 7,
     "validationCommandCount": 4,
-    "missingVariableCount": 5,
+    "missingVariableCount": 4,
     "missingSecretCount": 1,
     "controls": {
       "zeroPaidSpend": true,
@@ -139,7 +139,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-variable",
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
@@ -147,7 +147,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-variable",
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -167,6 +167,7 @@ export const productionBlockerHandoff = {
             "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
           }
         ],
+        "optionalVariables": [],
         "requiredSecrets": [
           {
             "id": "secret-cloudflare-api-token",
@@ -181,7 +182,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-secret",
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
@@ -189,7 +190,7 @@ export const productionBlockerHandoff = {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-secret",
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -213,9 +214,9 @@ export const productionBlockerHandoff = {
         "status": "needs-public-project-key",
         "costMode": "zero-spend-use-existing-posthog-free-project",
         "ownerInputRequired": true,
-        "missingVariableCount": 2,
+        "missingVariableCount": 1,
         "missingSecretCount": 0,
-        "missingInputCount": 2,
+        "missingInputCount": 1,
         "commandCount": 5,
         "validationCommandCount": 2,
         "requiredVariables": [
@@ -226,14 +227,18 @@ export const productionBlockerHandoff = {
             "configured": false,
             "valueSource": "missing",
             "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-          },
+          }
+        ],
+        "optionalVariables": [
           {
             "id": "var-vite-posthog-host",
             "repositoryName": "VITE_POSTHOG_HOST",
             "envName": "VITE_POSTHOG_HOST",
             "configured": false,
             "valueSource": "missing",
-            "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
+            "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\"",
+            "defaultValue": "https://us.i.posthog.com",
+            "purpose": "Optional PostHog ingestion host override; omit it to use the default browser capture host."
           }
         ],
         "requiredSecrets": [],
@@ -256,13 +261,13 @@ export const productionBlockerHandoff = {
     "nextUnlockId": "production-analytics-browser",
     "recommendedPathId": "first-party-collector",
     "lowestInputPathId": "posthog-browser",
-    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
     "minimalInterventionPath": {
       "id": "posthog-browser",
-      "missingInputCount": 2,
+      "missingInputCount": 1,
       "missingSecretCount": 0,
-      "manualInputReduction": 2,
+      "manualInputReduction": 3,
       "noSecretsRequired": true
     },
     "missingVariableCount": 3,
@@ -287,7 +292,7 @@ export const productionBlockerHandoff = {
         "publicStatusPage": "/measurement-status.html",
         "missingVariableCount": 3,
         "missingSecretCount": 1,
-        "lowestInputMissingInputCount": 2
+        "lowestInputMissingInputCount": 1
       },
       {
         "id": "support-contact",

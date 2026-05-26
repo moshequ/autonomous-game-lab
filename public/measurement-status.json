@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-05-26T10:37:18.568Z",
+  "generatedAt": "2026-05-26T10:56:39.184Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-ae3647ad9362",
+  "liveCandidate": "pwa-356aaef63de4",
   "liveRelease": {
-    "syncedCandidateId": "pwa-ae3647ad9362",
-    "syncedArtifactCandidateId": "pwa-ae3647ad9362",
+    "syncedCandidateId": "pwa-356aaef63de4",
+    "syncedArtifactCandidateId": "pwa-356aaef63de4",
     "exactManifestPath": "/release-candidate.json",
     "runtimeManifestCheck": "read-only-browser-fetch",
     "staticJsonMayLagBehindLatestDeploy": true,
@@ -454,13 +454,13 @@
     "lowestInputPathId": "posthog-browser",
     "lowestInputPathTitle": "PostHog browser capture",
     "lowestInputPathStatus": "needs-public-project-key",
-    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
-    "lowestInputMissingInputCount": 2,
-    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+    "lowestInputMissingInputCount": 1,
+    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
     "commandCount": 7,
     "validationCommandCount": 4,
-    "missingVariableCount": 5,
+    "missingVariableCount": 4,
     "missingSecretCount": 1,
     "controls": {
       "zeroPaidSpend": true,
@@ -556,9 +556,9 @@
         "status": "needs-public-project-key",
         "costMode": "zero-spend-use-existing-posthog-free-project",
         "ownerInputRequired": true,
-        "missingVariableCount": 2,
+        "missingVariableCount": 1,
         "missingSecretCount": 0,
-        "missingInputCount": 2,
+        "missingInputCount": 1,
         "commandCount": 5,
         "validationCommandCount": 2,
         "requiredVariables": [
@@ -567,12 +567,6 @@
             "envName": "VITE_POSTHOG_KEY",
             "configured": false,
             "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-          },
-          {
-            "repositoryName": "VITE_POSTHOG_HOST",
-            "envName": "VITE_POSTHOG_HOST",
-            "configured": false,
-            "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
           }
         ],
         "requiredSecrets": [],
@@ -594,8 +588,8 @@
       "title": "PostHog browser capture",
       "status": "needs-public-project-key",
       "costMode": "zero-spend-use-existing-posthog-free-project",
-      "missingInputCount": 2,
-      "missingVariableCount": 2,
+      "missingInputCount": 1,
+      "missingVariableCount": 1,
       "missingSecretCount": 0,
       "noSecretsRequired": true,
       "setupCommands": [
@@ -612,7 +606,7 @@
     },
     "nextActions": [
       "Choose the first-party collector path when a zero-spend Cloudflare free-tier account already exists; otherwise use an existing PostHog free project.",
-      "Minimal-intervention analytics setup is posthog-browser with 2 missing input(s) and 0 secret(s).",
+      "Minimal-intervention analytics setup is posthog-browser with 1 missing input(s) and 0 secret(s).",
       "Sync only configured GitHub variables and secrets through ops/github/setup-production.sh; never paste secret values into tracked files.",
       "Run the validation commands before trusting production analytics for product-gate or monetization decisions."
     ]
@@ -830,13 +824,13 @@
           "lowestInputPathId": "posthog-browser",
           "lowestInputPathTitle": "PostHog browser capture",
           "lowestInputPathStatus": "needs-public-project-key",
-          "lowestInputMissingVariableCount": 2,
+          "lowestInputMissingVariableCount": 1,
           "lowestInputMissingSecretCount": 0,
-          "lowestInputMissingInputCount": 2,
-          "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+          "lowestInputMissingInputCount": 1,
+          "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
           "commandCount": 7,
           "validationCommandCount": 4,
-          "missingVariableCount": 5,
+          "missingVariableCount": 4,
           "missingSecretCount": 1,
           "controls": {
             "zeroPaidSpend": true,
@@ -931,9 +925,9 @@
               "status": "needs-public-project-key",
               "costMode": "zero-spend-use-existing-posthog-free-project",
               "ownerInputRequired": true,
-              "missingVariableCount": 2,
+              "missingVariableCount": 1,
               "missingSecretCount": 0,
-              "missingInputCount": 2,
+              "missingInputCount": 1,
               "commandCount": 5,
               "validationCommandCount": 2,
               "requiredVariables": [
@@ -942,12 +936,6 @@
                   "envName": "VITE_POSTHOG_KEY",
                   "configured": false,
                   "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-                },
-                {
-                  "repositoryName": "VITE_POSTHOG_HOST",
-                  "envName": "VITE_POSTHOG_HOST",
-                  "configured": false,
-                  "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
                 }
               ],
               "requiredSecrets": [],
@@ -1168,13 +1156,13 @@
       "lowestInputPathId": "posthog-browser",
       "lowestInputPathTitle": "PostHog browser capture",
       "lowestInputPathStatus": "needs-public-project-key",
-      "lowestInputMissingVariableCount": 2,
+      "lowestInputMissingVariableCount": 1,
       "lowestInputMissingSecretCount": 0,
-      "lowestInputMissingInputCount": 2,
-      "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+      "lowestInputMissingInputCount": 1,
+      "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
       "commandCount": 7,
       "validationCommandCount": 4,
-      "missingVariableCount": 5,
+      "missingVariableCount": 4,
       "missingSecretCount": 1,
       "controls": {
         "zeroPaidSpend": true,
@@ -1269,9 +1257,9 @@
           "status": "needs-public-project-key",
           "costMode": "zero-spend-use-existing-posthog-free-project",
           "ownerInputRequired": true,
-          "missingVariableCount": 2,
+          "missingVariableCount": 1,
           "missingSecretCount": 0,
-          "missingInputCount": 2,
+          "missingInputCount": 1,
           "commandCount": 5,
           "validationCommandCount": 2,
           "requiredVariables": [
@@ -1280,12 +1268,6 @@
               "envName": "VITE_POSTHOG_KEY",
               "configured": false,
               "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-            },
-            {
-              "repositoryName": "VITE_POSTHOG_HOST",
-              "envName": "VITE_POSTHOG_HOST",
-              "configured": false,
-              "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
             }
           ],
           "requiredSecrets": [],
@@ -1313,20 +1295,20 @@
       "lowestInputPathId": "posthog-browser",
       "lowestInputPathTitle": "PostHog browser capture",
       "lowestInputPathStatus": "needs-public-project-key",
-      "lowestInputMissingVariableCount": 2,
+      "lowestInputMissingVariableCount": 1,
       "lowestInputMissingSecretCount": 0,
-      "lowestInputMissingInputCount": 2,
-      "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+      "lowestInputMissingInputCount": 1,
+      "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
       "lowestInputPath": {
         "id": "posthog-browser",
         "title": "PostHog browser capture",
         "status": "needs-public-project-key",
         "costMode": "zero-spend-use-existing-posthog-free-project",
         "ownerInputRequired": true,
-        "missingVariableCount": 2,
+        "missingVariableCount": 1,
         "missingSecretCount": 0,
-        "missingInputCount": 2,
-        "manualInputReduction": 2,
+        "missingInputCount": 1,
+        "manualInputReduction": 3,
         "noSecretsRequired": true,
         "missingVariables": [
           {
@@ -1334,17 +1316,23 @@
             "envName": "VITE_POSTHOG_KEY",
             "configured": false,
             "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-          },
-          {
-            "repositoryName": "VITE_POSTHOG_HOST",
-            "envName": "VITE_POSTHOG_HOST",
-            "configured": false,
-            "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
           }
         ],
         "missingSecrets": [],
         "configuredVariables": [],
         "configuredSecrets": [],
+        "optionalVariables": [
+          {
+            "id": "var-vite-posthog-host",
+            "repositoryName": "VITE_POSTHOG_HOST",
+            "envName": "VITE_POSTHOG_HOST",
+            "configured": false,
+            "valueSource": "missing",
+            "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\"",
+            "defaultValue": "https://us.i.posthog.com",
+            "purpose": "Optional PostHog ingestion host override; omit it to use the default browser capture host."
+          }
+        ],
         "setupCommands": [
           "./ops/github/setup-production.sh --analytics-input-template",
           "./ops/github/setup-production.sh",
@@ -1362,12 +1350,12 @@
         "title": "PostHog browser capture",
         "status": "needs-public-project-key",
         "costMode": "zero-spend-use-existing-posthog-free-project",
-        "missingInputCount": 2,
-        "missingVariableCount": 2,
+        "missingInputCount": 1,
+        "missingVariableCount": 1,
         "missingSecretCount": 0,
-        "manualInputReduction": 2,
+        "manualInputReduction": 3,
         "noSecretsRequired": true,
-        "reason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+        "reason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
         "setupCommands": [
           "./ops/github/setup-production.sh --analytics-input-template",
           "./ops/github/setup-production.sh",
@@ -1385,22 +1373,19 @@
         "title": "Combined zero-secret owner input pack",
         "status": "waiting-on-owner-input",
         "localEnvFile": ".env.production.local",
-        "inputCount": 3,
-        "missingInputCount": 3,
+        "inputCount": 2,
+        "missingInputCount": 2,
         "secretInputCount": 0,
         "missingInputNames": [
           "VITE_POSTHOG_KEY",
-          "VITE_POSTHOG_HOST",
           "AGL_SUPPORT_EMAIL"
         ],
         "localEnvTemplateLines": [
           "VITE_POSTHOG_KEY=",
-          "VITE_POSTHOG_HOST=",
           "AGL_SUPPORT_EMAIL="
         ],
         "shellExportTemplateLines": [
           "export VITE_POSTHOG_KEY=",
-          "export VITE_POSTHOG_HOST=",
           "export AGL_SUPPORT_EMAIL="
         ],
         "unlockIds": [
@@ -1552,7 +1537,7 @@
           "missingVariableCount": 3,
           "missingSecretCount": 1,
           "missingInputCount": 4,
-          "lowestInputMissingInputCount": 2,
+          "lowestInputMissingInputCount": 1,
           "lowestInputMissingSecretCount": 0,
           "missingVariables": [
             {
@@ -1695,7 +1680,7 @@
       "steps": [
         "Use First-party event collector (first-party-collector) for the next zero-spend measurement unlock.",
         "Use PostHog browser capture (posthog-browser) when the lowest-input owner path is more important than the first-party collector recommendation.",
-        "Minimal-intervention setup currently needs 2 input(s) and 0 secret(s).",
+        "Minimal-intervention setup currently needs 1 input(s) and 0 secret(s).",
         "Use the parallel owner unlocks queue to resolve store support-contact inputs alongside analytics inputs when an existing support inbox is available.",
         "Set only the missing repository variables shown in this brief.",
         "Set missing repository secrets with the stdin-fed gh secret commands; never paste secret values into files or issues.",
@@ -1749,9 +1734,9 @@
       "status": "needs-public-project-key",
       "costMode": "zero-spend-use-existing-posthog-free-project",
       "ownerInputRequired": true,
-      "missingVariableCount": 2,
+      "missingVariableCount": 1,
       "missingSecretCount": 0,
-      "missingInputCount": 2
+      "missingInputCount": 1
     },
     "summary": {
       "totalInputs": 8,
@@ -1759,20 +1744,20 @@
       "missingInputs": 4,
       "invalidInputs": 0,
       "repositoryConfiguredInputs": 4,
-      "localAvailableInputs": 4,
+      "localAvailableInputs": 0,
       "localUrlValidationsPassed": 0,
       "setupCanRun": false,
-      "lowestInputMissingInputs": 2,
+      "lowestInputMissingInputs": 1,
       "lowestInputInvalidInputs": 0,
       "lowestInputReadyInputs": 0,
-      "lowestInputTotalInputs": 2,
+      "lowestInputTotalInputs": 1,
       "lowestInputSecretInputs": 0,
       "lowestInputSetupCanRun": false,
-      "manualInputReduction": 2,
-      "combinedMissingInputs": 3,
+      "manualInputReduction": 3,
+      "combinedMissingInputs": 2,
       "combinedInvalidInputs": 0,
       "combinedReadyInputs": 0,
-      "combinedTotalInputs": 3,
+      "combinedTotalInputs": 2,
       "combinedSecretInputs": 0,
       "combinedSetupCanRun": false
     },
@@ -1813,16 +1798,16 @@
         "status": "needs-public-project-key",
         "costMode": "zero-spend-use-existing-posthog-free-project",
         "ownerInputRequired": true,
-        "missingVariableCount": 2,
+        "missingVariableCount": 1,
         "missingSecretCount": 0,
-        "missingInputCount": 2
+        "missingInputCount": 1
       },
       "summary": {
-        "totalInputs": 2,
+        "totalInputs": 1,
         "readyInputs": 0,
-        "missingInputs": 2,
+        "missingInputs": 1,
         "invalidInputs": 0,
-        "variableInputs": 2,
+        "variableInputs": 1,
         "secretInputs": 0,
         "repositoryConfiguredInputs": 0,
         "localAvailableInputs": 0,
@@ -1835,9 +1820,11 @@
           "envName": "VITE_POSTHOG_KEY",
           "configuredInRepository": false,
           "availableInShell": false,
-          "availableInLocalEnvFile": false,
+          "availableInLocalEnvFile": true,
           "availableLocally": false,
-          "localEnvFiles": [],
+          "localEnvFiles": [
+            ".env.production.local"
+          ],
           "ready": false,
           "validation": {
             "kind": "presence",
@@ -1852,35 +1839,6 @@
             ]
           },
           "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-        },
-        {
-          "kind": "github-variable",
-          "repositoryName": "VITE_POSTHOG_HOST",
-          "envName": "VITE_POSTHOG_HOST",
-          "configuredInRepository": false,
-          "availableInShell": false,
-          "availableInLocalEnvFile": false,
-          "availableLocally": false,
-          "localEnvFiles": [],
-          "ready": false,
-          "validation": {
-            "kind": "url-shape",
-            "status": "not-checked-missing-input",
-            "detail": "No local input is available yet; URL shape will be validated before setup can sync it.",
-            "expected": {
-              "protocol": "https",
-              "pathSegment": "any",
-              "noWhitespace": true
-            },
-            "checks": [
-              {
-                "id": "non-empty-local-input",
-                "passed": false,
-                "detail": "VITE_POSTHOG_HOST must be exported before setup can sync it."
-              }
-            ]
-          },
-          "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
         }
       ],
       "missingInputs": [
@@ -1889,12 +1847,6 @@
           "repositoryName": "VITE_POSTHOG_KEY",
           "envName": "VITE_POSTHOG_KEY",
           "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-        },
-        {
-          "kind": "github-variable",
-          "repositoryName": "VITE_POSTHOG_HOST",
-          "envName": "VITE_POSTHOG_HOST",
-          "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
         }
       ],
       "invalidInputs": [],
@@ -1923,26 +1875,23 @@
       "analyticsPathId": "posthog-browser",
       "supportUnlockId": "support-contact",
       "summary": {
-        "totalInputs": 3,
+        "totalInputs": 2,
         "readyInputs": 0,
-        "missingInputs": 3,
+        "missingInputs": 2,
         "invalidInputs": 0,
         "secretInputs": 0,
         "setupCanRun": false
       },
       "missingInputNames": [
         "VITE_POSTHOG_KEY",
-        "VITE_POSTHOG_HOST",
         "AGL_SUPPORT_EMAIL"
       ],
       "localEnvTemplateLines": [
         "VITE_POSTHOG_KEY=",
-        "VITE_POSTHOG_HOST=",
         "AGL_SUPPORT_EMAIL="
       ],
       "shellExportTemplateLines": [
         "export VITE_POSTHOG_KEY=",
-        "export VITE_POSTHOG_HOST=",
         "export AGL_SUPPORT_EMAIL="
       ],
       "inputs": [
@@ -1954,7 +1903,7 @@
           "ready": false,
           "configuredInRepository": false,
           "availableLocally": false,
-          "availableInLocalEnvFile": false,
+          "availableInLocalEnvFile": true,
           "validation": {
             "kind": "presence",
             "status": "not-checked-missing-input",
@@ -1965,30 +1914,13 @@
         },
         {
           "kind": "github-variable",
-          "unlockId": "production-analytics-browser",
-          "repositoryName": "VITE_POSTHOG_HOST",
-          "envName": "VITE_POSTHOG_HOST",
-          "ready": false,
-          "configuredInRepository": false,
-          "availableLocally": false,
-          "availableInLocalEnvFile": false,
-          "validation": {
-            "kind": "url-shape",
-            "status": "not-checked-missing-input",
-            "failedCheckIds": [],
-            "detail": "No local input is available yet; URL shape will be validated before setup can sync it."
-          },
-          "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
-        },
-        {
-          "kind": "github-variable",
           "unlockId": "support-contact",
           "repositoryName": "AGL_SUPPORT_EMAIL",
           "envName": "AGL_SUPPORT_EMAIL",
           "ready": false,
           "configuredInRepository": false,
           "availableLocally": false,
-          "availableInLocalEnvFile": false,
+          "availableInLocalEnvFile": true,
           "validation": {
             "kind": "email-shape",
             "status": "not-checked-missing-input",
@@ -2005,13 +1937,6 @@
           "repositoryName": "VITE_POSTHOG_KEY",
           "envName": "VITE_POSTHOG_KEY",
           "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-        },
-        {
-          "kind": "github-variable",
-          "unlockId": null,
-          "repositoryName": "VITE_POSTHOG_HOST",
-          "envName": "VITE_POSTHOG_HOST",
-          "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
         },
         {
           "kind": "github-variable",
@@ -2070,9 +1995,9 @@
       "title": "PostHog browser capture",
       "status": "owner-unlock-preflight-waiting-on-input",
       "readyForSetup": false,
-      "missingInputs": 2,
+      "missingInputs": 1,
       "secretInputs": 0,
-      "manualInputReduction": 2,
+      "manualInputReduction": 3,
       "noSecretsRequired": true,
       "commandSequence": [
         "./ops/github/setup-production.sh --analytics-input-template",
@@ -2091,20 +2016,17 @@
       "title": "PostHog browser capture",
       "status": "owner-unlock-preflight-waiting-on-input",
       "readyForSetup": false,
-      "missingInputCount": 2,
+      "missingInputCount": 1,
       "secretInputCount": 0,
       "missingInputNames": [
-        "VITE_POSTHOG_KEY",
-        "VITE_POSTHOG_HOST"
+        "VITE_POSTHOG_KEY"
       ],
       "localEnvFile": ".env.production.local",
       "localEnvTemplateLines": [
-        "VITE_POSTHOG_KEY=",
-        "VITE_POSTHOG_HOST="
+        "VITE_POSTHOG_KEY="
       ],
       "shellExportTemplateLines": [
-        "export VITE_POSTHOG_KEY=",
-        "export VITE_POSTHOG_HOST="
+        "export VITE_POSTHOG_KEY="
       ],
       "inputInstructions": [
         {
@@ -2119,20 +2041,6 @@
             "status": "not-checked-missing-input",
             "failedCheckIds": [],
             "detail": "No local input is available yet."
-          }
-        },
-        {
-          "kind": "github-variable",
-          "repositoryName": "VITE_POSTHOG_HOST",
-          "envName": "VITE_POSTHOG_HOST",
-          "ready": false,
-          "configuredInRepository": false,
-          "availableLocally": false,
-          "validation": {
-            "kind": "url-shape",
-            "status": "not-checked-missing-input",
-            "failedCheckIds": [],
-            "detail": "No local input is available yet; URL shape will be validated before setup can sync it."
           }
         }
       ],
@@ -2183,7 +2091,7 @@
           "variableInputs": 5,
           "secretInputs": 3,
           "repositoryConfiguredInputs": 4,
-          "localAvailableInputs": 4,
+          "localAvailableInputs": 0,
           "setupCanRun": false
         },
         "inputs": [
@@ -2216,22 +2124,16 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "configuredInRepository": true,
-            "availableInShell": true,
+            "availableInShell": false,
             "availableInLocalEnvFile": false,
-            "availableLocally": true,
+            "availableLocally": false,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "variable-presence",
-              "status": "pass",
-              "detail": "Variable presence is checked without storing its content.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": true,
-                  "detail": "AGL_EVENT_COLLECTOR_R2_BUCKET is available locally."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
@@ -2240,22 +2142,16 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "configuredInRepository": true,
-            "availableInShell": true,
+            "availableInShell": false,
             "availableInLocalEnvFile": false,
-            "availableLocally": true,
+            "availableLocally": false,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "variable-presence",
-              "status": "pass",
-              "detail": "Variable presence is checked without storing its content.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": true,
-                  "detail": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS is available locally."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
@@ -2346,22 +2242,16 @@
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "configuredInRepository": true,
-            "availableInShell": true,
+            "availableInShell": false,
             "availableInLocalEnvFile": false,
-            "availableLocally": true,
+            "availableLocally": false,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "secret-presence",
-              "status": "pass",
-              "detail": "Secret presence is checked without inspecting or storing its content.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": true,
-                  "detail": "VITE_EVENT_COLLECTOR_WRITE_TOKEN is available locally."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
@@ -2370,22 +2260,16 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "configuredInRepository": true,
-            "availableInShell": true,
+            "availableInShell": false,
             "availableInLocalEnvFile": false,
-            "availableLocally": true,
+            "availableLocally": false,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "secret-presence",
-              "status": "pass",
-              "detail": "Secret presence is checked without inspecting or storing its content.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": true,
-                  "detail": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN is available locally."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
@@ -2441,16 +2325,16 @@
           "status": "needs-public-project-key",
           "costMode": "zero-spend-use-existing-posthog-free-project",
           "ownerInputRequired": true,
-          "missingVariableCount": 2,
+          "missingVariableCount": 1,
           "missingSecretCount": 0,
-          "missingInputCount": 2
+          "missingInputCount": 1
         },
         "summary": {
-          "totalInputs": 2,
+          "totalInputs": 1,
           "readyInputs": 0,
-          "missingInputs": 2,
+          "missingInputs": 1,
           "invalidInputs": 0,
-          "variableInputs": 2,
+          "variableInputs": 1,
           "secretInputs": 0,
           "repositoryConfiguredInputs": 0,
           "localAvailableInputs": 0,
@@ -2463,9 +2347,11 @@
             "envName": "VITE_POSTHOG_KEY",
             "configuredInRepository": false,
             "availableInShell": false,
-            "availableInLocalEnvFile": false,
+            "availableInLocalEnvFile": true,
             "availableLocally": false,
-            "localEnvFiles": [],
+            "localEnvFiles": [
+              ".env.production.local"
+            ],
             "ready": false,
             "validation": {
               "kind": "presence",
@@ -2480,35 +2366,6 @@
               ]
             },
             "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-          },
-          {
-            "kind": "github-variable",
-            "repositoryName": "VITE_POSTHOG_HOST",
-            "envName": "VITE_POSTHOG_HOST",
-            "configuredInRepository": false,
-            "availableInShell": false,
-            "availableInLocalEnvFile": false,
-            "availableLocally": false,
-            "localEnvFiles": [],
-            "ready": false,
-            "validation": {
-              "kind": "url-shape",
-              "status": "not-checked-missing-input",
-              "detail": "No local input is available yet; URL shape will be validated before setup can sync it.",
-              "expected": {
-                "protocol": "https",
-                "pathSegment": "any",
-                "noWhitespace": true
-              },
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": false,
-                  "detail": "VITE_POSTHOG_HOST must be exported before setup can sync it."
-                }
-              ]
-            },
-            "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
           }
         ],
         "missingInputs": [
@@ -2517,12 +2374,6 @@
             "repositoryName": "VITE_POSTHOG_KEY",
             "envName": "VITE_POSTHOG_KEY",
             "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-          },
-          {
-            "kind": "github-variable",
-            "repositoryName": "VITE_POSTHOG_HOST",
-            "envName": "VITE_POSTHOG_HOST",
-            "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
           }
         ],
         "invalidInputs": [],
@@ -2619,7 +2470,7 @@
   },
   "nextActions": [
     "Use the player-initiated local evidence route until PostHog or the first-party collector is configured.",
-    "Unlock production analytics with first-party-collector; minimal-intervention path is posthog-browser with 2 missing input(s) and 0 secret(s).",
+    "Unlock production analytics with first-party-collector; minimal-intervention path is posthog-browser with 1 missing input(s) and 0 secret(s).",
     "First-party collector deployment is blocked-needs-cloudflare-env; smoke is pass.",
     "External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.",
     "Product gate recovery is product-gate-recovery-ready; public recovery route is /product-gate-recovery.html.",

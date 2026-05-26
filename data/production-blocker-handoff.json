@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-26T10:37:13.037Z",
-  "sourceDataHash": "e537490a514e",
+  "generatedAt": "2026-05-26T10:56:26.898Z",
+  "sourceDataHash": "e5a9b62bb33b",
   "status": "handoff-waiting-on-owner-inputs",
   "statusDetail": "blocked-external-inputs",
-  "liveCandidate": "pwa-ae3647ad9362",
+  "liveCandidate": "pwa-356aaef63de4",
   "sourceStatus": {
     "productionEnvironment": "production-env-missing",
     "productionBootstrap": "production-bootstrap-ready",
@@ -49,7 +49,7 @@
       "name": "AGL_PUBLIC_ORIGIN",
       "purpose": "HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.",
       "configured": true,
-      "source": "environment",
+      "source": "github-variable",
       "fallback": "github-pages-target"
     },
     {
@@ -123,7 +123,7 @@
       "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "configured": true,
-      "valueSource": "environment",
+      "valueSource": "github-secret",
       "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
     },
     {
@@ -131,7 +131,7 @@
       "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "configured": true,
-      "valueSource": "environment",
+      "valueSource": "github-secret",
       "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     },
     {
@@ -311,7 +311,7 @@
           "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "valueSource": "environment",
+          "valueSource": "github-secret",
           "configured": true,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
@@ -337,7 +337,7 @@
         "id": "production-analytics-browser",
         "recommendedPathId": "first-party-collector",
         "lowestInputPathId": "posthog-browser",
-        "lowestInputMissingVariableCount": 2,
+        "lowestInputMissingVariableCount": 1,
         "lowestInputMissingSecretCount": 0,
         "commandCount": 7,
         "validationCommandCount": 4
@@ -379,7 +379,7 @@
           "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "valueSource": "environment",
+          "valueSource": "github-secret",
           "configured": true,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         },
@@ -611,7 +611,7 @@
           "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "valueSource": "environment",
+          "valueSource": "github-secret",
           "configured": true,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
@@ -637,7 +637,7 @@
         "id": "production-analytics-browser",
         "recommendedPathId": "first-party-collector",
         "lowestInputPathId": "posthog-browser",
-        "lowestInputMissingVariableCount": 2,
+        "lowestInputMissingVariableCount": 1,
         "lowestInputMissingSecretCount": 0,
         "commandCount": 7,
         "validationCommandCount": 4
@@ -679,7 +679,7 @@
           "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "valueSource": "environment",
+          "valueSource": "github-secret",
           "configured": true,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         },
@@ -861,10 +861,10 @@
       "lowestInputPathId": "posthog-browser",
       "lowestInputPathTitle": "PostHog browser capture",
       "lowestInputPathStatus": "needs-public-project-key",
-      "lowestInputMissingVariableCount": 2,
+      "lowestInputMissingVariableCount": 1,
       "lowestInputMissingSecretCount": 0,
-      "lowestInputMissingInputCount": 2,
-      "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+      "lowestInputMissingInputCount": 1,
+      "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
       "handoffItemId": "production-analytics-browser",
       "ownerInputRequired": true,
       "setupScript": "ops/github/setup-production.sh",
@@ -900,7 +900,7 @@
               "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
               "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
               "configured": true,
-              "valueSource": "environment",
+              "valueSource": "github-variable",
               "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
             },
             {
@@ -908,7 +908,7 @@
               "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
               "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
               "configured": true,
-              "valueSource": "environment",
+              "valueSource": "github-variable",
               "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
             },
             {
@@ -942,7 +942,7 @@
               "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
               "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
               "configured": true,
-              "valueSource": "environment",
+              "valueSource": "github-secret",
               "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
             },
             {
@@ -950,7 +950,7 @@
               "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
               "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
               "configured": true,
-              "valueSource": "environment",
+              "valueSource": "github-secret",
               "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
             }
           ],
@@ -991,14 +991,18 @@
               "configured": false,
               "valueSource": "missing",
               "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-            },
+            }
+          ],
+          "optionalVariables": [
             {
               "id": "var-vite-posthog-host",
               "repositoryName": "VITE_POSTHOG_HOST",
               "envName": "VITE_POSTHOG_HOST",
               "configured": false,
               "valueSource": "missing",
-              "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
+              "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\"",
+              "defaultValue": "https://us.i.posthog.com",
+              "purpose": "Optional PostHog ingestion host override; omit it to use the default browser capture host."
             }
           ],
           "requiredSecrets": [],
@@ -1015,19 +1019,20 @@
           ],
           "unlocks": [
             "Browser events can forward to an existing PostHog project.",
+            "The browser PostHog host defaults to https://us.i.posthog.com, so the owner only needs a public project key unless their project uses another region.",
             "Owner-downloaded PostHog or collector JSON exports can be imported explicitly without server export credentials.",
             "Autonomous rollups still require a server-side export credential before scheduled production learning."
           ],
-          "missingVariableCount": 2,
+          "missingVariableCount": 1,
           "missingSecretCount": 0,
-          "missingInputCount": 2,
+          "missingInputCount": 1,
           "commandCount": 5,
           "validationCommandCount": 2
         }
       ],
       "commandCount": 7,
       "validationCommandCount": 4,
-      "missingVariableCount": 5,
+      "missingVariableCount": 4,
       "missingSecretCount": 1
     }
   ],
@@ -1039,13 +1044,13 @@
     "lowestInputPathId": "posthog-browser",
     "lowestInputPathTitle": "PostHog browser capture",
     "lowestInputPathStatus": "needs-public-project-key",
-    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
-    "lowestInputMissingInputCount": 2,
-    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+    "lowestInputMissingInputCount": 1,
+    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
     "commandCount": 7,
     "validationCommandCount": 4,
-    "missingVariableCount": 5,
+    "missingVariableCount": 4,
     "missingSecretCount": 1,
     "controls": {
       "zeroPaidSpend": true,
@@ -1083,7 +1088,7 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-variable",
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
@@ -1091,7 +1096,7 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-variable",
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -1111,6 +1116,7 @@
             "command": "gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body \"$AGL_EVENT_COLLECTOR_EXPORT_URL\""
           }
         ],
+        "optionalVariables": [],
         "requiredSecrets": [
           {
             "id": "secret-cloudflare-api-token",
@@ -1125,7 +1131,7 @@
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-secret",
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
@@ -1133,7 +1139,7 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "configured": true,
-            "valueSource": "environment",
+            "valueSource": "github-secret",
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -1157,9 +1163,9 @@
         "status": "needs-public-project-key",
         "costMode": "zero-spend-use-existing-posthog-free-project",
         "ownerInputRequired": true,
-        "missingVariableCount": 2,
+        "missingVariableCount": 1,
         "missingSecretCount": 0,
-        "missingInputCount": 2,
+        "missingInputCount": 1,
         "commandCount": 5,
         "validationCommandCount": 2,
         "requiredVariables": [
@@ -1170,14 +1176,18 @@
             "configured": false,
             "valueSource": "missing",
             "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-          },
+          }
+        ],
+        "optionalVariables": [
           {
             "id": "var-vite-posthog-host",
             "repositoryName": "VITE_POSTHOG_HOST",
             "envName": "VITE_POSTHOG_HOST",
             "configured": false,
             "valueSource": "missing",
-            "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
+            "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\"",
+            "defaultValue": "https://us.i.posthog.com",
+            "purpose": "Optional PostHog ingestion host override; omit it to use the default browser capture host."
           }
         ],
         "requiredSecrets": [],
@@ -1205,20 +1215,20 @@
     "lowestInputPathId": "posthog-browser",
     "lowestInputPathTitle": "PostHog browser capture",
     "lowestInputPathStatus": "needs-public-project-key",
-    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
-    "lowestInputMissingInputCount": 2,
-    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+    "lowestInputMissingInputCount": 1,
+    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
     "lowestInputPath": {
       "id": "posthog-browser",
       "title": "PostHog browser capture",
       "status": "needs-public-project-key",
       "costMode": "zero-spend-use-existing-posthog-free-project",
       "ownerInputRequired": true,
-      "missingVariableCount": 2,
+      "missingVariableCount": 1,
       "missingSecretCount": 0,
-      "missingInputCount": 2,
-      "manualInputReduction": 2,
+      "missingInputCount": 1,
+      "manualInputReduction": 3,
       "noSecretsRequired": true,
       "missingVariables": [
         {
@@ -1226,17 +1236,23 @@
           "envName": "VITE_POSTHOG_KEY",
           "configured": false,
           "command": "gh variable set VITE_POSTHOG_KEY --body \"$VITE_POSTHOG_KEY\""
-        },
-        {
-          "repositoryName": "VITE_POSTHOG_HOST",
-          "envName": "VITE_POSTHOG_HOST",
-          "configured": false,
-          "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\""
         }
       ],
       "missingSecrets": [],
       "configuredVariables": [],
       "configuredSecrets": [],
+      "optionalVariables": [
+        {
+          "id": "var-vite-posthog-host",
+          "repositoryName": "VITE_POSTHOG_HOST",
+          "envName": "VITE_POSTHOG_HOST",
+          "configured": false,
+          "valueSource": "missing",
+          "command": "gh variable set VITE_POSTHOG_HOST --body \"$VITE_POSTHOG_HOST\"",
+          "defaultValue": "https://us.i.posthog.com",
+          "purpose": "Optional PostHog ingestion host override; omit it to use the default browser capture host."
+        }
+      ],
       "setupCommands": [
         "./ops/github/setup-production.sh --analytics-input-template",
         "./ops/github/setup-production.sh",
@@ -1254,12 +1270,12 @@
       "title": "PostHog browser capture",
       "status": "needs-public-project-key",
       "costMode": "zero-spend-use-existing-posthog-free-project",
-      "missingInputCount": 2,
-      "missingVariableCount": 2,
+      "missingInputCount": 1,
+      "missingVariableCount": 1,
       "missingSecretCount": 0,
-      "manualInputReduction": 2,
+      "manualInputReduction": 3,
       "noSecretsRequired": true,
-      "reason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+      "reason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
       "setupCommands": [
         "./ops/github/setup-production.sh --analytics-input-template",
         "./ops/github/setup-production.sh",
@@ -1277,22 +1293,19 @@
       "title": "Combined zero-secret owner input pack",
       "status": "waiting-on-owner-input",
       "localEnvFile": ".env.production.local",
-      "inputCount": 3,
-      "missingInputCount": 3,
+      "inputCount": 2,
+      "missingInputCount": 2,
       "secretInputCount": 0,
       "missingInputNames": [
         "VITE_POSTHOG_KEY",
-        "VITE_POSTHOG_HOST",
         "AGL_SUPPORT_EMAIL"
       ],
       "localEnvTemplateLines": [
         "VITE_POSTHOG_KEY=",
-        "VITE_POSTHOG_HOST=",
         "AGL_SUPPORT_EMAIL="
       ],
       "shellExportTemplateLines": [
         "export VITE_POSTHOG_KEY=",
-        "export VITE_POSTHOG_HOST=",
         "export AGL_SUPPORT_EMAIL="
       ],
       "unlockIds": [
@@ -1444,7 +1457,7 @@
         "missingVariableCount": 3,
         "missingSecretCount": 1,
         "missingInputCount": 4,
-        "lowestInputMissingInputCount": 2,
+        "lowestInputMissingInputCount": 1,
         "lowestInputMissingSecretCount": 0,
         "missingVariables": [
           {
@@ -1587,7 +1600,7 @@
     "steps": [
       "Use First-party event collector (first-party-collector) for the next zero-spend measurement unlock.",
       "Use PostHog browser capture (posthog-browser) when the lowest-input owner path is more important than the first-party collector recommendation.",
-      "Minimal-intervention setup currently needs 2 input(s) and 0 secret(s).",
+      "Minimal-intervention setup currently needs 1 input(s) and 0 secret(s).",
       "Use the parallel owner unlocks queue to resolve store support-contact inputs alongside analytics inputs when an existing support inbox is available.",
       "Set only the missing repository variables shown in this brief.",
       "Set missing repository secrets with the stdin-fed gh secret commands; never paste secret values into files or issues.",

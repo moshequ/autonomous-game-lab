@@ -1,12 +1,12 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-26T10:37:13.037Z
+Generated: 2026-05-26T10:56:26.898Z
 Status: waiting-on-owner-input
-Source hash: e537490a514e
+Source hash: e5a9b62bb33b
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
-Lowest-input reason: PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.
+Lowest-input reason: PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.
 Parallel owner unlocks: production-analytics-browser, support-contact
 
 ## Setup Guard
@@ -43,24 +43,24 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 
 - path: posthog-browser
 - title: PostHog browser capture
-- missing inputs: 2
+- missing inputs: 1
 - missing secrets: 0
-- manual input reduction: 2
+- manual input reduction: 3
 - no secrets required: true
 
 ## Minimal Intervention Path
 
 - path: posthog-browser
-- missing inputs: 2
+- missing inputs: 1
 - missing secrets: 0
-- manual input reduction: 2
+- manual input reduction: 3
 - no secrets required: true
 
 ## Combined Owner Input Pack
 
 - id: combined-zero-secret-owner-input-pack
 - local env file: .env.production.local
-- missing inputs: 3
+- missing inputs: 2
 - secret inputs: 0
 - unlocks: production-analytics-browser, support-contact
 - store submission still blocked: true
@@ -69,13 +69,11 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 ### Combined Local Env Template
 
 - VITE_POSTHOG_KEY=
-- VITE_POSTHOG_HOST=
 - AGL_SUPPORT_EMAIL=
 
 ### Combined Shell Export Template
 
 - export VITE_POSTHOG_KEY=
-- export VITE_POSTHOG_HOST=
 - export AGL_SUPPORT_EMAIL=
 
 ### Combined Pack Commands
@@ -100,7 +98,10 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 ### Lowest-Input Missing Variables
 
 - VITE_POSTHOG_KEY: gh variable set VITE_POSTHOG_KEY --body "$VITE_POSTHOG_KEY"
-- VITE_POSTHOG_HOST: gh variable set VITE_POSTHOG_HOST --body "$VITE_POSTHOG_HOST"
+
+### Lowest-Input Optional Defaults
+
+- VITE_POSTHOG_HOST: defaults to https://us.i.posthog.com
 
 ### Lowest-Input Missing Secrets
 
@@ -130,7 +131,7 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - missing inputs: 4
 - missing variables: CLOUDFLARE_ACCOUNT_ID, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
 - missing secrets: CLOUDFLARE_API_TOKEN
-- lowest-input missing: 2
+- lowest-input missing: 1
 - can apply before product gates: true
 - store submission still blocked: true
 

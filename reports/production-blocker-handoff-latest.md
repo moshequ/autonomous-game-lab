@@ -1,10 +1,10 @@
 # Production Blocker Handoff
 
-Generated: 2026-05-26T10:37:13.037Z
+Generated: 2026-05-26T10:56:26.898Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
-Live candidate: pwa-ae3647ad9362
-Source hash: e537490a514e
+Live candidate: pwa-356aaef63de4
+Source hash: e5a9b62bb33b
 
 ## Summary
 
@@ -88,7 +88,7 @@ Source hash: e537490a514e
   - secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN
   - commands: npm run autonomous:event-collector-smoke && npm run autonomous:collector-deploy-plan && ./ops/github/setup-production.sh && RUN_WORKFLOWS=1 ./ops/github/setup-production.sh && npm run autonomous:readiness
 - path posthog-browser: needs-public-project-key; zero-spend-use-existing-posthog-free-project
-  - variables: VITE_POSTHOG_KEY, VITE_POSTHOG_HOST
+  - variables: VITE_POSTHOG_KEY
   - secrets: none
   - commands: ./ops/github/setup-production.sh --analytics-input-template && ./ops/github/setup-production.sh && RUN_WORKFLOWS=1 ./ops/github/setup-production.sh && AGL_PRODUCTION_EVENT_EXPORT_FILES=/absolute/path/to/export.json npm run autonomous:collect-production-export && npm run autonomous:readiness
 

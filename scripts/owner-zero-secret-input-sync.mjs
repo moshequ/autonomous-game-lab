@@ -65,6 +65,9 @@ const definitions = [
     envName: 'VITE_POSTHOG_HOST',
     inputEnvName: 'AGL_OWNER_INPUT_VITE_POSTHOG_HOST',
     title: 'PostHog browser host',
+    required: false,
+    defaultValue: 'https://us.i.posthog.com',
+    defaultSource: 'built-in-posthog-browser-host',
     publicConfigGroup: 'analytics',
     publicConfigKey: 'posthogHost',
     validate(raw) {
@@ -170,21 +173,41 @@ const inputValueFor = (definition) => {
 
 const evaluatedInputs = definitions.map((definition) => {
   const input = inputValueFor(definition)
-  const validation = input.value ? definition.validate(input.value) : { value: '', checks: [] }
+  const defaultValue = trim(definition.defaultValue)
+  const validation = input.value
+    ? definition.validate(input.value)
+    : defaultValue
+      ? definition.validate(defaultValue)
+      : { value: '', checks: [] }
   const failedChecks = validation.checks.filter((check) => !check.passed)
-  const status = input.value ? (failedChecks.length ? 'invalid' : 'valid') : 'missing'
+  const status = input.value
+    ? failedChecks.length
+      ? 'invalid'
+      : 'valid'
+    : defaultValue
+      ? failedChecks.length
+        ? 'invalid-default'
+        : 'defaulted'
+      : 'missing'
 
   return {
     envName: definition.envName,
     inputEnvName: definition.inputEnvName,
     title: definition.title,
-    source: input.source,
+    source: input.value ? input.source : defaultValue ? definition.defaultSource : input.source,
     status,
+    required: definition.required !== false,
+    defaulted: status === 'defaulted',
     publicConfigGroup: definition.publicConfigGroup,
     publicConfigKey: definition.publicConfigKey,
     validation: {
-      checked: input.value.length > 0,
-      status: status === 'valid' ? 'pass' : status === 'invalid' ? 'fail' : 'not-checked-missing-input',
+      checked: input.value.length > 0 || defaultValue.length > 0,
+      status:
+        status === 'valid' || status === 'defaulted'
+          ? 'pass'
+          : status === 'invalid' || status === 'invalid-default'
+            ? 'fail'
+            : 'not-checked-missing-input',
       checks: validation.checks,
       failedCheckIds: failedChecks.map((check) => check.id),
     },
@@ -194,15 +217,20 @@ const evaluatedInputs = definitions.map((definition) => {
 const publicValues = new Map(
   definitions.map((definition) => {
     const input = inputValueFor(definition)
-    const validation = input.value ? definition.validate(input.value) : { value: '', checks: [] }
+    const defaultValue = trim(definition.defaultValue)
+    const rawValue = input.value || defaultValue
+    const validation = rawValue ? definition.validate(rawValue) : { value: '', checks: [] }
     const failedChecks = validation.checks.filter((check) => !check.passed)
 
-    return [definition.envName, input.value && failedChecks.length === 0 ? validation.value : null]
+    return [definition.envName, rawValue && failedChecks.length === 0 ? validation.value : null]
   }),
 )
 
 const validInputNames = evaluatedInputs.filter((input) => input.status === 'valid').map((input) => input.envName)
-const invalidInputNames = evaluatedInputs.filter((input) => input.status === 'invalid').map((input) => input.envName)
+const defaultedInputNames = evaluatedInputs.filter((input) => input.status === 'defaulted').map((input) => input.envName)
+const invalidInputNames = evaluatedInputs
+  .filter((input) => input.status === 'invalid' || input.status === 'invalid-default')
+  .map((input) => input.envName)
 const missingInputNames = evaluatedInputs.filter((input) => input.status === 'missing').map((input) => input.envName)
 const posthogKey = publicValues.get('VITE_POSTHOG_KEY')
 const posthogHost = publicValues.get('VITE_POSTHOG_HOST')
@@ -246,6 +274,7 @@ const runtimeConfig = {
   source: 'owner-zero-secret-input-sync',
   publicInputNames: definitions.map((definition) => definition.envName),
   configuredPublicInputNames: validInputNames,
+  defaultedPublicInputNames: defaultedInputNames,
   missingPublicInputNames: missingInputNames,
   invalidPublicInputNames: invalidInputNames,
   analytics: {
@@ -290,9 +319,11 @@ const payload = {
   summary: {
     inputCount: definitions.length,
     validInputCount: validInputNames.length,
+    defaultedInputCount: defaultedInputNames.length,
     missingInputCount: missingInputNames.length,
     invalidInputCount: invalidInputNames.length,
     validInputNames,
+    defaultedInputNames,
     missingInputNames,
     invalidInputNames,
   },
@@ -300,6 +331,7 @@ const payload = {
     path: 'public/owner-runtime-config.json',
     status: runtimeConfig.status,
     configuredPublicInputNames: runtimeConfig.configuredPublicInputNames,
+    defaultedPublicInputNames: runtimeConfig.defaultedPublicInputNames,
     missingPublicInputNames: runtimeConfig.missingPublicInputNames,
     invalidPublicInputNames: runtimeConfig.invalidPublicInputNames,
     containsPublicValues: validInputNames.length > 0,
@@ -345,6 +377,7 @@ const report = [
   `Status: ${payload.status}`,
   `Runtime config: ${payload.runtimeConfig.path} (${payload.runtimeConfig.status})`,
   `Valid inputs: ${payload.summary.validInputNames.join(', ') || 'none'}`,
+  `Defaulted inputs: ${payload.summary.defaultedInputNames.join(', ') || 'none'}`,
   `Missing inputs: ${payload.summary.missingInputNames.join(', ') || 'none'}`,
   `Invalid inputs: ${payload.summary.invalidInputNames.join(', ') || 'none'}`,
   `GitHub env export: ${payload.githubEnvExport.status}`,
@@ -377,6 +410,7 @@ if (printMode) {
   console.log(`Status: ${payload.status}`)
   console.log(`Runtime config: ${payload.runtimeConfig.path} (${payload.runtimeConfig.status})`)
   console.log(`Valid inputs: ${payload.summary.validInputNames.join(', ') || 'none'}`)
+  console.log(`Defaulted inputs: ${payload.summary.defaultedInputNames.join(', ') || 'none'}`)
   console.log(`Missing inputs: ${payload.summary.missingInputNames.join(', ') || 'none'}`)
   console.log(`Invalid inputs: ${payload.summary.invalidInputNames.join(', ') || 'none'}`)
 }

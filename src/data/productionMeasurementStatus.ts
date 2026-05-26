@@ -1,10 +1,10 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-26T10:37:18.568Z",
+  "generatedAt": "2026-05-26T10:56:39.184Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-ae3647ad9362",
+  "liveCandidate": "pwa-356aaef63de4",
   "liveRelease": {
-    "syncedCandidateId": "pwa-ae3647ad9362",
+    "syncedCandidateId": "pwa-356aaef63de4",
     "exactManifestPath": "/release-candidate.json",
     "staticJsonMayLagBehindLatestDeploy": true
   },
@@ -24,10 +24,10 @@ export const productionMeasurementStatus = {
     "status": "owner-input-required",
     "recommendedPathId": "first-party-collector",
     "lowestInputPathId": "posthog-browser",
-    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
     "minimalInterventionPathId": "posthog-browser",
-    "minimalInterventionMissingInputCount": 2,
+    "minimalInterventionMissingInputCount": 1,
     "minimalInterventionSecretInputCount": 0,
     "commandCount": 7,
     "validationCommandCount": 4
@@ -57,7 +57,7 @@ export const productionMeasurementStatus = {
     "lowestInputPathId": "posthog-browser",
     "missingInputCount": 4,
     "invalidInputCount": 0,
-    "lowestInputMissingInputCount": 2,
+    "lowestInputMissingInputCount": 1,
     "lowestInputSecretInputCount": 0,
     "combinedOwnerInputPreflight": {
       "status": "combined-owner-input-preflight-waiting-on-input",
@@ -69,12 +69,11 @@ export const productionMeasurementStatus = {
       ],
       "analyticsPathId": "posthog-browser",
       "supportUnlockId": "support-contact",
-      "missingInputCount": 3,
+      "missingInputCount": 2,
       "secretInputCount": 0,
       "invalidInputCount": 0,
       "missingInputNames": [
         "VITE_POSTHOG_KEY",
-        "VITE_POSTHOG_HOST",
         "AGL_SUPPORT_EMAIL"
       ],
       "writeAnalyticsLocalEnvTemplateCommand": "./ops/github/setup-production.sh --analytics-input-template",
