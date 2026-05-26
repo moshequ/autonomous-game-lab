@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T08:06:48.832Z",
+  "generatedAt": "2026-05-26T08:33:22.661Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
     "loaded": false,
@@ -38,14 +38,14 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-8ae1ed30f9f5",
-    "aggregateHash": "8ae1ed30f9f57f452c8c14887766e66d2c46badc5ba639e4be3b19fa454e9723",
+    "candidateId": "pwa-5e19b5820c8b",
+    "aggregateHash": "5e19b5820c8be0f0d9fdad23eeee4726cbd32bc440d9e27ec06e8caa80c37cd5",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-be59f1ade258",
-    "aggregateHash": "be59f1ade258006b41598770ee091dd2aa6e654c53ff015d78ef9161c876cb4b",
+    "candidateId": "pwa-0c229f21ce8e",
+    "aggregateHash": "0c229f21ce8e46a99c1dbd65333529cb479d1cea5f056812293b5449050b8b59",
     "localCandidateMatches": false,
     "strictManifestComparison": false,
     "postDeploySmokeUrls": 31,
@@ -283,7 +283,7 @@
         "file": "dist/gate-sample.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 45656,
+        "bytes": 48065,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -396,8 +396,8 @@
         "bytes": 38395,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-8ae1ed30f9f5",
-        "localAggregateHash": "8ae1ed30f9f57f452c8c14887766e66d2c46badc5ba639e4be3b19fa454e9723",
+        "localCandidateId": "pwa-5e19b5820c8b",
+        "localAggregateHash": "5e19b5820c8be0f0d9fdad23eeee4726cbd32bc440d9e27ec06e8caa80c37cd5",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -663,7 +663,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/store-readiness.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 13438,
+      "bytes": 13480,
       "textMatched": true
     },
     {
@@ -705,7 +705,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
       "contentType": "text/html; charset=utf-8",
-      "bytes": 45656,
+      "bytes": 48065,
       "textMatched": true
     },
     {
@@ -853,7 +853,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-8ae1ed30f9f5",
+      "requiredText": "pwa-5e19b5820c8b",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
@@ -865,8 +865,8 @@
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-be59f1ade258",
-      "deployedAggregateHash": "be59f1ade258006b41598770ee091dd2aa6e654c53ff015d78ef9161c876cb4b",
+      "deployedCandidateId": "pwa-0c229f21ce8e",
+      "deployedAggregateHash": "0c229f21ce8e46a99c1dbd65333529cb479d1cea5f056812293b5449050b8b59",
       "deployedPostDeploySmoke": [
         {
           "id": "app-shell",
@@ -1090,7 +1090,7 @@
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-be59f1ade258; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-0c229f21ce8e; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 }
