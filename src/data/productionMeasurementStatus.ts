@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-26T18:15:11.628Z",
+  "generatedAt": "2026-05-26T18:21:28.771Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-f22661cd6221",
@@ -144,6 +144,7 @@ export const productionMeasurementStatus = {
           "inputType": "text",
           "placeholder": "phc_public_project_key",
           "required": true,
+          "runtimeConfigRequired": true,
           "publicValue": true,
           "maxLength": 256
         },
@@ -155,6 +156,7 @@ export const productionMeasurementStatus = {
           "inputType": "email",
           "placeholder": "support@example.com",
           "required": true,
+          "runtimeConfigRequired": false,
           "publicValue": true,
           "maxLength": 254
         }
@@ -174,6 +176,13 @@ export const productionMeasurementStatus = {
       "targetPublicPath": "public/owner-runtime-config.json",
       "defaultPosthogHost": "https://us.i.posthog.com",
       "provider": "posthog-browser",
+      "minimumPublicInputNames": [
+        "VITE_POSTHOG_KEY"
+      ],
+      "optionalPublicInputNames": [
+        "AGL_SUPPORT_EMAIL"
+      ],
+      "analyticsOnlyAllowed": true,
       "controls": {
         "browserLocalOnly": true,
         "publicValuesOnly": true,
@@ -193,6 +202,13 @@ export const productionMeasurementStatus = {
       "ref": "main",
       "requiredFlag": "publish_zero_secret_runtime_config=true",
       "defaultPosthogHost": "https://us.i.posthog.com",
+      "minimumPublicInputNames": [
+        "VITE_POSTHOG_KEY"
+      ],
+      "optionalPublicInputNames": [
+        "AGL_SUPPORT_EMAIL"
+      ],
+      "analyticsOnlyAllowed": true,
       "controls": {
         "browserLocalOnly": true,
         "publicValuesOnly": true,

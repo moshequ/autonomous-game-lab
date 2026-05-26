@@ -10920,6 +10920,7 @@ test('production measurement status publishes public aggregate evidence handoff'
           inputType: string
           placeholder: string
           required: boolean
+          runtimeConfigRequired: boolean
           publicValue: boolean
           maxLength: number
         }>
@@ -10938,6 +10939,9 @@ test('production measurement status publishes public aggregate evidence handoff'
         targetPublicPath: string
         defaultPosthogHost: string
         provider: string
+        minimumPublicInputNames: string[]
+        optionalPublicInputNames: string[]
+        analyticsOnlyAllowed: boolean
         controls: {
           browserLocalOnly: boolean
           publicValuesOnly: boolean
@@ -10957,6 +10961,9 @@ test('production measurement status publishes public aggregate evidence handoff'
         ref: string
         requiredFlag: string
         defaultPosthogHost: string
+        minimumPublicInputNames: string[]
+        optionalPublicInputNames: string[]
+        analyticsOnlyAllowed: boolean
         controls: {
           browserLocalOnly: boolean
           publicValuesOnly: boolean
@@ -12190,6 +12197,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       inputId: 'owner-input-vite-posthog-key',
       validationKind: 'posthog-public-key',
       publicValue: true,
+      runtimeConfigRequired: true,
       maxLength: 256,
     }),
     expect.objectContaining({
@@ -12198,6 +12206,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       validationKind: 'email-shape',
       inputType: 'email',
       publicValue: true,
+      runtimeConfigRequired: false,
       maxLength: 254,
     }),
   ])
@@ -12211,6 +12220,9 @@ test('production measurement status publishes public aggregate evidence handoff'
     targetPublicPath: 'public/owner-runtime-config.json',
     defaultPosthogHost: 'https://us.i.posthog.com',
     provider: 'posthog-browser',
+    minimumPublicInputNames: ['VITE_POSTHOG_KEY'],
+    optionalPublicInputNames: ['AGL_SUPPORT_EMAIL'],
+    analyticsOnlyAllowed: true,
   })
   expect(ownerInputActionPack.runtimeConfigPreview.controls.browserLocalOnly).toBe(true)
   expect(ownerInputActionPack.runtimeConfigPreview.controls.publicValuesOnly).toBe(true)
@@ -12224,6 +12236,9 @@ test('production measurement status publishes public aggregate evidence handoff'
     ref: 'main',
     requiredFlag: 'publish_zero_secret_runtime_config=true',
     defaultPosthogHost: 'https://us.i.posthog.com',
+    minimumPublicInputNames: ['VITE_POSTHOG_KEY'],
+    optionalPublicInputNames: ['AGL_SUPPORT_EMAIL'],
+    analyticsOnlyAllowed: true,
   })
   expect(ownerInputActionPack.productionInputWatchCommand.controls.browserLocalOnly).toBe(true)
   expect(ownerInputActionPack.productionInputWatchCommand.controls.publicValuesOnly).toBe(true)
@@ -12654,6 +12669,62 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByText('Local env template downloaded.')).toBeVisible()
 
   await page.getByLabel('PostHog browser project key').fill('phc_public_smoke_key')
+  await page.getByRole('button', { name: 'Check zero-secret values' }).click()
+  await expect(page.getByText('Production analytics value passed local checks.')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy filled shell exports' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeEnabled()
+  await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeEnabled()
+  const analyticsRuntimePreviewDownloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download runtime config preview' }).click()
+  const analyticsRuntimePreviewDownload = await analyticsRuntimePreviewDownloadPromise
+  expect(analyticsRuntimePreviewDownload.suggestedFilename()).toBe('owner-runtime-config.preview.json')
+  const analyticsRuntimePreviewPath = await analyticsRuntimePreviewDownload.path()
+  if (!analyticsRuntimePreviewPath) {
+    throw new Error('Expected analytics-only runtime config preview download path.')
+  }
+  const analyticsRuntimePreview = JSON.parse(await readFile(analyticsRuntimePreviewPath, 'utf8')) as {
+    configuredPublicInputNames: string[]
+    missingPublicInputNames: string[]
+    analytics: { provider: string; posthogConfigured: boolean; posthogKey: string; posthogHost: string }
+    support: { configured: boolean; email: string | null }
+  }
+  expect(analyticsRuntimePreview.configuredPublicInputNames).toEqual(['VITE_POSTHOG_KEY'])
+  expect(analyticsRuntimePreview.missingPublicInputNames).toEqual(['AGL_SUPPORT_EMAIL'])
+  expect(analyticsRuntimePreview.analytics).toMatchObject({
+    provider: 'posthog-browser',
+    posthogConfigured: true,
+    posthogKey: 'phc_public_smoke_key',
+    posthogHost: 'https://us.i.posthog.com',
+  })
+  expect(analyticsRuntimePreview.support).toEqual({ configured: false, email: null })
+  const analyticsRuntimePreviewReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.ownerInputActionReceipt') ?? '{}'),
+  )
+  expect(analyticsRuntimePreviewReceipt).toMatchObject({
+    action: 'download-owner-runtime-config-preview',
+    validationStatus: 'passed',
+    publicRuntimeConfigPreview: true,
+    noValuesStored: true,
+  })
+  expect(analyticsRuntimePreviewReceipt.validatedInputNames).toEqual(['VITE_POSTHOG_KEY'])
+  expect(JSON.stringify(analyticsRuntimePreviewReceipt)).not.toContain('phc_public_smoke_key')
+  await page.getByRole('button', { name: 'Copy input watch command' }).click()
+  const analyticsInputWatchCommand = await page.evaluate(
+    () => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? '',
+  )
+  expect(analyticsInputWatchCommand).toContain("-f vite_posthog_key='phc_public_smoke_key'")
+  expect(analyticsInputWatchCommand).toContain("-f agl_support_email=''")
+  const analyticsInputWatchCommandReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.ownerInputActionReceipt') ?? '{}'),
+  )
+  expect(analyticsInputWatchCommandReceipt).toMatchObject({
+    action: 'copy-production-input-watch-command',
+    validationStatus: 'passed',
+    commandRequiresOwnerRun: true,
+    noValuesStored: true,
+  })
+  expect(analyticsInputWatchCommandReceipt.validatedInputNames).toEqual(['VITE_POSTHOG_KEY'])
   await page.getByLabel('Production support email').fill('support@example.com')
   await page.getByRole('button', { name: 'Check zero-secret values' }).click()
   await expect(page.getByText('Zero-secret values passed local checks.')).toBeVisible()
@@ -12714,7 +12785,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       posthogKey: string
       posthogHost: string
     }
-    support: { configured: boolean; email: string }
+    support: { configured: boolean; email: string | null }
     controls: {
       publicValuesOnly: boolean
       noSecretValues: boolean

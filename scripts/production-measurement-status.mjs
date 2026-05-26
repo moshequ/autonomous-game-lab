@@ -878,6 +878,7 @@ const ownerInputActionPack = combinedOwnerInputPreflight
             inputType: 'text',
             placeholder: 'phc_public_project_key',
             required: true,
+            runtimeConfigRequired: true,
             publicValue: true,
             maxLength: 256,
           },
@@ -889,6 +890,7 @@ const ownerInputActionPack = combinedOwnerInputPreflight
             inputType: 'email',
             placeholder: 'support@example.com',
             required: true,
+            runtimeConfigRequired: false,
             publicValue: true,
             maxLength: 254,
           },
@@ -908,6 +910,9 @@ const ownerInputActionPack = combinedOwnerInputPreflight
         targetPublicPath: 'public/owner-runtime-config.json',
         defaultPosthogHost: 'https://us.i.posthog.com',
         provider: 'posthog-browser',
+        minimumPublicInputNames: ['VITE_POSTHOG_KEY'],
+        optionalPublicInputNames: ['AGL_SUPPORT_EMAIL'],
+        analyticsOnlyAllowed: true,
         controls: {
           browserLocalOnly: true,
           publicValuesOnly: true,
@@ -927,6 +932,9 @@ const ownerInputActionPack = combinedOwnerInputPreflight
         ref: 'main',
         requiredFlag: 'publish_zero_secret_runtime_config=true',
         defaultPosthogHost: 'https://us.i.posthog.com',
+        minimumPublicInputNames: ['VITE_POSTHOG_KEY'],
+        optionalPublicInputNames: ['AGL_SUPPORT_EMAIL'],
+        analyticsOnlyAllowed: true,
         controls: {
           browserLocalOnly: true,
           publicValuesOnly: true,
@@ -2677,20 +2685,28 @@ const html = `<!doctype html>
             status.textContent = message
           }
         }
-        const setFilledOwnerInputButtons = (enabled) => {
-          document.getElementById('download-filled-owner-input-template')?.toggleAttribute('disabled', !enabled)
-          document.getElementById('copy-filled-owner-shell-template')?.toggleAttribute('disabled', !enabled)
-          document.getElementById('download-owner-runtime-config-preview')?.toggleAttribute('disabled', !enabled)
-          document.getElementById('copy-production-input-watch-command')?.toggleAttribute('disabled', !enabled)
+        const setFilledOwnerInputButtons = ({ combinedEnabled, runtimeConfigEnabled }) => {
+          document
+            .getElementById('download-filled-owner-input-template')
+            ?.toggleAttribute('disabled', !combinedEnabled)
+          document
+            .getElementById('copy-filled-owner-shell-template')
+            ?.toggleAttribute('disabled', !combinedEnabled)
+          document
+            .getElementById('download-owner-runtime-config-preview')
+            ?.toggleAttribute('disabled', !runtimeConfigEnabled)
+          document
+            .getElementById('copy-production-input-watch-command')
+            ?.toggleAttribute('disabled', !runtimeConfigEnabled)
         }
         const readOwnerInputValues = () =>
           ownerInputFields().map((field) => ({
             field,
             value: String(ownerInputElement(field)?.value ?? '').trim(),
           }))
-        const validateOwnerInputField = (field, value) => {
+        const validateOwnerInputField = (field, value, { allowMissing = false } = {}) => {
           const checks = [
-            value ? null : field.envName + ' is missing',
+            !allowMissing && !value ? field.envName + ' is missing' : null,
             /[\\r\\n]/.test(value) ? field.envName + ' must be a single line' : null,
             /\\s/.test(value) ? field.envName + ' must not include whitespace' : null,
             value.length > field.maxLength ? field.envName + ' is too long' : null,
@@ -2704,15 +2720,24 @@ const html = `<!doctype html>
         }
         const validateOwnerInputValues = () => {
           const entries = readOwnerInputValues()
-          const problems = entries.flatMap(({ field, value }) => validateOwnerInputField(field, value))
-          const valid = entries.length > 0 && problems.length === 0
-          setFilledOwnerInputButtons(valid)
-          setOwnerInputValidationStatus(
-            valid
-              ? 'Zero-secret values passed local checks. Filled downloads are enabled.'
-              : 'Waiting for valid zero-secret values: ' + (problems.join('; ') || 'none') + '.',
+          const combinedProblems = entries.flatMap(({ field, value }) => validateOwnerInputField(field, value))
+          const runtimeProblems = entries.flatMap(({ field, value }) =>
+            validateOwnerInputField(field, value, { allowMissing: field.runtimeConfigRequired !== true }),
           )
-          return { valid, entries }
+          const hasRuntimeMinimum = entries.some(
+            ({ field, value }) => field.runtimeConfigRequired === true && value.length > 0,
+          )
+          const combinedValid = entries.length > 0 && combinedProblems.length === 0
+          const runtimeConfigValid = entries.length > 0 && hasRuntimeMinimum && runtimeProblems.length === 0
+          setFilledOwnerInputButtons({ combinedEnabled: combinedValid, runtimeConfigEnabled: runtimeConfigValid })
+          setOwnerInputValidationStatus(
+            combinedValid
+              ? 'Zero-secret values passed local checks. Filled downloads are enabled.'
+              : runtimeConfigValid
+                ? 'Production analytics value passed local checks. Runtime config preview and input watch command are enabled; support email can be added later.'
+                : 'Waiting for valid zero-secret values: ' + (runtimeProblems.join('; ') || 'none') + '.',
+          )
+          return { combinedValid, runtimeConfigValid, entries }
         }
         const filledLocalEnvText = (entries) =>
           entries.map(({ field, value }) => field.envName + '=' + value).join('\\n') + '\\n'
@@ -2730,6 +2755,12 @@ const html = `<!doctype html>
           const supportEmail = values.AGL_SUPPORT_EMAIL || null
           const defaultPosthogHost =
             ownerInputActionPack?.runtimeConfigPreview?.defaultPosthogHost || 'https://us.i.posthog.com'
+          const configuredPublicInputNames = entries
+            .filter(({ value }) => value.length > 0)
+            .map(({ field }) => field.envName)
+          const missingPublicInputNames = ownerInputFields()
+            .filter((field) => !configuredPublicInputNames.includes(field.envName))
+            .map((field) => field.envName)
           const preview = {
             generatedAt: new Date().toISOString(),
             id: 'owner-runtime-config-preview',
@@ -2738,9 +2769,9 @@ const html = `<!doctype html>
             targetPublicPath:
               ownerInputActionPack?.runtimeConfigPreview?.targetPublicPath || 'public/owner-runtime-config.json',
             publicInputNames: ownerInputFields().map((field) => field.envName),
-            configuredPublicInputNames: entries.map(({ field }) => field.envName),
+            configuredPublicInputNames,
             defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
-            missingPublicInputNames: [],
+            missingPublicInputNames,
             invalidPublicInputNames: [],
             analytics: {
               provider: posthogKey ? ownerInputActionPack?.runtimeConfigPreview?.provider || 'posthog-browser' : null,
@@ -2782,11 +2813,11 @@ const html = `<!doctype html>
             '-f',
             command?.requiredFlag || 'publish_zero_secret_runtime_config=true',
             '-f',
-            'vite_posthog_key=' + shellQuote(values.VITE_POSTHOG_KEY),
+            'vite_posthog_key=' + shellQuote(values.VITE_POSTHOG_KEY || ''),
             '-f',
             'vite_posthog_host=' + shellQuote(defaultPosthogHost),
             '-f',
-            'agl_support_email=' + shellQuote(values.AGL_SUPPORT_EMAIL),
+            'agl_support_email=' + shellQuote(values.AGL_SUPPORT_EMAIL || ''),
           ].join(' ')
         }
         const writeFilledOwnerInputReceipt = (action, entries, details = {}) => {
@@ -2799,7 +2830,7 @@ const html = `<!doctype html>
             packId: ownerInputActionPack.id,
             sourcePackId: ownerInputActionPack.sourcePackId,
             localEnvFile: ownerInputActionPack.localEnvFile,
-            validatedInputNames: entries.map(({ field }) => field.envName),
+            validatedInputNames: entries.filter(({ value }) => value.length > 0).map(({ field }) => field.envName),
             validationStatus: 'passed',
             noSecretValues: true,
             noValuesStored: true,
@@ -2811,7 +2842,7 @@ const html = `<!doctype html>
         }
         const downloadFilledOwnerInputTemplate = () => {
           const validation = validateOwnerInputValues()
-          if (!validation.valid) {
+          if (!validation.combinedValid) {
             return
           }
           downloadText(
@@ -2823,7 +2854,7 @@ const html = `<!doctype html>
         }
         const copyFilledOwnerShellTemplate = () => {
           const validation = validateOwnerInputValues()
-          if (!validation.valid) {
+          if (!validation.combinedValid) {
             return
           }
           copyOwnerInputText(
@@ -2835,7 +2866,7 @@ const html = `<!doctype html>
         }
         const downloadOwnerRuntimeConfigPreview = () => {
           const validation = validateOwnerInputValues()
-          if (!validation.valid) {
+          if (!validation.runtimeConfigValid) {
             return
           }
           downloadText(
@@ -2852,7 +2883,7 @@ const html = `<!doctype html>
         }
         const copyProductionInputWatchCommand = async () => {
           const validation = validateOwnerInputValues()
-          if (!validation.valid) {
+          if (!validation.runtimeConfigValid) {
             return
           }
           try {
