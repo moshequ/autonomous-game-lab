@@ -1,12 +1,12 @@
 # Owner Unlock Preflight
 
-Generated: 2026-05-26T16:18:27.270Z
+Generated: 2026-05-26T16:30:54.130Z
 Status: owner-unlock-preflight-waiting-on-input
 Ready for setup: false
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
-Source hash: 3130d29f84ae
+Source hash: d7dc0a5300e7
 
 ## Summary
 
