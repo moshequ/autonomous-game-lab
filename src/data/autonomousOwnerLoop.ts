@@ -15,7 +15,7 @@ export const autonomousOwnerLoop = {
     "heldActionCount": 2,
     "executableWithoutRepeatCount": 0,
     "nextResumeAt": "2026-05-27T08:23:08.550Z",
-    "nextResumeInHours": 11.917,
+    "nextResumeInHours": 11.834,
     "heldActionIds": [
       "collect-gate-sample-local-drops",
       "collect-live-events"
