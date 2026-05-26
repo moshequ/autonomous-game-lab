@@ -20,35 +20,22 @@ import './App.css'
 import type { PlayableGameId } from './components/GameCanvas'
 import { acquisitionLearning } from './data/acquisitionLearning'
 import { balanceReport } from './data/balanceReport'
-import { deploymentPlan } from './data/deploymentPlan'
-import { eventCollectorDeployment } from './data/eventCollectorDeployment'
-import { androidRelease } from './data/androidRelease'
-import { androidRootAssetlinksHandoff } from './data/androidRootAssetlinksHandoff'
-import { androidSigning } from './data/androidSigning'
-import { autonomousCadence } from './data/autonomousCadence'
 import { autonomousOwnerLoop } from './data/autonomousOwnerLoop'
-import { autonomousSelfUpdate } from './data/autonomousSelfUpdate'
 import { completionLoop } from './data/completionLoop'
 import { autonomyBacklog, games } from './data/games'
 import { experimentResults } from './data/experimentResults'
 import { generatedPlayableGames } from './data/generatedPlayableGames'
 import { growthPlan } from './data/growthPlan'
-import { incidentDrill } from './data/incidentDrill'
-import { iosRelease } from './data/iosRelease'
 import { liveSiteMonitor } from './data/liveSiteMonitor'
-import { localEventBridge } from './data/localEventBridge'
 import { monetizationPlan } from './data/monetizationPlan'
-import { nativePackage } from './data/nativePackage'
 import { portfolioPolicy } from './data/portfolioPolicy'
 import { promotionDecision } from './data/promotionDecision'
 import { prototypePipeline } from './data/prototypePipeline'
 import { productionResponse } from './data/productionResponse'
-import { productionEnvironment } from './data/productionEnvironment'
 import { productionMeasurementStatus } from './data/productionMeasurementStatus'
 import { productionBootstrap } from './data/productionBootstrap'
 import { productionBlockerHandoff } from './data/productionBlockerHandoff'
 import { productionActivation } from './data/productionActivation'
-import { publicRepoSecurityAudit } from './data/publicRepoSecurityAudit'
 import { autonomousOperator } from './data/autonomousOperator'
 import { autonomousOperatorHistory } from './data/autonomousOperatorHistory'
 import { objectiveAudit } from './data/objectiveAudit'
@@ -59,14 +46,8 @@ import { productGateRecovery } from './data/productGateRecovery'
 import { productGateSamplePlan } from './data/productGateSamplePlan'
 import { pwaInstallLoop } from './data/pwaInstallLoop'
 import { performanceBudget } from './data/performanceBudget'
-import { playerEvidenceWatchdog } from './data/playerEvidenceWatchdog'
-import { releaseHealth } from './data/releaseHealth'
-import { repositoryBootstrap } from './data/repositoryBootstrap'
-import { repositoryReadiness } from './data/repositoryReadiness'
 import { replayLoop } from './data/replayLoop'
 import { retentionLoop } from './data/retentionLoop'
-import { storeCompliance } from './data/storeCompliance'
-import { storeListingOptimizer } from './data/storeListingOptimizer'
 import { supportChannel } from './data/supportChannel'
 import { supportFeedback } from './data/supportFeedback'
 import { trafficSeeding } from './data/trafficSeeding'
@@ -223,6 +204,28 @@ const formatUsd = (value: number | null | undefined) =>
 
 const formatPayback = (value: number | null | undefined) =>
   typeof value === 'number' ? `${value}d` : 'not ready'
+
+type LateOpsData = {
+  publicRepoSecurityAudit: typeof import('./data/publicRepoSecurityAudit').publicRepoSecurityAudit
+  repositoryReadiness: typeof import('./data/repositoryReadiness').repositoryReadiness
+  repositoryBootstrap: typeof import('./data/repositoryBootstrap').repositoryBootstrap
+  localEventBridge: typeof import('./data/localEventBridge').localEventBridge
+  playerEvidenceWatchdog: typeof import('./data/playerEvidenceWatchdog').playerEvidenceWatchdog
+  autonomousCadence: typeof import('./data/autonomousCadence').autonomousCadence
+  autonomousSelfUpdate: typeof import('./data/autonomousSelfUpdate').autonomousSelfUpdate
+  releaseHealth: typeof import('./data/releaseHealth').releaseHealth
+  productionEnvironment: typeof import('./data/productionEnvironment').productionEnvironment
+  incidentDrill: typeof import('./data/incidentDrill').incidentDrill
+  deploymentPlan: typeof import('./data/deploymentPlan').deploymentPlan
+  eventCollectorDeployment: typeof import('./data/eventCollectorDeployment').eventCollectorDeployment
+  nativePackage: typeof import('./data/nativePackage').nativePackage
+  androidRelease: typeof import('./data/androidRelease').androidRelease
+  storeCompliance: typeof import('./data/storeCompliance').storeCompliance
+  storeListingOptimizer: typeof import('./data/storeListingOptimizer').storeListingOptimizer
+  androidSigning: typeof import('./data/androidSigning').androidSigning
+  androidRootAssetlinksHandoff: typeof import('./data/androidRootAssetlinksHandoff').androidRootAssetlinksHandoff
+  iosRelease: typeof import('./data/iosRelease').iosRelease
+}
 
 const readNumberStorage = (key: string) => {
   if (typeof window === 'undefined') {
@@ -666,6 +669,7 @@ function App() {
     readStringStorage(completionLoop.localState.finishLineAcceptedRunKey),
   )
   const [pwaPromptEvent, setPwaPromptEvent] = useState<BeforeInstallPromptEvent | null>(null)
+  const [lateOpsData, setLateOpsData] = useState<LateOpsData | null>(null)
   const [pwaInstallStatus, setPwaInstallStatus] = useState(() => {
     const displayMode = getPwaDisplayMode()
     const installedAt = readStringStorage(pwaInstallLoop.localState.installedKey)
@@ -919,6 +923,86 @@ function App() {
     return () => {
       window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt)
       window.removeEventListener('appinstalled', onAppInstalled)
+    }
+  }, [])
+
+  useEffect(() => {
+    let active = true
+
+    const loadLateOpsData = async () => {
+      const [
+        publicRepoSecurityAuditModule,
+        repositoryReadinessModule,
+        repositoryBootstrapModule,
+        localEventBridgeModule,
+        playerEvidenceWatchdogModule,
+        autonomousCadenceModule,
+        autonomousSelfUpdateModule,
+        releaseHealthModule,
+        productionEnvironmentModule,
+        incidentDrillModule,
+        deploymentPlanModule,
+        eventCollectorDeploymentModule,
+        nativePackageModule,
+        androidReleaseModule,
+        storeComplianceModule,
+        storeListingOptimizerModule,
+        androidSigningModule,
+        androidRootAssetlinksHandoffModule,
+        iosReleaseModule,
+      ] = await Promise.all([
+        import('./data/publicRepoSecurityAudit'),
+        import('./data/repositoryReadiness'),
+        import('./data/repositoryBootstrap'),
+        import('./data/localEventBridge'),
+        import('./data/playerEvidenceWatchdog'),
+        import('./data/autonomousCadence'),
+        import('./data/autonomousSelfUpdate'),
+        import('./data/releaseHealth'),
+        import('./data/productionEnvironment'),
+        import('./data/incidentDrill'),
+        import('./data/deploymentPlan'),
+        import('./data/eventCollectorDeployment'),
+        import('./data/nativePackage'),
+        import('./data/androidRelease'),
+        import('./data/storeCompliance'),
+        import('./data/storeListingOptimizer'),
+        import('./data/androidSigning'),
+        import('./data/androidRootAssetlinksHandoff'),
+        import('./data/iosRelease'),
+      ])
+
+      if (!active) {
+        return
+      }
+
+      setLateOpsData({
+        publicRepoSecurityAudit: publicRepoSecurityAuditModule.publicRepoSecurityAudit,
+        repositoryReadiness: repositoryReadinessModule.repositoryReadiness,
+        repositoryBootstrap: repositoryBootstrapModule.repositoryBootstrap,
+        localEventBridge: localEventBridgeModule.localEventBridge,
+        playerEvidenceWatchdog: playerEvidenceWatchdogModule.playerEvidenceWatchdog,
+        autonomousCadence: autonomousCadenceModule.autonomousCadence,
+        autonomousSelfUpdate: autonomousSelfUpdateModule.autonomousSelfUpdate,
+        releaseHealth: releaseHealthModule.releaseHealth,
+        productionEnvironment: productionEnvironmentModule.productionEnvironment,
+        incidentDrill: incidentDrillModule.incidentDrill,
+        deploymentPlan: deploymentPlanModule.deploymentPlan,
+        eventCollectorDeployment: eventCollectorDeploymentModule.eventCollectorDeployment,
+        nativePackage: nativePackageModule.nativePackage,
+        androidRelease: androidReleaseModule.androidRelease,
+        storeCompliance: storeComplianceModule.storeCompliance,
+        storeListingOptimizer: storeListingOptimizerModule.storeListingOptimizer,
+        androidSigning: androidSigningModule.androidSigning,
+        androidRootAssetlinksHandoff: androidRootAssetlinksHandoffModule.androidRootAssetlinksHandoff,
+        iosRelease: iosReleaseModule.iosRelease,
+      })
+    }
+
+    void loadLateOpsData()
+
+    return () => {
+      active = false
     }
   }, [])
 
@@ -1513,6 +1597,25 @@ function App() {
           priority: 2,
         }
       : null
+  const organicSeedShortcutRecommendation: LocalRouterRecommendation | null =
+    organicSeedTargetCampaign &&
+    organicSeedProgress?.sampleDecisionReady !== true &&
+    localRouterRecommendation.actionType !== 'organic-seed'
+      ? {
+          id: 'organic-seed-shortcut',
+          actionType: 'organic-seed',
+          label: 'Seed target',
+          ctaLabel: 'Seed target',
+          gameId: organicSeedTargetCampaign.gameId,
+          campaignId: organicSeedTargetCampaign.id,
+          gateId: null,
+          reason: `${organicSeedTargetCampaign.title} still needs player-initiated starts before acquisition learning can judge it.`,
+          source: 'seed_internal',
+          channel: 'internal-rotation',
+          sampleStatus: organicSeedProgress?.status ?? 'waiting-for-local-events',
+          priority: 5,
+        }
+      : null
   const eventCounts = events.reduce<Record<string, number>>((counts, event) => {
     counts[event.name] = (counts[event.name] ?? 0) + 1
     return counts
@@ -1562,6 +1665,11 @@ function App() {
     }
   }
   const openSeedCampaign = (campaign: (typeof trafficCampaigns)[number]) => {
+    const nextRunSeed = crypto.randomUUID()
+    const nextRunId = `${campaign.gameId}-${nextRunSeed}`
+    const sameGameRestart = selectedGameId === campaign.gameId
+
+    setRunSeed(nextRunSeed)
     setActiveGateSampleCampaignId('')
     setAcquisitionAttribution({
       source: 'seed_internal',
@@ -1583,6 +1691,13 @@ function App() {
       priority: campaign.priority,
       source: 'portal-growth-loop',
       costUsd: campaign.costUsd,
+      runId: nextRunId,
+      sampleStartCreatesFreshRun: true,
+      sameGameRestart,
+      previousGameId: selectedGameId,
+      previousRunCompleted: snapshot.completed,
+      previousRunMoves: snapshot.moves,
+      previousRunResult: snapshot.result,
     })
   }
   const startGateSampleMission = (mission: (typeof productGateSamplePlan.missions)[number]) => {
@@ -2084,6 +2199,14 @@ function App() {
 
     startGateSampleMission(productGateSampleFastestDistinct)
     trackEvent('local_router_choice_clicked', localRouterEventProperties(fastestGateSampleRecommendation))
+  }
+  const chooseOrganicSeedShortcut = () => {
+    if (!organicSeedShortcutRecommendation || !organicSeedTargetCampaign) {
+      return
+    }
+
+    openSeedCampaign(organicSeedTargetCampaign)
+    trackEvent('local_router_choice_clicked', localRouterEventProperties(organicSeedShortcutRecommendation))
   }
   const chooseLocalRouterRecommendation = () => {
     const recommendation = localRouterRecommendation
@@ -3025,6 +3148,17 @@ function App() {
                     {fastestGateSampleRecommendation.ctaLabel}
                   </button>
                 ) : null}
+                {organicSeedShortcutRecommendation && organicSeedTargetCampaign ? (
+                  <button
+                    aria-label={`Seed target for ${organicSeedTargetCampaign.title}`}
+                    className="tinyButton subtleButton"
+                    type="button"
+                    onClick={chooseOrganicSeedShortcut}
+                  >
+                    <Rocket size={14} aria-hidden="true" />
+                    {organicSeedShortcutRecommendation.ctaLabel}
+                  </button>
+                ) : null}
                 <button className="tinyButton subtleButton" type="button" onClick={shareLocalRouterRecommendation}>
                   <Share2 size={14} aria-hidden="true" />
                   Share route
@@ -3796,29 +3930,31 @@ function App() {
               <div className="monetizationRuntime" aria-label="Public Repo Security">
                 <div>
                   <span>Public Repo Security</span>
-                  <strong>{publicRepoSecurityAudit.status}</strong>
+                  <strong>{lateOpsData?.publicRepoSecurityAudit.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Visibility</span>
-                  <strong>{publicRepoSecurityAudit.repository.visibility}</strong>
+                  <strong>{lateOpsData?.publicRepoSecurityAudit.repository.visibility ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Secret findings</span>
-                  <strong>{publicRepoSecurityAudit.summary.highConfidenceSecretFindings}</strong>
+                  <strong>
+                    {lateOpsData?.publicRepoSecurityAudit.summary.highConfidenceSecretFindings ?? 'loading'}
+                  </strong>
                 </div>
                 <div>
                   <span>Sensitive files</span>
-                  <strong>{publicRepoSecurityAudit.summary.trackedSensitiveFiles}</strong>
+                  <strong>{lateOpsData?.publicRepoSecurityAudit.summary.trackedSensitiveFiles ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Workflow risks</span>
-                  <strong>{publicRepoSecurityAudit.summary.publicWorkflowRisks}</strong>
+                  <strong>{lateOpsData?.publicRepoSecurityAudit.summary.publicWorkflowRisks ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Issue trigger</span>
                   <strong>
-                    {publicRepoSecurityAudit.controls.publicIssueTriggerSecretsBlocked &&
-                    publicRepoSecurityAudit.controls.publicIssueWorkflowReadOnly
+                    {lateOpsData?.publicRepoSecurityAudit.controls.publicIssueTriggerSecretsBlocked &&
+                    lateOpsData?.publicRepoSecurityAudit.controls.publicIssueWorkflowReadOnly
                       ? 'secretless-readonly'
                       : 'review'}
                   </strong>
@@ -3913,57 +4049,71 @@ function App() {
               <div className="monetizationRuntime" aria-label="Repository Channel">
                 <div>
                   <span>Repository Channel</span>
-                  <strong>{repositoryReadiness.status}</strong>
+                  <strong>{lateOpsData?.repositoryReadiness.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Git worktree</span>
-                  <strong>{repositoryReadiness.workspace.insideWorkTree ? 'ready' : 'missing'}</strong>
+                  <strong>
+                    {lateOpsData?.repositoryReadiness.workspace.insideWorkTree ? 'ready' : 'missing'}
+                  </strong>
                 </div>
                 <div>
                   <span>Repository</span>
-                  <strong>{repositoryReadiness.repository.target ?? 'missing'}</strong>
+                  <strong>{lateOpsData?.repositoryReadiness.repository.target ?? 'missing'}</strong>
                 </div>
                 <div>
                   <span>Planned target</span>
-                  <strong>{repositoryReadiness.repositoryTargetPlan.plannedTarget}</strong>
+                  <strong>{lateOpsData?.repositoryReadiness.repositoryTargetPlan.plannedTarget ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Pages origin</span>
-                  <strong>{repositoryReadiness.repositoryTargetPlan.pages?.origin ?? 'missing'}</strong>
+                  <strong>
+                    {lateOpsData?.repositoryReadiness.repositoryTargetPlan.pages?.origin ?? 'missing'}
+                  </strong>
                 </div>
                 <div>
                   <span>Pages build</span>
-                  <strong>{repositoryReadiness.pages.liveSettings.buildType ?? 'unknown'}</strong>
+                  <strong>
+                    {lateOpsData?.repositoryReadiness.pages.liveSettings.buildType ?? 'unknown'}
+                  </strong>
                 </div>
                 <div>
                   <span>Pages HTTPS</span>
-                  <strong>{repositoryReadiness.pages.liveSettings.httpsEnforced ? 'enforced' : 'blocked'}</strong>
+                  <strong>
+                    {lateOpsData?.repositoryReadiness.pages.liveSettings.httpsEnforced ? 'enforced' : 'blocked'}
+                  </strong>
                 </div>
                 <div>
                   <span>Workflow dispatch</span>
-                  <strong>{repositoryReadiness.githubAutomation.workflowDispatchReady ? 'ready' : 'blocked'}</strong>
+                  <strong>
+                    {lateOpsData?.repositoryReadiness.githubAutomation.workflowDispatchReady ? 'ready' : 'blocked'}
+                  </strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Repository Bootstrap">
                 <div>
                   <span>Repository Bootstrap</span>
-                  <strong>{repositoryBootstrap.status}</strong>
+                  <strong>{lateOpsData?.repositoryBootstrap.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Mode</span>
-                  <strong>{repositoryBootstrap.mode}</strong>
+                  <strong>{lateOpsData?.repositoryBootstrap.mode ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Helper</span>
-                  <strong>{repositoryBootstrap.helper.path}</strong>
+                  <strong>{lateOpsData?.repositoryBootstrap.helper.path ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Create URL</span>
-                  <strong>{repositoryBootstrap.repositoryTargetPlan.githubNewRepositoryUrl}</strong>
+                  <strong>
+                    {lateOpsData?.repositoryBootstrap.repositoryTargetPlan.githubNewRepositoryUrl ?? 'loading'}
+                  </strong>
                 </div>
                 <div>
                   <span>Local git</span>
-                  <strong>{repositoryBootstrap.workspace.after.insideWorkTree ? 'ready' : 'missing'}</strong>
+                  <strong>
+                    {lateOpsData?.repositoryBootstrap.workspace.after.insideWorkTree ? 'ready' : 'missing'}
+                  </strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Autonomous Operator">
@@ -4003,15 +4153,15 @@ function App() {
               <div className="monetizationRuntime" aria-label="Local Event Bridge">
                 <div>
                   <span>Local Event Bridge</span>
-                  <strong>{localEventBridge.status}</strong>
+                  <strong>{lateOpsData?.localEventBridge.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Inbox events</span>
-                  <strong>{localEventBridge.inbox.validEvents}</strong>
+                  <strong>{lateOpsData?.localEventBridge.inbox.validEvents ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Imported events</span>
-                  <strong>{localEventBridge.imported.events}</strong>
+                  <strong>{lateOpsData?.localEventBridge.imported.events ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Export debt</span>
@@ -4055,43 +4205,49 @@ function App() {
                 </div>
                 <div>
                   <span>External upload</span>
-                  <strong>{localEventBridge.controls.noExternalUpload ? 'blocked' : 'open'}</strong>
+                  <strong>
+                    {lateOpsData?.localEventBridge.controls.noExternalUpload ? 'blocked' : 'open'}
+                  </strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Player Evidence Watchdog">
                 <div>
                   <span>Evidence Watchdog</span>
-                  <strong>{playerEvidenceWatchdog.status}</strong>
+                  <strong>{lateOpsData?.playerEvidenceWatchdog.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Inbox events</span>
-                  <strong>{playerEvidenceWatchdog.inbox}</strong>
+                  <strong>{lateOpsData?.playerEvidenceWatchdog.inbox ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Imported events</span>
-                  <strong>{playerEvidenceWatchdog.imported}</strong>
+                  <strong>{lateOpsData?.playerEvidenceWatchdog.imported ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Aggregate notes</span>
-                  <strong>{playerEvidenceWatchdog.notes}</strong>
+                  <strong>{lateOpsData?.playerEvidenceWatchdog.notes ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Downloads scan</span>
                   <strong>
-                    {playerEvidenceWatchdog.scanReady
+                    {lateOpsData?.playerEvidenceWatchdog.scanReady
                       ? 'ready'
-                      : playerEvidenceWatchdog.scanCooling
+                      : lateOpsData?.playerEvidenceWatchdog.scanCooling
                         ? 'cooling down'
                         : 'waiting'}
                   </strong>
                 </div>
                 <div>
                   <span>Public repo</span>
-                  <strong>{playerEvidenceWatchdog.publicSafe ? 'safe' : 'blocked'}</strong>
+                  <strong>
+                    {lateOpsData?.playerEvidenceWatchdog.publicSafe ? 'safe' : 'blocked'}
+                  </strong>
                 </div>
                 <div>
                   <span>Raw events</span>
-                  <strong>{playerEvidenceWatchdog.rawPrivate ? 'private' : 'review'}</strong>
+                  <strong>
+                    {lateOpsData?.playerEvidenceWatchdog.rawPrivate ? 'private' : 'review'}
+                  </strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Operator History">
@@ -4115,45 +4271,47 @@ function App() {
               <div className="monetizationRuntime" aria-label="Autonomous Cadence">
                 <div>
                   <span>Autonomous Cadence</span>
-                  <strong>{autonomousCadence.status}</strong>
+                  <strong>{lateOpsData?.autonomousCadence.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Codex app</span>
-                  <strong>{autonomousCadence.schedulers.codexDesktop.status}</strong>
+                  <strong>{lateOpsData?.autonomousCadence.schedulers.codexDesktop.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>GitHub Actions</span>
-                  <strong>{autonomousCadence.schedulers.githubActions.status}</strong>
+                  <strong>{lateOpsData?.autonomousCadence.schedulers.githubActions.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Freshness</span>
-                  <strong>{autonomousCadence.freshness.status}</strong>
+                  <strong>{lateOpsData?.autonomousCadence.freshness.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Stale evidence</span>
-                  <strong>{autonomousCadence.freshness.staleArtifacts}</strong>
+                  <strong>{lateOpsData?.autonomousCadence.freshness.staleArtifacts ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Operate</span>
-                  <strong>{autonomousCadence.commandPlan.operate}</strong>
+                  <strong>{lateOpsData?.autonomousCadence.commandPlan.operate ?? 'loading'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Autonomous Self Update">
                 <div>
                   <span>Autonomous Self Update</span>
-                  <strong>{autonomousSelfUpdate.status}</strong>
+                  <strong>{lateOpsData?.autonomousSelfUpdate.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Workflow</span>
-                  <strong>{autonomousSelfUpdate.commitPlan.workflow}</strong>
+                  <strong>{lateOpsData?.autonomousSelfUpdate.commitPlan.workflow ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Safe pending</span>
-                  <strong>{autonomousSelfUpdate.pendingChanges.safeCount}</strong>
+                  <strong>{lateOpsData?.autonomousSelfUpdate.pendingChanges.safeCount ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Direct push</span>
-                  <strong>{autonomousSelfUpdate.repository.remotePushReady ? 'ready' : 'gated'}</strong>
+                  <strong>
+                    {lateOpsData?.autonomousSelfUpdate.repository.remotePushReady ? 'ready' : 'gated'}
+                  </strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Objective Audit">
@@ -4246,27 +4404,27 @@ function App() {
             <div className="panelList">
               <div className="factRow">
                 <span>Status</span>
-                <strong>{releaseHealth.status}</strong>
+                <strong>{lateOpsData?.releaseHealth.status ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Analytics</span>
-                <strong>{releaseHealth.analyticsSource}</strong>
+                <strong>{lateOpsData?.releaseHealth.analyticsSource ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Runtime errors</span>
-                <strong>{releaseHealth.metrics.runtimeErrors}</strong>
+                <strong>{lateOpsData?.releaseHealth.metrics.runtimeErrors ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Completion</span>
-                <strong>{formatPercent(releaseHealth.metrics.firstGameCompletion)}</strong>
+                <strong>{formatPercent(lateOpsData?.releaseHealth.metrics.firstGameCompletion)}</strong>
               </div>
               <div className="factRow">
                 <span>Replay</span>
-                <strong>{formatPercent(releaseHealth.metrics.replayRate)}</strong>
+                <strong>{formatPercent(lateOpsData?.releaseHealth.metrics.replayRate)}</strong>
               </div>
               <div className="factRow">
                 <span>D1 retention</span>
-                <strong>{formatPercent(releaseHealth.metrics.d1Retention)}</strong>
+                <strong>{formatPercent(lateOpsData?.releaseHealth.metrics.d1Retention)}</strong>
               </div>
               <div className="monetizationRuntime" aria-label="Product Optimization">
                 <div>
@@ -4470,19 +4628,21 @@ function App() {
               </div>
               <div className="factRow">
                 <span>Deploy guard</span>
-                <strong>{releaseHealth.controls.canDeploy ? 'open' : 'held'}</strong>
+                <strong>{lateOpsData?.releaseHealth.controls.canDeploy ? 'open' : 'held'}</strong>
               </div>
               <div className="factRow">
                 <span>Experiment changes</span>
-                <strong>{releaseHealth.controls.canApplyExperimentChanges ? 'allowed' : 'held'}</strong>
+                <strong>
+                  {lateOpsData?.releaseHealth.controls.canApplyExperimentChanges ? 'allowed' : 'held'}
+                </strong>
               </div>
               <div className="factRow">
                 <span>Environment</span>
-                <strong>{productionEnvironment.status}</strong>
+                <strong>{lateOpsData?.productionEnvironment.status ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Public origin</span>
-                <strong>{productionEnvironment.publicOrigin.status}</strong>
+                <strong>{lateOpsData?.productionEnvironment.publicOrigin.status ?? 'loading'}</strong>
               </div>
             </div>
           </div>
@@ -4538,11 +4698,13 @@ function App() {
               </div>
               <div className="factRow">
                 <span>Incident drill</span>
-                <strong>{incidentDrill.status}</strong>
+                <strong>{lateOpsData?.incidentDrill.status ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Drill rollback</span>
-                <strong>{incidentDrill.controls.rollbackRequired ? 'verified' : 'missing'}</strong>
+                <strong>
+                  {lateOpsData?.incidentDrill.controls.rollbackRequired ? 'verified' : 'missing'}
+                </strong>
               </div>
               {activeProductionActions.map((action) => (
                 <div className="backlogRow" key={action.id}>
@@ -4641,11 +4803,11 @@ function App() {
               </div>
               <div className="factRow">
                 <span>Web deploy</span>
-                <strong>{deploymentPlan.status}</strong>
+                <strong>{lateOpsData?.deploymentPlan.status ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Event collector</span>
-                <strong>{eventCollectorDeployment.status}</strong>
+                <strong>{lateOpsData?.eventCollectorDeployment.status ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Next paid gate</span>
@@ -4653,30 +4815,32 @@ function App() {
               </div>
               <div className="factRow">
                 <span>Native package</span>
-                <strong>{nativePackage.status}</strong>
+                <strong>{lateOpsData?.nativePackage.status ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Android release</span>
-                <strong>{androidRelease.status}</strong>
+                <strong>{lateOpsData?.androidRelease.status ?? 'loading'}</strong>
               </div>
               <div className="monetizationRuntime" aria-label="Store Compliance">
                 <div>
                   <span>Store compliance</span>
-                  <strong>{storeCompliance.status}</strong>
+                  <strong>{lateOpsData?.storeCompliance.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Content rating</span>
-                  <strong>{storeCompliance.contentRating.googlePlay.expectedRating}</strong>
+                  <strong>
+                    {lateOpsData?.storeCompliance.contentRating.googlePlay.expectedRating ?? 'loading'}
+                  </strong>
                 </div>
                 <div>
                   <span>Target audience</span>
                   <strong>
-                    {storeCompliance.targetAudience.directedToChildren ? 'child-directed' : 'general'}
+                    {lateOpsData?.storeCompliance.targetAudience.directedToChildren ? 'child-directed' : 'general'}
                   </strong>
                 </div>
                 <div>
                   <span>Ads declaration</span>
-                  <strong>{storeCompliance.adsAndMonetization.status}</strong>
+                  <strong>{lateOpsData?.storeCompliance.adsAndMonetization.status ?? 'loading'}</strong>
                 </div>
               </div>
               <div className="factRow">
@@ -4688,63 +4852,77 @@ function App() {
               <div className="monetizationRuntime" aria-label="Store Listing Optimizer">
                 <div>
                   <span>Store listing</span>
-                  <strong>{storeListingOptimizer.status}</strong>
+                  <strong>{lateOpsData?.storeListingOptimizer.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Focus game</span>
-                  <strong>{storeListingOptimizer.recommendation.title}</strong>
+                  <strong>{lateOpsData?.storeListingOptimizer.recommendation.title ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Lead shot</span>
-                  <strong>{storeListingOptimizer.screenshotPriorities[0]?.id ?? 'missing'}</strong>
+                  <strong>
+                    {lateOpsData?.storeListingOptimizer.screenshotPriorities[0]?.id ?? 'missing'}
+                  </strong>
                 </div>
                 <div>
                   <span>Keyword</span>
-                  <strong>{storeListingOptimizer.listing.keywords[0]}</strong>
+                  <strong>{lateOpsData?.storeListingOptimizer.listing.keywords[0] ?? 'loading'}</strong>
                 </div>
               </div>
               <div className="factRow">
                 <span>Android handoff</span>
-                <strong>{nativePackage.packageName}</strong>
+                <strong>{lateOpsData?.nativePackage.packageName ?? 'loading'}</strong>
               </div>
               <div className="monetizationRuntime" aria-label="Android Signing">
                 <div>
                   <span>Android signing</span>
-                  <strong>{androidSigning.status}</strong>
+                  <strong>{lateOpsData?.androidSigning.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Fingerprint</span>
-                  <strong>{androidSigning.signing.sha256CertFingerprint ? 'ready' : 'missing'}</strong>
+                  <strong>
+                    {lateOpsData?.androidSigning.signing.sha256CertFingerprint ? 'ready' : 'missing'}
+                  </strong>
                 </div>
                 <div>
                   <span>Local secrets</span>
-                  <strong>{androidSigning.ciSecrets.configuredLocally ? 'ready' : 'missing'}</strong>
+                  <strong>
+                    {lateOpsData?.androidSigning.ciSecrets.configuredLocally ? 'ready' : 'missing'}
+                  </strong>
                 </div>
                 <div>
                   <span>Keystore</span>
-                  <strong>{androidSigning.localFiles.keystoreExists ? 'ignored-local' : 'missing'}</strong>
+                  <strong>
+                    {lateOpsData?.androidSigning.localFiles.keystoreExists ? 'ignored-local' : 'missing'}
+                  </strong>
                 </div>
               </div>
               <div className="factRow">
                 <span>Asset links</span>
-                <strong>{nativePackage.assetLinks.status}</strong>
+                <strong>{lateOpsData?.nativePackage.assetLinks.status ?? 'loading'}</strong>
               </div>
               <div className="monetizationRuntime" aria-label="Android Root Asset Links Handoff">
                 <div>
                   <span>Root asset links</span>
-                  <strong>{androidRootAssetlinksHandoff.status}</strong>
+                  <strong>{lateOpsData?.androidRootAssetlinksHandoff.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Target repo</span>
-                  <strong>{androidRootAssetlinksHandoff.target.repository ?? 'missing'}</strong>
+                  <strong>
+                    {lateOpsData?.androidRootAssetlinksHandoff.target.repository ?? 'missing'}
+                  </strong>
                 </div>
                 <div>
                   <span>Sync mode</span>
-                  <strong>{androidRootAssetlinksHandoff.controls.dryRunByDefault ? 'dry-run' : 'apply'}</strong>
+                  <strong>
+                    {lateOpsData?.androidRootAssetlinksHandoff.controls.dryRunByDefault ? 'dry-run' : 'apply'}
+                  </strong>
                 </div>
                 <div>
                   <span>Script</span>
-                  <strong>{androidRootAssetlinksHandoff.handoff.syncScriptPath}</strong>
+                  <strong>
+                    {lateOpsData?.androidRootAssetlinksHandoff.handoff.syncScriptPath ?? 'loading'}
+                  </strong>
                 </div>
               </div>
               <div className="factRow">
@@ -4761,24 +4939,28 @@ function App() {
               </div>
               <div className="factRow">
                 <span>iOS release</span>
-                <strong>{iosRelease.status}</strong>
+                <strong>{lateOpsData?.iosRelease.status ?? 'loading'}</strong>
               </div>
               <div className="monetizationRuntime" aria-label="iOS Release Handoff">
                 <div>
                   <span>iOS handoff</span>
-                  <strong>{iosRelease.platform}</strong>
+                  <strong>{lateOpsData?.iosRelease.platform ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Bundle ID</span>
-                  <strong>{iosRelease.bundleId}</strong>
+                  <strong>{lateOpsData?.iosRelease.bundleId ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Native project</span>
-                  <strong>{iosRelease.strategy.nativeProjectDeferred ? 'deferred' : 'ready'}</strong>
+                  <strong>
+                    {lateOpsData?.iosRelease.strategy.nativeProjectDeferred ? 'deferred' : 'ready'}
+                  </strong>
                 </div>
                 <div>
                   <span>Store submit</span>
-                  <strong>{iosRelease.controls.noStoreSubmission ? 'blocked' : 'ready'}</strong>
+                  <strong>
+                    {lateOpsData?.iosRelease.controls.noStoreSubmission ? 'blocked' : 'ready'}
+                  </strong>
                 </div>
               </div>
               <div className="factRow">

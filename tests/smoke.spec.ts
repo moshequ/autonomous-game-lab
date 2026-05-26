@@ -6954,6 +6954,73 @@ test('traffic seeding switches games and records campaign telemetry', async ({ p
     .toBe(campaign.id)
 })
 
+test('local learning router exposes the organic seed target as a measured shortcut', async ({ page }) => {
+  const organicSeed = JSON.parse(await readFile('data/organic-seed-loop.json', 'utf8')) as {
+    target: { campaignId: string }
+    campaigns: Array<{ id: string; gameId: string; title: string }>
+  }
+  const target =
+    organicSeed.campaigns.find((campaign) => campaign.id === organicSeed.target.campaignId) ??
+    organicSeed.campaigns[0]
+
+  expect(target).toBeTruthy()
+
+  await page.goto('/')
+
+  const router = page.getByLabel('Local Learning Router')
+  await expect(router.getByRole('button', { name: `Seed target for ${target.title}` })).toBeVisible()
+  await router.getByRole('button', { name: `Seed target for ${target.title}` }).click()
+  await expect(page.getByRole('heading', { name: target.title })).toBeVisible()
+
+  const seededUrl = new URL(page.url())
+
+  expect(seededUrl.searchParams.get('game')).toBe(target.gameId)
+  expect(seededUrl.searchParams.get('utm_source')).toBe('seed_internal')
+  expect(seededUrl.searchParams.get('utm_campaign')).toBe(target.id)
+
+  await expect
+    .poll(async () =>
+      page.evaluate(({ campaignId, gameId }) => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        return events.filter(
+          (event: { name: string; properties: Record<string, string> }) =>
+            event.name === 'game_started' &&
+            event.properties.gameId === gameId &&
+            event.properties.acquisitionCampaign === campaignId,
+        ).length
+      }, { campaignId: target.id, gameId: target.gameId }),
+    )
+    .toBeGreaterThan(0)
+
+  const events = await page.evaluate(() => {
+    const raw = window.localStorage.getItem('agl.analytics.events')
+    return raw ? JSON.parse(raw) : []
+  })
+  const seedEvent = events.findLast((event: { name: string }) => event.name === 'seed_campaign_clicked')
+  const routerEvent = events.findLast(
+    (event: { name: string }) => event.name === 'local_router_choice_clicked',
+  )
+
+  expect(seedEvent.properties).toMatchObject({
+    gameId: target.gameId,
+    campaignId: target.id,
+    acquisitionCampaign: target.id,
+    acquisitionSource: 'seed_internal',
+    sampleStartCreatesFreshRun: true,
+    costUsd: 0,
+  })
+  expect(routerEvent.properties).toMatchObject({
+    recommendationId: 'organic-seed-shortcut',
+    actionType: 'organic-seed',
+    campaignId: target.id,
+    source: 'seed_internal',
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+  })
+})
+
 test('first move updates telemetry and tutorial completion', async ({ page }) => {
   await page.goto('/')
 
