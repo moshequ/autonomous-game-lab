@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-05-26T15:19:54.781Z",
-  "sourceDataHash": "470359f9156a",
+  "generatedAt": "2026-05-26T15:23:25.375Z",
+  "sourceDataHash": "6d9e60e813e4",
   "status": "handoff-waiting-on-owner-inputs",
   "statusDetail": "blocked-external-inputs",
-  "liveCandidate": "pwa-5fc8921b2e7e",
+  "liveCandidate": "pwa-206b48eed9e6",
   "sourceStatus": {
     "productionEnvironment": "production-env-missing",
     "productionBootstrap": "production-bootstrap-ready",
@@ -49,7 +49,7 @@
       "name": "AGL_PUBLIC_ORIGIN",
       "purpose": "HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.",
       "configured": true,
-      "source": "github-variable",
+      "source": "environment",
       "fallback": "github-pages-target"
     },
     {
@@ -123,7 +123,7 @@
       "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
       "configured": true,
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
     },
     {
@@ -131,7 +131,7 @@
       "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
       "configured": true,
-      "valueSource": "github-secret",
+      "valueSource": "environment",
       "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     },
     {
@@ -311,7 +311,7 @@
           "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "valueSource": "github-secret",
+          "valueSource": "environment",
           "configured": true,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
@@ -379,7 +379,7 @@
           "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "valueSource": "github-secret",
+          "valueSource": "environment",
           "configured": true,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         },
@@ -611,7 +611,7 @@
           "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "repositorySecret": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "valueSource": "github-secret",
+          "valueSource": "environment",
           "configured": true,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
@@ -679,7 +679,7 @@
           "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "repositorySecret": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "valueSource": "github-secret",
+          "valueSource": "environment",
           "configured": true,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         },
@@ -900,7 +900,7 @@
               "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
               "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
               "configured": true,
-              "valueSource": "github-variable",
+              "valueSource": "environment",
               "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
             },
             {
@@ -908,7 +908,7 @@
               "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
               "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
               "configured": true,
-              "valueSource": "github-variable",
+              "valueSource": "environment",
               "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
             },
             {
@@ -942,7 +942,7 @@
               "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
               "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
               "configured": true,
-              "valueSource": "github-secret",
+              "valueSource": "environment",
               "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
             },
             {
@@ -950,7 +950,7 @@
               "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
               "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
               "configured": true,
-              "valueSource": "github-secret",
+              "valueSource": "environment",
               "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
             }
           ],
@@ -1088,7 +1088,7 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "configured": true,
-            "valueSource": "github-variable",
+            "valueSource": "environment",
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
@@ -1096,7 +1096,7 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "configured": true,
-            "valueSource": "github-variable",
+            "valueSource": "environment",
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -1131,7 +1131,7 @@
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "configured": true,
-            "valueSource": "github-secret",
+            "valueSource": "environment",
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
@@ -1139,7 +1139,7 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "configured": true,
-            "valueSource": "github-secret",
+            "valueSource": "environment",
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
