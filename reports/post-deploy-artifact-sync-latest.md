@@ -1,6 +1,6 @@
 # Post-Deploy Artifact Sync
 
-Generated: 2026-05-26T14:57:45.217Z
+Generated: 2026-05-26T15:08:03.407Z
 Status: post-deploy-artifact-sync-passed
 Repository: moshequ/autonomous-game-lab
 Workflow: web-pwa-deploy.yml
@@ -8,12 +8,12 @@ Run: 26456067294
 Origin: https://moshequ.github.io/autonomous-game-lab/
 Artifact candidate: pwa-3a788f4bc931
 Live candidate: pwa-3a788f4bc931
-Deployment freshness: current-head-deployed
+Deployment freshness: current-head-not-deployed
 
 ## Summary
 
 - Planned: 7
-- Passed: 7
+- Passed: 6
 - Failed: 0
 - Blocked: 0
 
@@ -27,9 +27,9 @@ Deployment freshness: current-head-deployed
 
 ## Deployment Freshness
 
-- currentHeadSha: ff6000292fe812a934d3cda3230d72c711500527
+- currentHeadSha: 4b7ba6de1f73b35d41308c0fe8c7192d2ded7cb0
 - selectedRunHeadSha: ff6000292fe812a934d3cda3230d72c711500527
-- currentHeadDeployed: true
+- currentHeadDeployed: false
 - currentHeadQueuedOrRunning: false
 - liveMatchesCurrentLocalCandidate: false
 
@@ -41,7 +41,7 @@ Deployment freshness: current-head-deployed
 - pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26456067294.
 - pass: strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
-- pass: deployment-freshness - Current main ff6000292fe8 is deployed.
+- monitor: deployment-freshness - Current main 4b7ba6de1f73 is not the latest strict deployed artifact; freshness current-head-not-deployed.
 
 ## Controls
 
@@ -60,6 +60,6 @@ Deployment freshness: current-head-deployed
 
 ## Next Actions
 
-- Current main is deployed; keep strict live artifact evidence in sync after each Pages run.
+- Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.
 - Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.
 - Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass.
