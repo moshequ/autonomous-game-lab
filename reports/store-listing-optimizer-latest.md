@@ -1,6 +1,6 @@
 # Store Listing Optimizer
 
-Generated: 2026-05-26T16:18:04.129Z
+Generated: 2026-05-26T16:33:00.139Z
 Status: store-listing-optimizer-ready
 Focus: Market Pulse (market-pulse)
 Previous candidate: lantern-relay
