@@ -1,5 +1,5 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-26T06:20:35.747Z",
+  "generatedAt": "2026-05-26T07:32:23.897Z",
   "status": "traffic-seeding-ready",
   "sourceDataHash": "d4fe68f793e4",
   "analyticsSource": "fixture-sample",
@@ -286,12 +286,14 @@ export const trafficSeeding = {
     "noPaidPromotion": true,
     "noSyntheticEvents": true,
     "noRevenueEnablement": true,
+    "copyShareControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
     "telemetry": [
       "sample_next_viewed",
       "sample_next_routed",
       "gate_sample_mission_clicked",
+      "share_clicked",
       "game_started"
     ]
   },
@@ -312,6 +314,7 @@ export const trafficSeeding = {
     "noPaidPromotion": true,
     "noSyntheticEvents": true,
     "noRevenueEnablement": true,
+    "copyShareControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
     "returnHandoff": {
@@ -346,6 +349,7 @@ export const trafficSeeding = {
       "sample_fastest_viewed",
       "sample_fastest_routed",
       "gate_sample_mission_clicked",
+      "share_clicked",
       "game_started",
       "daily_return_link_copied",
       "daily_return_calendar_downloaded"

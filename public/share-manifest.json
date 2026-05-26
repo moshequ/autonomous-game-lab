@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T06:20:35.747Z",
+  "generatedAt": "2026-05-26T07:32:23.897Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "shares": [
@@ -146,7 +146,7 @@
     "aggregateEvidenceRepository": "moshequ/autonomous-game-lab",
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-26T06:20:35.747Z"
+    "generatedAt": "2026-05-26T07:32:23.897Z"
   },
   "gateSampleKit": {
     "path": "/gate-sample.html",
@@ -159,7 +159,7 @@
     "exportControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
-    "generatedAt": "2026-05-26T06:20:35.747Z"
+    "generatedAt": "2026-05-26T07:32:23.897Z"
   },
   "seedCampaigns": [
     {
@@ -318,7 +318,7 @@
     ],
     "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.html",
     "jsonUrl": "https://moshequ.github.io/autonomous-game-lab/seed-next.json",
-    "generatedAt": "2026-05-26T06:20:35.747Z"
+    "generatedAt": "2026-05-26T07:32:23.897Z"
   },
   "sampleNext": {
     "status": "armed",
@@ -337,17 +337,19 @@
     "noPaidPromotion": true,
     "noSyntheticEvents": true,
     "noRevenueEnablement": true,
+    "copyShareControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
     "telemetry": [
       "sample_next_viewed",
       "sample_next_routed",
       "gate_sample_mission_clicked",
+      "share_clicked",
       "game_started"
     ],
     "url": "https://moshequ.github.io/autonomous-game-lab/sample-next.html",
     "jsonUrl": "https://moshequ.github.io/autonomous-game-lab/sample-next.json",
-    "generatedAt": "2026-05-26T06:20:35.747Z"
+    "generatedAt": "2026-05-26T07:32:23.897Z"
   },
   "sampleFastest": {
     "status": "armed",
@@ -366,6 +368,7 @@
     "noPaidPromotion": true,
     "noSyntheticEvents": true,
     "noRevenueEnablement": true,
+    "copyShareControls": true,
     "localAnalyticsEvents": true,
     "localAnalyticsStorageKey": "agl.analytics.events",
     "returnHandoff": {
@@ -400,12 +403,13 @@
       "sample_fastest_viewed",
       "sample_fastest_routed",
       "gate_sample_mission_clicked",
+      "share_clicked",
       "game_started",
       "daily_return_link_copied",
       "daily_return_calendar_downloaded"
     ],
     "url": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.html",
     "jsonUrl": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.json",
-    "generatedAt": "2026-05-26T06:20:35.747Z"
+    "generatedAt": "2026-05-26T07:32:23.897Z"
   }
 }

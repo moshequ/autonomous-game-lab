@@ -8137,6 +8137,8 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       noAutomatedExternalPosting: boolean
       noSyntheticEvents: boolean
       noRevenueEnablement: boolean
+      copyShareControls: boolean
+      telemetry: string[]
     }
     sampleFastestRoute: {
       status: string
@@ -8150,6 +8152,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       noAutomatedExternalPosting: boolean
       noSyntheticEvents: boolean
       noRevenueEnablement: boolean
+      copyShareControls: boolean
       telemetry: string[]
       returnHandoff?: {
         status: string
@@ -8212,6 +8215,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       noAutomatedExternalPosting: boolean
       noSyntheticEvents: boolean
       noRevenueEnablement: boolean
+      copyShareControls: boolean
       localAnalyticsEvents: boolean
       localAnalyticsStorageKey: string
     }
@@ -8226,6 +8230,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       noAutomatedExternalPosting: boolean
       noSyntheticEvents: boolean
       noRevenueEnablement: boolean
+      copyShareControls: boolean
       localAnalyticsEvents: boolean
       localAnalyticsStorageKey: string
       returnHandoff?: {
@@ -8297,6 +8302,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       noRevenueEnablement: boolean
     }
     telemetry: string[]
+    copyShareControls: boolean
   }
   const sampleFastest = JSON.parse(await readFile('public/sample-fastest.json', 'utf8')) as {
     status: string
@@ -8342,6 +8348,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
       }
     } | null
     telemetry: string[]
+    copyShareControls: boolean
   }
 
   await page.goto('/seed-kit.html')
@@ -8385,6 +8392,8 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(traffic.sampleNextRoute.noAutomatedExternalPosting).toBe(true)
   expect(traffic.sampleNextRoute.noSyntheticEvents).toBe(true)
   expect(traffic.sampleNextRoute.noRevenueEnablement).toBe(true)
+  expect(traffic.sampleNextRoute.copyShareControls).toBe(true)
+  expect(traffic.sampleNextRoute.telemetry).toContain('share_clicked')
   expect(traffic.sampleFastestRoute.status).toBe('armed')
   expect(traffic.sampleFastestRoute.path).toBe('/sample-fastest.html')
   expect(traffic.sampleFastestRoute.jsonPath).toBe('/sample-fastest.json')
@@ -8393,6 +8402,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(traffic.sampleFastestRoute.noAutomatedExternalPosting).toBe(true)
   expect(traffic.sampleFastestRoute.noSyntheticEvents).toBe(true)
   expect(traffic.sampleFastestRoute.noRevenueEnablement).toBe(true)
+  expect(traffic.sampleFastestRoute.copyShareControls).toBe(true)
   expect(traffic.sampleFastestRoute.returnHandoff).toMatchObject({
     status: 'armed',
     gateId: 'd1Retention',
@@ -8414,6 +8424,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
     },
   })
   expect(traffic.sampleFastestRoute.returnHandoff?.returnPath).toContain('return_intent=')
+  expect(traffic.sampleFastestRoute.telemetry).toContain('share_clicked')
   expect(traffic.sampleFastestRoute.telemetry).toContain('daily_return_link_copied')
   expect(traffic.sampleFastestRoute.telemetry).toContain('daily_return_calendar_downloaded')
   expect(shareManifest.sampleNext.path).toBe('/sample-next.html')
@@ -8426,6 +8437,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(shareManifest.sampleNext.noAutomatedExternalPosting).toBe(true)
   expect(shareManifest.sampleNext.noSyntheticEvents).toBe(true)
   expect(shareManifest.sampleNext.noRevenueEnablement).toBe(true)
+  expect(shareManifest.sampleNext.copyShareControls).toBe(true)
   expect(shareManifest.sampleNext.localAnalyticsStorageKey).toBe('agl.analytics.events')
   expect(shareManifest.sampleFastest.path).toBe('/sample-fastest.html')
   expect(shareManifest.sampleFastest.jsonPath).toBe('/sample-fastest.json')
@@ -8437,6 +8449,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(shareManifest.sampleFastest.noAutomatedExternalPosting).toBe(true)
   expect(shareManifest.sampleFastest.noSyntheticEvents).toBe(true)
   expect(shareManifest.sampleFastest.noRevenueEnablement).toBe(true)
+  expect(shareManifest.sampleFastest.copyShareControls).toBe(true)
   expect(shareManifest.sampleFastest.localAnalyticsStorageKey).toBe('agl.analytics.events')
   expect(shareManifest.sampleFastest.returnHandoff?.campaignId).toBe(traffic.sampleFastestRoute.targetCampaignId)
   expect(shareManifest.sampleFastest.returnHandoff?.returnPath).toBe(
@@ -8468,8 +8481,10 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(sampleNext.guardrails.noPaidPromotion).toBe(true)
   expect(sampleNext.guardrails.noSyntheticEvents).toBe(true)
   expect(sampleNext.guardrails.noRevenueEnablement).toBe(true)
+  expect(sampleNext.copyShareControls).toBe(true)
   expect(sampleNext.telemetry).toContain('sample_next_viewed')
   expect(sampleNext.telemetry).toContain('sample_next_routed')
+  expect(sampleNext.telemetry).toContain('share_clicked')
   expect(sampleFastest.path).toBe('/sample-fastest.html')
   expect(sampleFastest.jsonPath).toBe('/sample-fastest.json')
   expect(sampleFastest.status).toBe('armed')
@@ -8482,8 +8497,10 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
   expect(sampleFastest.guardrails.noPaidPromotion).toBe(true)
   expect(sampleFastest.guardrails.noSyntheticEvents).toBe(true)
   expect(sampleFastest.guardrails.noRevenueEnablement).toBe(true)
+  expect(sampleFastest.copyShareControls).toBe(true)
   expect(sampleFastest.telemetry).toContain('sample_fastest_viewed')
   expect(sampleFastest.telemetry).toContain('sample_fastest_routed')
+  expect(sampleFastest.telemetry).toContain('share_clicked')
   expect(sampleFastest.telemetry).toContain('daily_return_link_copied')
   expect(sampleFastest.telemetry).toContain('daily_return_calendar_downloaded')
   expect(sampleFastest.returnHandoff?.campaignId).toBe(sampleFastest.target.campaignId)
@@ -8606,6 +8623,18 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
     ),
   ).toBe(true)
 
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: (text: string) => {
+          ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = text
+          return Promise.resolve()
+        },
+      },
+    })
+  })
+
   await page.goto('/sample-next.html?preview=1')
   await expect(page.getByRole('heading', { name: sampleNext.target.title ?? defaultSample?.title ?? '' })).toBeVisible()
   await expect(page.getByRole('link').first()).toHaveAttribute('href', runtimeHref(sampleNext.target.targetPath))
@@ -8625,6 +8654,27 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
         event.properties.noSyntheticEvents === true,
     ),
   ).toBe(true)
+  await page.evaluate(() => {
+    ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = ''
+  })
+  await page.getByRole('button', { name: 'Copy sample link' }).click()
+  await expect
+    .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
+    .toContain(sampleNext.target.campaignId)
+  await expect(page.locator('[data-sample-next-status]')).toContainText('Sample link copied.')
+  const sampleNextShareEvents = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>,
+  )
+  const sampleNextShareEvent = sampleNextShareEvents.findLast(
+    (event) => event.name === 'share_clicked' && event.properties.campaignId === sampleNext.target.campaignId,
+  )
+  expect(sampleNextShareEvent?.properties.linkType).toBe('sample-next-copy')
+  expect(sampleNextShareEvent?.properties.succeeded).toBe(true)
+  expect(sampleNextShareEvent?.properties.noSyntheticEvents).toBe(true)
+  expect(sampleNextShareEvent?.properties.noRevenueEnablement).toBe(true)
 
   await page.goto('/sample-next.html')
   await page.waitForURL((url) => url.searchParams.get('utm_campaign') === sampleNext.target.campaignId)
@@ -8643,26 +8693,38 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
         event.properties.campaignId === sampleNext.target.campaignId &&
         event.properties.gateId === sampleNext.target.gateId &&
         event.properties.zeroPaidSpend === true,
-      ),
+    ),
   ).toBe(true)
-
-  await page.addInitScript(() => {
-    Object.defineProperty(navigator, 'clipboard', {
-      configurable: true,
-      value: {
-        writeText: (text: string) => {
-          ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = text
-          return Promise.resolve()
-        },
-      },
-    })
-  })
 
   await page.goto('/sample-fastest.html?preview=1')
   await expect(page.getByRole('heading', { name: sampleFastest.target.title })).toBeVisible()
   await expect(page.getByRole('link').first()).toHaveAttribute('href', runtimeHref(sampleFastest.target.targetPath))
   await expect(page.getByText('D1 return handoff')).toBeVisible()
   await expect(page.locator('[data-sample-fastest-status]')).toContainText('Preview mode')
+  await page.evaluate(() => {
+    ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = ''
+  })
+  await page.getByRole('button', { name: 'Copy fastest sample link' }).click()
+  await expect
+    .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
+    .toContain(sampleFastest.target.campaignId)
+  await expect(page.locator('[data-sample-fastest-status]')).toContainText('Fastest sample link copied.')
+  const fastestSampleShareEvents = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>,
+  )
+  const fastestSampleShareEvent = fastestSampleShareEvents.findLast(
+    (event) => event.name === 'share_clicked' && event.properties.campaignId === sampleFastest.target.campaignId,
+  )
+  expect(fastestSampleShareEvent?.properties.linkType).toBe('sample-fastest-copy')
+  expect(fastestSampleShareEvent?.properties.succeeded).toBe(true)
+  expect(fastestSampleShareEvent?.properties.noSyntheticEvents).toBe(true)
+  expect(fastestSampleShareEvent?.properties.noRevenueEnablement).toBe(true)
+  await page.evaluate(() => {
+    ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = ''
+  })
   await page.getByRole('button', { name: sampleFastest.returnHandoff?.copyCta ?? 'Copy return link' }).click()
   const calendarDownloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: sampleFastest.returnHandoff?.calendarCta ?? 'Save reminder' }).click()
@@ -8682,7 +8744,7 @@ test('zero-spend seed kit is reachable and uses runtime-relative campaign links'
 
   await expect
     .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
-    .not.toBe('')
+    .toContain(sampleFastest.returnHandoff?.queryParam ?? 'return_intent')
   const copiedFastestReturnUrl = await page.evaluate(
     () => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? '',
   )

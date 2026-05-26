@@ -374,9 +374,10 @@ const sampleNextRoute = {
   noPaidPromotion: true,
   noSyntheticEvents: true,
   noRevenueEnablement: true,
+  copyShareControls: true,
   localAnalyticsEvents: true,
   localAnalyticsStorageKey: 'agl.analytics.events',
-  telemetry: ['sample_next_viewed', 'sample_next_routed', 'gate_sample_mission_clicked', 'game_started'],
+  telemetry: ['sample_next_viewed', 'sample_next_routed', 'gate_sample_mission_clicked', 'share_clicked', 'game_started'],
 }
 const sampleFastestRoute = {
   status: fastestGateSampleMission ? 'armed' : 'waiting-for-fastest-sample',
@@ -395,6 +396,7 @@ const sampleFastestRoute = {
   noPaidPromotion: true,
   noSyntheticEvents: true,
   noRevenueEnablement: true,
+  copyShareControls: true,
   localAnalyticsEvents: true,
   localAnalyticsStorageKey: 'agl.analytics.events',
   returnHandoff: fastestReturnHandoff,
@@ -402,6 +404,7 @@ const sampleFastestRoute = {
     'sample_fastest_viewed',
     'sample_fastest_routed',
     'gate_sample_mission_clicked',
+    'share_clicked',
     'game_started',
     ...(fastestReturnHandoff
       ? [
@@ -1107,6 +1110,7 @@ const sampleNextPublicPayload = {
       }
     : null,
   fallbackPath: sampleNextRoute.fallbackPath,
+  copyShareControls: sampleNextRoute.copyShareControls,
   guardrails: {
     costUsd: sampleNextRoute.costUsd,
     playerInitiatedOnly: sampleNextRoute.playerInitiatedOnly,
@@ -1141,6 +1145,7 @@ const sampleFastestPublicPayload = {
       }
     : null,
   fallbackPath: sampleFastestRoute.fallbackPath,
+  copyShareControls: sampleFastestRoute.copyShareControls,
   guardrails: {
     costUsd: sampleFastestRoute.costUsd,
     playerInitiatedOnly: sampleFastestRoute.playerInitiatedOnly,
@@ -1202,6 +1207,7 @@ const sampleNextHtml = `<!doctype html>
         <a href="${escapeHtml(sampleNextRuntimeHref)}" data-sample-next-link>${escapeHtml(
           defaultGateSampleMission ? 'Start measured run' : 'Open gate missions',
         )}</a>
+        <button class="secondary" type="button" data-sample-next-share>Copy sample link</button>
         <a class="secondary" href="${escapeHtml(runtimeHref(gateSampleKitPath))}">Open gate missions</a>
       </div>
       <dl>
@@ -1273,6 +1279,41 @@ const sampleNextHtml = `<!doctype html>
             observedSuccessesNeeded: route.target?.needed?.successes ?? 0,
           })
         })
+        document.querySelector('[data-sample-next-share]')?.addEventListener('click', async () => {
+          const shareUrl = new URL(targetPath, window.location.href).toString()
+          let method = 'clipboard'
+          let succeeded = false
+
+          if (navigator.clipboard?.writeText) {
+            try {
+              await navigator.clipboard.writeText([
+                route.target?.title ? \`Play \${route.target.title}\` : 'Play the current Autonomous Game Lab sample',
+                'Help collect real zero-spend gameplay evidence for Autonomous Game Lab.',
+                shareUrl,
+              ].join('\\n'))
+              succeeded = true
+            } catch {
+              method = 'clipboard_unavailable'
+            }
+          } else {
+            method = 'unsupported'
+          }
+
+          track('share_clicked', {
+            targetPath,
+            shareUrl,
+            method,
+            succeeded,
+            linkType: 'sample-next-copy',
+            costUsd: 0,
+            promptViewsNeeded: route.target?.needed?.promptViews ?? 0,
+            observedSuccessesNeeded: route.target?.needed?.successes ?? 0,
+          })
+
+          if (status) {
+            status.textContent = succeeded ? 'Sample link copied.' : 'Copy unavailable; use the start link.'
+          }
+        })
 
         if (!previewOnly && route.target) {
           status.textContent = 'Routing to the current gate sample.'
@@ -1336,6 +1377,7 @@ const sampleFastestHtml = `<!doctype html>
         <a href="${escapeHtml(sampleFastestRuntimeHref)}" data-sample-fastest-link>${escapeHtml(
           fastestGateSampleMission ? 'Start fastest sample' : 'Open gate missions',
         )}</a>
+        <button class="secondary" type="button" data-sample-fastest-share>Copy fastest sample link</button>
         <a class="secondary" href="${escapeHtml(runtimeHref(gateSampleKitPath))}">Open gate missions</a>
       </div>
       <dl>
@@ -1485,6 +1527,41 @@ const sampleFastestHtml = `<!doctype html>
             promptViewsNeeded: route.target?.needed?.promptViews ?? 0,
             observedSuccessesNeeded: route.target?.needed?.successes ?? 0,
           })
+        })
+        document.querySelector('[data-sample-fastest-share]')?.addEventListener('click', async () => {
+          const shareUrl = new URL(targetPath, window.location.href).toString()
+          let method = 'clipboard'
+          let succeeded = false
+
+          if (navigator.clipboard?.writeText) {
+            try {
+              await navigator.clipboard.writeText([
+                route.target?.title ? \`Play \${route.target.title}\` : 'Play the fastest Autonomous Game Lab sample',
+                'Help collect real zero-spend gameplay evidence for Autonomous Game Lab.',
+                shareUrl,
+              ].join('\\n'))
+              succeeded = true
+            } catch {
+              method = 'clipboard_unavailable'
+            }
+          } else {
+            method = 'unsupported'
+          }
+
+          track('share_clicked', {
+            targetPath,
+            shareUrl,
+            method,
+            succeeded,
+            linkType: 'sample-fastest-copy',
+            costUsd: 0,
+            promptViewsNeeded: route.target?.needed?.promptViews ?? 0,
+            observedSuccessesNeeded: route.target?.needed?.successes ?? 0,
+          })
+
+          if (status) {
+            status.textContent = succeeded ? 'Fastest sample link copied.' : 'Copy unavailable; use the start link.'
+          }
         })
         document.querySelector('[data-copy-return-link]')?.addEventListener('click', async () => {
           if (!returnHandoff || !returnUrl) {

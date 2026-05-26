@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T06:20:35.747Z",
+  "generatedAt": "2026-05-26T07:32:23.897Z",
   "status": "armed",
   "path": "/sample-fastest.html",
   "jsonPath": "/sample-fastest.json",
@@ -23,6 +23,7 @@
     }
   },
   "fallbackPath": "/gate-sample.html",
+  "copyShareControls": true,
   "guardrails": {
     "costUsd": 0,
     "playerInitiatedOnly": true,
@@ -63,6 +64,7 @@
     "sample_fastest_viewed",
     "sample_fastest_routed",
     "gate_sample_mission_clicked",
+    "share_clicked",
     "game_started",
     "daily_return_link_copied",
     "daily_return_calendar_downloaded"

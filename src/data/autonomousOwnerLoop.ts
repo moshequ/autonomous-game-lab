@@ -12,13 +12,12 @@ export const autonomousOwnerLoop = {
   },
   "executionBackoff": {
     "status": "cooling-down",
-    "heldActionCount": 2,
+    "heldActionCount": 1,
     "executableWithoutRepeatCount": 0,
     "nextResumeAt": "2026-05-26T23:43:28.218Z",
-    "nextResumeInHours": 16.366,
+    "nextResumeInHours": 16.077,
     "heldActionIds": [
-      "seed-portfolio-traffic",
-      "refresh-organic-seed-loop"
+      "seed-portfolio-traffic"
     ]
   },
   "externalInputHandoff": {
@@ -26,8 +25,8 @@ export const autonomousOwnerLoop = {
     "recommendedPathId": "first-party-collector",
     "lowestInputPathId": "posthog-browser",
     "ownerActionRequired": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "lowestInputMissingVariableCount": 2,
     "lowestInputMissingSecretCount": 0,
     "publicStatusPage": "/measurement-status.html"
@@ -49,8 +48,8 @@ export const autonomousOwnerLoop = {
       "priority": "primary",
       "nextUnlockId": "production-analytics-browser",
       "publicStatusPage": "/measurement-status.html",
-      "missingVariableCount": 5,
-      "missingSecretCount": 1
+      "missingVariableCount": 7,
+      "missingSecretCount": 3
     },
     {
       "id": "store-readiness",

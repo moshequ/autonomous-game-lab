@@ -32,6 +32,7 @@
       <p>Harbor Rings needs real zero-spend player evidence before revenue or store gates move. This stable page follows the current product-gate sample target, so old shares keep routing to the evidence the owner loop needs next.</p>
       <div class="actions">
         <a href="./?game=harbor-rings&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260526-firstGameCompletion" data-sample-next-link>Start measured run</a>
+        <button class="secondary" type="button" data-sample-next-share>Copy sample link</button>
         <a class="secondary" href="./gate-sample.html">Open gate missions</a>
       </div>
       <dl>
@@ -44,7 +45,7 @@
     </main>
     <script>
       (() => {
-        const route = {"generatedAt":"2026-05-26T06:20:35.747Z","status":"armed","path":"/sample-next.html","jsonPath":"/sample-next.json","target":{"campaignId":"gate-sample-20260526-firstGameCompletion","gateId":"firstGameCompletion","gameId":"harbor-rings","title":"Sample First game completion","priority":1,"targetPath":"/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-firstGameCompletion","targetUrl":"https://moshequ.github.io/autonomous-game-lab/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-firstGameCompletion","pageUrl":"https://moshequ.github.io/autonomous-game-lab/gate-sample.html","copy":{"title":"Sample First game completion","text":"Harbor Rings needs real zero-spend player evidence before revenue or store gates move.","cta":"Start measured run"},"needed":{"promptViews":30,"successes":128}},"fallbackPath":"/gate-sample.html","guardrails":{"costUsd":0,"playerInitiatedOnly":true,"noAutomatedExternalPosting":true,"noPaidPromotion":true,"noSyntheticEvents":true,"noRevenueEnablement":true},"telemetry":["sample_next_viewed","sample_next_routed","gate_sample_mission_clicked","game_started"]}
+        const route = {"generatedAt":"2026-05-26T07:32:23.897Z","status":"armed","path":"/sample-next.html","jsonPath":"/sample-next.json","target":{"campaignId":"gate-sample-20260526-firstGameCompletion","gateId":"firstGameCompletion","gameId":"harbor-rings","title":"Sample First game completion","priority":1,"targetPath":"/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-firstGameCompletion","targetUrl":"https://moshequ.github.io/autonomous-game-lab/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-firstGameCompletion","pageUrl":"https://moshequ.github.io/autonomous-game-lab/gate-sample.html","copy":{"title":"Sample First game completion","text":"Harbor Rings needs real zero-spend player evidence before revenue or store gates move.","cta":"Start measured run"},"needed":{"promptViews":30,"successes":128}},"fallbackPath":"/gate-sample.html","copyShareControls":true,"guardrails":{"costUsd":0,"playerInitiatedOnly":true,"noAutomatedExternalPosting":true,"noPaidPromotion":true,"noSyntheticEvents":true,"noRevenueEnablement":true},"telemetry":["sample_next_viewed","sample_next_routed","gate_sample_mission_clicked","share_clicked","game_started"]}
         const analyticsKey = 'agl.analytics.events'
         const params = new URLSearchParams(window.location.search)
         const previewOnly = params.get('preview') === '1' || params.get('no_redirect') === '1'
@@ -102,6 +103,41 @@
             promptViewsNeeded: route.target?.needed?.promptViews ?? 0,
             observedSuccessesNeeded: route.target?.needed?.successes ?? 0,
           })
+        })
+        document.querySelector('[data-sample-next-share]')?.addEventListener('click', async () => {
+          const shareUrl = new URL(targetPath, window.location.href).toString()
+          let method = 'clipboard'
+          let succeeded = false
+
+          if (navigator.clipboard?.writeText) {
+            try {
+              await navigator.clipboard.writeText([
+                route.target?.title ? `Play ${route.target.title}` : 'Play the current Autonomous Game Lab sample',
+                'Help collect real zero-spend gameplay evidence for Autonomous Game Lab.',
+                shareUrl,
+              ].join('\n'))
+              succeeded = true
+            } catch {
+              method = 'clipboard_unavailable'
+            }
+          } else {
+            method = 'unsupported'
+          }
+
+          track('share_clicked', {
+            targetPath,
+            shareUrl,
+            method,
+            succeeded,
+            linkType: 'sample-next-copy',
+            costUsd: 0,
+            promptViewsNeeded: route.target?.needed?.promptViews ?? 0,
+            observedSuccessesNeeded: route.target?.needed?.successes ?? 0,
+          })
+
+          if (status) {
+            status.textContent = succeeded ? 'Sample link copied.' : 'Copy unavailable; use the start link.'
+          }
         })
 
         if (!previewOnly && route.target) {
