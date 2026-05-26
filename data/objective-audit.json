@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T07:03:10.036Z",
+  "generatedAt": "2026-05-26T07:06:49.118Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -88,7 +88,7 @@
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
-        "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
+        "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-held",
         "Operator history: operator-history-ready; records 40; executed 4",
@@ -97,11 +97,11 @@
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 31",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 32/32; local artifact predeploy-artifact-smoke-passed 32/32",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26436297188; live matches artifact true; candidate pwa-f690549294db",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26437626162; live matches artifact true; candidate pwa-262b8926edb2",
         "Live site monitor: live-site-monitor-passed; checks 32/32; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
-        "Credential-gated actions: 12"
+        "Credential-gated actions: 10"
       ],
       "blockers": [
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
@@ -112,8 +112,6 @@
         "ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
         "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.",
         "CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.",
-        "VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
-        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
         "POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
         "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON."
       ],
@@ -245,14 +243,14 @@
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 86,
-    "currentGitWorktreeDirtyFiles": 86,
-    "currentGeneratedEvidenceDirtyFiles": 85,
-    "currentNonGeneratedWorktreeDirtyFiles": 1,
-    "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
+    "currentWorktreeClean": true,
+    "currentWorktreeDirtyFiles": 103,
+    "currentGitWorktreeDirtyFiles": 103,
+    "currentGeneratedEvidenceDirtyFiles": 103,
+    "currentNonGeneratedWorktreeDirtyFiles": 0,
+    "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "52146ee7532d",
+    "productionBootstrapSourceDataHash": "8d1be556bda1",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },

@@ -1,5 +1,5 @@
 export const repositoryBootstrap = {
-  "status": "waiting-for-gh-auth",
+  "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "helper": {
     "path": "ops/github/bootstrap-repository.sh"
