@@ -29,10 +29,12 @@ const [
   productionBootstrap,
   productionActivation,
   productionBlockerHandoff,
+  ownerZeroSecretInputSync,
   ownerUnlockBrief,
   ownerUnlockPreflight,
   publicOwnerUnlockBrief,
   publicOwnerUnlockPreflight,
+  publicOwnerRuntimeConfig,
   publicOwnerUnlockHtml,
   productionMeasurementStatus,
   playerEvidenceWatchdog,
@@ -66,10 +68,12 @@ const [
   readJson('data/production-bootstrap.json'),
   readJson('data/production-activation.json'),
   readJson('data/production-blocker-handoff.json'),
+  readJson('data/owner-zero-secret-input-sync.json'),
   readJson('data/owner-unlock-brief.json'),
   readJson('data/owner-unlock-preflight.json'),
   readJson('public/owner-unlock-brief.json'),
   readJson('public/owner-unlock-preflight.json'),
+  readJson('public/owner-runtime-config.json'),
   readText('public/owner-unlock.html'),
   readJson('data/production-measurement-status.json'),
   readJson('data/player-evidence-watchdog.json'),
@@ -356,10 +360,17 @@ if (
   ownerUnlockPreflight.controls?.noMutation !== true ||
   JSON.stringify(ownerUnlockPreflight).includes('"value"') ||
   ownerUnlockBrief.publicRoutes?.ownerUnlock !== '/owner-unlock.html' ||
+  ownerUnlockBrief.publicRoutes?.ownerRuntimeConfigJson !== '/owner-runtime-config.json' ||
+  ownerUnlockBrief.zeroSecretRuntimeConfig?.publicRoute !== '/owner-runtime-config.json' ||
+  ownerZeroSecretInputSync.runtimeConfig?.status !== publicOwnerRuntimeConfig.status ||
+  ownerZeroSecretInputSync.runtimeConfig?.containsSecretValues !== false ||
+  publicOwnerRuntimeConfig.controls?.zeroSecretInputsOnly !== true ||
   !publicOwnerUnlockHtml.includes('Owner Unlock Pack') ||
   !publicOwnerUnlockHtml.includes('combined-zero-secret-owner-input-pack') ||
   !publicOwnerUnlockHtml.includes('./owner-unlock-preflight.json') ||
+  !publicOwnerUnlockHtml.includes('./owner-runtime-config.json') ||
   ownerUnlockBrief.setup?.workflowDispatchRequiresRunWorkflows !== true ||
+  ownerUnlockBrief.setup?.zeroSecretRuntimeConfigCommand !== 'npm run autonomous:owner-zero-secret-input-sync' ||
   ownerUnlockBrief.controls?.noSecretValuesStored !== true ||
   ownerUnlockBrief.controls?.setupPrintModeHasNoGithubMutation !== true
 ) {
@@ -442,6 +453,10 @@ if (
   !workflow.includes('data/production-blocker-handoff.json') ||
   !workflow.includes('src/data/productionBlockerHandoff.ts') ||
   !workflow.includes('reports/production-blocker-handoff-latest.md') ||
+  !workflow.includes('data/owner-zero-secret-input-sync.json') ||
+  !workflow.includes('src/data/ownerZeroSecretInputSync.ts') ||
+  !workflow.includes('public/owner-runtime-config.json') ||
+  !workflow.includes('reports/owner-zero-secret-input-sync-latest.md') ||
   !workflow.includes('data/owner-unlock-brief.json') ||
   !workflow.includes('data/owner-unlock-preflight.json') ||
   !workflow.includes('public/owner-unlock.html') ||

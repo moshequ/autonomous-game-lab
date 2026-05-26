@@ -1648,6 +1648,7 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.integrity.files.some((file) => file.path === 'owner-unlock-brief.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'owner-unlock.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'owner-unlock-preflight.json')).toBe(true)
+  expect(candidate.integrity.files.some((file) => file.path === 'owner-runtime-config.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'analytics-unlock.html')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'analytics-unlock.json')).toBe(true)
   expect(candidate.integrity.files.some((file) => file.path === 'product-gate-recovery.html')).toBe(true)
@@ -1671,6 +1672,7 @@ test('release candidate records the exact deployable PWA artifact', async () => 
   expect(candidate.postDeploySmoke.some((check) => check.path === '/owner-unlock.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/owner-unlock-brief.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/owner-unlock-preflight.json')).toBe(true)
+  expect(candidate.postDeploySmoke.some((check) => check.path === '/owner-runtime-config.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/analytics-unlock.html')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/analytics-unlock.json')).toBe(true)
   expect(candidate.postDeploySmoke.some((check) => check.path === '/product-gate-recovery.html')).toBe(true)
@@ -1714,6 +1716,7 @@ test('PWA service worker keeps operational evidence endpoints fresh', async () =
     'owner-unlock.html',
     'owner-unlock-brief.json',
     'owner-unlock-preflight.json',
+    'owner-runtime-config.json',
     'analytics-unlock.html',
     'analytics-unlock.json',
     'product-gate-recovery.html',
@@ -2019,6 +2022,9 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(workflow).toContain('data/production-bootstrap.json')
   expect(workflow).toContain('data/production-activation.json')
   expect(workflow).toContain('data/production-blocker-handoff.json')
+  expect(workflow).toContain('data/owner-zero-secret-input-sync.json')
+  expect(workflow).toContain('public/owner-runtime-config.json')
+  expect(workflow).toContain('reports/owner-zero-secret-input-sync-latest.md')
   expect(workflow).toContain('data/owner-unlock-brief.json')
   expect(workflow).toContain('data/owner-unlock-preflight.json')
   expect(workflow).toContain('public/owner-unlock.html')
@@ -5788,6 +5794,12 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
     'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
   )
   expect(productionInputWorkflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
+  expect(productionInputWorkflow).toContain('publish_zero_secret_runtime_config')
+  expect(productionInputWorkflow).toContain('vite_posthog_key')
+  expect(productionInputWorkflow).toContain('vite_posthog_host')
+  expect(productionInputWorkflow).toContain('agl_support_email')
+  expect(productionInputWorkflow).toContain('npm run autonomous:owner-zero-secret-input-sync')
+  expect(productionInputWorkflow).toContain('AGL_OWNER_INPUT_VITE_POSTHOG_KEY')
   expect(productionInputWorkflow).toContain('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}')
   expect(productionInputWorkflow).toContain('POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}')
   expect(productionInputWorkflow).toContain('ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}')
@@ -5803,6 +5815,9 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(productionInputWorkflow).toContain('reports/production-environment-latest.md')
   expect(productionInputWorkflow).toContain('ops/production.env.example')
   expect(productionInputWorkflow).toContain('data/production-blocker-handoff.json')
+  expect(productionInputWorkflow).toContain('data/owner-zero-secret-input-sync.json')
+  expect(productionInputWorkflow).toContain('public/owner-runtime-config.json')
+  expect(productionInputWorkflow).toContain('reports/owner-zero-secret-input-sync-latest.md')
   expect(productionInputWorkflow).toContain('data/owner-unlock-brief.json')
   expect(productionInputWorkflow).toContain('data/owner-unlock-preflight.json')
   expect(productionInputWorkflow).toContain('public/owner-unlock.html')
@@ -9784,11 +9799,14 @@ test('support feedback ingests public issues as redacted improvement evidence', 
   expect(intakeWorkflow).toContain('public/measurement-status.json')
   expect(intakeWorkflow).toContain('data/owner-unlock-brief.json')
   expect(intakeWorkflow).toContain('data/owner-unlock-preflight.json')
+  expect(intakeWorkflow).toContain('data/owner-zero-secret-input-sync.json')
   expect(intakeWorkflow).toContain('public/owner-unlock.html')
   expect(intakeWorkflow).toContain('public/owner-unlock-brief.json')
   expect(intakeWorkflow).toContain('public/owner-unlock-preflight.json')
+  expect(intakeWorkflow).toContain('public/owner-runtime-config.json')
   expect(intakeWorkflow).toContain('reports/owner-unlock-brief-latest.md')
   expect(intakeWorkflow).toContain('reports/owner-unlock-preflight-latest.md')
+  expect(intakeWorkflow).toContain('reports/owner-zero-secret-input-sync-latest.md')
   expect(intakeWorkflow).toContain('public/analytics-unlock.html')
   expect(intakeWorkflow).toContain('public/analytics-unlock.json')
   expect(intakeWorkflow).toContain('data/autonomous-owner-loop.json')
@@ -10803,6 +10821,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       ownerUnlock: string
       ownerUnlockBriefJson: string
       ownerUnlockPreflightJson: string
+      ownerRuntimeConfigJson: string
       measurementStatus: string
       storeReadiness: string
     }
@@ -10820,7 +10839,10 @@ test('production measurement status publishes public aggregate evidence handoff'
         setupWriteLocalEnvTemplateCommand: string
         writeAnalyticsLocalEnvTemplateCommand: string
         setupWriteAnalyticsLocalEnvTemplateCommand: string
+        zeroSecretRuntimeConfigCommand: string
         syncConfiguredValuesCommand: string
+      productionInputWatchWorkflow: string
+      productionInputWatchInputNames: string[]
       workflowDispatchCommand: string
       workflowDispatchRequiresRunWorkflows: boolean
       workflowDispatchDefault: string
@@ -11408,13 +11430,17 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerUnlockBrief.publicRoutes.ownerUnlock).toBe('/owner-unlock.html')
   expect(ownerUnlockBrief.publicRoutes.ownerUnlockBriefJson).toBe('/owner-unlock-brief.json')
   expect(ownerUnlockBrief.publicRoutes.ownerUnlockPreflightJson).toBe('/owner-unlock-preflight.json')
+  expect(ownerUnlockBrief.publicRoutes.ownerRuntimeConfigJson).toBe('/owner-runtime-config.json')
   expect(ownerUnlockHtml).toContain('Owner Unlock Pack')
   expect(ownerUnlockHtml).toContain('combined-zero-secret-owner-input-pack')
+  expect(ownerUnlockHtml).toContain('Zero-Secret Runtime Config')
   expect(ownerUnlockHtml).toContain('.env.production.local')
   expect(ownerUnlockHtml).toContain('VITE_POSTHOG_KEY=')
   expect(ownerUnlockHtml).toContain('AGL_SUPPORT_EMAIL=')
   expect(ownerUnlockHtml).toContain('./owner-unlock-brief.json')
   expect(ownerUnlockHtml).toContain('./owner-unlock-preflight.json')
+  expect(ownerUnlockHtml).toContain('./owner-runtime-config.json')
+  expect(ownerUnlockHtml).toContain('publish_zero_secret_runtime_config')
   expect(ownerUnlockHtml).not.toContain('href="/owner-unlock-brief.json"')
   expect(ownerUnlockBrief.setup).toMatchObject({
     setupScript: 'ops/github/setup-production.sh',
@@ -11427,6 +11453,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       setupWriteLocalEnvTemplateCommand: './ops/github/setup-production.sh --owner-input-template',
       writeAnalyticsLocalEnvTemplateCommand: 'node scripts/owner-unlock-preflight.mjs --analytics-input-template',
       setupWriteAnalyticsLocalEnvTemplateCommand: './ops/github/setup-production.sh --analytics-input-template',
+      zeroSecretRuntimeConfigCommand: 'npm run autonomous:owner-zero-secret-input-sync',
       syncConfiguredValuesCommand: './ops/github/setup-production.sh',
     workflowDispatchCommand: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
     workflowDispatchRequiresRunWorkflows: true,

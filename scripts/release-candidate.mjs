@@ -104,6 +104,7 @@ const requiredFiles = [
   'owner-unlock.html',
   'owner-unlock-brief.json',
   'owner-unlock-preflight.json',
+  'owner-runtime-config.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
   'product-gate-recovery.html',
@@ -202,6 +203,7 @@ const smokePaths = [
   'owner-unlock.html',
   'owner-unlock-brief.json',
   'owner-unlock-preflight.json',
+  'owner-runtime-config.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
   'product-gate-recovery.html',
@@ -273,6 +275,10 @@ const requiredTextForSmokePath = (filePath) => {
 
   if (filePath === 'owner-unlock-preflight.json') {
     return 'owner-unlock-preflight'
+  }
+
+  if (filePath === 'owner-runtime-config.json') {
+    return 'owner-runtime-config'
   }
 
   if (filePath === '.well-known/assetlinks.json') {

@@ -48,6 +48,17 @@ const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-d
   status: 'missing',
   live: {},
 })
+const ownerZeroSecretInputSync = await readOptionalJson(path.join(dataDir, 'owner-zero-secret-input-sync.json'), {
+  status: 'missing',
+  runtimeConfig: {
+    path: 'public/owner-runtime-config.json',
+    status: 'missing',
+  },
+  workflowDispatch: {
+    workflow: '.github/workflows/production-input-watch.yml',
+    inputNames: [],
+  },
+})
 
 const unique = (items) => [...new Set(items.filter(Boolean))]
 const escapeHtml = (value) =>
@@ -737,6 +748,9 @@ const summarizeCombinedOwnerInputPack = (analyticsPath, supportPack, supportUnlo
         npmWriteSupportLocalEnvTemplate: 'npm run autonomous:support-input-template',
       syncConfiguredValues: './ops/github/setup-production.sh',
       workflowDispatch: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
+      zeroSecretRuntimeConfig: 'npm run autonomous:owner-zero-secret-input-sync',
+      productionInputWatchUi:
+        'Production Input Watch workflow dispatch: publish_zero_secret_runtime_config + vite_posthog_key + vite_posthog_host + agl_support_email',
     },
     controls: {
       zeroPaidSpend: true,
@@ -758,6 +772,7 @@ const summarizeCombinedOwnerInputPack = (analyticsPath, supportPack, supportUnlo
       localTemplateWriteNoGithubMutation: true,
       onlyZeroSecretInputs: true,
       combinesMinimalAnalyticsAndSupportInputs: true,
+      publicRuntimeConfigCanUseZeroSecretInputs: true,
     },
   }
 }
@@ -967,6 +982,7 @@ const ownerUnlockBriefPayload = {
     ownerUnlock: '/owner-unlock.html',
     ownerUnlockBriefJson: '/owner-unlock-brief.json',
     ownerUnlockPreflightJson: '/owner-unlock-preflight.json',
+    ownerRuntimeConfigJson: '/owner-runtime-config.json',
     measurementStatus: '/measurement-status.html',
     storeReadiness: storeReadiness.publicRoutes?.storeReadiness ?? '/store-readiness.html',
   },
@@ -987,10 +1003,23 @@ const ownerUnlockBriefPayload = {
       writeAnalyticsLocalEnvTemplateCommand,
       setupWriteAnalyticsLocalEnvTemplateCommand: setupAnalyticsLocalEnvTemplateCommand,
       npmWriteSupportLocalEnvTemplateCommand: 'npm run autonomous:support-input-template',
+      zeroSecretRuntimeConfigCommand: 'npm run autonomous:owner-zero-secret-input-sync',
       syncConfiguredValuesCommand: './ops/github/setup-production.sh',
     workflowDispatchCommand: 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh',
     workflowDispatchRequiresRunWorkflows: true,
     workflowDispatchDefault: 'disabled',
+    productionInputWatchWorkflow: ownerZeroSecretInputSync.workflowDispatch?.workflow,
+    productionInputWatchInputNames: ownerZeroSecretInputSync.workflowDispatch?.inputNames ?? [],
+  },
+  zeroSecretRuntimeConfig: {
+    status: ownerZeroSecretInputSync.runtimeConfig?.status ?? 'missing',
+    path: ownerZeroSecretInputSync.runtimeConfig?.path ?? 'public/owner-runtime-config.json',
+    publicRoute: '/owner-runtime-config.json',
+    configuredPublicInputNames: ownerZeroSecretInputSync.runtimeConfig?.configuredPublicInputNames ?? [],
+    missingPublicInputNames: ownerZeroSecretInputSync.runtimeConfig?.missingPublicInputNames ?? [],
+    invalidPublicInputNames: ownerZeroSecretInputSync.runtimeConfig?.invalidPublicInputNames ?? [],
+    containsSecretValues: false,
+    workflowDispatch: ownerZeroSecretInputSync.workflowDispatch ?? null,
   },
   controls: {
     zeroPaidSpend: true,
@@ -1004,6 +1033,7 @@ const ownerUnlockBriefPayload = {
     setupPrintModeHasNoGithubMutation: true,
     setupPreflightModeHasNoGithubMutation: true,
     workflowDispatchRequiresRunWorkflows: true,
+    zeroSecretRuntimeConfigAvailable: true,
   },
   nextActions: payload.ownerUnlockBrief
     ? [
@@ -1011,6 +1041,7 @@ const ownerUnlockBriefPayload = {
           'Run ./ops/github/setup-production.sh --owner-unlock-preflight to check local/repository readiness without storing secret values or mutating GitHub.',
           'Run ./ops/github/setup-production.sh --analytics-input-template to create or update only the ignored analytics template before adding PostHog values.',
           'Run ./ops/github/setup-production.sh --owner-input-template to create or update the ignored .env.production.local template before adding values.',
+          'Alternatively run the Production Input Watch workflow with publish_zero_secret_runtime_config enabled to publish only public zero-secret runtime config values.',
         'Export only the missing variables/secrets in the current shell, then run ./ops/github/setup-production.sh to sync configured values.',
         'Resolve zero-spend entries in the parallel owner unlocks queue, including support-contact, when an existing support inbox is available.',
         'Use RUN_WORKFLOWS=1 only after the missing analytics inputs are configured and you are ready to dispatch deployment workflows.',
@@ -1196,6 +1227,33 @@ const ownerUnlockPageHtml = (briefPayload) => {
       </section>
 
       <section>
+        <h2>Zero-Secret Runtime Config</h2>
+        <div class="grid" aria-label="Zero-secret runtime config">
+          <div class="card">
+            <span>Status</span>
+            <strong>${escapeHtml(briefPayload.zeroSecretRuntimeConfig?.status ?? 'missing')}</strong>
+          </div>
+          <div class="card">
+            <span>Public route</span>
+            <strong>${escapeHtml(briefPayload.zeroSecretRuntimeConfig?.publicRoute ?? '/owner-runtime-config.json')}</strong>
+          </div>
+          <div class="card">
+            <span>Configured public inputs</span>
+            <strong>${escapeHtml(briefPayload.zeroSecretRuntimeConfig?.configuredPublicInputNames?.length ?? 0)}</strong>
+          </div>
+          <div class="card">
+            <span>Secret values</span>
+            <strong>${escapeHtml(briefPayload.zeroSecretRuntimeConfig?.containsSecretValues === true)}</strong>
+          </div>
+        </div>
+        <h3>Workflow UI Inputs</h3>
+        <ul>
+          ${commandItemsHtml(briefPayload.setup?.productionInputWatchInputNames)}
+        </ul>
+        <p>Use the Production Input Watch workflow dispatch path only for public zero-secret values; it keeps product gates, revenue, and store submission blocked until separate evidence clears them.</p>
+      </section>
+
+      <section>
         <h2>Minimal Analytics Path</h2>
         <div class="grid" aria-label="Minimal analytics path">
           <div class="card">
@@ -1248,6 +1306,7 @@ const ownerUnlockPageHtml = (briefPayload) => {
         <div class="actions">
           <a href="./owner-unlock-brief.json">owner-unlock-brief.json</a>
           <a href="./owner-unlock-preflight.json">owner-unlock-preflight.json</a>
+          <a href="./owner-runtime-config.json">owner-runtime-config.json</a>
           <a href="./measurement-status.html">measurement-status.html</a>
           <a href="./store-readiness.html">store-readiness.html</a>
         </div>
@@ -1280,10 +1339,15 @@ const ownerUnlockReport = [
   `- setup write local env template: ${ownerUnlockBriefPayload.setup.setupWriteLocalEnvTemplateCommand}`,
   `- write analytics local env template: ${ownerUnlockBriefPayload.setup.writeAnalyticsLocalEnvTemplateCommand}`,
   `- setup write analytics local env template: ${ownerUnlockBriefPayload.setup.setupWriteAnalyticsLocalEnvTemplateCommand}`,
+  `- zero-secret runtime config: ${ownerUnlockBriefPayload.setup.zeroSecretRuntimeConfigCommand}`,
+  `- production input watch workflow: ${ownerUnlockBriefPayload.setup.productionInputWatchWorkflow}`,
+  `- production input watch inputs: ${ownerUnlockBriefPayload.setup.productionInputWatchInputNames.join(', ') || 'none'}`,
   `- sync configured values: ${ownerUnlockBriefPayload.setup.syncConfiguredValuesCommand}`,
   `- workflow dispatch: ${ownerUnlockBriefPayload.setup.workflowDispatchCommand}`,
   `- workflow dispatch default: ${ownerUnlockBriefPayload.setup.workflowDispatchDefault}`,
   `- workflow dispatch requires RUN_WORKFLOWS: ${ownerUnlockBriefPayload.setup.workflowDispatchRequiresRunWorkflows}`,
+  `- runtime config route: ${ownerUnlockBriefPayload.zeroSecretRuntimeConfig.publicRoute}`,
+  `- runtime config status: ${ownerUnlockBriefPayload.zeroSecretRuntimeConfig.status}`,
   '',
   '## Missing Variables',
   '',

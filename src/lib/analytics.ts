@@ -130,6 +130,9 @@ let initialized = false
 let posthogReady = false
 let urlAttributionInitialized = false
 let collectorFlushInFlight = false
+let runtimePosthogKey: string | null = null
+let runtimePosthogHost: string | null = null
+let runtimeConfigLoadStarted = false
 
 const createId = (prefix: string) => `${prefix}-${crypto.randomUUID()}`
 
@@ -139,6 +142,99 @@ const eventCollectorUrl = () => (import.meta.env.VITE_EVENT_COLLECTOR_URL as str
 
 const eventCollectorWriteToken = () =>
   (import.meta.env.VITE_EVENT_COLLECTOR_WRITE_TOKEN as string | undefined)?.trim()
+
+const buildTimePosthogKey = () => (import.meta.env.VITE_POSTHOG_KEY as string | undefined)?.trim() || null
+
+const buildTimePosthogHost = () =>
+  (import.meta.env.VITE_POSTHOG_HOST as string | undefined)?.trim() || 'https://us.i.posthog.com'
+
+const currentPosthogKey = () => buildTimePosthogKey() ?? runtimePosthogKey
+
+const currentPosthogHost = () => buildTimePosthogKey() ? buildTimePosthogHost() : (runtimePosthogHost ?? buildTimePosthogHost())
+
+const cleanRuntimeString = (value: unknown, maxLength: number) => {
+  if (typeof value !== 'string') {
+    return null
+  }
+
+  const trimmed = value.trim()
+
+  if (!trimmed || trimmed.length > maxLength || /[\r\n]/.test(trimmed)) {
+    return null
+  }
+
+  return trimmed
+}
+
+const cleanRuntimePosthogHost = (value: unknown) => {
+  const trimmed = cleanRuntimeString(value, 256)
+
+  if (!trimmed) {
+    return null
+  }
+
+  try {
+    const url = new URL(trimmed)
+    return url.protocol === 'https:' && url.hostname ? url.toString().replace(/\/$/, '') : null
+  } catch {
+    return null
+  }
+}
+
+const ownerRuntimeConfigUrl = () => {
+  const base = new URL(import.meta.env.BASE_URL || '/', window.location.origin)
+  return new URL('owner-runtime-config.json', base).toString()
+}
+
+const initPosthog = (key: string | null, host: string | null) => {
+  if (!key || posthogReady || typeof window === 'undefined') {
+    return
+  }
+
+  posthog.init(key, {
+    api_host: host ?? 'https://us.i.posthog.com',
+    capture_pageview: false,
+    autocapture: false,
+  })
+  posthogReady = true
+
+  if (isExternalAnalyticsOptedOut()) {
+    posthog.opt_out_capturing()
+  } else {
+    posthog.opt_in_capturing()
+  }
+}
+
+const loadRuntimePosthogConfig = async () => {
+  if (runtimeConfigLoadStarted || typeof window === 'undefined') {
+    return
+  }
+
+  runtimeConfigLoadStarted = true
+
+  try {
+    const response = await fetch(ownerRuntimeConfigUrl(), { cache: 'no-store' })
+
+    if (!response.ok) {
+      return
+    }
+
+    const config = (await response.json()) as {
+      analytics?: {
+        posthogKey?: unknown
+        posthogHost?: unknown
+      }
+    }
+    const key = cleanRuntimeString(config.analytics?.posthogKey, 256)
+    const host = cleanRuntimePosthogHost(config.analytics?.posthogHost)
+
+    runtimePosthogKey = key
+    runtimePosthogHost = host
+    initPosthog(currentPosthogKey(), currentPosthogHost())
+  } catch {
+    // Runtime public config is optional; local analytics remains the durable fallback.
+  }
+}
 
 const getOrCreateStoredId = (getStorage: () => Storage, key: string, prefix: string) => {
   if (typeof window === 'undefined') {
@@ -540,23 +636,8 @@ export const initAnalytics = () => {
 
   initialized = true
   initUrlAttribution()
-  const key = import.meta.env.VITE_POSTHOG_KEY as string | undefined
-  const host = (import.meta.env.VITE_POSTHOG_HOST as string | undefined) ?? 'https://us.i.posthog.com'
-
-  if (key) {
-    posthog.init(key, {
-      api_host: host,
-      capture_pageview: false,
-      autocapture: false,
-    })
-    posthogReady = true
-
-    if (isExternalAnalyticsOptedOut()) {
-      posthog.opt_out_capturing()
-    } else {
-      posthog.opt_in_capturing()
-    }
-  }
+  initPosthog(currentPosthogKey(), currentPosthogHost())
+  void loadRuntimePosthogConfig()
 
   window.addEventListener('agl:privacy', () => {
     if (!posthogReady) {
@@ -627,8 +708,7 @@ export const trackEvent = (
     createdAt: new Date().toISOString(),
   }
 
-  const key = import.meta.env.VITE_POSTHOG_KEY as string | undefined
-  if (key && !isExternalAnalyticsOptedOut()) {
+  if (posthogReady && !isExternalAnalyticsOptedOut()) {
     posthog.capture(name, enrichedProperties)
   }
 

@@ -2,6 +2,24 @@ name: Production Input Watch
 
 on:
   workflow_dispatch:
+    inputs:
+      publish_zero_secret_runtime_config:
+        description: 'Publish provided zero-secret public inputs to owner-runtime-config.json for the next deploy.'
+        required: false
+        default: false
+        type: boolean
+      vite_posthog_key:
+        description: 'Public PostHog project key for browser capture; leave blank to keep current config.'
+        required: false
+        type: string
+      vite_posthog_host:
+        description: 'Public PostHog host, such as https://us.i.posthog.com; leave blank to keep current config.'
+        required: false
+        type: string
+      agl_support_email:
+        description: 'Public production support email for store readiness; leave blank to keep current config.'
+        required: false
+        type: string
   schedule:
     - cron: '11 */12 * * *'
 
@@ -38,6 +56,17 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Prepare zero-secret owner runtime config
+        env:
+          AGL_ENABLE_ZERO_SECRET_WORKFLOW_INPUTS: ${{ inputs.publish_zero_secret_runtime_config }}
+          AGL_OWNER_INPUT_AGL_SUPPORT_EMAIL: ${{ inputs.agl_support_email }}
+          AGL_OWNER_INPUT_VITE_POSTHOG_HOST: ${{ inputs.vite_posthog_host }}
+          AGL_OWNER_INPUT_VITE_POSTHOG_KEY: ${{ inputs.vite_posthog_key }}
+          AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}
+          VITE_POSTHOG_HOST: ${{ vars.VITE_POSTHOG_HOST }}
+          VITE_POSTHOG_KEY: ${{ vars.VITE_POSTHOG_KEY }}
+        run: npm run autonomous:owner-zero-secret-input-sync
 
       - name: Refresh production input evidence
         env:
@@ -132,6 +161,10 @@ jobs:
             data/production-blocker-handoff.json \
             src/data/productionBlockerHandoff.ts \
             reports/production-blocker-handoff-latest.md \
+            data/owner-zero-secret-input-sync.json \
+            src/data/ownerZeroSecretInputSync.ts \
+            public/owner-runtime-config.json \
+            reports/owner-zero-secret-input-sync-latest.md \
             data/owner-unlock-brief.json \
             data/owner-unlock-preflight.json \
             public/owner-unlock.html \
@@ -211,6 +244,9 @@ jobs:
             reports/production-activation-latest.md
             data/production-blocker-handoff.json
             reports/production-blocker-handoff-latest.md
+            data/owner-zero-secret-input-sync.json
+            public/owner-runtime-config.json
+            reports/owner-zero-secret-input-sync-latest.md
             data/owner-unlock-brief.json
             data/owner-unlock-preflight.json
             public/owner-unlock.html

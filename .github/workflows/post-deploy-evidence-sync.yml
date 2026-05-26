@@ -181,6 +181,10 @@ jobs:
             data/production-blocker-handoff.json \
             src/data/productionBlockerHandoff.ts \
             reports/production-blocker-handoff-latest.md \
+            data/owner-zero-secret-input-sync.json \
+            src/data/ownerZeroSecretInputSync.ts \
+            public/owner-runtime-config.json \
+            reports/owner-zero-secret-input-sync-latest.md \
             data/owner-unlock-brief.json \
             data/owner-unlock-preflight.json \
             public/owner-unlock.html \
@@ -297,6 +301,9 @@ jobs:
             reports/production-activation-latest.md
             data/production-blocker-handoff.json
             reports/production-blocker-handoff-latest.md
+            data/owner-zero-secret-input-sync.json
+            public/owner-runtime-config.json
+            reports/owner-zero-secret-input-sync-latest.md
             data/owner-unlock-brief.json
             data/owner-unlock-preflight.json
             public/owner-unlock.html

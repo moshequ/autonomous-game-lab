@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-26T09:23:03.820Z
+Generated: 2026-05-26T09:49:27.968Z
 Status: waiting-on-owner-input
-Source hash: b3068d2f0829
+Source hash: be83cf80a15b
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
@@ -19,10 +19,15 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - setup write local env template: ./ops/github/setup-production.sh --owner-input-template
 - write analytics local env template: node scripts/owner-unlock-preflight.mjs --analytics-input-template
 - setup write analytics local env template: ./ops/github/setup-production.sh --analytics-input-template
+- zero-secret runtime config: npm run autonomous:owner-zero-secret-input-sync
+- production input watch workflow: .github/workflows/production-input-watch.yml
+- production input watch inputs: vite_posthog_key, vite_posthog_host, agl_support_email, publish_zero_secret_runtime_config
 - sync configured values: ./ops/github/setup-production.sh
 - workflow dispatch: RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
 - workflow dispatch default: disabled
 - workflow dispatch requires RUN_WORKFLOWS: true
+- runtime config route: /owner-runtime-config.json
+- runtime config status: owner-runtime-config-waiting-on-input
 
 ## Missing Variables
 
@@ -89,6 +94,8 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - npmWriteSupportLocalEnvTemplate: npm run autonomous:support-input-template
 - syncConfiguredValues: ./ops/github/setup-production.sh
 - workflowDispatch: RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
+- zeroSecretRuntimeConfig: npm run autonomous:owner-zero-secret-input-sync
+- productionInputWatchUi: Production Input Watch workflow dispatch: publish_zero_secret_runtime_config + vite_posthog_key + vite_posthog_host + agl_support_email
 
 ### Lowest-Input Missing Variables
 
@@ -204,3 +211,4 @@ Validation commands:
 - setupPrintModeHasNoGithubMutation: true
 - setupPreflightModeHasNoGithubMutation: true
 - workflowDispatchRequiresRunWorkflows: true
+- zeroSecretRuntimeConfigAvailable: true

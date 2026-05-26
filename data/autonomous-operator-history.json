@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T09:23:10.610Z",
+  "generatedAt": "2026-05-26T09:53:29.151Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -22,7 +22,7 @@
     "plannedRecords": 36,
     "executedRecords": 4,
     "failedRecords": 0,
-    "lastActionId": "refresh-objective-audit",
+    "lastActionId": "measure-pwa-install-loop",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "seed-portfolio-traffic"
   },
@@ -34,35 +34,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260526050535-refresh-replay-loop",
-      "generatedAt": "2026-05-26T05:05:35.200Z",
-      "runFingerprint": "467ac9af5949f543",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-replay-loop",
-      "selectedCommand": "npm run autonomous:replay-loop",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "optimize-daily-retention",
-        "refresh-replay-loop",
-        "refresh-objective-audit"
-      ],
-      "blockedActionCount": 35,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260526050535-refresh-replay-loop",
       "generatedAt": "2026-05-26T05:05:35.752Z",
@@ -1154,6 +1125,36 @@
         "refresh-organic-seed-loop",
         "refresh-replay-loop",
         "refresh-objective-audit"
+      ],
+      "blockedActionCount": 35,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260526094508-measure-pwa-install-loop",
+      "generatedAt": "2026-05-26T09:45:08.457Z",
+      "runFingerprint": "2d4052f92e133a2b",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "measure-pwa-install-loop",
+      "selectedCommand": "npm run autonomous:pwa-install",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "measure-pwa-install-loop",
+        "refresh-replay-loop",
+        "optimize-store-listing"
       ],
       "blockedActionCount": 35,
       "execution": {

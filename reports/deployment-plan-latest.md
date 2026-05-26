@@ -1,6 +1,6 @@
 # Deployment Plan
 
-Generated: 2026-05-26T09:23:11.009Z
+Generated: 2026-05-26T09:53:02.727Z
 Status: ready-for-pages
 Target: github-pages
 Cost: $0 platform hosting for public/internal experiment traffic
@@ -16,7 +16,7 @@ Cost: $0 platform hosting for public/internal experiment traffic
 - pass: dist-service-worker - Production service worker exists.
 - pass: dist-privacy - Privacy policy is included in the deployable build.
 - pass: dist-install - PWA install handoff page is included in the deployable build.
-- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-46448d25d28a.
+- pass: release-candidate - Release candidate is release-candidate-ready; candidate pwa-ca6401eabaa2.
 - pass: deploy-workflow - GitHub Pages deployment workflow exists.
 - pass: production-environment - Environment status is production-env-missing; public origin is https://moshequ.github.io/autonomous-game-lab.
 - pass: event-collector-deployment - Event collector deployment is blocked-needs-cloudflare-env.
@@ -38,10 +38,10 @@ Cost: $0 platform hosting for public/internal experiment traffic
 ## Release Candidate
 
 - Status: release-candidate-ready
-- Candidate: pwa-46448d25d28a
-- Files: 92
-- Aggregate SHA-256: 46448d25d28ad15d29a0a90d9fea16efbf7a97e2b574c8a73bc4eff0360914f5
-- Post-deploy smoke URLs: 32
+- Candidate: pwa-ca6401eabaa2
+- Files: 93
+- Aggregate SHA-256: ca6401eabaa2aaf1ff4104200e65143ec8e4d36c288973fd8cb998154c1e2771
+- Post-deploy smoke URLs: 33
 
 ## Repository Channel
 

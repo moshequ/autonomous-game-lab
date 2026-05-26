@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-26T09:23:03.820Z",
+  "generatedAt": "2026-05-26T09:49:27.968Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "b3068d2f0829",
+  "sourceDataHash": "be83cf80a15b",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -12,6 +12,7 @@
     "ownerUnlock": "/owner-unlock.html",
     "ownerUnlockBriefJson": "/owner-unlock-brief.json",
     "ownerUnlockPreflightJson": "/owner-unlock-preflight.json",
+    "ownerRuntimeConfigJson": "/owner-runtime-config.json",
     "measurementStatus": "/measurement-status.html",
     "storeReadiness": "/store-readiness.html"
   },
@@ -139,7 +140,9 @@
         "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --owner-input-template",
         "npmWriteSupportLocalEnvTemplate": "npm run autonomous:support-input-template",
         "syncConfiguredValues": "./ops/github/setup-production.sh",
-        "workflowDispatch": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"
+        "workflowDispatch": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+        "zeroSecretRuntimeConfig": "npm run autonomous:owner-zero-secret-input-sync",
+        "productionInputWatchUi": "Production Input Watch workflow dispatch: publish_zero_secret_runtime_config + vite_posthog_key + vite_posthog_host + agl_support_email"
       },
       "controls": {
         "zeroPaidSpend": true,
@@ -160,7 +163,8 @@
         "localTemplateWritePreservesExistingValues": true,
         "localTemplateWriteNoGithubMutation": true,
         "onlyZeroSecretInputs": true,
-        "combinesMinimalAnalyticsAndSupportInputs": true
+        "combinesMinimalAnalyticsAndSupportInputs": true,
+        "publicRuntimeConfigCanUseZeroSecretInputs": true
       }
     },
     "costMode": "zero-spend-use-existing-cloudflare-free-tier",
@@ -627,7 +631,9 @@
       "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --owner-input-template",
       "npmWriteSupportLocalEnvTemplate": "npm run autonomous:support-input-template",
       "syncConfiguredValues": "./ops/github/setup-production.sh",
-      "workflowDispatch": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"
+      "workflowDispatch": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+      "zeroSecretRuntimeConfig": "npm run autonomous:owner-zero-secret-input-sync",
+      "productionInputWatchUi": "Production Input Watch workflow dispatch: publish_zero_secret_runtime_config + vite_posthog_key + vite_posthog_host + agl_support_email"
     },
     "controls": {
       "zeroPaidSpend": true,
@@ -648,7 +654,8 @@
       "localTemplateWritePreservesExistingValues": true,
       "localTemplateWriteNoGithubMutation": true,
       "onlyZeroSecretInputs": true,
-      "combinesMinimalAnalyticsAndSupportInputs": true
+      "combinesMinimalAnalyticsAndSupportInputs": true,
+      "publicRuntimeConfigCanUseZeroSecretInputs": true
     }
   },
   "setup": {
@@ -665,10 +672,42 @@
     "writeAnalyticsLocalEnvTemplateCommand": "node scripts/owner-unlock-preflight.mjs --analytics-input-template",
     "setupWriteAnalyticsLocalEnvTemplateCommand": "./ops/github/setup-production.sh --analytics-input-template",
     "npmWriteSupportLocalEnvTemplateCommand": "npm run autonomous:support-input-template",
+    "zeroSecretRuntimeConfigCommand": "npm run autonomous:owner-zero-secret-input-sync",
     "syncConfiguredValuesCommand": "./ops/github/setup-production.sh",
     "workflowDispatchCommand": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
     "workflowDispatchRequiresRunWorkflows": true,
-    "workflowDispatchDefault": "disabled"
+    "workflowDispatchDefault": "disabled",
+    "productionInputWatchWorkflow": ".github/workflows/production-input-watch.yml",
+    "productionInputWatchInputNames": [
+      "vite_posthog_key",
+      "vite_posthog_host",
+      "agl_support_email",
+      "publish_zero_secret_runtime_config"
+    ]
+  },
+  "zeroSecretRuntimeConfig": {
+    "status": "owner-runtime-config-waiting-on-input",
+    "path": "public/owner-runtime-config.json",
+    "publicRoute": "/owner-runtime-config.json",
+    "configuredPublicInputNames": [],
+    "missingPublicInputNames": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL"
+    ],
+    "invalidPublicInputNames": [],
+    "containsSecretValues": false,
+    "workflowDispatch": {
+      "workflow": ".github/workflows/production-input-watch.yml",
+      "inputNames": [
+        "vite_posthog_key",
+        "vite_posthog_host",
+        "agl_support_email",
+        "publish_zero_secret_runtime_config"
+      ],
+      "valuesArePublic": true,
+      "ownerMustOptInToPublishRuntimeConfig": true
+    }
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -681,13 +720,15 @@
     "secretCommandsUseStdin": true,
     "setupPrintModeHasNoGithubMutation": true,
     "setupPreflightModeHasNoGithubMutation": true,
-    "workflowDispatchRequiresRunWorkflows": true
+    "workflowDispatchRequiresRunWorkflows": true,
+    "zeroSecretRuntimeConfigAvailable": true
   },
   "nextActions": [
     "Print the current brief with ./ops/github/setup-production.sh --owner-unlock-brief before setting production-analytics-browser.",
     "Run ./ops/github/setup-production.sh --owner-unlock-preflight to check local/repository readiness without storing secret values or mutating GitHub.",
     "Run ./ops/github/setup-production.sh --analytics-input-template to create or update only the ignored analytics template before adding PostHog values.",
     "Run ./ops/github/setup-production.sh --owner-input-template to create or update the ignored .env.production.local template before adding values.",
+    "Alternatively run the Production Input Watch workflow with publish_zero_secret_runtime_config enabled to publish only public zero-secret runtime config values.",
     "Export only the missing variables/secrets in the current shell, then run ./ops/github/setup-production.sh to sync configured values.",
     "Resolve zero-spend entries in the parallel owner unlocks queue, including support-contact, when an existing support inbox is available.",
     "Use RUN_WORKFLOWS=1 only after the missing analytics inputs are configured and you are ready to dispatch deployment workflows.",

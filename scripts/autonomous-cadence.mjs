@@ -799,6 +799,7 @@ const checks = [
     status:
       productionInputWatchWorkflowExists &&
       productionInputWatchWorkflow.includes('workflow_dispatch:') &&
+      productionInputWatchWorkflow.includes('publish_zero_secret_runtime_config') &&
       productionInputWatchWorkflow.includes('schedule:') &&
       productionInputWatchWorkflow.includes('contents: write') &&
       productionInputWatchWorkflow.includes('actions: read') &&
@@ -816,6 +817,8 @@ const checks = [
       productionInputWatchWorkflow.includes('reports/production-environment-latest.md') &&
       productionInputWatchWorkflow.includes('ops/production.env.example') &&
       productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') &&
+      productionInputWatchWorkflow.includes('data/owner-zero-secret-input-sync.json') &&
+      productionInputWatchWorkflow.includes('public/owner-runtime-config.json') &&
       productionInputWatchWorkflow.includes('data/owner-unlock-brief.json') &&
       productionInputWatchWorkflow.includes('data/owner-unlock-preflight.json') &&
       productionInputWatchWorkflow.includes('public/owner-unlock.html') &&
@@ -828,6 +831,7 @@ const checks = [
       productionInputWatchWorkflow.includes('public/product-gate-recovery.json') &&
       productionInputWatchWorkflow.includes('data/release-candidate.json') &&
       productionInputWorkflowCoversOwnerUnlockQueue &&
+      productionInputWatchScript.includes('autonomous:owner-zero-secret-input-sync') &&
       productionInputWatchScript.includes('npm run build') &&
       productionInputWatchScript.includes('autonomous:performance') &&
       productionInputWatchScript.includes('autonomous:release-candidate') &&
@@ -843,7 +847,7 @@ const checks = [
         ? 'pass'
         : 'blocker',
     detail: productionInputWatchWorkflowExists
-      ? 'Production input watch refreshes production environment, deploy/readiness evidence, owner-unlock queue follow-ups, and measurement status after owner-provided repository variables or secrets, gates direct commits, and avoids workflow dispatch or raw event storage.'
+      ? 'Production input watch refreshes production environment, zero-secret runtime config, deploy/readiness evidence, owner-unlock queue follow-ups, and measurement status after owner-provided repository variables or public workflow inputs, gates direct commits, and avoids workflow dispatch or raw event storage.'
       : 'Production input watch GitHub workflow is missing.',
   },
   {
@@ -883,9 +887,11 @@ const checks = [
       publicEvidenceIntakeWorkflow.includes('public/product-gate-recovery.json') &&
       publicEvidenceIntakeWorkflow.includes('data/owner-unlock-brief.json') &&
       publicEvidenceIntakeWorkflow.includes('data/owner-unlock-preflight.json') &&
+      publicEvidenceIntakeWorkflow.includes('data/owner-zero-secret-input-sync.json') &&
       publicEvidenceIntakeWorkflow.includes('public/owner-unlock.html') &&
       publicEvidenceIntakeWorkflow.includes('public/owner-unlock-brief.json') &&
       publicEvidenceIntakeWorkflow.includes('public/owner-unlock-preflight.json') &&
+      publicEvidenceIntakeWorkflow.includes('public/owner-runtime-config.json') &&
       publicEvidenceIntakeWorkflow.includes('data/production-environment.json') &&
       publicEvidenceIntakeWorkflow.includes('reports/production-environment-latest.md') &&
       publicEvidenceIntakeWorkflow.includes('ops/production.env.example') &&
@@ -993,6 +999,8 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/owner-zero-secret-input-sync.json') &&
+      postDeployEvidenceSyncWorkflow.includes('public/owner-runtime-config.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') &&
       postDeployEvidenceSyncWorkflow.includes('public/owner-unlock.html') &&

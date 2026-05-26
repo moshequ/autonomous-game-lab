@@ -1,0 +1,39 @@
+{
+  "generatedAt": "2026-05-26T09:49:21.610Z",
+  "id": "owner-runtime-config",
+  "status": "owner-runtime-config-waiting-on-input",
+  "source": "owner-zero-secret-input-sync",
+  "publicInputNames": [
+    "VITE_POSTHOG_KEY",
+    "VITE_POSTHOG_HOST",
+    "AGL_SUPPORT_EMAIL"
+  ],
+  "configuredPublicInputNames": [],
+  "missingPublicInputNames": [
+    "VITE_POSTHOG_KEY",
+    "VITE_POSTHOG_HOST",
+    "AGL_SUPPORT_EMAIL"
+  ],
+  "invalidPublicInputNames": [],
+  "analytics": {
+    "provider": null,
+    "posthogConfigured": false,
+    "posthogKey": null,
+    "posthogHost": null
+  },
+  "support": {
+    "configured": false,
+    "email": null
+  },
+  "controls": {
+    "zeroPaidSpend": true,
+    "zeroSecretInputsOnly": true,
+    "noSecretValues": true,
+    "publicValuesOnly": true,
+    "publicRuntimeConfigMayStoreProvidedPublicValues": true,
+    "noAccountCreation": true,
+    "noWorkflowDispatch": true,
+    "noStoreSubmission": true,
+    "noRevenueEnablement": true
+  }
+}

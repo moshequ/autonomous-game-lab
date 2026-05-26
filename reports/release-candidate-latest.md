@@ -1,22 +1,22 @@
 # Release Candidate
 
-Generated: 2026-05-26T09:22:57.311Z
+Generated: 2026-05-26T09:50:21.697Z
 Status: release-candidate-ready
-Candidate: pwa-46448d25d28a
-Files: 92
-Size: 4086.8 KB
-Aggregate SHA-256: 46448d25d28ad15d29a0a90d9fea16efbf7a97e2b574c8a73bc4eff0360914f5
+Candidate: pwa-ca6401eabaa2
+Files: 93
+Size: 4095.6 KB
+Aggregate SHA-256: ca6401eabaa2aaf1ff4104200e65143ec8e4d36c288973fd8cb998154c1e2771
 
 ## Checks
 
-- pass: dist-inventory - 92 dist files inventoried.
-- pass: required-files - 37/37 required files present.
+- pass: dist-inventory - 93 dist files inventoried.
+- pass: required-files - 38/38 required files present.
 - pass: game-pages - 10 generated game page(s) in dist.
 - pass: performance-budget - Performance budget is performance-budget-ready.
 - pass: release-health - Release health is monitoring.
 - pass: production-response - Deploy allowed is true.
 - pass: spend-guard - Spend mode is no-spend.
-- pass: post-deploy-smoke-plan - 32 post-deploy smoke URL(s) planned.
+- pass: post-deploy-smoke-plan - 33 post-deploy smoke URL(s) planned.
 
 ## Required Files
 
@@ -30,6 +30,7 @@ Aggregate SHA-256: 46448d25d28ad15d29a0a90d9fea16efbf7a97e2b574c8a73bc4eff036091
 - pass: owner-unlock.html
 - pass: owner-unlock-brief.json
 - pass: owner-unlock-preflight.json
+- pass: owner-runtime-config.json
 - pass: analytics-unlock.html
 - pass: analytics-unlock.json
 - pass: product-gate-recovery.html
@@ -70,6 +71,7 @@ Aggregate SHA-256: 46448d25d28ad15d29a0a90d9fea16efbf7a97e2b574c8a73bc4eff036091
 - 200: https://moshequ.github.io/autonomous-game-lab/owner-unlock.html
 - 200: https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json
 - 200: https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json
+- 200: https://moshequ.github.io/autonomous-game-lab/owner-runtime-config.json
 - 200: https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html
 - 200: https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json
 - 200: https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.html

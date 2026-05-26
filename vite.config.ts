@@ -123,6 +123,7 @@ const operationalFreshnessAssets = [
   'owner-unlock.html',
   'owner-unlock-brief.json',
   'owner-unlock-preflight.json',
+  'owner-runtime-config.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
   'product-gate-recovery.html',
@@ -147,7 +148,7 @@ const operationalFreshnessAssets = [
 ]
 
 const operationalFreshnessRoute =
-  /\/(?:measurement-status\.html|measurement-status\.json|owner-unlock\.html|owner-unlock-brief\.json|owner-unlock-preflight\.json|analytics-unlock\.html|analytics-unlock\.json|product-gate-recovery\.html|product-gate-recovery\.json|release-candidate\.json|sample-next\.html|sample-next\.json|sample-fastest\.html|sample-fastest\.json|seed-next\.html|seed-next\.json|seed-kit\.html|gate-sample\.html|share-manifest\.json|monetization\.html|store-readiness\.html|store-readiness\.json|privacy\.html|support\.html|install\.html|\.well-known\/assetlinks\.json)(?:\?.*)?$/
+  /\/(?:measurement-status\.html|measurement-status\.json|owner-unlock\.html|owner-unlock-brief\.json|owner-unlock-preflight\.json|owner-runtime-config\.json|analytics-unlock\.html|analytics-unlock\.json|product-gate-recovery\.html|product-gate-recovery\.json|release-candidate\.json|sample-next\.html|sample-next\.json|sample-fastest\.html|sample-fastest\.json|seed-next\.html|seed-next\.json|seed-kit\.html|gate-sample\.html|share-manifest\.json|monetization\.html|store-readiness\.html|store-readiness\.json|privacy\.html|support\.html|install\.html|\.well-known\/assetlinks\.json)(?:\?.*)?$/
 
 export default defineConfig((env) => {
   const normalizedBase = basePathFor(env)

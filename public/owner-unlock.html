@@ -167,6 +167,36 @@
       </section>
 
       <section>
+        <h2>Zero-Secret Runtime Config</h2>
+        <div class="grid" aria-label="Zero-secret runtime config">
+          <div class="card">
+            <span>Status</span>
+            <strong>owner-runtime-config-waiting-on-input</strong>
+          </div>
+          <div class="card">
+            <span>Public route</span>
+            <strong>/owner-runtime-config.json</strong>
+          </div>
+          <div class="card">
+            <span>Configured public inputs</span>
+            <strong>0</strong>
+          </div>
+          <div class="card">
+            <span>Secret values</span>
+            <strong>false</strong>
+          </div>
+        </div>
+        <h3>Workflow UI Inputs</h3>
+        <ul>
+          <li><code>vite_posthog_key</code></li>
+<li><code>vite_posthog_host</code></li>
+<li><code>agl_support_email</code></li>
+<li><code>publish_zero_secret_runtime_config</code></li>
+        </ul>
+        <p>Use the Production Input Watch workflow dispatch path only for public zero-secret values; it keeps product gates, revenue, and store submission blocked until separate evidence clears them.</p>
+      </section>
+
+      <section>
         <h2>Minimal Analytics Path</h2>
         <div class="grid" aria-label="Minimal analytics path">
           <div class="card">
@@ -228,6 +258,7 @@
         <div class="actions">
           <a href="./owner-unlock-brief.json">owner-unlock-brief.json</a>
           <a href="./owner-unlock-preflight.json">owner-unlock-preflight.json</a>
+          <a href="./owner-runtime-config.json">owner-runtime-config.json</a>
           <a href="./measurement-status.html">measurement-status.html</a>
           <a href="./store-readiness.html">store-readiness.html</a>
         </div>

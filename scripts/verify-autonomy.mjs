@@ -51,6 +51,7 @@ const requiredFiles = [
   'data/production-bootstrap.json',
   'data/production-activation.json',
   'data/production-blocker-handoff.json',
+  'data/owner-zero-secret-input-sync.json',
   'data/owner-unlock-brief.json',
   'data/owner-unlock-preflight.json',
   'data/production-unlock-runner.json',
@@ -255,6 +256,7 @@ const requiredFiles = [
   'public/owner-unlock.html',
   'public/owner-unlock-brief.json',
   'public/owner-unlock-preflight.json',
+  'public/owner-runtime-config.json',
   'public/install.html',
   'public/robots.txt',
   'public/sample-next.html',
@@ -280,6 +282,7 @@ const requiredFiles = [
   'dist/owner-unlock.html',
   'dist/owner-unlock-brief.json',
   'dist/owner-unlock-preflight.json',
+  'dist/owner-runtime-config.json',
   'dist/.well-known/assetlinks.json',
   'dist/gate-sample.html',
   'dist/product-gate-recovery.html',
@@ -380,6 +383,9 @@ const productionActivation = JSON.parse(await readFile(path.join(root, 'data', '
 const productionBlockerHandoff = JSON.parse(
   await readFile(path.join(root, 'data', 'production-blocker-handoff.json'), 'utf8'),
 )
+const ownerZeroSecretInputSync = JSON.parse(
+  await readFile(path.join(root, 'data', 'owner-zero-secret-input-sync.json'), 'utf8'),
+)
 const ownerUnlockBrief = JSON.parse(await readFile(path.join(root, 'data', 'owner-unlock-brief.json'), 'utf8'))
 const ownerUnlockPreflight = JSON.parse(
   await readFile(path.join(root, 'data', 'owner-unlock-preflight.json'), 'utf8'),
@@ -475,6 +481,7 @@ const publicOwnerUnlockBrief = JSON.parse(await readFile(path.join(root, 'public
 const publicOwnerUnlockPreflight = JSON.parse(
   await readFile(path.join(root, 'public', 'owner-unlock-preflight.json'), 'utf8'),
 )
+const publicOwnerRuntimeConfig = JSON.parse(await readFile(path.join(root, 'public', 'owner-runtime-config.json'), 'utf8'))
 const analyticsUnlockHtml = await readFile(path.join(root, 'public', 'analytics-unlock.html'), 'utf8')
 const publicAnalyticsUnlockStatus = JSON.parse(await readFile(path.join(root, 'public', 'analytics-unlock.json'), 'utf8'))
 const monetizationHtml = await readFile(path.join(root, 'public', 'monetization.html'), 'utf8')
@@ -534,6 +541,10 @@ const productionBlockerHandoffSource = await readFile(
 )
 const ownerUnlockBriefSource = await readFile(path.join(root, 'scripts', 'owner-unlock-brief.mjs'), 'utf8')
 const ownerUnlockPreflightSource = await readFile(path.join(root, 'scripts', 'owner-unlock-preflight.mjs'), 'utf8')
+const ownerZeroSecretInputSyncSource = await readFile(
+  path.join(root, 'scripts', 'owner-zero-secret-input-sync.mjs'),
+  'utf8',
+)
 const ownerUnlockPreflightReport = await readFile(path.join(root, 'reports', 'owner-unlock-preflight-latest.md'), 'utf8')
 const productionUnlockRunnerSource = await readFile(
   path.join(root, 'scripts', 'production-unlock-runner.mjs'),
@@ -892,11 +903,14 @@ if (
   !publicEvidenceIntakeWorkflow.includes('public/measurement-status.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/owner-unlock-brief.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/owner-unlock-preflight.json') ||
+  !publicEvidenceIntakeWorkflow.includes('data/owner-zero-secret-input-sync.json') ||
   !publicEvidenceIntakeWorkflow.includes('public/owner-unlock.html') ||
   !publicEvidenceIntakeWorkflow.includes('public/owner-unlock-brief.json') ||
   !publicEvidenceIntakeWorkflow.includes('public/owner-unlock-preflight.json') ||
+  !publicEvidenceIntakeWorkflow.includes('public/owner-runtime-config.json') ||
   !publicEvidenceIntakeWorkflow.includes('reports/owner-unlock-brief-latest.md') ||
   !publicEvidenceIntakeWorkflow.includes('reports/owner-unlock-preflight-latest.md') ||
+  !publicEvidenceIntakeWorkflow.includes('reports/owner-zero-secret-input-sync-latest.md') ||
   !publicEvidenceIntakeWorkflow.includes('public/analytics-unlock.html') ||
   !publicEvidenceIntakeWorkflow.includes('public/analytics-unlock.json') ||
   !publicEvidenceIntakeWorkflow.includes('data/production-environment.json') ||
@@ -916,6 +930,7 @@ if (
 
 if (
   !productionInputWatchScript.includes('npm run build') ||
+  !productionInputWatchScript.includes('autonomous:owner-zero-secret-input-sync') ||
   !productionInputWatchScript.includes('autonomous:performance') ||
   !productionInputWatchScript.includes('autonomous:release-candidate') ||
   !productionInputWatchScript.includes('autonomous:post-deploy-smoke') ||
@@ -932,6 +947,10 @@ if (
   !productionInputWatchScript.includes('autonomous:operator') ||
   !productionInputWatchWorkflow.includes('name: Production Input Watch') ||
   !productionInputWatchWorkflow.includes('workflow_dispatch:') ||
+  !productionInputWatchWorkflow.includes('publish_zero_secret_runtime_config') ||
+  !productionInputWatchWorkflow.includes('vite_posthog_key') ||
+  !productionInputWatchWorkflow.includes('vite_posthog_host') ||
+  !productionInputWatchWorkflow.includes('agl_support_email') ||
   !productionInputWatchWorkflow.includes('schedule:') ||
   !productionInputWatchWorkflow.includes('contents: write') ||
   !productionInputWatchWorkflow.includes('actions: read') ||
@@ -940,6 +959,11 @@ if (
     'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}',
   ) ||
   !productionInputWatchWorkflow.includes('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT') ||
+  !productionInputWatchWorkflow.includes('npm run autonomous:owner-zero-secret-input-sync') ||
+  !productionInputWatchWorkflow.includes('AGL_ENABLE_ZERO_SECRET_WORKFLOW_INPUTS') ||
+  !productionInputWatchWorkflow.includes('AGL_OWNER_INPUT_VITE_POSTHOG_KEY') ||
+  !productionInputWatchWorkflow.includes('AGL_OWNER_INPUT_VITE_POSTHOG_HOST') ||
+  !productionInputWatchWorkflow.includes('AGL_OWNER_INPUT_AGL_SUPPORT_EMAIL') ||
   !productionInputWatchWorkflow.includes('CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}') ||
   !productionInputWatchWorkflow.includes('POSTHOG_PERSONAL_API_KEY: ${{ secrets.POSTHOG_PERSONAL_API_KEY }}') ||
   !productionInputWatchWorkflow.includes('ADMOB_PUBLISHER_ID: ${{ vars.ADMOB_PUBLISHER_ID }}') ||
@@ -953,6 +977,10 @@ if (
   !productionInputWatchWorkflow.includes('reports/production-environment-latest.md') ||
   !productionInputWatchWorkflow.includes('ops/production.env.example') ||
   !productionInputWatchWorkflow.includes('data/production-blocker-handoff.json') ||
+  !productionInputWatchWorkflow.includes('data/owner-zero-secret-input-sync.json') ||
+  !productionInputWatchWorkflow.includes('src/data/ownerZeroSecretInputSync.ts') ||
+  !productionInputWatchWorkflow.includes('public/owner-runtime-config.json') ||
+  !productionInputWatchWorkflow.includes('reports/owner-zero-secret-input-sync-latest.md') ||
   !productionInputWatchWorkflow.includes('data/owner-unlock-brief.json') ||
   !productionInputWatchWorkflow.includes('data/owner-unlock-preflight.json') ||
   !productionInputWatchWorkflow.includes('public/owner-unlock.html') ||
@@ -3781,19 +3809,63 @@ if (
 }
 
 if (
+  ![
+    'owner-zero-secret-input-sync-waiting-on-input',
+    'owner-zero-secret-input-sync-ready',
+    'owner-zero-secret-input-sync-needs-fixes',
+  ].includes(ownerZeroSecretInputSync.status) ||
+  ownerZeroSecretInputSync.mode !== 'zero-secret-public-owner-inputs' ||
+  ownerZeroSecretInputSync.runtimeConfig?.path !== 'public/owner-runtime-config.json' ||
+  ownerZeroSecretInputSync.runtimeConfig?.status !== publicOwnerRuntimeConfig.status ||
+  ownerZeroSecretInputSync.runtimeConfig?.containsSecretValues !== false ||
+  publicOwnerRuntimeConfig.id !== 'owner-runtime-config' ||
+  publicOwnerRuntimeConfig.source !== 'owner-zero-secret-input-sync' ||
+  publicOwnerRuntimeConfig.controls?.zeroPaidSpend !== true ||
+  publicOwnerRuntimeConfig.controls?.zeroSecretInputsOnly !== true ||
+  publicOwnerRuntimeConfig.controls?.noSecretValues !== true ||
+  publicOwnerRuntimeConfig.controls?.publicValuesOnly !== true ||
+  publicOwnerRuntimeConfig.controls?.publicRuntimeConfigMayStoreProvidedPublicValues !== true ||
+  ownerZeroSecretInputSync.controls?.noSecretValuesInEvidence !== true ||
+  ownerZeroSecretInputSync.controls?.githubEnvExportOnlyWhenValuesValidate !== true ||
+  ownerZeroSecretInputSync.workflowDispatch?.workflow !== '.github/workflows/production-input-watch.yml' ||
+  !ownerZeroSecretInputSync.workflowDispatch?.inputNames?.includes('publish_zero_secret_runtime_config') ||
+  !ownerZeroSecretInputSync.workflowDispatch?.inputNames?.includes('vite_posthog_key') ||
+  !ownerZeroSecretInputSync.workflowDispatch?.inputNames?.includes('vite_posthog_host') ||
+  !ownerZeroSecretInputSync.workflowDispatch?.inputNames?.includes('agl_support_email') ||
+  packageJson.scripts?.['autonomous:owner-zero-secret-input-sync'] !==
+    'node scripts/owner-zero-secret-input-sync.mjs --print' ||
+  !ownerZeroSecretInputSyncSource.includes('GITHUB_ENV') ||
+  !ownerZeroSecretInputSyncSource.includes('AGL_ENABLE_ZERO_SECRET_WORKFLOW_INPUTS') ||
+  !ownerZeroSecretInputSyncSource.includes('publicRuntimeConfigMayStoreProvidedPublicValues') ||
+  !analyticsLibSource.includes('owner-runtime-config.json') ||
+  !analyticsLibSource.includes('loadRuntimePosthogConfig') ||
+  !analyticsLibSource.includes('runtimePosthogKey') ||
+  !webDeployWorkflow.includes('npm run autonomous:owner-zero-secret-input-sync') ||
+  !webDeployWorkflow.includes('git pull --ff-only origin') ||
+  !webDeployWorkflow.includes('VITE_POSTHOG_KEY: ${{ vars.VITE_POSTHOG_KEY }}') ||
+  !webDeployWorkflow.includes('AGL_SUPPORT_EMAIL: ${{ vars.AGL_SUPPORT_EMAIL }}')
+) {
+  fail('Owner zero-secret input sync must publish only public runtime config values and let the deployed PWA consume PostHog without storing secrets.')
+}
+
+if (
   JSON.stringify(ownerUnlockBrief.brief) !== JSON.stringify(productionBlockerHandoff.ownerUnlockBrief) ||
   JSON.stringify(publicOwnerUnlockBrief) !== JSON.stringify(ownerUnlockBrief) ||
   ownerUnlockBrief.status !== productionBlockerHandoff.ownerUnlockBrief?.status ||
   ownerUnlockBrief.publicRoutes?.ownerUnlock !== '/owner-unlock.html' ||
   ownerUnlockBrief.publicRoutes?.ownerUnlockBriefJson !== '/owner-unlock-brief.json' ||
   ownerUnlockBrief.publicRoutes?.ownerUnlockPreflightJson !== '/owner-unlock-preflight.json' ||
+  ownerUnlockBrief.publicRoutes?.ownerRuntimeConfigJson !== '/owner-runtime-config.json' ||
   !ownerUnlockHtml.includes('Owner Unlock Pack') ||
   !ownerUnlockHtml.includes('combined-zero-secret-owner-input-pack') ||
+  !ownerUnlockHtml.includes('Zero-Secret Runtime Config') ||
+  !ownerUnlockHtml.includes('publish_zero_secret_runtime_config') ||
   !ownerUnlockHtml.includes('.env.production.local') ||
   !ownerUnlockHtml.includes('VITE_POSTHOG_KEY=') ||
   !ownerUnlockHtml.includes('AGL_SUPPORT_EMAIL=') ||
   !ownerUnlockHtml.includes('./owner-unlock-brief.json') ||
   !ownerUnlockHtml.includes('./owner-unlock-preflight.json') ||
+  !ownerUnlockHtml.includes('./owner-runtime-config.json') ||
   ownerUnlockHtml.includes('href="/owner-unlock-brief.json"') ||
   ownerUnlockBrief.sourceStatus?.productionBlockerHandoff !== productionBlockerHandoff.status ||
   ownerUnlockBrief.sourceStatus?.storeReadiness !== storeReadiness.status ||
@@ -3810,6 +3882,9 @@ if (
     'node scripts/owner-unlock-preflight.mjs --analytics-input-template' ||
   ownerUnlockBrief.setup?.setupWriteAnalyticsLocalEnvTemplateCommand !==
     './ops/github/setup-production.sh --analytics-input-template' ||
+  ownerUnlockBrief.setup?.zeroSecretRuntimeConfigCommand !== 'npm run autonomous:owner-zero-secret-input-sync' ||
+  ownerUnlockBrief.setup?.productionInputWatchWorkflow !== '.github/workflows/production-input-watch.yml' ||
+  !ownerUnlockBrief.setup?.productionInputWatchInputNames?.includes('publish_zero_secret_runtime_config') ||
   ownerUnlockBrief.setup?.syncConfiguredValuesCommand !== './ops/github/setup-production.sh' ||
   ownerUnlockBrief.setup?.workflowDispatchCommand !== 'RUN_WORKFLOWS=1 ./ops/github/setup-production.sh' ||
   ownerUnlockBrief.setup?.workflowDispatchRequiresRunWorkflows !== true ||
@@ -3819,6 +3894,9 @@ if (
   ownerUnlockBrief.controls?.setupPrintModeHasNoGithubMutation !== true ||
   ownerUnlockBrief.controls?.setupPreflightModeHasNoGithubMutation !== true ||
   ownerUnlockBrief.controls?.workflowDispatchRequiresRunWorkflows !== true ||
+  ownerUnlockBrief.controls?.zeroSecretRuntimeConfigAvailable !== true ||
+  ownerUnlockBrief.zeroSecretRuntimeConfig?.publicRoute !== '/owner-runtime-config.json' ||
+  ownerUnlockBrief.zeroSecretRuntimeConfig?.containsSecretValues !== false ||
   ownerUnlockLowestInputPath?.id !== 'posthog-browser' ||
   ownerUnlockLowestInputPath?.missingVariableCount !== posthogBrowserUnlockPath?.missingVariableCount ||
   ownerUnlockLowestInputPath?.missingSecretCount !== posthogBrowserUnlockPath?.missingSecretCount ||
@@ -3855,6 +3933,7 @@ if (
   !ownerUnlockCombinedInputPackCommands.has('npm run autonomous:store-readiness') ||
   !ownerUnlockCombinedInputPackCommands.has('./ops/github/setup-production.sh') ||
   !ownerUnlockCombinedInputPackCommands.has('RUN_WORKFLOWS=1 ./ops/github/setup-production.sh') ||
+  !ownerUnlockCombinedInputPackCommands.has('npm run autonomous:owner-zero-secret-input-sync') ||
   ownerUnlockCombinedInputPack?.controls?.zeroPaidSpend !== true ||
   ownerUnlockCombinedInputPack?.controls?.noSecretValues !== true ||
   ownerUnlockCombinedInputPack?.controls?.noSecretValuesStored !== true ||
@@ -3867,6 +3946,7 @@ if (
   ownerUnlockCombinedInputPack?.controls?.localTemplateWritePreservesExistingValues !== true ||
   ownerUnlockCombinedInputPack?.controls?.localTemplateWriteNoGithubMutation !== true ||
   ownerUnlockCombinedInputPack?.controls?.onlyZeroSecretInputs !== true ||
+  ownerUnlockCombinedInputPack?.controls?.publicRuntimeConfigCanUseZeroSecretInputs !== true ||
   JSON.stringify(ownerUnlockBrief.ownerInputQueue ?? []) !== JSON.stringify(ownerUnlockParallelItems) ||
   !ownerUnlockParallelIds.has('production-analytics-browser') ||
   !ownerUnlockParallelIds.has('support-contact') ||
@@ -3912,6 +3992,7 @@ if (
   !productionBlockerHandoffSource.includes('owner-unlock-brief.json') ||
   !productionBlockerHandoffSource.includes('owner-unlock-brief-latest.md') ||
   !productionBlockerHandoffSource.includes('owner-unlock-preflight') ||
+  !productionBlockerHandoffSource.includes('owner-runtime-config.json') ||
   !productionBlockerHandoffSource.includes('writeLocalEnvTemplate') ||
   !productionMeasurementStatusSource.includes('Combined Owner Input Pack') ||
   !measurementStatusHtml.includes('Combined Owner Input Pack') ||
@@ -4483,6 +4564,7 @@ if (
   !autonomousSelfUpdateSource.includes('public/owner-unlock.html') ||
   !autonomousSelfUpdateSource.includes('public/owner-unlock-brief.json') ||
   !autonomousSelfUpdateSource.includes('public/owner-unlock-preflight.json') ||
+  !autonomousSelfUpdateSource.includes('public/owner-runtime-config.json') ||
   !autonomousSelfUpdateSource.includes('public/store-readiness.html') ||
   !autonomousSelfUpdateSource.includes('public/store-readiness.json') ||
   !autonomousSelfUpdateSource.includes('public/seed-kit.html') ||
@@ -5122,6 +5204,10 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/owner-zero-secret-input-sync.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/ownerZeroSecretInputSync.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/owner-runtime-config.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/owner-zero-secret-input-sync-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') ||
   !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock.html') ||
@@ -6775,6 +6861,7 @@ const operationalFreshnessAssets = [
   'owner-unlock.html',
   'owner-unlock-brief.json',
   'owner-unlock-preflight.json',
+  'owner-runtime-config.json',
   'analytics-unlock.html',
   'analytics-unlock.json',
   'product-gate-recovery.html',
@@ -6847,6 +6934,9 @@ if (
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-brief.json') ||
   !releaseCandidate.postDeploySmoke?.some((item) => item.path === '/owner-unlock-preflight.json') ||
   !releaseCandidate.postDeploySmoke?.some(
+    (item) => item.path === '/owner-runtime-config.json' && item.requiredText === 'owner-runtime-config',
+  ) ||
+  !releaseCandidate.postDeploySmoke?.some(
     (item) => item.path === '/compliance.json' && item.requiredText === 'store-compliance',
   ) ||
   !releaseCandidate.postDeploySmoke?.some(
@@ -6872,6 +6962,7 @@ if (
   !releaseCandidateRequiredFiles.has('owner-unlock.html') ||
   !releaseCandidateRequiredFiles.has('owner-unlock-brief.json') ||
   !releaseCandidateRequiredFiles.has('owner-unlock-preflight.json') ||
+  !releaseCandidateRequiredFiles.has('owner-runtime-config.json') ||
   !releaseCandidateRequiredFiles.has('.nojekyll') ||
   !releaseCandidateRequiredFiles.has('.well-known/assetlinks.json') ||
   !releaseCandidateDistEvidenceCurrent ||
@@ -7129,6 +7220,10 @@ if (
   !postDeployEvidenceSyncWorkflow.includes('data/production-bootstrap.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-activation.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/production-blocker-handoff.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('data/owner-zero-secret-input-sync.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('src/data/ownerZeroSecretInputSync.ts') ||
+  !postDeployEvidenceSyncWorkflow.includes('public/owner-runtime-config.json') ||
+  !postDeployEvidenceSyncWorkflow.includes('reports/owner-zero-secret-input-sync-latest.md') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-brief.json') ||
   !postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') ||
   !postDeployEvidenceSyncWorkflow.includes('public/owner-unlock.html') ||
@@ -7280,6 +7375,7 @@ if (
   !repositoryReadinessSource.includes('public/owner-unlock.html') ||
   !repositoryReadinessSource.includes('public/owner-unlock-brief.json') ||
   !repositoryReadinessSource.includes('public/owner-unlock-preflight.json') ||
+  !repositoryReadinessSource.includes('public/owner-runtime-config.json') ||
   !repositoryReadinessSource.includes('public/sample-next.html') ||
   !repositoryReadinessSource.includes('public/sample-next.json') ||
   !repositoryReadinessSource.includes('public/sample-fastest.html') ||
@@ -7383,6 +7479,7 @@ if (
   !repositoryBootstrapSource.includes('public/owner-unlock.html') ||
   !repositoryBootstrapSource.includes('public/owner-unlock-brief.json') ||
   !repositoryBootstrapSource.includes('public/owner-unlock-preflight.json') ||
+  !repositoryBootstrapSource.includes('public/owner-runtime-config.json') ||
   !repositoryBootstrapSource.includes('public/sample-next.html') ||
   !repositoryBootstrapSource.includes('public/sample-next.json') ||
   !repositoryBootstrapSource.includes('public/sample-fastest.html') ||
