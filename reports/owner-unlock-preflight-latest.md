@@ -1,12 +1,12 @@
 # Owner Unlock Preflight
 
-Generated: 2026-05-26T19:35:13.497Z
+Generated: 2026-05-26T19:50:01.802Z
 Status: owner-unlock-preflight-waiting-on-input
 Ready for setup: false
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
-Source hash: 5b57e78aea25
+Source hash: b15bd6350398
 
 ## Summary
 
@@ -15,7 +15,7 @@ Source hash: 5b57e78aea25
 - missing inputs: 4
 - invalid inputs: 0
 - repository configured inputs: 4
-- local available inputs: 0
+- local available inputs: 4
 - lowest-input missing inputs: 1
 - lowest-input secret inputs: 0
 - manual input reduction: 3
@@ -65,13 +65,13 @@ Source hash: 5b57e78aea25
 ## Inputs
 
 - missing: CLOUDFLARE_ACCOUNT_ID (github-variable; local=false; repo=false; validation=not-checked-missing-input)
-- ready: AGL_EVENT_COLLECTOR_R2_BUCKET (github-variable; local=false; repo=true; validation=not-inspected-repository-configured)
-- ready: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (github-variable; local=false; repo=true; validation=not-inspected-repository-configured)
+- ready: AGL_EVENT_COLLECTOR_R2_BUCKET (github-variable; local=true; repo=true; validation=pass)
+- ready: AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS (github-variable; local=true; repo=true; validation=pass)
 - missing: VITE_EVENT_COLLECTOR_URL (github-variable; local=false; repo=false; validation=not-checked-missing-input)
 - missing: AGL_EVENT_COLLECTOR_EXPORT_URL (github-variable; local=false; repo=false; validation=not-checked-missing-input)
 - missing: CLOUDFLARE_API_TOKEN (github-secret; local=false; repo=false; validation=not-checked-missing-input)
-- ready: VITE_EVENT_COLLECTOR_WRITE_TOKEN (github-secret; local=false; repo=true; validation=not-inspected-repository-configured)
-- ready: AGL_EVENT_COLLECTOR_ADMIN_TOKEN (github-secret; local=false; repo=true; validation=not-inspected-repository-configured)
+- ready: VITE_EVENT_COLLECTOR_WRITE_TOKEN (github-secret; local=true; repo=true; validation=pass)
+- ready: AGL_EVENT_COLLECTOR_ADMIN_TOKEN (github-secret; local=true; repo=true; validation=pass)
 
 ## Commands
 

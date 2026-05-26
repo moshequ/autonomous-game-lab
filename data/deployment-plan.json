@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T19:46:30.477Z",
+  "generatedAt": "2026-05-26T19:50:11.858Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -10,7 +10,7 @@
   "repositoryChannel": {
     "status": "repository-channel-ready",
     "repository": "moshequ/autonomous-game-lab",
-    "source": "origin-remote",
+    "source": "environment",
     "insideWorkTree": true,
     "ghCliAvailable": true,
     "workflowDispatchReady": true,
@@ -50,9 +50,9 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-800483651252",
+    "candidateId": "pwa-625bf75f84d1",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "800483651252cde0b98b1742583de23cd1f81c18b99e0787a6edcc9a8089ed17",
+    "aggregateHash": "625bf75f84d1fa3378732faf03f724cf3726183458663bf89fa34438db558e7f",
     "totalFiles": 93,
     "totalKb": 4143.7,
     "postDeploySmokeUrls": 33
@@ -65,7 +65,7 @@
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
-    "publicOriginStatus": "inferred-github-pages",
+    "publicOriginStatus": "configured",
     "analyticsStatus": "local-or-fixture"
   },
   "setupRequiredOnce": [
@@ -83,7 +83,7 @@
     {
       "id": "web-readiness",
       "status": "pass",
-      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains blocked."
+      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build."
     },
     {
       "id": "release-health",
@@ -123,7 +123,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-800483651252."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-625bf75f84d1."
     },
     {
       "id": "deploy-workflow",

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-26T19:36:05.829Z",
-  "sourceDataHash": "25f6d60e9b98",
+  "generatedAt": "2026-05-26T19:49:40.965Z",
+  "sourceDataHash": "306f590b9680",
   "status": "store-readiness-prepared-external-blockers",
   "sourceStatus": {
     "storePackage": "store-package-ready",
@@ -87,10 +87,8 @@
         "ready": false,
         "configuredInRepository": false,
         "availableLocally": false,
-        "availableInLocalEnvFile": true,
-        "localEnvFiles": [
-          ".env.production.local"
-        ],
+        "availableInLocalEnvFile": false,
+        "localEnvFiles": [],
         "validation": {
           "kind": "email-shape",
           "status": "not-checked-missing-input",

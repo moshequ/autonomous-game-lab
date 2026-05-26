@@ -1,21 +1,21 @@
 export const autonomousOwnerLoop = {
   "status": "owner-loop-ready",
-  "mode": "guarded-local-automation",
+  "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "percent": 91
+    "percent": 98
   },
   "controls": {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "bootstrap-production-setup"
+    "nextBestActionId": "hold-for-external-input"
   },
   "executionBackoff": {
-    "status": "ready",
+    "status": "cooling-down",
     "heldActionCount": 8,
-    "executableWithoutRepeatCount": 6,
+    "executableWithoutRepeatCount": 0,
     "nextResumeAt": "2026-05-27T08:23:08.550Z",
-    "nextResumeInHours": 12.752,
+    "nextResumeInHours": 12.549,
     "heldActionIds": [
       "seed-portfolio-traffic",
       "refresh-organic-seed-loop",
@@ -32,8 +32,8 @@ export const autonomousOwnerLoop = {
     "recommendedPathId": "first-party-collector",
     "lowestInputPathId": "posthog-browser",
     "ownerActionRequired": 4,
-    "missingVariableCount": 6,
-    "missingSecretCount": 3,
+    "missingVariableCount": 4,
+    "missingSecretCount": 1,
     "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
     "publicStatusPage": "/measurement-status.html"
@@ -55,8 +55,8 @@ export const autonomousOwnerLoop = {
       "priority": "primary",
       "nextUnlockId": "production-analytics-browser",
       "publicStatusPage": "/measurement-status.html",
-      "missingVariableCount": 6,
-      "missingSecretCount": 3
+      "missingVariableCount": 4,
+      "missingSecretCount": 1
     },
     {
       "id": "store-readiness",

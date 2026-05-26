@@ -1,15 +1,17 @@
 export const autonomousOperator = {
-  "status": "operator-executed",
-  "mode": "execute-one-action",
-  "selectedAction": {
-    "id": "bootstrap-production-setup",
-    "status": "armed",
-    "costUsd": 0
-  },
+  "status": "operator-held",
+  "mode": "plan-only",
+  "selectedAction": null,
   "execution": {
-    "status": "executed"
+    "status": "not-requested"
   },
-  "externalInputHandoff": null
+  "externalInputHandoff": {
+    "status": "handoff-waiting-on-owner-inputs",
+    "nextUnlockId": "production-analytics-browser",
+    "recommendedPathId": "first-party-collector",
+    "lowestInputPathId": "posthog-browser",
+    "publicStatusPage": "/measurement-status.html"
+  }
 } as const
 
 export type AutonomousOperator = typeof autonomousOperator
