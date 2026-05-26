@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T14:53:35.074Z",
+  "generatedAt": "2026-05-26T14:58:01.162Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -12,7 +12,7 @@
       "collect-gate-sample-local-drops",
       "seed-portfolio-traffic"
     ],
-    "latestRunAppended": true,
+    "latestRunAppended": false,
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
@@ -32,36 +32,6 @@
     "historyIsCapped": true
   },
   "records": [
-    {
-      "id": "20260526065626-measure-pwa-install-loop",
-      "generatedAt": "2026-05-26T06:56:26.162Z",
-      "runFingerprint": "d4a9a461a54675ca",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "measure-pwa-install-loop",
-      "selectedCommand": "npm run autonomous:pwa-install",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "measure-pwa-install-loop",
-        "bootstrap-production-setup",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 35,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
     {
       "id": "20260526065803-refresh-production-blocker-handoff",
       "generatedAt": "2026-05-26T06:58:03.387Z",
@@ -1283,6 +1253,34 @@
         "seed-portfolio-traffic",
         "refresh-replay-loop",
         "refresh-objective-audit",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 35,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260526145758-refresh-replay-loop",
+      "generatedAt": "2026-05-26T14:57:58.935Z",
+      "runFingerprint": "a2e91427c13364b3",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-replay-loop",
+      "selectedCommand": "npm run autonomous:replay-loop",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-replay-loop",
         "apply-safe-improvements"
       ],
       "blockedActionCount": 35,

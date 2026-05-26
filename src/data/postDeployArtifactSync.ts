@@ -1,38 +1,10 @@
 export const postDeployArtifactSync = {
-  "generatedAt": "2026-05-26T14:52:25.668Z",
+  "generatedAt": "2026-05-26T14:57:45.217Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": ".env.production.local",
-        "keys": [
-          "VITE_POSTHOG_KEY",
-          "VITE_POSTHOG_HOST",
-          "AGL_SUPPORT_EMAIL"
-        ]
-      },
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "VITE_POSTHOG_KEY",
-      "VITE_POSTHOG_HOST",
-      "AGL_SUPPORT_EMAIL",
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -64,54 +36,54 @@ export const postDeployArtifactSync = {
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "origin-remote"
+    "source": "environment-or-cli"
   },
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
     "artifactName": "post-deploy-smoke",
-    "runId": 26455451744,
-    "headSha": "12ce466e4450c331526137da0654dd76ce37b2f8",
-    "createdAt": "2026-05-26T14:45:08Z",
-    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26455451744",
+    "runId": 26456067294,
+    "headSha": "ff6000292fe812a934d3cda3230d72c711500527",
+    "createdAt": "2026-05-26T14:55:25Z",
+    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26456067294",
     "source": "latest-successful-run",
     "runListAvailable": true
   },
   "deploymentFreshness": {
-    "status": "post-deploy-evidence-head-synced",
-    "currentHeadSha": "859b92cb5f8896cf279832ccdf56f76514eaf539",
-    "currentHeadParentSha": "12ce466e4450c331526137da0654dd76ce37b2f8",
+    "status": "current-head-deployed",
+    "currentHeadSha": "ff6000292fe812a934d3cda3230d72c711500527",
+    "currentHeadParentSha": "859b92cb5f8896cf279832ccdf56f76514eaf539",
     "currentBranch": "main",
-    "currentHeadSubject": "Autonomous post-deploy evidence sync",
-    "selectedRunHeadSha": "12ce466e4450c331526137da0654dd76ce37b2f8",
-    "selectedRunHeadMatchesCurrent": false,
+    "currentHeadSubject": "Refresh portfolio traffic evidence",
+    "selectedRunHeadSha": "ff6000292fe812a934d3cda3230d72c711500527",
+    "selectedRunHeadMatchesCurrent": true,
     "selectedRunHeadMatchesDeploySource": true,
-    "currentHeadIsPostDeployEvidenceCommit": true,
-    "currentHeadDeployed": false,
-    "deploySourceHeadSha": "12ce466e4450c331526137da0654dd76ce37b2f8",
+    "currentHeadIsPostDeployEvidenceCommit": false,
+    "currentHeadDeployed": true,
+    "deploySourceHeadSha": "ff6000292fe812a934d3cda3230d72c711500527",
     "deploySourceDeployed": true,
     "currentHeadQueuedOrRunning": false,
-    "currentHeadSuccessfulRunId": null,
+    "currentHeadSuccessfulRunId": 26456067294,
     "currentHeadActiveRunId": null,
-    "latestRunId": 26455451744,
+    "latestRunId": 26456067294,
     "latestRunStatus": "completed",
     "latestRunConclusion": "success",
-    "latestRunHeadSha": "12ce466e4450c331526137da0654dd76ce37b2f8",
+    "latestRunHeadSha": "ff6000292fe812a934d3cda3230d72c711500527",
     "liveMatchesCurrentLocalCandidate": false,
-    "liveCandidateId": "pwa-26c7711a97d6",
-    "localCandidateId": "pwa-58c792e557e7",
-    "liveAggregateHash": "26c7711a97d61cc70dc61c45921653941059fba12f9d80660884dc0f8cde4e0c",
-    "localAggregateHash": "58c792e557e7f1c65ffa62c9a99e7599b9a848f5d992d800af531b051675231c",
+    "liveCandidateId": "pwa-3a788f4bc931",
+    "localCandidateId": "pwa-d05563e16476",
+    "liveAggregateHash": "3a788f4bc931674802f5179f9f6a201a17d3b5c318a5324443adeaae74a7318c",
+    "localAggregateHash": "d05563e16476ad16d9c651d7ff2025b206c9ff47cec2ff02c821806f8c0b328b",
     "workflowRunListAvailable": true
   },
   "artifact": {
     "status": "post-deploy-smoke-passed",
-    "generatedAt": "2026-05-26T14:46:02.233Z",
+    "generatedAt": "2026-05-26T14:56:22.828Z",
     "target": {
       "origin": "https://moshequ.github.io/autonomous-game-lab/",
       "originSource": "agl-deployed-pwa-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-26c7711a97d6",
-      "aggregateHash": "26c7711a97d61cc70dc61c45921653941059fba12f9d80660884dc0f8cde4e0c",
+      "candidateId": "pwa-3a788f4bc931",
+      "aggregateHash": "3a788f4bc931674802f5179f9f6a201a17d3b5c318a5324443adeaae74a7318c",
       "strictManifestComparison": true
     },
     "sourceStatus": {
@@ -127,8 +99,8 @@ export const postDeployArtifactSync = {
     },
     "liveRelease": {
       "status": "release-candidate-ready",
-      "candidateId": "pwa-26c7711a97d6",
-      "aggregateHash": "26c7711a97d61cc70dc61c45921653941059fba12f9d80660884dc0f8cde4e0c",
+      "candidateId": "pwa-3a788f4bc931",
+      "aggregateHash": "3a788f4bc931674802f5179f9f6a201a17d3b5c318a5324443adeaae74a7318c",
       "localCandidateMatches": true,
       "strictManifestComparison": true,
       "postDeploySmokeUrls": 33,
@@ -145,7 +117,7 @@ export const postDeployArtifactSync = {
       "strictManifestComparison": true,
       "inferredLiveObservationAllowed": false
     },
-    "reportSha256": "b15fb84f2717dbffd1c70143d6ccf64475d9064582b738e9329c82c1208f9763"
+    "reportSha256": "a633cb072dc80e64336bd84128573e0621b1ecf409d87ecda62fdc60a431e541"
   },
   "live": {
     "origin": "https://moshequ.github.io/autonomous-game-lab/",
@@ -153,11 +125,11 @@ export const postDeployArtifactSync = {
     "status": 200,
     "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
     "contentType": "application/json; charset=utf-8",
-    "bytes": 39579,
-    "textSha256": "e8ba6b283686e4d1c8c8a9bf312bb85d55a85bb9b36684a762d79d64a356a766",
+    "bytes": 39577,
+    "textSha256": "2b5dc3bb1fc164b7abbb402692fd208a233ae0a1120a1f50d6dc0257d2c8eef0",
     "releaseStatus": "release-candidate-ready",
-    "candidateId": "pwa-26c7711a97d6",
-    "aggregateHash": "26c7711a97d61cc70dc61c45921653941059fba12f9d80660884dc0f8cde4e0c",
+    "candidateId": "pwa-3a788f4bc931",
+    "aggregateHash": "3a788f4bc931674802f5179f9f6a201a17d3b5c318a5324443adeaae74a7318c",
     "matchesArtifact": true
   },
   "validation": {
@@ -169,7 +141,7 @@ export const postDeployArtifactSync = {
   },
   "summary": {
     "planned": 7,
-    "passed": 6,
+    "passed": 7,
     "failed": 0,
     "blocked": 0
   },
@@ -201,12 +173,12 @@ export const postDeployArtifactSync = {
     {
       "id": "successful-pages-run",
       "status": "pass",
-      "detail": "Latest successful web-pwa-deploy.yml run is 26455451744."
+      "detail": "Latest successful web-pwa-deploy.yml run is 26456067294."
     },
     {
       "id": "post-deploy-smoke-artifact",
       "status": "pass",
-      "detail": "Downloaded post-deploy-smoke artifact from run 26455451744."
+      "detail": "Downloaded post-deploy-smoke artifact from run 26456067294."
     },
     {
       "id": "strict-smoke-artifact",
@@ -220,12 +192,12 @@ export const postDeployArtifactSync = {
     },
     {
       "id": "deployment-freshness",
-      "status": "monitor",
-      "detail": "Current main 859b92cb5f88 is the post-deploy evidence commit for deployed source 12ce466e4450."
+      "status": "pass",
+      "detail": "Current main ff6000292fe8 is deployed."
     }
   ],
   "nextActions": [
-    "Current main is the post-deploy evidence commit for the deployed source; deploy again only when public evidence pages must mirror the evidence commit immediately.",
+    "Current main is deployed; keep strict live artifact evidence in sync after each Pages run.",
     "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.",
     "Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass."
   ]
