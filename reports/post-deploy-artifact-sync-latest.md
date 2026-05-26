@@ -1,19 +1,19 @@
 # Post-Deploy Artifact Sync
 
-Generated: 2026-05-26T22:54:46.606Z
+Generated: 2026-05-26T22:57:51.902Z
 Status: post-deploy-artifact-sync-passed
 Repository: moshequ/autonomous-game-lab
 Workflow: web-pwa-deploy.yml
-Run: 26479471890
+Run: 26479883661
 Origin: https://moshequ.github.io/autonomous-game-lab/
-Artifact candidate: pwa-c71717c50f32
-Live candidate: pwa-c71717c50f32
-Deployment freshness: post-deploy-evidence-head-synced
+Artifact candidate: pwa-6fc7209256b9
+Live candidate: pwa-6fc7209256b9
+Deployment freshness: current-head-deployed
 
 ## Summary
 
 - Planned: 7
-- Passed: 6
+- Passed: 7
 - Failed: 0
 - Blocked: 0
 
@@ -27,9 +27,9 @@ Deployment freshness: post-deploy-evidence-head-synced
 
 ## Deployment Freshness
 
-- currentHeadSha: ef952801fb23b45c9bb3d0cbbcc12cb09c272e37
-- selectedRunHeadSha: 72f65df1a2e28eb4db85f5ab05b92f5218045ca4
-- currentHeadDeployed: false
+- currentHeadSha: 82ba4cb6eade5bce57eac75f786d7778ce613066
+- selectedRunHeadSha: 82ba4cb6eade5bce57eac75f786d7778ce613066
+- currentHeadDeployed: true
 - currentHeadQueuedOrRunning: false
 - liveMatchesCurrentLocalCandidate: false
 
@@ -37,11 +37,11 @@ Deployment freshness: post-deploy-evidence-head-synced
 
 - pass: gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: successful-pages-run - Latest successful web-pwa-deploy.yml run is 26479471890.
-- pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26479471890.
+- pass: successful-pages-run - Latest successful web-pwa-deploy.yml run is 26479883661.
+- pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26479883661.
 - pass: strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
-- monitor: deployment-freshness - Current main ef952801fb23 is the post-deploy evidence commit for deployed source 72f65df1a2e2.
+- pass: deployment-freshness - Current main 82ba4cb6eade is deployed.
 
 ## Controls
 
@@ -60,6 +60,6 @@ Deployment freshness: post-deploy-evidence-head-synced
 
 ## Next Actions
 
-- Current main is the post-deploy evidence commit for the deployed source; deploy again only when public evidence pages must mirror the evidence commit immediately.
+- Current main is deployed; keep strict live artifact evidence in sync after each Pages run.
 - Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.
 - Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass.
