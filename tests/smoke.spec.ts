@@ -559,6 +559,24 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
         }
       } | null
     }
+    ownerInputActionPack?: {
+      localEnvFile: string
+      secretInputCount: number
+      runtimeConfigMinimum?: {
+        status: string
+        unlockId: string
+        pathId: string
+        minimumPublicInputNames: string[]
+        optionalPublicInputNames: string[]
+        missingMinimumInputCount: number
+        analyticsOnlyAllowed: boolean
+        controls?: {
+          publicValuesOnly?: boolean
+          noWorkflowDispatchFromPage?: boolean
+          noRevenueEnablement?: boolean
+        }
+      }
+    } | null
   }
   await page.goto('/')
 
@@ -678,6 +696,28 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
     await expect(ownerUnlockPack.getByRole('button', { name: 'Preflight' })).toBeVisible()
     await expect(ownerUnlockPack.getByRole('button', { name: 'Helper' })).toBeVisible()
     await expect(ownerUnlockPack.getByRole('button', { name: 'Sync' })).toBeVisible()
+  }
+  const runtimeMinimum = productionMeasurement.ownerInputActionPack?.runtimeConfigMinimum
+  if (runtimeMinimum) {
+    const analyticsFastPath = page.getByLabel('Analytics Fast Path')
+    await expect(analyticsFastPath).toContainText(runtimeMinimum.status)
+    await expect(analyticsFastPath).toContainText(runtimeMinimum.pathId)
+    await expect(analyticsFastPath).toContainText(runtimeMinimum.minimumPublicInputNames.join(' + '))
+    await expect(analyticsFastPath).toContainText(
+      `${runtimeMinimum.missingMinimumInputCount}/${productionMeasurement.ownerInputActionPack?.secretInputCount ?? 0}`,
+    )
+    for (const inputName of runtimeMinimum.minimumPublicInputNames) {
+      await expect(analyticsFastPath).toContainText(`${inputName}=`)
+    }
+    if (runtimeMinimum.analyticsOnlyAllowed) {
+      await expect(analyticsFastPath).toContainText('analytics-only')
+    }
+    if (runtimeMinimum.controls?.noWorkflowDispatchFromPage && runtimeMinimum.controls.noRevenueEnablement) {
+      await expect(analyticsFastPath).toContainText('no workflow/revenue')
+    }
+    await expect(analyticsFastPath.getByRole('button', { name: 'Fast template' })).toBeVisible()
+    await expect(analyticsFastPath.getByRole('button', { name: 'Fast helper' })).toBeVisible()
+    await expect(analyticsFastPath.getByRole('button', { name: 'Preflight' })).toBeVisible()
   }
   await expect(page.getByLabel('Player Evidence Watchdog')).toContainText(/watchdog-/)
   await expect(page.getByLabel('Player Evidence Watchdog')).toContainText('Raw events')

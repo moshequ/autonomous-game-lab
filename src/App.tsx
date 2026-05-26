@@ -1231,6 +1231,7 @@ function App() {
           missingInputNames: readonly string[]
           localEnvTemplateLines?: readonly string[]
           shellExportTemplateLines?: readonly string[]
+          writeAnalyticsLocalEnvTemplateCommand?: string | null
           writeLocalEnvTemplateCommand: string | null
           commands?: {
             combinedPreflight?: string
@@ -1252,9 +1253,60 @@ function App() {
   ).ownerUnlockPreflight
   const productionMeasurementCombinedOwnerInput =
     productionMeasurementOwnerUnlockPreflight?.combinedOwnerInputPreflight
+  const productionMeasurementOwnerInputActionPack = (
+    productionMeasurementStatus as {
+      ownerInputActionPack?: {
+        status: string
+        localEnvFile: string
+        analyticsPathId: string | null
+        missingInputNames: readonly string[]
+        missingInputCount: number
+        secretInputCount: number
+        runtimeConfigMinimum?: {
+          status: string
+          unlockId: string
+          pathId: string
+          minimumPublicInputNames: readonly string[]
+          optionalPublicInputNames: readonly string[]
+          missingMinimumPublicInputNames: readonly string[]
+          missingOptionalPublicInputNames: readonly string[]
+          missingMinimumInputCount: number
+          missingOptionalInputCount: number
+          analyticsOnlyAllowed: boolean
+          controls?: {
+            publicValuesOnly?: boolean
+            noSecretValues?: boolean
+            noWorkflowDispatchFromPage?: boolean
+            noStoreSubmission?: boolean
+            noRevenueEnablement?: boolean
+          }
+        }
+        commands?: {
+          combinedPreflight?: string | null
+          setupWriteLocalEnvTemplate?: string | null
+          setupWriteAnalyticsLocalEnvTemplate?: string | null
+          writeAnalyticsLocalEnvTemplate?: string | null
+          syncConfiguredValues?: string | null
+          workflowDispatch?: string | null
+        }
+        controls?: {
+          noSecretValuesStored?: boolean
+          localTemplateWriteNoGithubMutation?: boolean
+          workflowDispatchRequiresRunWorkflows?: boolean
+          storeSubmissionStillBlocked?: boolean
+          revenueStillBlocked?: boolean
+        }
+      } | null
+    }
+  ).ownerInputActionPack
+  const ownerUnlockRuntimeMinimum = productionMeasurementOwnerInputActionPack?.runtimeConfigMinimum
   const ownerUnlockTemplateText = (productionMeasurementCombinedOwnerInput?.localEnvTemplateLines ?? [])
     .join('\n')
     .trim()
+  const ownerUnlockFastPathTemplateLines = (ownerUnlockRuntimeMinimum?.minimumPublicInputNames ?? []).map(
+    (inputName) => `${inputName}=`,
+  )
+  const ownerUnlockFastPathTemplateText = ownerUnlockFastPathTemplateLines.join('\n').trim()
   const ownerUnlockPreflightCommand =
     productionMeasurementCombinedOwnerInput?.commands?.combinedPreflight ??
     (productionMeasurementOwnerUnlockPreflight?.status
@@ -1269,6 +1321,20 @@ function App() {
     productionMeasurementCombinedOwnerInput?.commands?.syncConfiguredValues ??
     productionMeasurementCombinedOwnerInput?.commands?.workflowDispatch ??
     ''
+  const ownerUnlockFastPathTemplateCommand =
+    productionMeasurementCombinedOwnerInput?.writeAnalyticsLocalEnvTemplateCommand ??
+    productionMeasurementOwnerInputActionPack?.commands?.setupWriteAnalyticsLocalEnvTemplate ??
+    productionMeasurementOwnerInputActionPack?.commands?.writeAnalyticsLocalEnvTemplate ??
+    ''
+  const ownerUnlockFastPathMissingCount =
+    ownerUnlockRuntimeMinimum?.missingMinimumInputCount ??
+    productionMeasurementAnalyticsUnlock?.minimalInterventionMissingInputCount ??
+    null
+  const ownerUnlockFastPathSecretCount =
+    productionMeasurementAnalyticsUnlock?.minimalInterventionSecretInputCount ??
+    productionMeasurementAnalyticsUnlock?.lowestInputMissingSecretCount ??
+    productionMeasurementOwnerInputActionPack?.secretInputCount ??
+    null
   const ownerExternalInputHandoff = (
     autonomousOwnerLoop as {
       externalInputHandoff?: {
@@ -3300,7 +3366,22 @@ function App() {
 
     trackEvent('share_clicked', { gameId: selectedGameId, method, succeeded })
   }
-  const copyOwnerUnlockPackText = async (copyType: string, text: string) => {
+  const copyOwnerUnlockPackText = async (
+    copyType: string,
+    text: string,
+    details: {
+      inputCount?: number | null
+      secretInputCount?: number | null
+      unlockIds?: string | null
+      localEnvFile?: string | null
+      pathId?: string | null
+      analyticsOnlyAllowed?: boolean | null
+      publicValuesOnly?: boolean | null
+      noWorkflowDispatchFromPage?: boolean | null
+      noSecretValuesStored?: boolean | null
+      noGithubMutation?: boolean | null
+    } = {},
+  ) => {
     let method = 'clipboard'
     let succeeded = false
 
@@ -3319,15 +3400,24 @@ function App() {
       copyType,
       method,
       succeeded,
-      inputCount: productionMeasurementCombinedOwnerInput?.missingInputCount ?? null,
-      secretInputCount: productionMeasurementCombinedOwnerInput?.secretInputCount ?? null,
-      unlockIds: productionMeasurementCombinedOwnerInput?.unlockIds.join('+') ?? null,
-      localEnvFile: productionMeasurementCombinedOwnerInput?.localEnvFile ?? null,
+      inputCount: details.inputCount ?? productionMeasurementCombinedOwnerInput?.missingInputCount ?? null,
+      secretInputCount:
+        details.secretInputCount ?? productionMeasurementCombinedOwnerInput?.secretInputCount ?? null,
+      unlockIds: details.unlockIds ?? productionMeasurementCombinedOwnerInput?.unlockIds.join('+') ?? null,
+      localEnvFile: details.localEnvFile ?? productionMeasurementCombinedOwnerInput?.localEnvFile ?? null,
+      pathId: details.pathId ?? productionMeasurementCombinedOwnerInput?.analyticsPathId ?? null,
+      analyticsOnlyAllowed: details.analyticsOnlyAllowed ?? null,
+      publicValuesOnly: details.publicValuesOnly ?? null,
+      noWorkflowDispatchFromPage: details.noWorkflowDispatchFromPage ?? null,
       zeroPaidSpend: true,
       noSecretValuesStored:
-        productionMeasurementCombinedOwnerInput?.controls?.noSecretValuesStored ?? true,
+        details.noSecretValuesStored ??
+        productionMeasurementCombinedOwnerInput?.controls?.noSecretValuesStored ??
+        true,
       noGithubMutation:
-        productionMeasurementCombinedOwnerInput?.controls?.localTemplateWriteNoGithubMutation ?? true,
+        details.noGithubMutation ??
+        productionMeasurementCombinedOwnerInput?.controls?.localTemplateWriteNoGithubMutation ??
+        true,
       textLength: text.length,
     })
   }
@@ -4595,6 +4685,132 @@ function App() {
                     >
                       <Copy size={14} aria-hidden="true" />
                       Sync
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+              {ownerUnlockRuntimeMinimum ? (
+                <div className="monetizationRuntime priorityRuntime" aria-label="Analytics Fast Path">
+                  <div>
+                    <span>Analytics Fast Path</span>
+                    <strong>{ownerUnlockRuntimeMinimum.status}</strong>
+                  </div>
+                  <div>
+                    <span>Path</span>
+                    <strong>{ownerUnlockRuntimeMinimum.pathId}</strong>
+                  </div>
+                  <div>
+                    <span>Required input</span>
+                    <strong>{ownerUnlockRuntimeMinimum.minimumPublicInputNames.join(' + ') || 'none'}</strong>
+                  </div>
+                  <div>
+                    <span>Missing / secrets</span>
+                    <strong>
+                      {ownerUnlockFastPathMissingCount ?? 0}/{ownerUnlockFastPathSecretCount ?? 0}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Optional input</span>
+                    <strong>{ownerUnlockRuntimeMinimum.optionalPublicInputNames.join(' + ') || 'none'}</strong>
+                  </div>
+                  <div>
+                    <span>Runtime mode</span>
+                    <strong>{ownerUnlockRuntimeMinimum.analyticsOnlyAllowed ? 'analytics-only' : 'review'}</strong>
+                  </div>
+                  <div>
+                    <span>Guardrails</span>
+                    <strong>
+                      {ownerUnlockRuntimeMinimum.controls?.noWorkflowDispatchFromPage &&
+                      ownerUnlockRuntimeMinimum.controls?.noRevenueEnablement
+                        ? 'no workflow/revenue'
+                        : 'review'}
+                    </strong>
+                  </div>
+                  <ul className="ownerUnlockList">
+                    {ownerUnlockFastPathTemplateLines.map((line) => (
+                      <li key={line}>
+                        <code>{line}</code>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="ownerUnlockActions">
+                    <button
+                      className="tinyButton"
+                      type="button"
+                      disabled={!ownerUnlockFastPathTemplateText}
+                      onClick={() =>
+                        copyOwnerUnlockPackText('analytics-fast-path-template', ownerUnlockFastPathTemplateText, {
+                          analyticsOnlyAllowed: ownerUnlockRuntimeMinimum.analyticsOnlyAllowed,
+                          inputCount: ownerUnlockFastPathMissingCount,
+                          localEnvFile: productionMeasurementOwnerInputActionPack?.localEnvFile ?? null,
+                          noGithubMutation:
+                            productionMeasurementOwnerInputActionPack?.controls?.localTemplateWriteNoGithubMutation ??
+                            true,
+                          noSecretValuesStored:
+                            productionMeasurementOwnerInputActionPack?.controls?.noSecretValuesStored ?? true,
+                          noWorkflowDispatchFromPage:
+                            ownerUnlockRuntimeMinimum.controls?.noWorkflowDispatchFromPage ?? true,
+                          pathId: ownerUnlockRuntimeMinimum.pathId,
+                          publicValuesOnly: ownerUnlockRuntimeMinimum.controls?.publicValuesOnly ?? true,
+                          secretInputCount: ownerUnlockFastPathSecretCount,
+                          unlockIds: ownerUnlockRuntimeMinimum.unlockId,
+                        })
+                      }
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Fast template
+                    </button>
+                    <button
+                      className="tinyButton subtleButton"
+                      type="button"
+                      disabled={!ownerUnlockFastPathTemplateCommand}
+                      onClick={() =>
+                        copyOwnerUnlockPackText('analytics-fast-path-helper', ownerUnlockFastPathTemplateCommand, {
+                          analyticsOnlyAllowed: ownerUnlockRuntimeMinimum.analyticsOnlyAllowed,
+                          inputCount: ownerUnlockFastPathMissingCount,
+                          localEnvFile: productionMeasurementOwnerInputActionPack?.localEnvFile ?? null,
+                          noGithubMutation:
+                            productionMeasurementOwnerInputActionPack?.controls?.localTemplateWriteNoGithubMutation ??
+                            true,
+                          noSecretValuesStored:
+                            productionMeasurementOwnerInputActionPack?.controls?.noSecretValuesStored ?? true,
+                          noWorkflowDispatchFromPage:
+                            ownerUnlockRuntimeMinimum.controls?.noWorkflowDispatchFromPage ?? true,
+                          pathId: ownerUnlockRuntimeMinimum.pathId,
+                          publicValuesOnly: ownerUnlockRuntimeMinimum.controls?.publicValuesOnly ?? true,
+                          secretInputCount: ownerUnlockFastPathSecretCount,
+                          unlockIds: ownerUnlockRuntimeMinimum.unlockId,
+                        })
+                      }
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Fast helper
+                    </button>
+                    <button
+                      className="tinyButton subtleButton"
+                      type="button"
+                      disabled={!ownerUnlockPreflightCommand}
+                      onClick={() =>
+                        copyOwnerUnlockPackText('analytics-fast-path-preflight', ownerUnlockPreflightCommand, {
+                          analyticsOnlyAllowed: ownerUnlockRuntimeMinimum.analyticsOnlyAllowed,
+                          inputCount: ownerUnlockFastPathMissingCount,
+                          localEnvFile: productionMeasurementOwnerInputActionPack?.localEnvFile ?? null,
+                          noGithubMutation:
+                            productionMeasurementOwnerInputActionPack?.controls?.localTemplateWriteNoGithubMutation ??
+                            true,
+                          noSecretValuesStored:
+                            productionMeasurementOwnerInputActionPack?.controls?.noSecretValuesStored ?? true,
+                          noWorkflowDispatchFromPage:
+                            ownerUnlockRuntimeMinimum.controls?.noWorkflowDispatchFromPage ?? true,
+                          pathId: ownerUnlockRuntimeMinimum.pathId,
+                          publicValuesOnly: ownerUnlockRuntimeMinimum.controls?.publicValuesOnly ?? true,
+                          secretInputCount: ownerUnlockFastPathSecretCount,
+                          unlockIds: ownerUnlockRuntimeMinimum.unlockId,
+                        })
+                      }
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Preflight
                     </button>
                   </div>
                 </div>

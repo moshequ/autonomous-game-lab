@@ -1,11 +1,39 @@
 {
-  "generatedAt": "2026-05-26T22:58:00.622Z",
+  "generatedAt": "2026-05-26T23:07:11.120Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": ".env.production.local",
+        "keys": [
+          "VITE_POSTHOG_KEY",
+          "VITE_POSTHOG_HOST",
+          "AGL_SUPPORT_EMAIL"
+        ]
+      },
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL",
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -36,15 +64,15 @@
     }
   },
   "workspace": {
-    "path": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
+    "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "before": {
       "insideWorkTree": true,
-      "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
+      "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
       "currentBranch": "main",
-      "originRemote": "https://github.com/moshequ/autonomous-game-lab",
+      "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 82,
+      "dirtyFiles": 84,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -75,12 +103,12 @@
         "data/store-readiness.json",
         "public/analytics-unlock.json",
         "public/compliance.json",
-        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
         "public/product-gate-recovery.json",
+        "public/store-assets/screenshots/phone-market-pulse-generated.png",
         "public/store-readiness.html",
         "public/store-readiness.json",
         "reports/deployment-plan-latest.md",
@@ -110,6 +138,7 @@
         "reports/store-listing-optimizer-latest.md",
         "reports/store-package-latest.md",
         "reports/store-readiness-latest.md",
+        "src/App.tsx",
         "src/data/liveSiteMonitor.ts",
         "src/data/ownerZeroSecretInputSync.ts",
         "src/data/performanceBudget.ts",
@@ -127,7 +156,8 @@
         "src/data/storeAssets.ts",
         "src/data/storeCompliance.ts",
         "src/data/storeListingOptimizer.ts",
-        "src/data/storeReadiness.ts"
+        "src/data/storeReadiness.ts",
+        "tests/smoke.spec.ts"
       ],
       "generatedEvidenceDirtyFiles": 82,
       "generatedEvidenceDirtyPaths": [
@@ -160,12 +190,12 @@
         "data/store-readiness.json",
         "public/analytics-unlock.json",
         "public/compliance.json",
-        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
         "public/product-gate-recovery.json",
+        "public/store-assets/screenshots/phone-market-pulse-generated.png",
         "public/store-readiness.html",
         "public/store-readiness.json",
         "reports/deployment-plan-latest.md",
@@ -214,17 +244,20 @@
         "src/data/storeListingOptimizer.ts",
         "src/data/storeReadiness.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 2,
+      "nonGeneratedDirtyPaths": [
+        "src/App.tsx",
+        "tests/smoke.spec.ts"
+      ]
     },
     "after": {
       "insideWorkTree": true,
-      "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
+      "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
       "currentBranch": "main",
-      "originRemote": "https://github.com/moshequ/autonomous-game-lab",
+      "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 82,
+      "dirtyFiles": 84,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -255,12 +288,12 @@
         "data/store-readiness.json",
         "public/analytics-unlock.json",
         "public/compliance.json",
-        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
         "public/product-gate-recovery.json",
+        "public/store-assets/screenshots/phone-market-pulse-generated.png",
         "public/store-readiness.html",
         "public/store-readiness.json",
         "reports/deployment-plan-latest.md",
@@ -290,6 +323,7 @@
         "reports/store-listing-optimizer-latest.md",
         "reports/store-package-latest.md",
         "reports/store-readiness-latest.md",
+        "src/App.tsx",
         "src/data/liveSiteMonitor.ts",
         "src/data/ownerZeroSecretInputSync.ts",
         "src/data/performanceBudget.ts",
@@ -307,7 +341,8 @@
         "src/data/storeAssets.ts",
         "src/data/storeCompliance.ts",
         "src/data/storeListingOptimizer.ts",
-        "src/data/storeReadiness.ts"
+        "src/data/storeReadiness.ts",
+        "tests/smoke.spec.ts"
       ],
       "generatedEvidenceDirtyFiles": 82,
       "generatedEvidenceDirtyPaths": [
@@ -340,12 +375,12 @@
         "data/store-readiness.json",
         "public/analytics-unlock.json",
         "public/compliance.json",
-        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
         "public/product-gate-recovery.json",
+        "public/store-assets/screenshots/phone-market-pulse-generated.png",
         "public/store-readiness.html",
         "public/store-readiness.json",
         "reports/deployment-plan-latest.md",
@@ -394,20 +429,23 @@
         "src/data/storeListingOptimizer.ts",
         "src/data/storeReadiness.ts"
       ],
-      "nonGeneratedDirtyFiles": 0,
-      "nonGeneratedDirtyPaths": []
+      "nonGeneratedDirtyFiles": 2,
+      "nonGeneratedDirtyPaths": [
+        "src/App.tsx",
+        "tests/smoke.spec.ts"
+      ]
     }
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "environment",
-    "originRemote": "https://github.com/moshequ/autonomous-game-lab",
+    "source": "origin-remote",
+    "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
     "remoteRepository": "moshequ/autonomous-game-lab",
-    "ownerHint": "moshequ",
-    "ownerHintEnv": "GITHUB_REPOSITORY_OWNER",
-    "ownerHintTarget": "moshequ/autonomous-game-lab",
-    "inferredTarget": null,
-    "inferredTargetSource": null,
+    "ownerHint": null,
+    "ownerHintEnv": null,
+    "ownerHintTarget": null,
+    "inferredTarget": "moshequ/autonomous-game-lab",
+    "inferredTargetSource": "gh-auth-user-and-package-name",
     "packageName": "autonomous-game-lab",
     "inferredRepositoryName": "autonomous-game-lab",
     "remoteParsing": {
@@ -421,23 +459,23 @@
   "githubAutomation": {
     "ghCliAvailable": true,
     "ghAuthAvailable": true,
-    "ghTokenConfigured": true,
+    "ghTokenConfigured": false,
     "ghCredentialReady": true,
-    "ghUserLogin": null,
+    "ghUserLogin": "moshequ",
     "ghReady": true
   },
   "sourceStatus": {
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-4d95e8b677fa",
+    "releaseCandidateId": "pwa-9b16e5a13b0f",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
     "status": "target-known",
     "repositoryName": "autonomous-game-lab",
     "target": "moshequ/autonomous-game-lab",
-    "targetSource": "environment",
+    "targetSource": "origin-remote",
     "placeholderTarget": "OWNER/autonomous-game-lab",
     "plannedTarget": "moshequ/autonomous-game-lab",
     "ownerRequired": false,
@@ -500,7 +538,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitFlag": true,
-      "detail": "Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab."
+      "detail": "Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
     },
     {
       "id": "create-initial-commit",
@@ -514,13 +552,13 @@
     },
     {
       "id": "commit-current-snapshot",
-      "status": "ready",
+      "status": "ready-for-explicit-snapshot-commit",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "82 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "2 non-generated source or artifact file(s) are not committed yet."
     },
     {
       "id": "set-or-create-origin",
@@ -544,16 +582,18 @@
     },
     {
       "id": "push-initial-snapshot",
-      "status": "ready-for-explicit-push",
+      "status": "waiting-for-clean-snapshot",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
+      "detail": "Push stays held until a committed local snapshot and origin remote exist."
     }
   ],
-  "blockers": [],
+  "blockers": [
+    "Commit current generated changes before pushing to GitHub Pages."
+  ],
   "helper": {
     "path": "ops/github/bootstrap-repository.sh",
     "status": "generated",
