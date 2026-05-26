@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T05:07:46.484Z",
+  "generatedAt": "2026-05-26T05:10:23.365Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -76,7 +76,7 @@
         "Backlog: improvement-backlog-ready; items 4; hash 210c880a9e74",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
         "Applied/deferred actions: 7",
-        "Operator selected: refresh-replay-loop; status operator-plan-ready; execution not-requested"
+        "Operator selected: collect-gate-sample-local-drops; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -91,7 +91,7 @@
         "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
-        "Operator history: operator-history-ready; records 40; executed 2",
+        "Operator history: operator-history-ready; records 40; executed 3",
         "Bootstrap: production-bootstrap-ready",
         "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
@@ -243,9 +243,9 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 95,
-    "currentGitWorktreeDirtyFiles": 95,
-    "currentGeneratedEvidenceDirtyFiles": 95,
+    "currentWorktreeDirtyFiles": 18,
+    "currentGitWorktreeDirtyFiles": 18,
+    "currentGeneratedEvidenceDirtyFiles": 18,
     "currentNonGeneratedWorktreeDirtyFiles": 0,
     "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
     "productionBootstrapFresh": true,
@@ -256,6 +256,6 @@
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-replay-loop"
+    "nextBestAction": "collect-gate-sample-local-drops"
   }
 }

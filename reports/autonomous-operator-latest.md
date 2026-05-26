@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-26T05:07:46.861Z
+Generated: 2026-05-26T05:10:29.761Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-replay-loop
-Selected action: refresh-replay-loop
+Owner decision: optimize-daily-retention
+Selected action: optimize-daily-retention
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-replay-loop: npm run autonomous:replay-loop
+- optimize-daily-retention: npm run autonomous:retention
 
 ## External Input Handoff
 
@@ -32,7 +32,6 @@ Execution: not-requested
 
 - seed-portfolio-traffic
 - optimize-daily-retention
-- refresh-replay-loop
 
 ## Blocked Actions
 
@@ -43,8 +42,8 @@ Execution: not-requested
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: status-monitor
 - refresh-support-feedback: status-monitor
-- optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
+- sync-post-deploy-artifact: status-monitor

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T05:07:47.141Z",
+  "generatedAt": "2026-05-26T05:11:06.708Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -766,12 +766,12 @@
       {
         "id": "autonomous-operator",
         "status": "pass",
-        "detail": "Autonomous operator is operator-plan-ready; selected refresh-replay-loop; execution not-requested."
+        "detail": "Autonomous operator is operator-plan-ready; selected optimize-daily-retention; execution not-requested."
       },
       {
         "id": "autonomous-operator-history",
         "status": "pass",
-        "detail": "Autonomous operator history is operator-history-ready; records 40; executed 2."
+        "detail": "Autonomous operator history is operator-history-ready; records 40; executed 3."
       },
       {
         "id": "autonomous-cadence",
@@ -5770,13 +5770,13 @@
     "status": "operator-plan-ready",
     "mode": "plan-only",
     "selectedAction": {
-      "id": "refresh-replay-loop",
+      "id": "optimize-daily-retention",
       "status": "armed",
-      "command": "npm run autonomous:replay-loop",
+      "command": "npm run autonomous:retention",
       "targets": [
-        "harbor-rings"
+        "market-pulse"
       ],
-      "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
+      "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
       "costUsd": 0
     },
     "controls": {
@@ -5802,8 +5802,7 @@
     },
     "eligibleActionIds": [
       "seed-portfolio-traffic",
-      "optimize-daily-retention",
-      "refresh-replay-loop"
+      "optimize-daily-retention"
     ],
     "blockedActions": [
       {
@@ -5847,12 +5846,6 @@
         "status": "monitor",
         "command": "npm run autonomous:support-feedback",
         "reason": "status-monitor"
-      },
-      {
-        "id": "optimize-daily-retention",
-        "status": "armed",
-        "command": "npm run autonomous:retention",
-        "reason": "not-selected-this-run"
       },
       {
         "id": "measure-pwa-install-loop",
@@ -5939,6 +5932,12 @@
         "reason": "status-monitor"
       },
       {
+        "id": "refresh-replay-loop",
+        "status": "monitor",
+        "command": "npm run autonomous:replay-loop",
+        "reason": "status-monitor"
+      },
+      {
         "id": "prepare-repository-channel",
         "status": "monitor",
         "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
@@ -6022,12 +6021,12 @@
     "status": "operator-history-ready",
     "summary": {
       "totalRecords": 40,
-      "plannedRecords": 38,
-      "executedRecords": 2,
+      "plannedRecords": 37,
+      "executedRecords": 3,
       "failedRecords": 0,
-      "lastActionId": "refresh-replay-loop",
+      "lastActionId": "optimize-daily-retention",
       "lastExecutionStatus": "not-requested",
-      "lastExecutedActionId": "refresh-completion-loop"
+      "lastExecutedActionId": "refresh-replay-loop"
     },
     "controls": {
       "zeroPaidSpend": true,
@@ -6042,100 +6041,16 @@
       "preserveLatestExecutedRecord": true,
       "preserveRecentExecutedRecords": true,
       "recentExecutedRecordWindow": 8,
-      "preservedExecutedRecords": 2,
+      "preservedExecutedRecords": 3,
       "recentExecutedActionIds": [
         "seed-portfolio-traffic",
-        "refresh-completion-loop"
+        "refresh-completion-loop",
+        "refresh-replay-loop"
       ],
-      "latestRunAppended": false,
+      "latestRunAppended": true,
       "compactedDuplicateDryRuns": 0
     },
     "recentRecords": [
-      {
-        "id": "20260526050253-refresh-replay-loop",
-        "generatedAt": "2026-05-26T05:02:53.723Z",
-        "runFingerprint": "187f2add8230212e",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "refresh-replay-loop",
-        "selectedCommand": "npm run autonomous:replay-loop",
-        "eligibleActionIds": [
-          "seed-portfolio-traffic",
-          "optimize-daily-retention",
-          "refresh-replay-loop"
-        ],
-        "blockedActionCount": 35,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
-      {
-        "id": "20260526050535-refresh-replay-loop",
-        "generatedAt": "2026-05-26T05:05:35.200Z",
-        "runFingerprint": "467ac9af5949f543",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "refresh-replay-loop",
-        "selectedCommand": "npm run autonomous:replay-loop",
-        "eligibleActionIds": [
-          "seed-portfolio-traffic",
-          "optimize-daily-retention",
-          "refresh-replay-loop",
-          "refresh-objective-audit"
-        ],
-        "blockedActionCount": 35,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
-      {
-        "id": "20260526050535-refresh-replay-loop",
-        "generatedAt": "2026-05-26T05:05:35.752Z",
-        "runFingerprint": "187f2add8230212e",
-        "mode": "plan-only",
-        "status": "operator-plan-ready",
-        "selectedActionId": "refresh-replay-loop",
-        "selectedCommand": "npm run autonomous:replay-loop",
-        "eligibleActionIds": [
-          "seed-portfolio-traffic",
-          "optimize-daily-retention",
-          "refresh-replay-loop"
-        ],
-        "blockedActionCount": 35,
-        "execution": {
-          "requested": false,
-          "status": "not-requested",
-          "attemptedActionId": null,
-          "resultCount": 0,
-          "failedScripts": []
-        },
-        "controls": {
-          "zeroPaidSpend": true,
-          "localCommandAllowlistEnforced": true,
-          "externalWorkflowExecutionBlockedByDefault": true,
-          "maxActionsPerRun": 1
-        }
-      },
       {
         "id": "20260526050743-refresh-replay-loop",
         "generatedAt": "2026-05-26T05:07:43.959Z",
@@ -6177,6 +6092,90 @@
           "seed-portfolio-traffic",
           "optimize-daily-retention",
           "refresh-replay-loop"
+        ],
+        "blockedActionCount": 35,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260526050856-refresh-replay-loop",
+        "generatedAt": "2026-05-26T05:08:56.032Z",
+        "runFingerprint": "0c99aebeb0339b44",
+        "mode": "execute-one-action",
+        "status": "operator-executed",
+        "selectedActionId": "refresh-replay-loop",
+        "selectedCommand": "npm run autonomous:replay-loop",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "optimize-daily-retention",
+          "refresh-replay-loop"
+        ],
+        "blockedActionCount": 35,
+        "execution": {
+          "requested": true,
+          "status": "executed",
+          "attemptedActionId": "refresh-replay-loop",
+          "resultCount": 1,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260526050911-collect-gate-sample-local-drops",
+        "generatedAt": "2026-05-26T05:09:11.886Z",
+        "runFingerprint": "5082e02618007400",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "collect-gate-sample-local-drops",
+        "selectedCommand": "npm run autonomous:collect-local-event-drops",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "optimize-daily-retention",
+          "collect-gate-sample-local-drops",
+          "refresh-product-gate-sample-plan"
+        ],
+        "blockedActionCount": 35,
+        "execution": {
+          "requested": false,
+          "status": "not-requested",
+          "attemptedActionId": null,
+          "resultCount": 0,
+          "failedScripts": []
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "localCommandAllowlistEnforced": true,
+          "externalWorkflowExecutionBlockedByDefault": true,
+          "maxActionsPerRun": 1
+        }
+      },
+      {
+        "id": "20260526051029-optimize-daily-retention",
+        "generatedAt": "2026-05-26T05:10:29.761Z",
+        "runFingerprint": "66a938481d3e091b",
+        "mode": "plan-only",
+        "status": "operator-plan-ready",
+        "selectedActionId": "optimize-daily-retention",
+        "selectedCommand": "npm run autonomous:retention",
+        "eligibleActionIds": [
+          "seed-portfolio-traffic",
+          "optimize-daily-retention"
         ],
         "blockedActionCount": 35,
         "execution": {
@@ -7012,9 +7011,9 @@
       "noRevenueEnablementUntilGatesPass": true,
       "noStoreSubmissionUntilExternalAccounts": true,
       "currentWorktreeClean": true,
-      "currentWorktreeDirtyFiles": 95,
-      "currentGitWorktreeDirtyFiles": 95,
-      "currentGeneratedEvidenceDirtyFiles": 95,
+      "currentWorktreeDirtyFiles": 18,
+      "currentGitWorktreeDirtyFiles": 18,
+      "currentGeneratedEvidenceDirtyFiles": 18,
       "currentNonGeneratedWorktreeDirtyFiles": 0,
       "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
       "productionBootstrapFresh": true,
@@ -7025,7 +7024,7 @@
     "completion": {
       "canMarkGoalComplete": false,
       "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-      "nextBestAction": "refresh-replay-loop"
+      "nextBestAction": "collect-gate-sample-local-drops"
     },
     "requirements": [
       {
@@ -7093,7 +7092,7 @@
           "Backlog: improvement-backlog-ready; items 4; hash 210c880a9e74",
           "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
           "Applied/deferred actions: 7",
-          "Operator selected: refresh-replay-loop; status operator-plan-ready; execution not-requested"
+          "Operator selected: collect-gate-sample-local-drops; status operator-plan-ready; execution not-requested"
         ],
         "blockers": [],
         "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -7108,7 +7107,7 @@
           "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
           "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
           "Operator: operator-plan-ready",
-          "Operator history: operator-history-ready; records 40; executed 2",
+          "Operator history: operator-history-ready; records 40; executed 3",
           "Bootstrap: production-bootstrap-ready",
           "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",
           "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",

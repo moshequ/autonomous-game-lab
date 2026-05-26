@@ -1,22 +1,22 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-26T05:07:47.060Z
+Generated: 2026-05-26T05:10:35.966Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
 
 ## Owner Decision
 
-- Next action: refresh-replay-loop
-- Command: npm run autonomous:replay-loop
-- Rationale: Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.
-- Last executed action: refresh-completion-loop
-- Recent executed actions: refresh-completion-loop, seed-portfolio-traffic
+- Next action: optimize-daily-retention
+- Command: npm run autonomous:retention
+- Rationale: Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.
+- Last executed action: refresh-replay-loop
+- Recent executed actions: refresh-replay-loop, refresh-completion-loop, seed-portfolio-traffic
 
 ## Execution Backoff
 
 - Status: ready
-- Selectable actions: seed-portfolio-traffic, optimize-daily-retention, refresh-replay-loop
+- Selectable actions: seed-portfolio-traffic, optimize-daily-retention
 - Held actions: seed-portfolio-traffic
 - Next resume: 2026-05-26T17:32:19.733Z
 - No repeat cycling: true
@@ -81,8 +81,8 @@ Autonomy score: 44/45 (98%)
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-plan-ready; selected refresh-replay-loop; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 2.
+- ready: autonomous-operator - Operator operator-plan-ready; selected optimize-daily-retention; execution not-requested.
+- ready: operator-history - History operator-history-ready; records 40; executed 3.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -115,7 +115,7 @@ Autonomy score: 44/45 (98%)
 - monitor: refresh-product-gate-sample-plan - npm run autonomous:sample-plan
 - monitor: refresh-first-move-coach - npm run autonomous:first-move-coach
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
-- armed: refresh-replay-loop - npm run autonomous:replay-loop
+- monitor: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
 - monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production

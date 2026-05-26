@@ -1,30 +1,29 @@
 {
-  "generatedAt": "2026-05-26T05:07:46.861Z",
+  "generatedAt": "2026-05-26T05:10:29.761Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-replay-loop",
-    "command": "npm run autonomous:replay-loop",
+    "actionId": "optimize-daily-retention",
+    "command": "npm run autonomous:retention",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-replay-loop",
+    "id": "optimize-daily-retention",
     "status": "armed",
-    "command": "npm run autonomous:replay-loop",
+    "command": "npm run autonomous:retention",
     "targets": [
-      "harbor-rings"
+      "market-pulse"
     ],
-    "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
+    "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "seed-portfolio-traffic",
-    "optimize-daily-retention",
-    "refresh-replay-loop"
+    "optimize-daily-retention"
   ],
   "blockedActions": [
     {
@@ -68,12 +67,6 @@
       "status": "monitor",
       "command": "npm run autonomous:support-feedback",
       "reason": "status-monitor"
-    },
-    {
-      "id": "optimize-daily-retention",
-      "status": "armed",
-      "command": "npm run autonomous:retention",
-      "reason": "not-selected-this-run"
     },
     {
       "id": "measure-pwa-install-loop",
@@ -160,6 +153,12 @@
       "reason": "status-monitor"
     },
     {
+      "id": "refresh-replay-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:replay-loop",
+      "reason": "status-monitor"
+    },
+    {
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
@@ -240,8 +239,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:replay-loop",
-      "script": "autonomous:replay-loop"
+      "segment": "npm run autonomous:retention",
+      "script": "autonomous:retention"
     }
   ],
   "execution": {
@@ -318,7 +317,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-replay-loop to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=optimize-daily-retention to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
