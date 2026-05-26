@@ -1,13 +1,13 @@
 # Owner Zero-Secret Input Sync
 
-Generated: 2026-05-26T23:06:23.752Z
+Generated: 2026-05-26T23:14:15.523Z
 Status: owner-zero-secret-input-sync-waiting-on-input
 Runtime config: public/owner-runtime-config.json (owner-runtime-config-waiting-on-input)
 Valid inputs: none
 Defaulted inputs: VITE_POSTHOG_HOST
 Missing inputs: VITE_POSTHOG_KEY, AGL_SUPPORT_EMAIL
 Invalid inputs: none
-GitHub env export: skipped-no-github-env
+GitHub env export: skipped-no-valid-inputs
 
 ## Workflow Dispatch Inputs
 

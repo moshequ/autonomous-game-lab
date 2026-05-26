@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-26T23:07:03.781Z
+Generated: 2026-05-26T23:14:48.718Z
 Status: waiting-on-owner-input
-Source hash: 29ddedc56da5
+Source hash: ef579722ec37
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
