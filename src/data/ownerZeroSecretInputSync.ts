@@ -1,5 +1,5 @@
 export const ownerZeroSecretInputSync = {
-  "generatedAt": "2026-05-26T20:32:23.683Z",
+  "generatedAt": "2026-05-26T20:34:51.319Z",
   "status": "owner-zero-secret-input-sync-waiting-on-input",
   "mode": "zero-secret-public-owner-inputs",
   "source": {

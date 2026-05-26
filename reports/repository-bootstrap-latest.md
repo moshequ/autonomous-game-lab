@@ -1,6 +1,6 @@
 # Repository Bootstrap
 
-Generated: 2026-05-26T20:33:01.330Z
+Generated: 2026-05-26T20:35:30.158Z
 Status: repository-bootstrap-ready
 Mode: plan-only
 Workspace git: ready
@@ -14,7 +14,7 @@ Origin: moshequ/autonomous-game-lab
 - done: inspect-repository-channel; Repository readiness is repository-channel-ready.
 - ready: initialize-local-git; Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
 - ready: create-initial-commit; The local repository has at least one commit.
-- ready: commit-current-snapshot; 99 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready: commit-current-snapshot; 78 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - ready: set-or-create-origin; Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: create-github-repository; GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - ready-for-explicit-push: push-initial-snapshot; Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
