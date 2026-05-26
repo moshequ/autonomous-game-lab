@@ -1,9 +1,9 @@
 # Autonomous Operator History
 
-Generated: 2026-05-26T20:06:56.023Z
+Generated: 2026-05-26T20:13:34.056Z
 Status: operator-history-ready
 Records: 40
-Executed records: 6
+Executed records: 7
 Failed records: 0
 Latest run appended: false
 Compacted duplicate dry-runs: 0
@@ -17,9 +17,6 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-26T19:01:29.176Z: refresh-objective-audit; not-requested; appended fingerprint ec37d876253cc974
-- 2026-05-26T19:29:53.098Z: bootstrap-production-setup; not-requested; appended fingerprint 9bf0f65bcf347134
-- 2026-05-26T19:31:50.551Z: bootstrap-production-setup; not-requested; appended fingerprint b7c544941e695c05
 - 2026-05-26T19:34:27.234Z: bootstrap-production-setup; not-requested; appended fingerprint f4a2a113b28800b1
 - 2026-05-26T19:37:09.729Z: bootstrap-production-setup; not-requested; appended fingerprint b7c544941e695c05
 - 2026-05-26T19:38:06.184Z: bootstrap-production-setup; not-requested; appended fingerprint be10119b4d2e40a9
@@ -27,3 +24,6 @@ Compacted duplicate dry-runs: 0
 - 2026-05-26T19:50:08.601Z: refresh-first-move-coach; not-requested; appended fingerprint cef10c7ae5876d51
 - 2026-05-26T19:50:09.150Z: refresh-first-move-coach; not-requested; appended fingerprint 695d1e2a1f2eedab
 - 2026-05-26T20:06:53.331Z: refresh-objective-audit; not-requested; appended fingerprint 6252ef8b8895f581
+- 2026-05-26T20:09:57.663Z: optimize-store-listing; not-requested; appended fingerprint 68cdc7ad6369f7eb
+- 2026-05-26T20:10:29.416Z: optimize-store-listing; executed; appended fingerprint ede42379524d6829
+- 2026-05-26T20:12:33.922Z: prepare-release-candidate; not-requested; appended fingerprint 65ac07dc3d6d4faf

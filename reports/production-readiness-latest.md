@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-26T20:06:56.282Z
+Generated: 2026-05-26T20:13:33.296Z
 
 ## Environment
 
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 670.1 KB / 178.4 KB gzip; deferred game chunk GameCanvas-CMmCc1q3.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 670 KB / 178.3 KB gzip; deferred game chunk GameCanvas-DKmjJND2.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 93; smoke URLs 33.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed; live matches synced deploy true.
@@ -73,11 +73,11 @@ Status: ready-after-build
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-held; selected none; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 6.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-release-candidate; execution not-requested.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 7.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-declared-unverified; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 90; unsafe pending 0; remote push held.
-- pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
+- pass: objective-audit - Objective audit is objective-in-progress; met 5 / 8; can complete false.
 
 ## Monetization
 
@@ -122,24 +122,24 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 670.1 KB (178.4 KB gzip)
-Deferred game chunk: GameCanvas-CMmCc1q3.js
-- pass: performance-initial-js-target - Initial JS is 670.1 KB; target is 686 KB.
-- pass: performance-initial-js-budget - Initial JS is 670.1 KB; deploy cap is 700 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 178.4 KB; budget is 200 KB.
+Initial JS: 670 KB (178.3 KB gzip)
+Deferred game chunk: GameCanvas-DKmjJND2.js
+- pass: performance-initial-js-target - Initial JS is 670 KB; target is 686 KB.
+- pass: performance-initial-js-budget - Initial JS is 670 KB; deploy cap is 700 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 178.3 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 12 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-CMmCc1q3.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas-DKmjJND2.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-0c9911182548
+Candidate: pwa-ce90ebfae61b
 Files: 93
-Aggregate SHA-256: 0c99111825482d803587bfbc8613c8c3b40ea3b1f180b512f89e2280efc08a17
+Aggregate SHA-256: ce90ebfae61b929953463433c584f36d48530fc6b688bf4187e0f0b6af78a2b5
 - pass: release-dist-inventory - 93 dist files inventoried.
 - pass: release-required-files - 38/38 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -153,7 +153,7 @@ Aggregate SHA-256: 0c99111825482d803587bfbc8613c8c3b40ea3b1f180b512f89e2280efc08
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-0c9911182548
+Candidate: pwa-ce90ebfae61b
 Checks: 34/34 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (34/34 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -319,16 +319,16 @@ Execution: idle
 
 ## Autonomous Operator
 
-Status: operator-held
+Status: operator-plan-ready
 Mode: plan-only
-Selected action: none
+Selected action: prepare-release-candidate
 Execution: not-requested
 
 ## Autonomous Operator History
 
 Status: operator-history-ready
 Records: 40
-Executed: 6
+Executed: 7
 
 ## Autonomous Cadence
 
@@ -378,7 +378,7 @@ Remote push ready: false
 ## Objective Audit
 
 Status: objective-in-progress
-Met: 6 / 8
+Met: 5 / 8
 Can mark complete: false
 
 ## Distribution

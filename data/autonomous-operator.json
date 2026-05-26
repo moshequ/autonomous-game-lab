@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T20:06:56.023Z",
+  "generatedAt": "2026-05-26T20:13:34.056Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
@@ -133,9 +133,9 @@
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-support-feedback",
@@ -229,15 +229,15 @@
     },
     {
       "id": "refresh-completion-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:completion-loop",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-replay-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:replay-loop",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-repository-channel",
@@ -247,9 +247,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "status-monitor"
+      "reason": "owner-decision-held"
     },
     {
       "id": "activate-production-when-configured",
@@ -301,9 +301,9 @@
     },
     {
       "id": "apply-safe-improvements",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     },
     {
       "id": "deploy-web-pwa",
