@@ -450,6 +450,17 @@ const retentionLoopReady =
   retentionLoop.returnIntentPolicy?.telemetry?.viewed === 'daily_return_intent_viewed' &&
   retentionLoop.returnIntentPolicy?.telemetry?.started === 'daily_return_intent_started' &&
   retentionLoop.returnIntentPolicy?.telemetry?.cleared === 'daily_return_intent_cleared' &&
+  retentionLoop.returnCommitmentPolicy?.status &&
+  retentionLoop.returnCommitmentPolicy?.surface === 'autonomy-cockpit-return-commitment-card' &&
+  retentionLoop.returnCommitmentPolicy?.trigger === 'after-local-return-intent-queued' &&
+  retentionLoop.returnCommitmentPolicy?.telemetry?.viewed === 'daily_return_commitment_viewed' &&
+  retentionLoop.returnCommitmentPolicy?.controls?.zeroPaidSpend === true &&
+  retentionLoop.returnCommitmentPolicy?.controls?.playerInitiatedOnly === true &&
+  retentionLoop.returnCommitmentPolicy?.controls?.noPushNotifications === true &&
+  retentionLoop.returnCommitmentPolicy?.controls?.noNotificationPermissionRequest === true &&
+  retentionLoop.returnCommitmentPolicy?.controls?.noAccountRequired === true &&
+  retentionLoop.returnCommitmentPolicy?.controls?.noExternalUpload === true &&
+  retentionLoop.returnCommitmentPolicy?.controls?.noRevenueEnablement === true &&
   retentionLoop.returnLinkPolicy?.status &&
   retentionLoop.returnLinkPolicy?.surface === 'autonomy-cockpit-retention-card' &&
   retentionLoop.returnLinkPolicy?.queryParam === 'return_intent' &&
@@ -486,6 +497,12 @@ const retentionLoopReady =
     (mission) =>
       mission.id === 'activate-return-intent' &&
       mission.event === 'daily_return_intent_started' &&
+      ['armed', 'monitor'].includes(mission.status),
+  ) &&
+  retentionMissions.some(
+    (mission) =>
+      mission.id === 'show-return-commitment' &&
+      mission.event === 'daily_return_commitment_viewed' &&
       ['armed', 'monitor'].includes(mission.status),
   ) &&
   retentionMissions.some(
@@ -1331,6 +1348,7 @@ const payload = {
     guardrails: retentionGuardrails,
     promptPolicy: retentionLoop.promptPolicy ?? {},
     returnIntentPolicy: retentionLoop.returnIntentPolicy ?? {},
+    returnCommitmentPolicy: retentionLoop.returnCommitmentPolicy ?? {},
     returnLinkPolicy: retentionLoop.returnLinkPolicy ?? {},
     returnCalendarPolicy: retentionLoop.returnCalendarPolicy ?? {},
     controls: retentionLoop.controls ?? {},
@@ -1667,6 +1685,7 @@ const report = [
   `Daily challenge: ${payload.retention.dailyChallenge?.gameId ?? 'missing'}`,
   `Return prompt: ${payload.retention.promptPolicy?.status ?? 'missing'} (${payload.retention.promptPolicy?.surface ?? 'missing'})`,
   `Return intent: ${payload.retention.returnIntentPolicy?.status ?? 'missing'} (${payload.retention.returnIntentPolicy?.surface ?? 'missing'})`,
+  `Return commitment: ${payload.retention.returnCommitmentPolicy?.status ?? 'missing'} (${payload.retention.returnCommitmentPolicy?.surface ?? 'missing'})`,
   `Return link: ${payload.retention.returnLinkPolicy?.status ?? 'missing'} (${payload.retention.returnLinkPolicy?.queryParam ?? 'missing'})`,
   `Return calendar: ${payload.retention.returnCalendarPolicy?.status ?? 'missing'} (${payload.retention.returnCalendarPolicy?.fileExtension ?? 'missing'})`,
   ...payload.retention.missions.map((mission) => `- ${mission.status}: ${mission.id} - ${mission.event}`),

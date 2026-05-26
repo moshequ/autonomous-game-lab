@@ -4819,6 +4819,7 @@ test('local event bridge keeps browser analytics drops importable without extern
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('gate_sample_mission_clicked')
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('game_started')
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('level_completed')
+  expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('daily_return_commitment_viewed')
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('daily_return_link_copied')
   expect(bridge.eventDropContract.browserFolderDrop.autosaveTriggers).toContain('daily_return_calendar_downloaded')
   expect(bridge.controls.zeroPaidSpend).toBe(true)
@@ -7234,6 +7235,21 @@ test('daily return prompt captures a local return intent after a completed run',
   const retention = JSON.parse(await readFile('data/retention-loop.json', 'utf8')) as {
     localState: { returnIntentKey: string }
     promptPolicy: { ctaLabel: string; copy: string; nextChallengeDate: string; telemetry: { clicked: string; viewed: string } }
+    returnCommitmentPolicy: {
+      label: string
+      copy: string
+      surface: string
+      telemetry: { viewed: string }
+      controls: {
+        zeroPaidSpend: boolean
+        playerInitiatedOnly: boolean
+        noNotificationPermissionRequest: boolean
+        noPushNotifications: boolean
+        noAccountRequired: boolean
+        noExternalUpload: boolean
+        noRevenueEnablement: boolean
+      }
+    }
     rewardSurfacePolicy: {
       label: string
       ctaLabel: string
@@ -7397,6 +7413,17 @@ test('daily return prompt captures a local return intent after a completed run',
 
   await dailyRetention.getByRole('button', { name: retention.returnLinkPolicy.ctaLabel }).click()
   await dailyRetention.getByRole('button', { name: retention.promptPolicy.ctaLabel }).click()
+  await expect(dailyRetention).toContainText(retention.returnCommitmentPolicy.label)
+  await expect(dailyRetention).toContainText(retention.returnCommitmentPolicy.copy)
+  await expect
+    .poll(() =>
+      page.evaluate((eventName) => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        return events.some((event: { name: string }) => event.name === eventName)
+      }, retention.returnCommitmentPolicy.telemetry.viewed),
+    )
+    .toBe(true)
 
   await expect
     .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
@@ -7429,6 +7456,9 @@ test('daily return prompt captures a local return intent after a completed run',
   )
   const clicked = events.findLast(
     (event: { name: string }) => event.name === 'daily_return_prompt_clicked',
+  )
+  const commitmentViewed = events.findLast(
+    (event: { name: string }) => event.name === retention.returnCommitmentPolicy.telemetry.viewed,
   )
   const copied = events.findLast(
     (event: { name: string }) => event.name === retention.returnLinkPolicy.telemetry.copied,
@@ -7467,6 +7497,15 @@ test('daily return prompt captures a local return intent after a completed run',
   expect(calendarDownloaded.properties.noExternalUpload).toBe(true)
   expect(calendarDownloaded.properties.noRevenueEnablement).toBe(true)
   expect(clicked.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
+  expect(commitmentViewed.properties.intentDate).toBe(retention.promptPolicy.nextChallengeDate)
+  expect(commitmentViewed.properties.surface).toBe(retention.returnCommitmentPolicy.surface)
+  expect(commitmentViewed.properties.zeroPaidSpend).toBe(true)
+  expect(commitmentViewed.properties.playerInitiatedOnly).toBe(true)
+  expect(commitmentViewed.properties.noPushNotifications).toBe(true)
+  expect(commitmentViewed.properties.noNotificationPermissionRequest).toBe(true)
+  expect(commitmentViewed.properties.noAccountRequired).toBe(true)
+  expect(commitmentViewed.properties.noExternalUpload).toBe(true)
+  expect(commitmentViewed.properties.noRevenueEnablement).toBe(true)
   expect(returnIntentDate).toBe(retention.promptPolicy.nextChallengeDate)
 })
 

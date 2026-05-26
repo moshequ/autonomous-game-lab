@@ -8,16 +8,17 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "hold-for-external-input"
+    "nextBestActionId": "collect-gate-sample-local-drops"
   },
   "executionBackoff": {
-    "status": "cooling-down",
-    "heldActionCount": 1,
-    "executableWithoutRepeatCount": 0,
+    "status": "ready",
+    "heldActionCount": 2,
+    "executableWithoutRepeatCount": 3,
     "nextResumeAt": "2026-05-27T08:51:05.423Z",
-    "nextResumeInHours": 10.526,
+    "nextResumeInHours": 10.337,
     "heldActionIds": [
-      "seed-portfolio-traffic"
+      "seed-portfolio-traffic",
+      "refresh-organic-seed-loop"
     ]
   },
   "externalInputHandoff": {

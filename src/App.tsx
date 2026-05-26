@@ -350,6 +350,7 @@ const localEventDropAutosaveEvents = new Set<AnalyticsEventName>([
   'daily_goal_reward_clicked',
   'daily_return_prompt_viewed',
   'daily_return_prompt_clicked',
+  'daily_return_commitment_viewed',
   'daily_return_link_copied',
   'daily_return_calendar_downloaded',
   'daily_return_intent_viewed',
@@ -722,6 +723,7 @@ function App() {
   const dailyChallengeCompletionRef = useRef('')
   const dailyGoalRewardRef = useRef('')
   const dailyReturnPromptRef = useRef('')
+  const dailyReturnCommitmentRef = useRef('')
   const dailyReturnIntentRef = useRef('')
   const replayPromptRef = useRef('')
   const completionNudgeRef = useRef('')
@@ -1414,6 +1416,12 @@ function App() {
     retentionLoop.returnIntentPolicy.status === 'armed' &&
     dailyReturnIntentDate !== '' &&
     dailyReturnIntentLoadedAtStart === dailyReturnIntentDate &&
+    dailyReturnIntentStartedDate !== dailyReturnIntentDate &&
+    dailyReturnIntentClearedDate !== dailyReturnIntentDate
+  const dailyReturnCommitmentVisible =
+    retentionLoop.returnCommitmentPolicy.status === 'armed' &&
+    dailyReturnIntentDate === nextDailyChallengeDate &&
+    dailyReturnIntentLoadedAtStart !== dailyReturnIntentDate &&
     dailyReturnIntentStartedDate !== dailyReturnIntentDate &&
     dailyReturnIntentClearedDate !== dailyReturnIntentDate
   const completionRunKey = `${activeRunId}:${completionLoop.promptPolicy.triggerMove}`
@@ -2764,6 +2772,33 @@ function App() {
     })
   }, [dailyReturnPromptVisible, dailyStreak, rewardVariant.id, selectedGameId])
   useEffect(() => {
+    if (
+      !dailyReturnCommitmentVisible ||
+      dailyReturnCommitmentRef.current === nextDailyChallengeDate
+    ) {
+      return
+    }
+
+    dailyReturnCommitmentRef.current = nextDailyChallengeDate
+    trackEvent(retentionLoop.returnCommitmentPolicy.telemetry.viewed, {
+      gameId: retentionLoop.dailyChallenge.gameId,
+      challengeDate: retentionLoop.dailyChallenge.date,
+      intentDate: nextDailyChallengeDate,
+      surface: retentionLoop.returnCommitmentPolicy.surface,
+      trigger: retentionLoop.returnCommitmentPolicy.trigger,
+      streak: dailyStreak,
+      rewardVariantId: rewardVariant.id,
+      zeroPaidSpend: retentionLoop.returnCommitmentPolicy.controls.zeroPaidSpend,
+      playerInitiatedOnly: retentionLoop.returnCommitmentPolicy.controls.playerInitiatedOnly,
+      noNotificationPermissionRequest:
+        retentionLoop.returnCommitmentPolicy.controls.noNotificationPermissionRequest,
+      noPushNotifications: retentionLoop.returnCommitmentPolicy.controls.noPushNotifications,
+      noAccountRequired: retentionLoop.returnCommitmentPolicy.controls.noAccountRequired,
+      noExternalUpload: retentionLoop.returnCommitmentPolicy.controls.noExternalUpload,
+      noRevenueEnablement: retentionLoop.returnCommitmentPolicy.controls.noRevenueEnablement,
+    })
+  }, [dailyReturnCommitmentVisible, dailyStreak, nextDailyChallengeDate, rewardVariant.id])
+  useEffect(() => {
     if (!dailyReturnIntentVisible || dailyReturnIntentRef.current === dailyReturnIntentDate) {
       return
     }
@@ -3721,6 +3756,31 @@ function App() {
                   </div>
                 </>
               ) : null}
+              {dailyReturnCommitmentVisible ? (
+                <>
+                  <div>
+                    <span>{retentionLoop.returnCommitmentPolicy.label}</span>
+                    <strong>{dailyReturnIntentDate}</strong>
+                  </div>
+                  <div>
+                    <span>Return path</span>
+                    <strong>{retentionLoop.returnCommitmentPolicy.copy}</strong>
+                  </div>
+                  <div className="retentionActions">
+                    <button className="tinyButton" type="button" onClick={copyDailyReturnLink}>
+                      <Share2 size={14} aria-hidden="true" />
+                      {retentionLoop.returnLinkPolicy.ctaLabel}
+                    </button>
+                    <button className="tinyButton" type="button" onClick={downloadDailyReturnCalendar}>
+                      <Download size={14} aria-hidden="true" />
+                      {retentionLoop.returnCalendarPolicy.ctaLabel}
+                    </button>
+                    <button className="tinyButton subtleButton" type="button" onClick={clearQueuedReturnIntent}>
+                      {retentionLoop.returnIntentPolicy.dismissLabel}
+                    </button>
+                  </div>
+                </>
+              ) : null}
               {dailyReturnPromptVisible ? (
                 <>
                   {dailyGoalRewardVisible ? (
@@ -3892,6 +3952,7 @@ function App() {
                   'seed_campaign_clicked',
                   'sample_fastest_routed',
                   'daily_challenge_completed',
+                  'daily_return_commitment_viewed',
                   'daily_return_link_copied',
                   'daily_return_calendar_downloaded',
                   'daily_return_intent_started',

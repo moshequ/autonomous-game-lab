@@ -61,6 +61,7 @@ const allowedEventNames = new Set([
   'daily_return_prompt_viewed',
   'daily_return_prompt_clicked',
   'daily_return_prompt_dismissed',
+  'daily_return_commitment_viewed',
   'daily_return_link_copied',
   'daily_return_calendar_downloaded',
   'daily_return_intent_viewed',

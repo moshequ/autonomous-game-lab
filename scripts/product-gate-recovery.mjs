@@ -158,6 +158,7 @@ const gateRows = [
     viewTelemetry: [
       retentionLoop.rewardSurfacePolicy?.telemetry?.viewed,
       retentionLoop.promptPolicy?.telemetry?.viewed,
+      retentionLoop.returnCommitmentPolicy?.telemetry?.viewed,
       retentionLoop.returnIntentPolicy?.telemetry?.viewed,
     ].filter(Boolean),
     actionTelemetry: [

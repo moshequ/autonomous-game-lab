@@ -105,6 +105,26 @@ export const retentionLoop = {
       "cleared": "daily_return_intent_cleared"
     }
   },
+  "returnCommitmentPolicy": {
+    "status": "armed",
+    "surface": "autonomy-cockpit-return-commitment-card",
+    "trigger": "after-local-return-intent-queued",
+    "label": "Return queued",
+    "copy": "Tomorrow's board is queued. Save a link or calendar reminder so the D1 signal can come back as a real start.",
+    "reason": "Queued intent should keep offering player-saved return paths after the original prompt closes.",
+    "telemetry": {
+      "viewed": "daily_return_commitment_viewed"
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "playerInitiatedOnly": true,
+      "noNotificationPermissionRequest": true,
+      "noPushNotifications": true,
+      "noAccountRequired": true,
+      "noExternalUpload": true,
+      "noRevenueEnablement": true
+    }
+  },
   "returnLinkPolicy": {
     "surface": "autonomy-cockpit-retention-card",
     "ctaLabel": "Copy return link",

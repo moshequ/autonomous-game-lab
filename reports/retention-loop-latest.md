@@ -1,6 +1,6 @@
 # Retention Loop
 
-Generated: 2026-05-26T21:00:52.246Z
+Generated: 2026-05-26T22:29:10.862Z
 Status: retention-loop-ready
 Daily challenge: Market Pulse (market-pulse)
 D1 retention: 17%
@@ -12,6 +12,7 @@ Replay rate: 31%
 - armed: show-daily-goal-reward - Show daily goal reward after a finished run
 - armed: return-tomorrow - Return tomorrow for a fresh board
 - armed: confirm-return-intent - Queue 2026-05-27 board intent
+- armed: show-return-commitment - Show saved return path options for 2026-05-27
 - armed: copy-return-link - Copy 2026-05-27 return link
 - armed: save-return-reminder - Save 2026-05-27 return reminder
 - armed: activate-return-intent - Start a queued return board
@@ -47,6 +48,13 @@ Replay rate: 31%
 - Copy: Your queued board is ready; start it to keep the local streak signal real.
 - Telemetry: daily_return_intent_viewed, daily_return_intent_started, daily_return_intent_cleared
 - Measurement: daily_return_intent_started with retentionCohortDate -> retentionReturnDate
+
+## Return Commitment Follow-up
+
+- Status: armed
+- Surface: autonomy-cockpit-return-commitment-card
+- Copy: Tomorrow's board is queued. Save a link or calendar reminder so the D1 signal can come back as a real start.
+- Telemetry: daily_return_commitment_viewed
 
 ## Return Link
 

@@ -1515,6 +1515,9 @@ if (
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('gate_sample_mission_clicked') ||
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('game_started') ||
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('level_completed') ||
+  !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes(
+    'daily_return_commitment_viewed',
+  ) ||
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes('daily_return_link_copied') ||
   !localEventBridge.eventDropContract?.browserFolderDrop?.autosaveTriggers?.includes(
     'daily_return_calendar_downloaded',
@@ -2247,6 +2250,7 @@ const retentionPromptEvents = [
   'daily_return_prompt_viewed',
   'daily_return_prompt_clicked',
   'daily_return_prompt_dismissed',
+  'daily_return_commitment_viewed',
   'daily_return_link_copied',
   'daily_return_calendar_downloaded',
   'daily_return_intent_viewed',
@@ -2311,6 +2315,17 @@ if (
   retentionLoop.returnIntentPolicy?.telemetry?.viewed !== 'daily_return_intent_viewed' ||
   retentionLoop.returnIntentPolicy?.telemetry?.started !== 'daily_return_intent_started' ||
   retentionLoop.returnIntentPolicy?.telemetry?.cleared !== 'daily_return_intent_cleared' ||
+  !['armed', 'monitor'].includes(retentionLoop.returnCommitmentPolicy?.status) ||
+  retentionLoop.returnCommitmentPolicy?.surface !== 'autonomy-cockpit-return-commitment-card' ||
+  retentionLoop.returnCommitmentPolicy?.trigger !== 'after-local-return-intent-queued' ||
+  retentionLoop.returnCommitmentPolicy?.telemetry?.viewed !== 'daily_return_commitment_viewed' ||
+  retentionLoop.returnCommitmentPolicy?.controls?.zeroPaidSpend !== true ||
+  retentionLoop.returnCommitmentPolicy?.controls?.playerInitiatedOnly !== true ||
+  retentionLoop.returnCommitmentPolicy?.controls?.noNotificationPermissionRequest !== true ||
+  retentionLoop.returnCommitmentPolicy?.controls?.noPushNotifications !== true ||
+  retentionLoop.returnCommitmentPolicy?.controls?.noAccountRequired !== true ||
+  retentionLoop.returnCommitmentPolicy?.controls?.noExternalUpload !== true ||
+  retentionLoop.returnCommitmentPolicy?.controls?.noRevenueEnablement !== true ||
   !['armed', 'monitor'].includes(retentionLoop.returnLinkPolicy?.status) ||
   retentionLoop.returnLinkPolicy?.surface !== 'autonomy-cockpit-retention-card' ||
   retentionLoop.returnLinkPolicy?.trigger !== 'after-completed-run' ||
@@ -2377,6 +2392,7 @@ if (
   !retentionMissionIds.has('show-daily-goal-reward') ||
   !retentionMissionIds.has('return-tomorrow') ||
   !retentionMissionIds.has('confirm-return-intent') ||
+  !retentionMissionIds.has('show-return-commitment') ||
   !retentionMissionIds.has('copy-return-link') ||
   !retentionMissionIds.has('save-return-reminder') ||
   !retentionMissionIds.has('activate-return-intent') ||
@@ -2398,6 +2414,12 @@ if (
     (mission) =>
       mission.id === 'confirm-return-intent' &&
       mission.event === 'daily_return_prompt_clicked' &&
+      mission.gameId === retentionLoop.dailyChallenge?.gameId,
+  ) ||
+  !retentionLoop.missions?.some(
+    (mission) =>
+      mission.id === 'show-return-commitment' &&
+      mission.event === 'daily_return_commitment_viewed' &&
       mission.gameId === retentionLoop.dailyChallenge?.gameId,
   ) ||
   !retentionLoop.missions?.some(
@@ -6950,6 +6972,10 @@ if (
   readiness.retention?.guardrails?.noNotificationPermissionRequest !== true ||
   readiness.retention?.promptPolicy?.telemetry?.clicked !== 'daily_return_prompt_clicked' ||
   readiness.retention?.returnIntentPolicy?.telemetry?.started !== 'daily_return_intent_started' ||
+  readiness.retention?.returnCommitmentPolicy?.telemetry?.viewed !== 'daily_return_commitment_viewed' ||
+  readiness.retention?.returnCommitmentPolicy?.controls?.zeroPaidSpend !== true ||
+  readiness.retention?.returnCommitmentPolicy?.controls?.noPushNotifications !== true ||
+  readiness.retention?.returnCommitmentPolicy?.controls?.noExternalUpload !== true ||
   readiness.retention?.returnLinkPolicy?.telemetry?.copied !== 'daily_return_link_copied' ||
   readiness.retention?.returnLinkPolicy?.queryParam !== 'return_intent' ||
   readiness.retention?.returnLinkPolicy?.controls?.noPushNotifications !== true ||

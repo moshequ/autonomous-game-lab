@@ -196,6 +196,7 @@ export const productGateSamplePlan = {
         "view": [
           "daily_goal_reward_viewed",
           "daily_return_prompt_viewed",
+          "daily_return_commitment_viewed",
           "daily_return_intent_viewed"
         ],
         "action": [
@@ -215,6 +216,7 @@ export const productGateSamplePlan = {
         "collectionEvents": [
           "daily_goal_reward_viewed",
           "daily_return_prompt_viewed",
+          "daily_return_commitment_viewed",
           "daily_return_intent_viewed",
           "daily_goal_reward_clicked",
           "daily_return_prompt_clicked",

@@ -1,9 +1,9 @@
 # Autonomous Operator History
 
-Generated: 2026-05-26T22:19:31.113Z
+Generated: 2026-05-26T22:30:51.961Z
 Status: operator-history-ready
 Records: 40
-Executed records: 7
+Executed records: 6
 Failed records: 0
 Latest run appended: false
 Compacted duplicate dry-runs: 0
@@ -17,8 +17,6 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-26T19:50:08.601Z: refresh-first-move-coach; not-requested; appended fingerprint cef10c7ae5876d51
-- 2026-05-26T19:50:09.150Z: refresh-first-move-coach; not-requested; appended fingerprint 695d1e2a1f2eedab
 - 2026-05-26T20:06:53.331Z: refresh-objective-audit; not-requested; appended fingerprint 6252ef8b8895f581
 - 2026-05-26T20:09:57.663Z: optimize-store-listing; not-requested; appended fingerprint 68cdc7ad6369f7eb
 - 2026-05-26T20:10:29.416Z: optimize-store-listing; executed; appended fingerprint ede42379524d6829
@@ -27,3 +25,5 @@ Compacted duplicate dry-runs: 0
 - 2026-05-26T20:23:25.411Z: prepare-release-candidate; not-requested; appended fingerprint aa09bd926517531e
 - 2026-05-26T20:28:04.304Z: refresh-objective-audit; not-requested; appended fingerprint eb7066a7c626149e
 - 2026-05-26T21:09:12.702Z: refresh-objective-audit; not-requested; appended fingerprint 290850bb2c1f5d24
+- 2026-05-26T22:30:47.824Z: optimize-daily-retention; not-requested; appended fingerprint 1f5073ce4a1716c3
+- 2026-05-26T22:30:48.593Z: collect-gate-sample-local-drops; not-requested; appended fingerprint fcb4a27285efa99c

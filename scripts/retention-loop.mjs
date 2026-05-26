@@ -183,6 +183,14 @@ const missions = [
     status: returnPromptNeeded ? 'armed' : 'monitor',
   },
   {
+    id: 'show-return-commitment',
+    label: `Show saved return path options for ${nextChallengeDate}`,
+    event: 'daily_return_commitment_viewed',
+    gameId: dailyChallenge?.gameId ?? null,
+    reward: 'return-path-followup',
+    status: returnPromptNeeded ? 'armed' : 'monitor',
+  },
+  {
     id: 'copy-return-link',
     label: `Copy ${nextChallengeDate} return link`,
     event: 'daily_return_link_copied',
@@ -336,6 +344,28 @@ const payload = {
       cleared: 'daily_return_intent_cleared',
     },
   },
+  returnCommitmentPolicy: {
+    status: returnPromptNeeded ? 'armed' : 'monitor',
+    surface: 'autonomy-cockpit-return-commitment-card',
+    trigger: 'after-local-return-intent-queued',
+    label: 'Return queued',
+    copy: "Tomorrow's board is queued. Save a link or calendar reminder so the D1 signal can come back as a real start.",
+    reason: returnPromptNeeded
+      ? 'Queued intent should keep offering player-saved return paths after the original prompt closes.'
+      : 'Keep same-session return-path follow-up instrumentation in monitor mode while the retention gate is stable.',
+    telemetry: {
+      viewed: 'daily_return_commitment_viewed',
+    },
+    controls: {
+      zeroPaidSpend: true,
+      playerInitiatedOnly: true,
+      noNotificationPermissionRequest: true,
+      noPushNotifications: true,
+      noAccountRequired: true,
+      noExternalUpload: true,
+      noRevenueEnablement: true,
+    },
+  },
   returnLinkPolicy: {
     status: returnPromptNeeded ? 'armed' : 'monitor',
     surface: 'autonomy-cockpit-retention-card',
@@ -423,6 +453,7 @@ const payload = {
       view: d1Gate?.viewTelemetry ?? [
         'daily_goal_reward_viewed',
         'daily_return_prompt_viewed',
+        'daily_return_commitment_viewed',
         'daily_return_intent_viewed',
       ],
       action: d1Gate?.actionTelemetry ?? [
@@ -527,6 +558,13 @@ const report = [
   `- Telemetry: ${payload.returnIntentPolicy.telemetry.viewed}, ${payload.returnIntentPolicy.telemetry.started}, ${payload.returnIntentPolicy.telemetry.cleared}`,
   `- Measurement: ${payload.measurementPolicy.retainedEvent} with ${payload.measurementPolicy.cohortDateProperty} -> ${payload.measurementPolicy.returnDateProperty}`,
   '',
+  '## Return Commitment Follow-up',
+  '',
+  `- Status: ${payload.returnCommitmentPolicy.status}`,
+  `- Surface: ${payload.returnCommitmentPolicy.surface}`,
+  `- Copy: ${payload.returnCommitmentPolicy.copy}`,
+  `- Telemetry: ${payload.returnCommitmentPolicy.telemetry.viewed}`,
+  '',
   '## Return Link',
   '',
   `- Status: ${payload.returnLinkPolicy.status}`,
@@ -584,6 +622,7 @@ const appPayload = {
   },
   promptPolicy: payload.promptPolicy,
   returnIntentPolicy: payload.returnIntentPolicy,
+  returnCommitmentPolicy: payload.returnCommitmentPolicy,
   returnLinkPolicy: {
     surface: payload.returnLinkPolicy.surface,
     ctaLabel: payload.returnLinkPolicy.ctaLabel,
