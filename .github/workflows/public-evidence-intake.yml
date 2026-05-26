@@ -184,6 +184,10 @@ jobs:
             data/autonomous-operator-history.json
             src/data/autonomousOperatorHistory.ts
             reports/autonomous-operator-history-latest.md
+            data/autonomous-cadence.json
+            src/data/autonomousCadence.ts
+            reports/autonomous-cadence-latest.md
+            ops/codex/autonomous-game-lab-daily-owner-loop.json
           if-no-files-found: ignore
 
   commit-public-evidence:
@@ -302,7 +306,11 @@ jobs:
             reports/autonomous-operator-latest.md \
             data/autonomous-operator-history.json \
             src/data/autonomousOperatorHistory.ts \
-            reports/autonomous-operator-history-latest.md
+            reports/autonomous-operator-history-latest.md \
+            data/autonomous-cadence.json \
+            src/data/autonomousCadence.ts \
+            reports/autonomous-cadence-latest.md \
+            ops/codex/autonomous-game-lab-daily-owner-loop.json
 
           if git diff --cached --quiet; then
             echo "no public evidence changes to commit"

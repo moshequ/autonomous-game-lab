@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-26T04:51:44.076Z
+Generated: 2026-05-26T04:59:43.284Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: refresh-replay-loop
@@ -31,7 +31,6 @@ Execution: not-requested
 ## Eligible Local Actions
 
 - seed-portfolio-traffic
-- refresh-support-feedback
 - optimize-daily-retention
 - refresh-replay-loop
 
@@ -43,7 +42,7 @@ Execution: not-requested
 - refresh-autonomous-self-update: status-monitor
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: status-monitor
-- refresh-support-feedback: not-selected-this-run
+- refresh-support-feedback: status-monitor
 - optimize-daily-retention: not-selected-this-run
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor

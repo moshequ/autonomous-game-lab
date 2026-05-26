@@ -1,9 +1,9 @@
 # Autonomous Operator History
 
-Generated: 2026-05-26T04:51:44.076Z
+Generated: 2026-05-26T04:59:43.284Z
 Status: operator-history-ready
 Records: 40
-Executed records: 3
+Executed records: 2
 Failed records: 0
 Latest run appended: false
 Compacted duplicate dry-runs: 0
@@ -17,13 +17,13 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-26T04:38:27.429Z: refresh-completion-loop; not-requested; appended fingerprint b3e34bd811bed5b2
-- 2026-05-26T04:40:40.834Z: refresh-completion-loop; executed; appended fingerprint a2aface0b3ab34dd
-- 2026-05-26T04:41:17.210Z: collect-gate-sample-local-drops; not-requested; appended fingerprint 151345320394a3a7
-- 2026-05-26T04:43:06.430Z: refresh-production-blocker-handoff; not-requested; appended fingerprint 74eac6c0a11e06a7
-- 2026-05-26T04:44:31.428Z: refresh-production-blocker-handoff; not-requested; appended fingerprint 67cf6e2dd518e8e4
-- 2026-05-26T04:46:02.266Z: refresh-replay-loop; not-requested; appended fingerprint ad89498a59238a32
 - 2026-05-26T04:47:24.580Z: refresh-replay-loop; not-requested; appended fingerprint 346957519a1013b7
 - 2026-05-26T04:48:46.649Z: refresh-replay-loop; not-requested; appended fingerprint ad89498a59238a32
 - 2026-05-26T04:51:41.365Z: refresh-replay-loop; not-requested; appended fingerprint f4480796e04366a8
 - 2026-05-26T04:51:41.890Z: refresh-replay-loop; not-requested; appended fingerprint ad89498a59238a32
+- 2026-05-26T04:55:12.312Z: refresh-replay-loop; not-requested; appended fingerprint d60a32129b5dbc41
+- 2026-05-26T04:57:25.617Z: refresh-replay-loop; not-requested; appended fingerprint f5969724cb09d64b
+- 2026-05-26T04:57:53.739Z: refresh-replay-loop; not-requested; appended fingerprint 467ac9af5949f543
+- 2026-05-26T04:57:54.503Z: refresh-replay-loop; not-requested; appended fingerprint 187f2add8230212e
+- 2026-05-26T04:59:39.247Z: refresh-replay-loop; not-requested; appended fingerprint 467ac9af5949f543
+- 2026-05-26T04:59:40.008Z: refresh-replay-loop; not-requested; appended fingerprint 187f2add8230212e
