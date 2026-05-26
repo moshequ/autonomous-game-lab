@@ -1,13 +1,13 @@
 # Post-Deploy Artifact Sync
 
-Generated: 2026-05-26T12:42:35.106Z
+Generated: 2026-05-26T12:57:43.043Z
 Status: post-deploy-artifact-sync-passed
 Repository: moshequ/autonomous-game-lab
 Workflow: web-pwa-deploy.yml
-Run: 26447300326
+Run: 26449251198
 Origin: https://moshequ.github.io/autonomous-game-lab/
-Artifact candidate: pwa-356aaef63de4
-Live candidate: pwa-356aaef63de4
+Artifact candidate: pwa-834480f69b0d
+Live candidate: pwa-834480f69b0d
 Deployment freshness: current-head-not-deployed
 
 ## Summary
@@ -27,8 +27,8 @@ Deployment freshness: current-head-not-deployed
 
 ## Deployment Freshness
 
-- currentHeadSha: fac59a5367641b782ff677f9795583a3dca76525
-- selectedRunHeadSha: 848895e000b023e9a355d89ec5d0abe70faa57a2
+- currentHeadSha: 85d70aa70f5865b0956b2dcb35775ad3aee58729
+- selectedRunHeadSha: 85d70aa70f5865b0956b2dcb35775ad3aee58729
 - currentHeadDeployed: false
 - currentHeadQueuedOrRunning: false
 - liveMatchesCurrentLocalCandidate: false
@@ -37,11 +37,11 @@ Deployment freshness: current-head-not-deployed
 
 - pass: gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: successful-pages-run - Latest successful web-pwa-deploy.yml run is 26447300326.
-- pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26447300326.
+- pass: successful-pages-run - Latest successful web-pwa-deploy.yml run is 26449251198.
+- pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26449251198.
 - pass: strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
-- monitor: deployment-freshness - Current main fac59a536764 is not the latest strict deployed artifact; freshness current-head-not-deployed.
+- monitor: deployment-freshness - Current main 85d70aa70f58 is not the latest strict deployed artifact; freshness current-head-not-deployed.
 
 ## Controls
 

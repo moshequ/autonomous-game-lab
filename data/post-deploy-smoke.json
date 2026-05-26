@@ -1,38 +1,10 @@
 {
-  "generatedAt": "2026-05-26T10:56:32.495Z",
+  "generatedAt": "2026-05-26T12:57:51.152Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": ".env.production.local",
-        "keys": [
-          "VITE_POSTHOG_KEY",
-          "VITE_POSTHOG_HOST",
-          "AGL_SUPPORT_EMAIL"
-        ]
-      },
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "VITE_POSTHOG_KEY",
-      "VITE_POSTHOG_HOST",
-      "AGL_SUPPORT_EMAIL",
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -66,14 +38,14 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-2f5873175351",
-    "aggregateHash": "2f58731753518169eeb2856c5a9ccc11e6575bd86062eaaab8e2983e9d5a57a7",
+    "candidateId": "pwa-7f7c75582acb",
+    "aggregateHash": "7f7c75582acb7ca35d3302f150a271a2a425da6869971ee4f1c2700c21acb439",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-356aaef63de4",
-    "aggregateHash": "356aaef63de47e376bdd15675f74295c1e613ffb84ca8bbf5204ac41d2015ce4",
+    "candidateId": "pwa-834480f69b0d",
+    "aggregateHash": "834480f69b0dcd7224fe67ea120469253651891f0d9ad5dd7bd2fbb12b58ac60",
     "localCandidateMatches": false,
     "strictManifestComparison": false,
     "postDeploySmokeUrls": 33,
@@ -171,7 +143,7 @@
         "file": "dist/measurement-status.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 109926,
+        "bytes": 104514,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -191,7 +163,7 @@
         "file": "dist/owner-unlock-brief.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 31844,
+        "bytes": 31914,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -201,7 +173,7 @@
         "file": "dist/owner-unlock-preflight.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 40160,
+        "bytes": 34890,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -231,7 +203,7 @@
         "file": "dist/analytics-unlock.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 82685,
+        "bytes": 77527,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -301,7 +273,7 @@
         "file": "dist/store-readiness.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 13480,
+        "bytes": 13438,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -444,8 +416,8 @@
         "bytes": 39579,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-2f5873175351",
-        "localAggregateHash": "2f58731753518169eeb2856c5a9ccc11e6575bd86062eaaab8e2983e9d5a57a7",
+        "localCandidateId": "pwa-7f7c75582acb",
+        "localAggregateHash": "7f7c75582acb7ca35d3302f150a271a2a425da6869971ee4f1c2700c21acb439",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -543,7 +515,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
       "contentType": "text/html; charset=utf-8",
-      "bytes": 36636,
+      "bytes": 36478,
       "textMatched": true
     },
     {
@@ -557,7 +529,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 109926,
+      "bytes": 104514,
       "textMatched": true
     },
     {
@@ -571,7 +543,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-unlock.html",
       "contentType": "text/html; charset=utf-8",
-      "bytes": 7846,
+      "bytes": 7887,
       "textMatched": true
     },
     {
@@ -585,7 +557,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 31844,
+      "bytes": 31914,
       "textMatched": true
     },
     {
@@ -599,7 +571,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 40160,
+      "bytes": 34890,
       "textMatched": true
     },
     {
@@ -613,7 +585,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-runtime-config.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 971,
+      "bytes": 1030,
       "textMatched": true
     },
     {
@@ -627,7 +599,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html",
       "contentType": "text/html; charset=utf-8",
-      "bytes": 26547,
+      "bytes": 26272,
       "textMatched": true
     },
     {
@@ -641,7 +613,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 82685,
+      "bytes": 77527,
       "textMatched": true
     },
     {
@@ -739,7 +711,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/store-readiness.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 13438,
+      "bytes": 13480,
       "textMatched": true
     },
     {
@@ -929,20 +901,20 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-2f5873175351",
+      "requiredText": "pwa-7f7c75582acb",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 39578,
+      "bytes": 39579,
       "candidateMatches": false,
       "hashMatches": false,
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-356aaef63de4",
-      "deployedAggregateHash": "356aaef63de47e376bdd15675f74295c1e613ffb84ca8bbf5204ac41d2015ce4",
+      "deployedCandidateId": "pwa-834480f69b0d",
+      "deployedAggregateHash": "834480f69b0dcd7224fe67ea120469253651891f0d9ad5dd7bd2fbb12b58ac60",
       "deployedPostDeploySmoke": [
         {
           "id": "app-shell",
@@ -1180,7 +1152,7 @@
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-356aaef63de4; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-834480f69b0d; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 }

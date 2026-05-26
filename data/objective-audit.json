@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T10:56:41.649Z",
+  "generatedAt": "2026-05-26T12:57:56.700Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -88,7 +88,7 @@
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
-        "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
+        "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-held",
         "Operator history: operator-history-ready; records 40; executed 4",
@@ -97,7 +97,7 @@
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 33",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34; local artifact predeploy-artifact-smoke-passed 34/34",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26447300326; live matches artifact true; candidate pwa-356aaef63de4",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26449251198; live matches artifact true; candidate pwa-834480f69b0d",
         "Live site monitor: live-site-monitor-passed; checks 34/34; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
@@ -244,13 +244,13 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 105,
-    "currentGitWorktreeDirtyFiles": 105,
-    "currentGeneratedEvidenceDirtyFiles": 105,
+    "currentWorktreeDirtyFiles": 104,
+    "currentGitWorktreeDirtyFiles": 104,
+    "currentGeneratedEvidenceDirtyFiles": 104,
     "currentNonGeneratedWorktreeDirtyFiles": 0,
     "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "1abcd44e97b9",
+    "productionBootstrapSourceDataHash": "3a411c9431ba",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
