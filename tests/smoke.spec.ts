@@ -40,6 +40,7 @@ const clickSharedFirstBoardCell = async (page: Page) => {
 }
 
 const runtimeHref = (value: string) => (value.startsWith('/') ? `.${value}` : value)
+const eventDropDownloadFileNamePattern = /^player-events-\d{4}-\d{2}-\d{2}T.*-[a-z0-9-]+\.json$/
 
 test('trend radar only boosts evidence-bearing public trend signals', async () => {
   const trend = JSON.parse(await readFile('data/trend-signals.json', 'utf8')) as {
@@ -815,7 +816,7 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
   const download = await downloadPromise
   const downloadPath = await download.path()
 
-  expect(download.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+  expect(download.suggestedFilename()).toMatch(eventDropDownloadFileNamePattern)
   expect(downloadPath).toBeTruthy()
 
   if (downloadPath) {
@@ -840,6 +841,7 @@ test('organic seed loop records player-initiated seed and share telemetry', asyn
       acquisitionSource: 'seed_share',
       acquisitionChannel: 'player-share',
     })
+    expect(exportEvent?.properties.eventDropFileName).toBe(download.suggestedFilename())
     expect(Number(exportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(3)
     expect(Number(exportEvent?.properties.localShareActions ?? 0)).toBeGreaterThanOrEqual(1)
     expect(Number(exportEvent?.properties.localStartsRemaining ?? -1)).toBeGreaterThanOrEqual(0)
@@ -3529,7 +3531,7 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
   const handoffDownload = await handoffDownloadPromise
   const handoffDownloadPath = await handoffDownload.path()
 
-  expect(handoffDownload.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+  expect(handoffDownload.suggestedFilename()).toMatch(eventDropDownloadFileNamePattern)
   expect(handoffDownloadPath).toBeTruthy()
 
   if (handoffDownloadPath) {
@@ -3566,6 +3568,7 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       acquisitionCampaign: mission.campaignId,
       acquisitionSource: 'gate_sample',
     })
+    expect(exportEvent?.properties.eventDropFileName).toBe(handoffDownload.suggestedFilename())
   }
 
   const downloadPromise = page.waitForEvent('download')
@@ -3573,7 +3576,7 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
   const download = await downloadPromise
   const downloadPath = await download.path()
 
-  expect(download.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+  expect(download.suggestedFilename()).toMatch(eventDropDownloadFileNamePattern)
   expect(downloadPath).toBeTruthy()
 
   if (downloadPath) {
@@ -3594,6 +3597,7 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
       localEvidenceDropReady: true,
       localSampleStarts: 1,
     })
+    expect(exportEvent?.properties.eventDropFileName).toBe(download.suggestedFilename())
     expect(Number(exportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(1)
     expect(Number(exportEvent?.properties.localPromptViewsRemaining ?? -1)).toBeGreaterThanOrEqual(0)
     expect(Number(exportEvent?.properties.localSuccessesRemaining ?? -1)).toBeGreaterThanOrEqual(0)
@@ -3635,7 +3639,7 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
     const fastestDownload = await fastestDownloadPromise
     const fastestDownloadPath = await fastestDownload.path()
 
-    expect(fastestDownload.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+    expect(fastestDownload.suggestedFilename()).toMatch(eventDropDownloadFileNamePattern)
     expect(fastestDownloadPath).toBeTruthy()
 
     if (fastestDownloadPath) {
@@ -3655,6 +3659,7 @@ test('product gate sample mission starts an attributed zero-spend evidence run',
         acquisitionSource: 'gate_sample',
         localSampleStarts: 1,
       })
+      expect(fastestExportEvent?.properties.eventDropFileName).toBe(fastestDownload.suggestedFilename())
       expect(Number(fastestExportEvent?.properties.localCampaignEvents ?? 0)).toBeGreaterThanOrEqual(1)
     }
   }
@@ -7081,7 +7086,7 @@ test('local analytics export produces an event drop file', async ({ page }) => {
   const download = await downloadPromise
   const downloadPath = await download.path()
 
-  expect(download.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+  expect(download.suggestedFilename()).toMatch(eventDropDownloadFileNamePattern)
   expect(downloadPath).toBeTruthy()
 
   if (!downloadPath) {
@@ -7104,6 +7109,7 @@ test('local analytics export produces an event drop file', async ({ page }) => {
   expect(String(exportEvent?.properties.eventDropFileName ?? '')).toMatch(
     /^player-events-\d{4}-\d{2}-\d{2}T.*-manual\.json$/,
   )
+  expect(download.suggestedFilename()).toBe(exportEvent?.properties.eventDropFileName)
   expect(exportEvent?.properties.eventCountAtExport).toBe(events.length)
   expect(Number(exportEvent?.properties.unexportedEventsBeforeExport ?? 0)).toBeGreaterThan(0)
   expect(exportEvent?.properties.exportCoverageStatusBeforeExport).toBe('waiting-for-first-export')
@@ -9115,7 +9121,7 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   const download = await downloadPromise
   const downloadPath = await download.path()
 
-  expect(download.suggestedFilename()).toMatch(/^player-events-\d{4}-\d{2}-\d{2}\.json$/)
+  expect(download.suggestedFilename()).toMatch(eventDropDownloadFileNamePattern)
   expect(downloadPath).toBeTruthy()
 
   if (downloadPath) {
@@ -9128,6 +9134,7 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
     expect(exportEvent?.properties).toMatchObject({
       exportSurface: 'product-gate-sample',
       exportSurfaceDetail: 'public-gate-sample-page',
+      eventDropFileName: download.suggestedFilename(),
       gateId: mission.gateId,
       gameId: mission.gameId,
       campaignId: mission.campaignId,

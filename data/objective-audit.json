@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T07:42:23.964Z",
+  "generatedAt": "2026-05-26T07:50:06.564Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -88,7 +88,7 @@
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
-        "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
+        "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-held",
         "Operator history: operator-history-ready; records 40; executed 4",
@@ -101,7 +101,7 @@
         "Live site monitor: live-site-monitor-passed; checks 32/32; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
-        "Credential-gated actions: 10"
+        "Credential-gated actions: 12"
       ],
       "blockers": [
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
@@ -112,6 +112,8 @@
         "ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.",
         "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.",
         "CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.",
+        "VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
+        "AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
         "POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.",
         "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON."
       ],
@@ -243,14 +245,14 @@
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 101,
-    "currentGitWorktreeDirtyFiles": 101,
-    "currentGeneratedEvidenceDirtyFiles": 101,
-    "currentNonGeneratedWorktreeDirtyFiles": 0,
-    "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
+    "currentWorktreeClean": false,
+    "currentWorktreeDirtyFiles": 56,
+    "currentGitWorktreeDirtyFiles": 56,
+    "currentGeneratedEvidenceDirtyFiles": 53,
+    "currentNonGeneratedWorktreeDirtyFiles": 3,
+    "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "f871f4cd0681",
+    "productionBootstrapSourceDataHash": "e30a14655920",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },

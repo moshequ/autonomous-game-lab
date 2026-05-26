@@ -571,7 +571,7 @@
           return (await handle.requestPermission(descriptor)) === 'granted'
         }
 
-        const writeDropFile = async (events, exportSurface) => {
+        const writeDropFile = async (events, fileName) => {
           if (!dropDirectoryHandle) {
             return false
           }
@@ -584,7 +584,7 @@
           }
 
           try {
-            const fileHandle = await dropDirectoryHandle.getFileHandle(eventDropFileName(exportSurface), {
+            const fileHandle = await dropDirectoryHandle.getFileHandle(fileName, {
               create: true,
             })
             const writable = await fileHandle.createWritable()
@@ -643,12 +643,12 @@
           }
         }
 
-        const downloadEvents = (events) => {
+        const downloadEvents = (events, fileName) => {
           const blob = new Blob([JSON.stringify(events, null, 2)], { type: 'application/json' })
           const url = URL.createObjectURL(blob)
           const anchor = document.createElement('a')
           anchor.href = url
-          anchor.download = `player-events-${new Date().toISOString().slice(0, 10)}.json`
+          anchor.download = fileName
           anchor.click()
           URL.revokeObjectURL(url)
         }
@@ -869,6 +869,7 @@
           const coverageBeforeExport = localExportCoverage(events)
           const progress = missionProgress(mission, events)
           const folderPreferred = Boolean(dropDirectoryHandle)
+          const exportFileName = eventDropFileName('product-gate-sample')
           const exportEvent = {
             id: createId(),
             name: 'analytics_exported',
@@ -876,6 +877,7 @@
               destination: folderPreferred ? 'local_folder' : 'local_file',
               exportSurface: 'product-gate-sample',
               exportSurfaceDetail: 'public-gate-sample-page',
+              eventDropFileName: exportFileName,
               eventDropMode: folderPreferred ? 'folder' : 'download',
               eventDropFolderStatus: folderPreferred ? 'connected' : 'not-connected',
               gateId: mission.gateId,
@@ -908,13 +910,13 @@
             createdAt: new Date().toISOString(),
           }
           const nextEvents = [...events, exportEvent]
-          const wroteToFolder = await writeDropFile(nextEvents, 'product-gate-sample')
+          const wroteToFolder = await writeDropFile(nextEvents, exportFileName)
 
           if (!wroteToFolder) {
             exportEvent.properties.destination = 'local_file'
             exportEvent.properties.eventDropMode = folderPreferred ? 'folder-failed-download' : 'download'
             exportEvent.properties.eventDropFolderStatus = folderPreferred ? 'failed' : 'not-connected'
-            downloadEvents(nextEvents)
+            downloadEvents(nextEvents, exportFileName)
           }
 
           writeEvents(nextEvents)
