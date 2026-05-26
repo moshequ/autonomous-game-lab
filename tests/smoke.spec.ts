@@ -1894,6 +1894,15 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   const sync = JSON.parse(await readFile('data/post-deploy-artifact-sync.json', 'utf8')) as {
     status: string
     workflow: { workflowFile: string; artifactName: string; runId: number | null; headSha: string | null; url: string | null }
+    deploymentFreshness: {
+      status: string
+      currentHeadSha: string | null
+      selectedRunHeadSha: string | null
+      selectedRunHeadMatchesCurrent: boolean
+      currentHeadDeployed: boolean
+      currentHeadQueuedOrRunning: boolean
+      liveMatchesCurrentLocalCandidate: boolean
+    }
     artifact: {
       status: string
       target: { candidateId: string; aggregateHash: string; strictManifestComparison: boolean } | null
@@ -1923,6 +1932,8 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
       strictManifestComparisonRequired: boolean
       separateFromLocalCandidate: boolean
       noPostDeployReleaseRefresh: boolean
+      currentHeadFreshnessTracked: boolean
+      olderDeployNotTreatedAsCurrentHead: boolean
     }
     checks: Array<{ id: string; status: string }>
   }
@@ -1945,6 +1956,21 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(sync.live.matchesArtifact).toBe(true)
   expect(sync.live.candidateId).toBe(sync.artifact.target?.candidateId)
   expect(sync.live.aggregateHash).toBe(sync.artifact.target?.aggregateHash)
+  expect([
+    'current-head-deployed',
+    'current-head-deploy-pending',
+    'current-head-not-deployed',
+    'current-head-unknown',
+  ]).toContain(sync.deploymentFreshness.status)
+  expect(sync.deploymentFreshness.currentHeadSha).toMatch(/^[a-f0-9]{40}$/)
+  expect(sync.deploymentFreshness.selectedRunHeadSha).toMatch(/^[a-f0-9]{40}$/)
+  expect(sync.deploymentFreshness.currentHeadDeployed).toBe(
+    sync.deploymentFreshness.status === 'current-head-deployed',
+  )
+  if (sync.deploymentFreshness.status === 'current-head-deployed') {
+    expect(sync.deploymentFreshness.selectedRunHeadMatchesCurrent).toBe(true)
+    expect(sync.deploymentFreshness.liveMatchesCurrentLocalCandidate).toBe(true)
+  }
   expect(sync.validation.artifactPassed).toBe(true)
   expect(sync.validation.artifactStrict).toBe(true)
   expect(sync.validation.artifactControlsReady).toBe(true)
@@ -1959,6 +1985,8 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(sync.controls.strictManifestComparisonRequired).toBe(true)
   expect(sync.controls.separateFromLocalCandidate).toBe(true)
   expect(sync.controls.noPostDeployReleaseRefresh).toBe(true)
+  expect(sync.controls.currentHeadFreshnessTracked).toBe(true)
+  expect(sync.controls.olderDeployNotTreatedAsCurrentHead).toBe(true)
   expect(sync.checks.some((check) => check.id === 'post-deploy-smoke-artifact' && check.status === 'pass')).toBe(
     true,
   )
@@ -1991,6 +2019,9 @@ test('post-deploy artifact sync preserves strict Pages workflow evidence', async
   expect(script).toContain('readOnlyGithubArtifactDownload')
   expect(script).toContain('separateFromLocalCandidate')
   expect(script).toContain('noPostDeployReleaseRefresh')
+  expect(script).toContain('deploymentFreshness')
+  expect(script).toContain('currentHeadFreshnessTracked')
+  expect(script).toContain('olderDeployNotTreatedAsCurrentHead')
   expect(workflow).toContain("workflows: ['Web PWA Deploy']")
   expect(workflow).toContain('actions: read')
   expect(workflow).toContain('contents: write')

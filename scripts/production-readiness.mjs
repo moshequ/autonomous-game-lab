@@ -632,6 +632,20 @@ const liveSiteMonitorReady =
     : liveSiteMonitor.summary?.failed === 0 &&
       liveSiteMonitor.summary?.passed === liveSiteMonitor.summary?.planned &&
       liveSiteMonitor.summary?.liveMatchesSyncedDeploy === true)
+const deploymentFreshness = postDeployArtifactSync.deploymentFreshness ?? {
+  status: 'legacy-sync-without-current-head-freshness',
+  currentHeadSha: null,
+  selectedRunHeadSha: postDeployArtifactSync.workflow?.headSha ?? null,
+  currentHeadDeployed: null,
+  currentHeadQueuedOrRunning: null,
+  liveMatchesCurrentLocalCandidate: null,
+  liveCandidateId: postDeployArtifactSync.live?.candidateId ?? null,
+  localCandidateId: releaseCandidate.candidateId ?? null,
+}
+const deploymentFreshnessTracked =
+  postDeployArtifactSync.controls?.currentHeadFreshnessTracked === true &&
+  postDeployArtifactSync.controls?.olderDeployNotTreatedAsCurrentHead === true &&
+  typeof deploymentFreshness.status === 'string'
 const productOptimizationReady =
   productOptimization.status === 'product-optimization-ready' &&
   productOptimization.sourceStatus?.analyticsSource === analytics.sourceStatus?.activeSource &&
@@ -1365,6 +1379,7 @@ const payload = {
   postDeployArtifactSync: {
     status: postDeployArtifactSync.status,
     workflow: postDeployArtifactSync.workflow,
+    deploymentFreshness,
     artifact: postDeployArtifactSync.artifact,
     live: postDeployArtifactSync.live,
     validation: postDeployArtifactSync.validation,
@@ -1586,9 +1601,11 @@ const payload = {
   },
   promotion: {
     nextAction:
-      statusFromChecks(webChecks, 'ready-after-build') === 'ready-after-build'
-        ? 'Deploy web/PWA experiment when hosting credentials exist.'
-        : 'Fix web/PWA blockers before external traffic.',
+      deploymentFreshnessTracked && deploymentFreshness.status !== 'current-head-deployed'
+        ? 'Wait for Web PWA Deploy to publish the current main head before treating live Pages as current.'
+        : statusFromChecks(webChecks, 'ready-after-build') === 'ready-after-build'
+          ? 'Deploy web/PWA experiment when hosting credentials exist.'
+          : 'Fix web/PWA blockers before external traffic.',
     storeRule: 'Do not package native apps until retention gates, privacy URL, and account credentials exist.',
   },
 }
@@ -1695,6 +1712,9 @@ const report = [
   `Artifact candidate: ${payload.postDeployArtifactSync.artifact?.target?.candidateId ?? 'missing'}`,
   `Live candidate: ${payload.postDeployArtifactSync.live?.candidateId ?? 'missing'}`,
   `Live matches artifact: ${payload.postDeployArtifactSync.live?.matchesArtifact ?? 'missing'}`,
+  `Deployment freshness: ${payload.postDeployArtifactSync.deploymentFreshness?.status ?? 'missing'}`,
+  `Current head deployed: ${payload.postDeployArtifactSync.deploymentFreshness?.currentHeadDeployed ?? 'missing'}`,
+  `Current head queued/running: ${payload.postDeployArtifactSync.deploymentFreshness?.currentHeadQueuedOrRunning ?? 'missing'}`,
   ...(payload.postDeployArtifactSync.checks ?? []).map(
     (item) => `- ${item.status}: artifact-sync-${item.id} - ${item.detail}`,
   ),

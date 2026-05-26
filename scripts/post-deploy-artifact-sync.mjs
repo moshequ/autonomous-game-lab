@@ -143,6 +143,11 @@ checks.push({
 
 const remoteResult = await run('git', ['remote', 'get-url', 'origin'], 4_000)
 const repository = parseGithubRepository(explicitRepo) ?? repositoryFromRemote(remoteResult.ok ? remoteResult.stdout : null)
+const currentHeadResult = await run('git', ['rev-parse', 'HEAD'], 4_000)
+const currentBranchResult = await run('git', ['branch', '--show-current'], 4_000)
+const currentHeadSha =
+  currentHeadResult.ok && /^[a-f0-9]{40}$/.test(currentHeadResult.stdout) ? currentHeadResult.stdout : null
+const currentBranch = currentBranchResult.ok && currentBranchResult.stdout ? currentBranchResult.stdout : null
 
 if (
   existingSync?.status === 'post-deploy-artifact-sync-passed' &&
@@ -163,6 +168,8 @@ checks.push({
 
 let selectedRun = null
 let runListRaw = null
+let workflowRunListRaw = null
+let workflowRuns = []
 if (ghVersion.ok && repository) {
   if (explicitRunId) {
     const runView = await run(
@@ -252,6 +259,31 @@ if (ghVersion.ok && repository) {
           ? `No successful ${workflowFile} run was returned by GitHub Actions.`
           : `Could not list GitHub Actions runs: ${runList.stderr || runList.stdout}`,
     })
+  }
+
+  const workflowRunList = await run(
+    'gh',
+    [
+      'run',
+      'list',
+      '--workflow',
+      workflowFile,
+      '--json',
+      'databaseId,headSha,createdAt,conclusion,status,url,event',
+      '--limit',
+      '10',
+      ...repoArgs,
+    ],
+    20_000,
+  )
+  workflowRunListRaw = workflowRunList.ok ? workflowRunList.stdout : workflowRunList.stderr
+
+  if (workflowRunList.ok) {
+    try {
+      workflowRuns = JSON.parse(workflowRunList.stdout)
+    } catch {
+      workflowRuns = []
+    }
   }
 } else {
   checks.push({
@@ -370,6 +402,27 @@ const liveMatchesArtifact =
   liveManifest?.parsed?.status === 'release-candidate-ready' &&
   liveCandidateId === artifactSmoke?.target?.candidateId &&
   liveAggregateHash === artifactSmoke?.target?.aggregateHash
+const activeRunStatuses = new Set(['queued', 'in_progress', 'waiting', 'requested', 'pending'])
+const currentHeadRuns = currentHeadSha ? workflowRuns.filter((item) => item.headSha === currentHeadSha) : []
+const currentHeadActiveRun = currentHeadRuns.find((item) => activeRunStatuses.has(item.status))
+const currentHeadSuccessfulRun = currentHeadRuns.find(
+  (item) => item.status === 'completed' && item.conclusion === 'success',
+)
+const latestRun = workflowRuns[0] ?? null
+const selectedRunHeadMatchesCurrent = Boolean(currentHeadSha && selectedRun?.headSha === currentHeadSha)
+const liveMatchesCurrentLocalCandidate =
+  liveManifest?.status === 200 &&
+  liveManifest?.parsed?.status === 'release-candidate-ready' &&
+  liveCandidateId === releaseCandidate.candidateId &&
+  liveAggregateHash === releaseCandidate.integrity?.aggregateHash
+const currentHeadDeployed = selectedRunHeadMatchesCurrent && liveMatchesCurrentLocalCandidate
+const deploymentFreshnessStatus = currentHeadSha
+  ? currentHeadDeployed
+    ? 'current-head-deployed'
+    : currentHeadActiveRun
+      ? 'current-head-deploy-pending'
+      : 'current-head-not-deployed'
+  : 'current-head-unknown'
 
 checks.push({
   id: 'live-release-manifest',
@@ -380,6 +433,15 @@ checks.push({
       ? liveFetchError ?? `Live release manifest did not match artifact candidate ${artifactSmoke?.target?.candidateId ?? 'missing'}.`
       : 'No live origin is available for release-manifest verification.',
 })
+checks.push({
+  id: 'deployment-freshness',
+  status: currentHeadSha ? (currentHeadDeployed ? 'pass' : 'monitor') : 'blocker',
+  detail: currentHeadSha
+    ? currentHeadDeployed
+      ? `Current ${currentBranch ?? 'HEAD'} ${currentHeadSha.slice(0, 12)} is deployed.`
+      : `Current ${currentBranch ?? 'HEAD'} ${currentHeadSha.slice(0, 12)} is not the latest strict deployed artifact; freshness ${deploymentFreshnessStatus}.`
+    : 'Current git HEAD could not be resolved for deployment freshness tracking.',
+})
 
 const failedChecks = checks.filter((check) => check.status === 'fail')
 const blockedChecks = checks.filter((check) => check.status === 'blocker')
@@ -389,7 +451,7 @@ const status = failedChecks.length
     ? 'post-deploy-artifact-sync-blocked'
     : 'post-deploy-artifact-sync-passed'
 
-const payload = {
+let payload = {
   generatedAt: new Date().toISOString(),
   status,
   envFiles: localEnv,
@@ -406,6 +468,27 @@ const payload = {
     url: selectedRun?.url ?? null,
     source: selectedRun?.source ?? (explicitRunId ? 'explicit-run-id' : 'latest-successful-run'),
     runListAvailable: typeof runListRaw === 'string',
+  },
+  deploymentFreshness: {
+    status: deploymentFreshnessStatus,
+    currentHeadSha,
+    currentBranch,
+    selectedRunHeadSha: selectedRun?.headSha ?? null,
+    selectedRunHeadMatchesCurrent,
+    currentHeadDeployed,
+    currentHeadQueuedOrRunning: Boolean(currentHeadActiveRun),
+    currentHeadSuccessfulRunId: currentHeadSuccessfulRun?.databaseId ?? null,
+    currentHeadActiveRunId: currentHeadActiveRun?.databaseId ?? null,
+    latestRunId: latestRun?.databaseId ?? null,
+    latestRunStatus: latestRun?.status ?? null,
+    latestRunConclusion: latestRun?.conclusion ?? null,
+    latestRunHeadSha: latestRun?.headSha ?? null,
+    liveMatchesCurrentLocalCandidate,
+    liveCandidateId,
+    localCandidateId: releaseCandidate.candidateId ?? null,
+    liveAggregateHash,
+    localAggregateHash: releaseCandidate.integrity?.aggregateHash ?? null,
+    workflowRunListAvailable: typeof workflowRunListRaw === 'string',
   },
   artifact: {
     status: artifactSmoke?.status ?? 'missing',
@@ -454,9 +537,14 @@ const payload = {
     strictManifestComparisonRequired: true,
     separateFromLocalCandidate: true,
     noPostDeployReleaseRefresh: true,
+    currentHeadFreshnessTracked: true,
+    olderDeployNotTreatedAsCurrentHead: true,
   },
   checks,
   nextActions: [
+    deploymentFreshnessStatus === 'current-head-deployed'
+      ? 'Current main is deployed; keep strict live artifact evidence in sync after each Pages run.'
+      : 'Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.',
     status === 'post-deploy-artifact-sync-passed'
       ? 'Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.'
       : 'Run the Web PWA Deploy workflow, then rerun this sync to import strict live smoke evidence.',
@@ -468,8 +556,44 @@ if (
   existingSync?.status === 'post-deploy-artifact-sync-passed' &&
   payload.status !== 'post-deploy-artifact-sync-passed'
 ) {
-  console.log('Network blocked; preserving prior post-deploy artifact sync evidence.')
-  process.exit(0)
+  const freshnessCheck = payload.checks.find((check) => check.id === 'deployment-freshness') ?? {
+    id: 'deployment-freshness',
+    status: currentHeadSha ? 'monitor' : 'blocker',
+    detail: currentHeadSha
+      ? `Current ${currentBranch ?? 'HEAD'} ${currentHeadSha.slice(0, 12)} could not be compared with live deploy because GitHub or network evidence was unavailable.`
+      : 'Current git HEAD could not be resolved for deployment freshness tracking.',
+  }
+  const checks = [
+    ...(existingSync.checks ?? []).filter((check) => check.id !== 'deployment-freshness'),
+    freshnessCheck,
+  ]
+
+  payload = {
+    ...existingSync,
+    generatedAt: payload.generatedAt,
+    envFiles: localEnv,
+    deploymentFreshness: payload.deploymentFreshness,
+    controls: {
+      ...(existingSync.controls ?? {}),
+      currentHeadFreshnessTracked: true,
+      olderDeployNotTreatedAsCurrentHead: true,
+    },
+    checks,
+    summary: {
+      planned: checks.length,
+      passed: checks.filter((check) => check.status === 'pass').length,
+      failed: checks.filter((check) => check.status === 'fail').length,
+      blocked: checks.filter((check) => check.status === 'blocker').length,
+    },
+    nextActions: [
+      payload.deploymentFreshness.status === 'current-head-deployed'
+        ? 'Current main is deployed; keep strict live artifact evidence in sync after each Pages run.'
+        : 'Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.',
+      ...(existingSync.nextActions ?? []),
+    ],
+  }
+
+  console.log('Network blocked; preserved prior strict deploy evidence and refreshed deployment freshness.')
 }
 
 const report = [
@@ -483,6 +607,7 @@ const report = [
   `Origin: ${payload.live.origin ?? 'missing'}`,
   `Artifact candidate: ${payload.artifact.target?.candidateId ?? 'missing'}`,
   `Live candidate: ${payload.live.candidateId ?? 'missing'}`,
+  `Deployment freshness: ${payload.deploymentFreshness.status}`,
   '',
   '## Summary',
   '',
@@ -494,6 +619,14 @@ const report = [
   '## Validation',
   '',
   ...Object.entries(payload.validation).map(([key, value]) => `- ${key}: ${value}`),
+  '',
+  '## Deployment Freshness',
+  '',
+  `- currentHeadSha: ${payload.deploymentFreshness.currentHeadSha ?? 'missing'}`,
+  `- selectedRunHeadSha: ${payload.deploymentFreshness.selectedRunHeadSha ?? 'missing'}`,
+  `- currentHeadDeployed: ${payload.deploymentFreshness.currentHeadDeployed}`,
+  `- currentHeadQueuedOrRunning: ${payload.deploymentFreshness.currentHeadQueuedOrRunning}`,
+  `- liveMatchesCurrentLocalCandidate: ${payload.deploymentFreshness.liveMatchesCurrentLocalCandidate}`,
   '',
   '## Checks',
   '',

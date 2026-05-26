@@ -1,6 +1,6 @@
 # Post-Deploy Artifact Sync
 
-Generated: 2026-05-26T10:56:17.847Z
+Generated: 2026-05-26T12:42:35.106Z
 Status: post-deploy-artifact-sync-passed
 Repository: moshequ/autonomous-game-lab
 Workflow: web-pwa-deploy.yml
@@ -8,10 +8,11 @@ Run: 26447300326
 Origin: https://moshequ.github.io/autonomous-game-lab/
 Artifact candidate: pwa-356aaef63de4
 Live candidate: pwa-356aaef63de4
+Deployment freshness: current-head-not-deployed
 
 ## Summary
 
-- Planned: 6
+- Planned: 7
 - Passed: 6
 - Failed: 0
 - Blocked: 0
@@ -24,6 +25,14 @@ Live candidate: pwa-356aaef63de4
 - artifactSummaryPassed: true
 - liveMatchesArtifact: true
 
+## Deployment Freshness
+
+- currentHeadSha: fac59a5367641b782ff677f9795583a3dca76525
+- selectedRunHeadSha: 848895e000b023e9a355d89ec5d0abe70faa57a2
+- currentHeadDeployed: false
+- currentHeadQueuedOrRunning: false
+- liveMatchesCurrentLocalCandidate: false
+
 ## Checks
 
 - pass: gh-cli - gh version 2.92.0 (2026-04-28)
@@ -32,6 +41,7 @@ Live candidate: pwa-356aaef63de4
 - pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26447300326.
 - pass: strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
+- monitor: deployment-freshness - Current main fac59a536764 is not the latest strict deployed artifact; freshness current-head-not-deployed.
 
 ## Controls
 
@@ -45,8 +55,11 @@ Live candidate: pwa-356aaef63de4
 - strictManifestComparisonRequired: true
 - separateFromLocalCandidate: true
 - noPostDeployReleaseRefresh: true
+- currentHeadFreshnessTracked: true
+- olderDeployNotTreatedAsCurrentHead: true
 
 ## Next Actions
 
+- Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.
 - Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.
 - Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass.

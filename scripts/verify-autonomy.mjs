@@ -7034,7 +7034,25 @@ const postDeployArtifactSyncReady =
   postDeployArtifactSync.controls?.readOnlyGithubArtifactDownload === true &&
   postDeployArtifactSync.controls?.readOnlyHttpChecks === true &&
   postDeployArtifactSync.controls?.strictManifestComparisonRequired === true &&
-  postDeployArtifactSync.controls?.separateFromLocalCandidate === true
+  postDeployArtifactSync.controls?.separateFromLocalCandidate === true &&
+  postDeployArtifactSync.controls?.currentHeadFreshnessTracked === true &&
+  postDeployArtifactSync.controls?.olderDeployNotTreatedAsCurrentHead === true
+const deploymentFreshnessStatuses = new Set([
+  'current-head-deployed',
+  'current-head-deploy-pending',
+  'current-head-not-deployed',
+  'current-head-unknown',
+])
+const deploymentFreshness = postDeployArtifactSync.deploymentFreshness ?? {}
+const deploymentFreshnessTracked =
+  deploymentFreshnessStatuses.has(deploymentFreshness.status) &&
+  (deploymentFreshness.currentHeadSha === null ||
+    /^[a-f0-9]{40}$/.test(deploymentFreshness.currentHeadSha ?? '')) &&
+  (deploymentFreshness.selectedRunHeadSha === null ||
+    /^[a-f0-9]{40}$/.test(deploymentFreshness.selectedRunHeadSha ?? '')) &&
+  typeof deploymentFreshness.currentHeadDeployed === 'boolean' &&
+  typeof deploymentFreshness.currentHeadQueuedOrRunning === 'boolean' &&
+  typeof deploymentFreshness.liveMatchesCurrentLocalCandidate === 'boolean'
 const normalizeLiveOriginForCompare = (value) => {
   const trimmed = String(value ?? '').trim()
 
@@ -7151,6 +7169,13 @@ if (
   postDeployArtifactSync.controls?.strictManifestComparisonRequired !== true ||
   postDeployArtifactSync.controls?.separateFromLocalCandidate !== true ||
   postDeployArtifactSync.controls?.noPostDeployReleaseRefresh !== true ||
+  postDeployArtifactSync.controls?.currentHeadFreshnessTracked !== true ||
+  postDeployArtifactSync.controls?.olderDeployNotTreatedAsCurrentHead !== true ||
+  !deploymentFreshnessTracked ||
+  (deploymentFreshness.status === 'current-head-deployed' &&
+    (deploymentFreshness.currentHeadDeployed !== true ||
+      deploymentFreshness.liveMatchesCurrentLocalCandidate !== true ||
+      deploymentFreshness.selectedRunHeadMatchesCurrent !== true)) ||
   packageJson.scripts?.['autonomous:post-deploy-artifact-sync'] !==
     'node scripts/post-deploy-artifact-sync.mjs' ||
   packageJson.scripts?.['autonomous:verify-post-deploy-sync'] !==
@@ -7179,6 +7204,9 @@ if (
   !postDeployArtifactSyncSource.includes('readOnlyGithubArtifactDownload') ||
   !postDeployArtifactSyncSource.includes('separateFromLocalCandidate') ||
   !postDeployArtifactSyncSource.includes('noPostDeployReleaseRefresh') ||
+  !postDeployArtifactSyncSource.includes('currentHeadFreshnessTracked') ||
+  !postDeployArtifactSyncSource.includes('olderDeployNotTreatedAsCurrentHead') ||
+  !postDeployArtifactSyncSource.includes('deploymentFreshness') ||
   !postDeployEvidenceSyncWorkflow.includes("workflows: ['Web PWA Deploy']") ||
   !postDeployEvidenceSyncWorkflow.includes('actions: read') ||
   !postDeployEvidenceSyncWorkflow.includes('contents: write') ||
@@ -7295,9 +7323,11 @@ if (
   readiness.postDeploySmoke?.controls?.localArtifactSmokeRequired !== true ||
   readiness.postDeploySmoke?.controls?.manifestHashComparisonRequired !== true ||
   readiness.postDeployArtifactSync?.status !== postDeployArtifactSync.status ||
+  readiness.postDeployArtifactSync?.deploymentFreshness?.status !== deploymentFreshness.status ||
   readiness.postDeployArtifactSync?.live?.matchesArtifact !== true ||
   readiness.postDeployArtifactSync?.controls?.readOnlyGithubArtifactDownload !== true ||
   readiness.postDeployArtifactSync?.controls?.separateFromLocalCandidate !== true ||
+  readiness.postDeployArtifactSync?.controls?.currentHeadFreshnessTracked !== true ||
   !readiness.webPwa?.checks?.some((check) => check.id === 'live-site-monitor' && check.status === 'pass') ||
   readiness.liveSiteMonitor?.status !== liveSiteMonitor.status ||
   readiness.liveSiteMonitor?.summary?.liveMatchesSyncedDeploy !== true ||

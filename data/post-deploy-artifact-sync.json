@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T10:56:17.847Z",
+  "generatedAt": "2026-05-26T12:42:35.106Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
     "loaded": true,
@@ -141,7 +141,7 @@
     "liveMatchesArtifact": true
   },
   "summary": {
-    "planned": 6,
+    "planned": 7,
     "passed": 6,
     "failed": 0,
     "blocked": 0
@@ -156,7 +156,9 @@
     "readOnlyHttpChecks": true,
     "strictManifestComparisonRequired": true,
     "separateFromLocalCandidate": true,
-    "noPostDeployReleaseRefresh": true
+    "noPostDeployReleaseRefresh": true,
+    "currentHeadFreshnessTracked": true,
+    "olderDeployNotTreatedAsCurrentHead": true
   },
   "checks": [
     {
@@ -188,10 +190,37 @@
       "id": "live-release-manifest",
       "status": "pass",
       "detail": "Live release-candidate.json still matches the strict smoke artifact."
+    },
+    {
+      "id": "deployment-freshness",
+      "status": "monitor",
+      "detail": "Current main fac59a536764 is not the latest strict deployed artifact; freshness current-head-not-deployed."
     }
   ],
   "nextActions": [
+    "Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.",
     "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.",
     "Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass."
-  ]
+  ],
+  "deploymentFreshness": {
+    "status": "current-head-not-deployed",
+    "currentHeadSha": "fac59a5367641b782ff677f9795583a3dca76525",
+    "currentBranch": "main",
+    "selectedRunHeadSha": "848895e000b023e9a355d89ec5d0abe70faa57a2",
+    "selectedRunHeadMatchesCurrent": false,
+    "currentHeadDeployed": false,
+    "currentHeadQueuedOrRunning": false,
+    "currentHeadSuccessfulRunId": null,
+    "currentHeadActiveRunId": null,
+    "latestRunId": 26447300326,
+    "latestRunStatus": "queued",
+    "latestRunConclusion": "",
+    "latestRunHeadSha": "75ab19e568e470f8eed97d164f3cc85868999f53",
+    "liveMatchesCurrentLocalCandidate": false,
+    "liveCandidateId": "pwa-356aaef63de4",
+    "localCandidateId": "pwa-2f5873175351",
+    "liveAggregateHash": "356aaef63de47e376bdd15675f74295c1e613ffb84ca8bbf5204ac41d2015ce4",
+    "localAggregateHash": "2f58731753518169eeb2856c5a9ccc11e6575bd86062eaaab8e2983e9d5a57a7",
+    "workflowRunListAvailable": true
+  }
 }

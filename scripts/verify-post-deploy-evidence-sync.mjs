@@ -90,6 +90,22 @@ const [
 ])
 
 const postDeployReadinessSyncScript = packageJson.scripts?.['autonomous:post-deploy-readiness-sync'] ?? ''
+const deploymentFreshnessStatuses = new Set([
+  'current-head-deployed',
+  'current-head-deploy-pending',
+  'current-head-not-deployed',
+  'current-head-unknown',
+])
+const deploymentFreshness = sync.deploymentFreshness ?? {}
+const deploymentFreshnessTracked =
+  deploymentFreshnessStatuses.has(deploymentFreshness.status) &&
+  (deploymentFreshness.currentHeadSha === null ||
+    /^[a-f0-9]{40}$/.test(deploymentFreshness.currentHeadSha ?? '')) &&
+  (deploymentFreshness.selectedRunHeadSha === null ||
+    /^[a-f0-9]{40}$/.test(deploymentFreshness.selectedRunHeadSha ?? '')) &&
+  typeof deploymentFreshness.currentHeadDeployed === 'boolean' &&
+  typeof deploymentFreshness.currentHeadQueuedOrRunning === 'boolean' &&
+  typeof deploymentFreshness.liveMatchesCurrentLocalCandidate === 'boolean'
 
 if (
   publicRepoSecurityAudit.status !== 'public-repo-security-ready' ||
@@ -130,7 +146,14 @@ if (
   sync.controls?.readOnlyHttpChecks !== true ||
   sync.controls?.strictManifestComparisonRequired !== true ||
   sync.controls?.separateFromLocalCandidate !== true ||
-  sync.controls?.noPostDeployReleaseRefresh !== true
+  sync.controls?.noPostDeployReleaseRefresh !== true ||
+  sync.controls?.currentHeadFreshnessTracked !== true ||
+  sync.controls?.olderDeployNotTreatedAsCurrentHead !== true ||
+  !deploymentFreshnessTracked ||
+  (deploymentFreshness.status === 'current-head-deployed' &&
+    (deploymentFreshness.currentHeadDeployed !== true ||
+      deploymentFreshness.liveMatchesCurrentLocalCandidate !== true ||
+      deploymentFreshness.selectedRunHeadMatchesCurrent !== true))
 ) {
   fail('Post-deploy evidence sync must prove strict live Pages smoke without enabling paid, store, revenue, or workflow mutation.')
 }
@@ -569,6 +592,7 @@ if (
   JSON.stringify(publicMeasurementStatus.analyticsUnlock) !==
     JSON.stringify(productionMeasurementStatus.analyticsUnlock) ||
   productionReadiness.postDeployArtifactSync?.status !== sync.status ||
+  productionReadiness.postDeployArtifactSync?.deploymentFreshness?.status !== deploymentFreshness.status ||
   productionReadiness.liveSiteMonitor?.status !== liveSiteMonitor.status ||
   productionReadiness.repositoryChannel?.status !== repositoryReadiness.status ||
   productionReadiness.repositoryBootstrap?.status !== repositoryBootstrap.status ||
