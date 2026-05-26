@@ -1,5 +1,5 @@
 export const deploymentPlan = {
-  "status": "blocked"
+  "status": "ready-for-pages"
 } as const
 
 export type DeploymentPlan = typeof deploymentPlan

@@ -1,41 +1,32 @@
 {
-  "generatedAt": "2026-05-26T13:51:19.440Z",
+  "generatedAt": "2026-05-26T14:31:03.028Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "prepare-repository-channel",
-    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "actionId": "refresh-completion-loop",
+    "command": "npm run autonomous:completion-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "prepare-repository-channel",
+    "id": "refresh-completion-loop",
     "status": "armed",
-    "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+    "command": "npm run autonomous:completion-loop",
     "targets": [
-      "moshequ/autonomous-game-lab"
+      "harbor-rings"
     ],
-    "reason": "Surfaces and prepares the missing git/GitHub deployment-channel blockers before web deploy.",
+    "reason": "Refreshes optional completion nudges and behind-pace finish-line coaching from product-gate evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
-    "optimize-daily-retention",
-    "measure-pwa-install-loop",
-    "collect-gate-sample-local-drops",
     "refresh-completion-loop",
     "refresh-replay-loop",
-    "prepare-repository-channel",
-    "refresh-production-blocker-handoff",
-    "refresh-objective-audit",
-    "optimize-store-listing",
-    "apply-safe-improvements",
-    "collect-live-events"
+    "apply-safe-improvements"
   ],
   "blockedActions": [
     {
@@ -58,9 +49,9 @@
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:self-update",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "seed-portfolio-traffic",
@@ -82,15 +73,15 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:retention",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "measure-pwa-install-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:pwa-install",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "check-performance-budget",
@@ -136,9 +127,9 @@
     },
     {
       "id": "collect-gate-sample-local-drops",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -165,16 +156,16 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-completion-loop",
-      "status": "armed",
-      "command": "npm run autonomous:completion-loop",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "refresh-replay-loop",
       "status": "armed",
       "command": "npm run autonomous:replay-loop",
       "reason": "not-selected-this-run"
+    },
+    {
+      "id": "prepare-repository-channel",
+      "status": "monitor",
+      "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
+      "reason": "status-monitor"
     },
     {
       "id": "bootstrap-production-setup",
@@ -190,9 +181,9 @@
     },
     {
       "id": "refresh-production-blocker-handoff",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:blocker-handoff",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "run-production-unlock-runner",
@@ -214,15 +205,15 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:objective-audit",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "optimize-store-listing",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-android-signing",
@@ -238,25 +229,21 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "blocked-needs-repository-channel",
+      "status": "ready-when-repository-pages-enabled",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-blocked-needs-repository-channel"
+      "reason": "status-ready-when-repository-pages-enabled"
     },
     {
       "id": "collect-live-events",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     }
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:repo-readiness",
-      "script": "autonomous:repo-readiness"
-    },
-    {
-      "segment": "npm run autonomous:repo-bootstrap",
-      "script": "autonomous:repo-bootstrap"
+      "segment": "npm run autonomous:completion-loop",
+      "script": "autonomous:completion-loop"
     }
   ],
   "execution": {
@@ -333,7 +320,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=prepare-repository-channel to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-completion-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

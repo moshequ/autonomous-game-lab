@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-26T13:51:19.440Z
+Generated: 2026-05-26T14:31:03.028Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: prepare-repository-channel
-Selected action: prepare-repository-channel
+Owner decision: refresh-completion-loop
+Selected action: refresh-completion-loop
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- prepare-repository-channel: npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
+- refresh-completion-loop: npm run autonomous:completion-loop
 
 ## External Input Handoff
 
@@ -30,32 +30,23 @@ Execution: not-requested
 
 ## Eligible Local Actions
 
-- refresh-autonomous-self-update
 - seed-portfolio-traffic
 - refresh-organic-seed-loop
-- optimize-daily-retention
-- measure-pwa-install-loop
-- collect-gate-sample-local-drops
 - refresh-completion-loop
 - refresh-replay-loop
-- prepare-repository-channel
-- refresh-production-blocker-handoff
-- refresh-objective-audit
-- optimize-store-listing
 - apply-safe-improvements
-- collect-live-events
 
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: status-monitor
-- refresh-autonomous-self-update: not-selected-this-run
+- refresh-autonomous-self-update: status-monitor
 - seed-portfolio-traffic: not-selected-this-run
 - refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: status-monitor
-- optimize-daily-retention: not-selected-this-run
-- measure-pwa-install-loop: not-selected-this-run
+- optimize-daily-retention: status-monitor
+- measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor

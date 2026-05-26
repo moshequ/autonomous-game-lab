@@ -1,27 +1,25 @@
 export const autonomousOwnerLoop = {
   "status": "owner-loop-ready",
-  "mode": "guarded-local-automation",
+  "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "percent": 89
+    "percent": 98
   },
   "controls": {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "prepare-repository-channel"
+    "nextBestActionId": "refresh-completion-loop"
   },
   "executionBackoff": {
     "status": "ready",
-    "heldActionCount": 5,
-    "executableWithoutRepeatCount": 9,
+    "heldActionCount": 3,
+    "executableWithoutRepeatCount": 2,
     "nextResumeAt": "2026-05-26T23:08:56.032Z",
-    "nextResumeInHours": 9.283,
+    "nextResumeInHours": 8.63,
     "heldActionIds": [
       "seed-portfolio-traffic",
       "refresh-organic-seed-loop",
-      "optimize-daily-retention",
-      "refresh-replay-loop",
-      "bootstrap-production-setup"
+      "refresh-replay-loop"
     ]
   },
   "externalInputHandoff": {
