@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-26T13:05:43.893Z",
+  "generatedAt": "2026-05-26T13:20:48.392Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-ce61e6f62944",
@@ -47,15 +47,15 @@ export const productionMeasurementStatus = {
       "status": "waiting-on-owner-input",
       "nextUnlockId": "production-analytics-browser",
       "recommendedPathId": "first-party-collector",
-      "missingVariableCount": 3,
-      "missingSecretCount": 1
+      "missingVariableCount": 5,
+      "missingSecretCount": 3
     }
   },
   "ownerUnlockPreflight": {
     "status": "owner-unlock-preflight-waiting-on-input",
     "readyForSetup": false,
     "lowestInputPathId": "posthog-browser",
-    "missingInputCount": 4,
+    "missingInputCount": 8,
     "invalidInputCount": 0,
     "lowestInputMissingInputCount": 1,
     "lowestInputSecretInputCount": 0,
@@ -76,8 +76,30 @@ export const productionMeasurementStatus = {
         "VITE_POSTHOG_KEY",
         "AGL_SUPPORT_EMAIL"
       ],
+      "localEnvTemplateLines": [
+        "VITE_POSTHOG_KEY=",
+        "AGL_SUPPORT_EMAIL="
+      ],
+      "shellExportTemplateLines": [
+        "export VITE_POSTHOG_KEY=",
+        "export AGL_SUPPORT_EMAIL="
+      ],
       "writeAnalyticsLocalEnvTemplateCommand": "./ops/github/setup-production.sh --analytics-input-template",
-      "writeLocalEnvTemplateCommand": "./ops/github/setup-production.sh --owner-input-template"
+      "writeLocalEnvTemplateCommand": "./ops/github/setup-production.sh --owner-input-template",
+      "commands": {
+        "combinedPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
+        "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --owner-input-template",
+        "writeLocalEnvTemplate": "node scripts/owner-unlock-preflight.mjs --write-local-env-template",
+        "syncConfiguredValues": "./ops/github/setup-production.sh",
+        "workflowDispatch": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"
+      },
+      "controls": {
+        "noSecretValuesStored": true,
+        "localTemplateWriteNoGithubMutation": true,
+        "workflowDispatchRequiresRunWorkflows": true,
+        "storeSubmissionStillBlocked": true,
+        "revenueStillBlocked": true
+      }
     }
   }
 } as const

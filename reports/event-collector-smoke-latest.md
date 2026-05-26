@@ -1,6 +1,6 @@
 # Event Collector Smoke
 
-Generated: 2026-05-26T06:45:47.684Z
+Generated: 2026-05-26T13:18:41.142Z
 Status: pass
 
 ## Collector
@@ -8,10 +8,11 @@ Status: pass
 - Smoke game: Market Pulse (market-pulse)
 - Post status: accepted
 - Beacon status: accepted
-- Stored events: 19
-- Exported events: 19
+- Stored events: 20
+- Exported events: 20
 - Summary status: 200
-- Summary events: 19
+- Summary events: 20
+- Owner unlock copies: 1
 - Summary aggregate only: true
 - Normalizes allowed origin path: true
 - PII stripped: true

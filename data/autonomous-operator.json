@@ -1,105 +1,39 @@
 {
-  "generatedAt": "2026-05-26T13:05:45.628Z",
-  "status": "operator-held",
+  "generatedAt": "2026-05-26T13:29:05.707Z",
+  "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "hold-for-external-input",
-    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
-    "locallyExecutable": false,
-    "rejectionReason": "status-monitor"
+    "actionId": "collect-gate-sample-local-drops",
+    "command": "npm run autonomous:collect-local-event-drops",
+    "locallyExecutable": true,
+    "rejectionReason": null
   },
-  "externalInputHandoff": {
-    "status": "handoff-waiting-on-owner-inputs",
-    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
-    "nextUnlockId": "production-analytics-browser",
-    "title": "Browser production analytics unlock kit",
-    "recommendedPathId": "first-party-collector",
-    "recommendedPathStatus": "needs-variables-and-secrets",
-    "lowestInputPathId": "posthog-browser",
-    "lowestInputPathStatus": "needs-public-project-key",
-    "lowestInputMissingVariableCount": 1,
-    "lowestInputMissingSecretCount": 0,
-    "lowestInputMissingInputCount": 1,
-    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
-    "publicStatusPage": "/measurement-status.html",
-    "publicStatusJson": "/measurement-status.json",
-    "setupScript": "ops/github/setup-production.sh",
-    "envTemplate": "ops/production.env.example",
-    "missingVariableCount": 4,
-    "missingSecretCount": 1,
-    "commandCount": 7,
-    "validationCommandCount": 4,
-    "requiredVariables": [
-      {
-        "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
-        "envName": "CLOUDFLARE_ACCOUNT_ID",
-        "configured": false
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true
-      },
-      {
-        "repositoryName": "VITE_EVENT_COLLECTOR_URL",
-        "envName": "VITE_EVENT_COLLECTOR_URL",
-        "configured": false
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
-        "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
-        "configured": false
-      }
-    ],
-    "requiredSecrets": [
-      {
-        "repositoryName": "CLOUDFLARE_API_TOKEN",
-        "envName": "CLOUDFLARE_API_TOKEN",
-        "configured": false
-      },
-      {
-        "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true
-      },
-      {
-        "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true
-      }
-    ],
-    "commandSequence": [
-      "npm run autonomous:event-collector-smoke",
-      "npm run autonomous:collector-deploy-plan",
-      "./ops/github/setup-production.sh",
-      "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
-      "npm run autonomous:readiness"
-    ],
-    "validationCommands": [
-      "npm run autonomous:event-collector-smoke",
-      "npm run autonomous:collector-deploy-plan",
-      "npm run autonomous:readiness",
-      "npm run test:e2e"
-    ],
-    "controls": {
-      "zeroPaidSpend": true,
-      "noSecretValues": true,
-      "noSecretValuesStored": true,
-      "noAccountCreation": true,
-      "noStoreSubmission": true,
-      "noRevenueEnablement": true,
-      "operatorWillNotRunExternalWorkflow": true
-    }
-  },
+  "externalInputHandoff": null,
   "requestedActionId": null,
-  "selectedAction": null,
+  "selectedAction": {
+    "id": "collect-gate-sample-local-drops",
+    "status": "armed",
+    "command": "npm run autonomous:collect-local-event-drops",
+    "targets": [
+      "firstGameCompletion",
+      "gate-sample-20260526-firstGameCompletion",
+      "gate-sample-20260526-replayRate"
+    ],
+    "reason": "Imports only the local inbox or explicitly configured drop folders, refreshes analytics and gate recovery, and never scans Downloads.",
+    "costUsd": 0
+  },
   "selectedRejection": null,
-  "eligibleActionIds": [],
+  "eligibleActionIds": [
+    "seed-portfolio-traffic",
+    "refresh-organic-seed-loop",
+    "optimize-daily-retention",
+    "collect-gate-sample-local-drops",
+    "refresh-first-move-coach",
+    "refresh-completion-loop",
+    "refresh-replay-loop",
+    "apply-safe-improvements",
+    "collect-live-events"
+  ],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -129,13 +63,13 @@
       "id": "seed-portfolio-traffic",
       "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "owner-decision-held"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
       "status": "armed",
       "command": "npm run autonomous:organic-seed-loop",
-      "reason": "owner-decision-held"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-support-feedback",
@@ -145,9 +79,9 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:retention",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "measure-pwa-install-loop",
@@ -198,12 +132,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "collect-gate-sample-local-drops",
-      "status": "monitor",
-      "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "status-monitor"
-    },
-    {
       "id": "collect-gate-sample-downloads",
       "status": "monitor",
       "command": "npm run autonomous:collect-sample-downloads",
@@ -223,21 +151,21 @@
     },
     {
       "id": "refresh-first-move-coach",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:first-move-coach",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-completion-loop",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:completion-loop",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-replay-loop",
       "status": "armed",
       "command": "npm run autonomous:replay-loop",
-      "reason": "owner-decision-held"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-repository-channel",
@@ -301,9 +229,9 @@
     },
     {
       "id": "apply-safe-improvements",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "deploy-web-pwa",
@@ -313,12 +241,17 @@
     },
     {
       "id": "collect-live-events",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     }
   ],
-  "commandPlan": [],
+  "commandPlan": [
+    {
+      "segment": "npm run autonomous:collect-local-event-drops",
+      "script": "autonomous:collect-local-event-drops"
+    }
+  ],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -393,7 +326,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Resolve production-analytics-browser through /measurement-status.html, then rerun npm run autonomous:readiness.",
+    "Run npm run autonomous:operator -- --execute --action=collect-gate-sample-local-drops to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

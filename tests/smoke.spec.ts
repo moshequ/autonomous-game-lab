@@ -204,9 +204,13 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
           missingInputs: number
           secretInputs: number
         }
+        missingInputNames: string[]
+        localEnvTemplateLines?: string[]
         commands?: {
+          combinedPreflight?: string
           setupWriteLocalEnvTemplate?: string
           writeLocalEnvTemplate?: string
+          syncConfiguredValues?: string
         }
       } | null
     }
@@ -313,6 +317,23 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
       ? `${productionMeasurement.ownerUnlockPreflight.combinedOwnerInputPreflight.summary.missingInputs}/${productionMeasurement.ownerUnlockPreflight.combinedOwnerInputPreflight.summary.secretInputs}`
       : '0/0',
   )
+  const combinedOwnerInput = productionMeasurement.ownerUnlockPreflight?.combinedOwnerInputPreflight
+  if (combinedOwnerInput) {
+    const ownerUnlockPack = page.getByLabel('Owner Unlock Pack')
+    await expect(ownerUnlockPack).toContainText(combinedOwnerInput.status)
+    await expect(ownerUnlockPack).toContainText(combinedOwnerInput.localEnvFile)
+    await expect(ownerUnlockPack).toContainText(combinedOwnerInput.unlockIds.join(' + '))
+    for (const inputName of combinedOwnerInput.missingInputNames) {
+      await expect(ownerUnlockPack).toContainText(inputName)
+    }
+    for (const templateLine of combinedOwnerInput.localEnvTemplateLines ?? []) {
+      await expect(ownerUnlockPack).toContainText(templateLine)
+    }
+    await expect(ownerUnlockPack.getByRole('button', { name: 'Template' })).toBeVisible()
+    await expect(ownerUnlockPack.getByRole('button', { name: 'Preflight' })).toBeVisible()
+    await expect(ownerUnlockPack.getByRole('button', { name: 'Helper' })).toBeVisible()
+    await expect(ownerUnlockPack.getByRole('button', { name: 'Sync' })).toBeVisible()
+  }
   await expect(page.getByLabel('Player Evidence Watchdog')).toContainText(/watchdog-/)
   await expect(page.getByLabel('Player Evidence Watchdog')).toContainText('Raw events')
   await expect(page.getByLabel('Repository Channel')).toContainText(/blocked-no-local-git|waiting-for-gh-auth|repository-channel-ready|waiting-for-github-repository|waiting-for-repository-channel/)

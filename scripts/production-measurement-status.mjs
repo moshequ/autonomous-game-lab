@@ -1006,15 +1006,46 @@ const appCombinedOwnerInputPreflight = payload.ownerUnlockPreflight.combinedOwne
         payload.ownerUnlockPreflight.combinedOwnerInputPreflight.summary?.secretInputs ?? null,
       invalidInputCount:
         payload.ownerUnlockPreflight.combinedOwnerInputPreflight.summary?.invalidInputs ?? null,
-	      missingInputNames: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.missingInputNames ?? [],
-	      writeAnalyticsLocalEnvTemplateCommand:
-	        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.setupWriteAnalyticsLocalEnvTemplate ??
-	        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.writeAnalyticsLocalEnvTemplate ??
-	        null,
-	      writeLocalEnvTemplateCommand:
-	        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.setupWriteLocalEnvTemplate ??
+      missingInputNames: payload.ownerUnlockPreflight.combinedOwnerInputPreflight.missingInputNames ?? [],
+      localEnvTemplateLines:
+        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.localEnvTemplateLines ?? [],
+      shellExportTemplateLines:
+        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.shellExportTemplateLines ?? [],
+      writeAnalyticsLocalEnvTemplateCommand:
+        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.setupWriteAnalyticsLocalEnvTemplate ??
+        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.writeAnalyticsLocalEnvTemplate ??
+        null,
+      writeLocalEnvTemplateCommand:
+        payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.setupWriteLocalEnvTemplate ??
         payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.writeLocalEnvTemplate ??
         null,
+      commands: {
+        combinedPreflight:
+          payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.combinedPreflight ?? null,
+        setupWriteLocalEnvTemplate:
+          payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.setupWriteLocalEnvTemplate ??
+          null,
+        writeLocalEnvTemplate:
+          payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.writeLocalEnvTemplate ?? null,
+        syncConfiguredValues:
+          payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.syncConfiguredValues ?? null,
+        workflowDispatch:
+          payload.ownerUnlockPreflight.combinedOwnerInputPreflight.commands?.workflowDispatch ?? null,
+      },
+      controls: {
+        noSecretValuesStored:
+          payload.ownerUnlockPreflight.combinedOwnerInputPreflight.controls?.noSecretValuesStored === true,
+        localTemplateWriteNoGithubMutation:
+          payload.ownerUnlockPreflight.combinedOwnerInputPreflight.controls?.localTemplateWriteNoGithubMutation ===
+          true,
+        workflowDispatchRequiresRunWorkflows:
+          payload.ownerUnlockPreflight.combinedOwnerInputPreflight.controls?.workflowDispatchRequiresRunWorkflows ===
+          true,
+        storeSubmissionStillBlocked:
+          payload.ownerUnlockPreflight.combinedOwnerInputPreflight.controls?.storeSubmissionStillBlocked === true,
+        revenueStillBlocked:
+          payload.ownerUnlockPreflight.combinedOwnerInputPreflight.controls?.revenueStillBlocked === true,
+      },
     }
   : null
 

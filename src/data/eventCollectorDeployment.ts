@@ -1,5 +1,5 @@
 export const eventCollectorDeployment = {
-  "generatedAt": "2026-05-26T06:45:47.894Z",
+  "generatedAt": "2026-05-26T13:20:24.654Z",
   "status": "blocked-needs-cloudflare-env",
   "envFiles": {
     "loaded": true,
@@ -106,8 +106,8 @@ export const eventCollectorDeployment = {
   "smoke": {
     "status": "pass",
     "piiStripped": true,
-    "exportedEvents": 19,
-    "summaryEvents": 19,
+    "exportedEvents": 20,
+    "summaryEvents": 20,
     "summaryAggregateOnly": true,
     "summaryRawEventsReturned": false,
     "activeSource": "local-event-drops"

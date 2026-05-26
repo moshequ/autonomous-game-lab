@@ -224,6 +224,24 @@ const exportedEvents = [
     createdAt: '2026-05-17T09:00:45.000Z',
   },
   {
+    id: 'collector-owner-unlock-pack',
+    name: 'owner_unlock_pack_copied',
+    properties: {
+      copyType: 'local-env-template',
+      inputCount: 2,
+      secretInputCount: 0,
+      unlockIds: 'production-analytics-browser+support-contact',
+      localEnvFile: '.env.production.local',
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+      zeroPaidSpend: true,
+      noSecretValuesStored: true,
+      noGithubMutation: true,
+    },
+    createdAt: '2026-05-17T09:00:50.000Z',
+  },
+  {
     id: 'collector-start',
     name: 'game_started',
     properties: {
@@ -429,6 +447,7 @@ const summaryResponse = await worker.fetch(
 )
 const summaryPayload = await summaryResponse.json()
 const summaryText = JSON.stringify(summaryPayload)
+const ownerUnlockEventsWithoutGame = 1
 
 if (
   summaryResponse.status !== 200 ||
@@ -437,7 +456,8 @@ if (
   summaryPayload.events?.total !== expectedCollectorEvents ||
   summaryPayload.events?.byName?.game_started !== 1 ||
   summaryPayload.events?.byName?.level_completed !== 1 ||
-  summaryPayload.events?.byGame?.[smokeGameId] !== expectedCollectorEvents ||
+  summaryPayload.events?.byName?.owner_unlock_pack_copied !== ownerUnlockEventsWithoutGame ||
+  summaryPayload.events?.byGame?.[smokeGameId] !== expectedCollectorEvents - ownerUnlockEventsWithoutGame ||
   summaryPayload.events?.byCampaign?.['gate-sample-smoke'] !== 4 ||
   summaryPayload.events?.byGate?.firstGameCompletion !== 4 ||
   summaryPayload.events?.bySessionDate?.['2026-05-17'] !== expectedCollectorEvents - 1 ||
@@ -530,6 +550,7 @@ try {
       summaryStatus: summaryResponse.status,
       summaryEvents: summaryPayload.events.total,
       summaryFilesIncluded: summaryPayload.files.included,
+      ownerUnlockPackCopied: summaryPayload.events.byName.owner_unlock_pack_copied ?? 0,
       summaryAggregateOnly: summaryPayload.controls.aggregateOnly,
       summaryRawEventsReturned: summaryPayload.controls.rawEventsReturned,
       piiStripped: true,
@@ -582,6 +603,7 @@ try {
     `- Exported events: ${smoke.collector.exportedEvents}`,
     `- Summary status: ${smoke.collector.summaryStatus}`,
     `- Summary events: ${smoke.collector.summaryEvents}`,
+    `- Owner unlock copies: ${smoke.collector.ownerUnlockPackCopied}`,
     `- Summary aggregate only: ${smoke.collector.summaryAggregateOnly}`,
     `- Normalizes allowed origin path: ${smoke.collector.normalizesAllowedOriginPath}`,
     `- PII stripped: ${smoke.collector.piiStripped}`,

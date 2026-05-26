@@ -1,6 +1,6 @@
 export const storeReadiness = {
-  "generatedAt": "2026-05-26T13:05:14.857Z",
-  "sourceDataHash": "474ba097bb2c",
+  "generatedAt": "2026-05-26T13:27:13.889Z",
+  "sourceDataHash": "36c16311f244",
   "status": "store-readiness-prepared-external-blockers",
   "sourceStatus": {
     "storePackage": "store-package-ready",
@@ -87,8 +87,10 @@ export const storeReadiness = {
         "ready": false,
         "configuredInRepository": false,
         "availableLocally": false,
-        "availableInLocalEnvFile": false,
-        "localEnvFiles": [],
+        "availableInLocalEnvFile": true,
+        "localEnvFiles": [
+          ".env.production.local"
+        ],
         "validation": {
           "kind": "email-shape",
           "status": "not-checked-missing-input",

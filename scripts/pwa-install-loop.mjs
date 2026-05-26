@@ -124,6 +124,18 @@ const payload = {
     releaseHealth: releaseHealth.status,
     publicOrigin: environment.publicOrigin?.status ?? 'missing',
   },
+  manifest: {
+    status: manifestConfigured && iconCoverageReady ? 'ready' : 'missing-install-assets',
+    configured: manifestConfigured,
+    iconCoverageReady,
+    displayMode: manifestConfigured ? 'standalone' : 'missing',
+    iconCount: iconAssets.manifestIcons?.length ?? 0,
+  },
+  serviceWorker: {
+    status: serviceWorkerConfigured ? 'ready' : 'missing-service-worker',
+    configured: serviceWorkerConfigured,
+    registerType: serviceWorkerConfigured ? 'autoUpdate' : 'missing',
+  },
   channel: {
     id: 'pwa-install',
     status: growthInstallChannel?.status ?? 'missing',
@@ -160,6 +172,7 @@ const payload = {
     priorityGameId,
   },
   publicInstallPage: {
+    status: 'install-page-ready',
     path: '/install.html',
     file: 'public/install.html',
     campaignId: installCampaignId,
@@ -260,6 +273,15 @@ const payload = {
       noStoreSubmission: true,
     },
     nextAction: installSampleNextAction,
+  },
+  samplePlan: {
+    status: installSampleStatus,
+    campaignId: installCampaignId,
+    minimumPromptViewsForDecision,
+    minimumLaunchModesForDecision,
+    promptViewsNeeded,
+    launchModesNeeded,
+    installSampleNextAction,
   },
   installSample: {
     status: installSampleStatus,

@@ -368,9 +368,32 @@
 .monetizationRuntime .replayActions,
 .monetizationRuntime .sampleActions,
 .monetizationRuntime .eventDropActions,
-.monetizationRuntime .localRouterActions {
+.monetizationRuntime .localRouterActions,
+.monetizationRuntime .ownerUnlockActions {
   justify-content: flex-end;
   flex-wrap: wrap;
+}
+
+.ownerUnlockList {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ownerUnlockList li {
+  min-width: 0;
+}
+
+.ownerUnlockList code {
+  display: block;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  overflow-wrap: anywhere;
+  font-size: 12px;
 }
 
 .trafficSeedingPanel {

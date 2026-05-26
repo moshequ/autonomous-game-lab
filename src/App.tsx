@@ -4,6 +4,7 @@ import {
   BarChart3,
   Bot,
   Coins,
+  Copy,
   Download,
   FolderInput,
   Gauge,
@@ -1210,13 +1211,46 @@ function App() {
           secretInputCount: number | null
           invalidInputCount: number | null
           missingInputNames: readonly string[]
+          localEnvTemplateLines?: readonly string[]
+          shellExportTemplateLines?: readonly string[]
           writeLocalEnvTemplateCommand: string | null
+          commands?: {
+            combinedPreflight?: string
+            setupWriteLocalEnvTemplate?: string
+            writeLocalEnvTemplate?: string
+            syncConfiguredValues?: string
+            workflowDispatch?: string
+          }
+          controls?: {
+            noSecretValuesStored?: boolean
+            localTemplateWriteNoGithubMutation?: boolean
+            workflowDispatchRequiresRunWorkflows?: boolean
+            storeSubmissionStillBlocked?: boolean
+            revenueStillBlocked?: boolean
+          }
         } | null
       }
     }
   ).ownerUnlockPreflight
   const productionMeasurementCombinedOwnerInput =
     productionMeasurementOwnerUnlockPreflight?.combinedOwnerInputPreflight
+  const ownerUnlockTemplateText = (productionMeasurementCombinedOwnerInput?.localEnvTemplateLines ?? [])
+    .join('\n')
+    .trim()
+  const ownerUnlockPreflightCommand =
+    productionMeasurementCombinedOwnerInput?.commands?.combinedPreflight ??
+    (productionMeasurementOwnerUnlockPreflight?.status
+      ? 'node scripts/owner-unlock-preflight.mjs --assert --print'
+      : '')
+  const ownerUnlockTemplateCommand =
+    productionMeasurementCombinedOwnerInput?.commands?.setupWriteLocalEnvTemplate ??
+    productionMeasurementCombinedOwnerInput?.commands?.writeLocalEnvTemplate ??
+    productionMeasurementCombinedOwnerInput?.writeLocalEnvTemplateCommand ??
+    ''
+  const ownerUnlockSyncCommand =
+    productionMeasurementCombinedOwnerInput?.commands?.syncConfiguredValues ??
+    productionMeasurementCombinedOwnerInput?.commands?.workflowDispatch ??
+    ''
   const ownerExternalInputHandoff = (
     autonomousOwnerLoop as {
       externalInputHandoff?: {
@@ -3067,6 +3101,37 @@ function App() {
 
     trackEvent('share_clicked', { gameId: selectedGameId, method, succeeded })
   }
+  const copyOwnerUnlockPackText = async (copyType: string, text: string) => {
+    let method = 'clipboard'
+    let succeeded = false
+
+    if (navigator.clipboard?.writeText && text) {
+      try {
+        await navigator.clipboard.writeText(text)
+        succeeded = true
+      } catch {
+        method = 'clipboard_unavailable'
+      }
+    } else {
+      method = 'unsupported'
+    }
+
+    trackEvent('owner_unlock_pack_copied', {
+      copyType,
+      method,
+      succeeded,
+      inputCount: productionMeasurementCombinedOwnerInput?.missingInputCount ?? null,
+      secretInputCount: productionMeasurementCombinedOwnerInput?.secretInputCount ?? null,
+      unlockIds: productionMeasurementCombinedOwnerInput?.unlockIds.join('+') ?? null,
+      localEnvFile: productionMeasurementCombinedOwnerInput?.localEnvFile ?? null,
+      zeroPaidSpend: true,
+      noSecretValuesStored:
+        productionMeasurementCombinedOwnerInput?.controls?.noSecretValuesStored ?? true,
+      noGithubMutation:
+        productionMeasurementCombinedOwnerInput?.controls?.localTemplateWriteNoGithubMutation ?? true,
+      textLength: text.length,
+    })
+  }
 
   return (
     <main className="appShell">
@@ -4149,6 +4214,80 @@ function App() {
                   <strong>{productionMeasurementCombinedOwnerInput?.unlockIds.join(' + ') || 'none'}</strong>
                 </div>
               </div>
+              {productionMeasurementCombinedOwnerInput ? (
+                <div className="monetizationRuntime priorityRuntime" aria-label="Owner Unlock Pack">
+                  <div>
+                    <span>Owner Unlock Pack</span>
+                    <strong>{productionMeasurementCombinedOwnerInput.status}</strong>
+                  </div>
+                  <div>
+                    <span>Local env</span>
+                    <strong>{productionMeasurementCombinedOwnerInput.localEnvFile}</strong>
+                  </div>
+                  <div>
+                    <span>Unlocks</span>
+                    <strong>{productionMeasurementCombinedOwnerInput.unlockIds.join(' + ') || 'none'}</strong>
+                  </div>
+                  <div>
+                    <span>Missing inputs</span>
+                    <strong>
+                      {productionMeasurementCombinedOwnerInput.missingInputNames.join(' + ') || 'none'}
+                    </strong>
+                  </div>
+                  <div>
+                    <span>Secret values</span>
+                    <strong>
+                      {productionMeasurementCombinedOwnerInput.secretInputCount ?? 0} stored /{' '}
+                      {productionMeasurementCombinedOwnerInput.controls?.noSecretValuesStored ? 'blocked' : 'review'}
+                    </strong>
+                  </div>
+                  <ul className="ownerUnlockList">
+                    {(productionMeasurementCombinedOwnerInput.localEnvTemplateLines ?? []).map((line) => (
+                      <li key={line}>
+                        <code>{line}</code>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="ownerUnlockActions">
+                    <button
+                      className="tinyButton"
+                      type="button"
+                      disabled={!ownerUnlockTemplateText}
+                      onClick={() => copyOwnerUnlockPackText('local-env-template', ownerUnlockTemplateText)}
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Template
+                    </button>
+                    <button
+                      className="tinyButton"
+                      type="button"
+                      disabled={!ownerUnlockPreflightCommand}
+                      onClick={() => copyOwnerUnlockPackText('preflight-command', ownerUnlockPreflightCommand)}
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Preflight
+                    </button>
+                    <button
+                      className="tinyButton subtleButton"
+                      type="button"
+                      disabled={!ownerUnlockTemplateCommand}
+                      onClick={() => copyOwnerUnlockPackText('template-command', ownerUnlockTemplateCommand)}
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Helper
+                    </button>
+                    <button
+                      className="tinyButton subtleButton"
+                      type="button"
+                      disabled={!ownerUnlockSyncCommand}
+                      onClick={() => copyOwnerUnlockPackText('sync-command', ownerUnlockSyncCommand)}
+                    >
+                      <Copy size={14} aria-hidden="true" />
+                      Sync
+                    </button>
+                  </div>
+                </div>
+              ) : null}
               <div className="monetizationRuntime" aria-label="Repository Channel">
                 <div>
                   <span>Repository Channel</span>

@@ -1,6 +1,6 @@
 export const productGateRecovery = {
-  "generatedAt": "2026-05-26T13:05:43.725Z",
-  "sourceDataHash": "c1355ec8af74",
+  "generatedAt": "2026-05-26T13:20:48.139Z",
+  "sourceDataHash": "2a6af4cc6f1b",
   "status": "product-gate-recovery-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
