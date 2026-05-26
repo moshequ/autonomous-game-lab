@@ -8662,6 +8662,8 @@ const ownerExternalInputHandoffLeaksValues = [
 ].some((item) => Object.hasOwn(item, 'value'))
 const ownerStoreUnlockSummary = storeReadiness.storeOwnerUnlockSummary ?? null
 const ownerStoreUnlocks = storeReadiness.storeOwnerUnlocks ?? []
+const ownerGooglePlayPrepPack = storeReadiness.googlePlayPrepOwnerInputPack ?? null
+const ownerGooglePlayBrowserPack = ownerGooglePlayPrepPack?.browserLocalActionPack ?? null
 const ownerStoreNextUnlock =
   ownerStoreUnlocks.find((unlock) => unlock.id === ownerStoreUnlockSummary?.nextUnlockId) ??
   ownerStoreUnlocks.find((unlock) => unlock.ownerInputRequired && unlock.canApplyBeforeProductGates) ??
@@ -8832,6 +8834,38 @@ if (
     autonomousOwnerLoop.storeExternalInputHandoff?.controls?.ownerLoopWillNotRunExternalWorkflow !== true) ||
   (ownerExpectedStoreExternalInputHandoff &&
     !autonomousOwnerLoop.externalInputHandoffs?.some((handoff) => handoff.id === 'store-readiness')) ||
+  ownerGooglePlayPrepPack?.unlockId !== 'google-play-account' ||
+  ownerGooglePlayPrepPack?.status !== 'google-play-prep-held-by-store-spend' ||
+  ownerGooglePlayPrepPack?.readyForSetup !== false ||
+  ownerGooglePlayPrepPack?.canApplyBeforeProductGates !== false ||
+  ownerGooglePlayPrepPack?.storeSubmissionStillBlocked !== true ||
+  !ownerGooglePlayPrepPack?.missingPublicInputNames?.includes('AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED') ||
+  !ownerGooglePlayPrepPack?.secretInputNames?.includes('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON') ||
+  ownerGooglePlayPrepPack?.commands?.githubSecretSet !==
+    'printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON' ||
+  ownerGooglePlayPrepPack?.controls?.noPaidSpend !== true ||
+  ownerGooglePlayPrepPack?.controls?.noSecretValuesStored !== true ||
+  ownerGooglePlayPrepPack?.controls?.noAccountCreation !== true ||
+  ownerGooglePlayPrepPack?.controls?.noStoreSubmission !== true ||
+  ownerGooglePlayPrepPack?.controls?.noRevenueEnablement !== true ||
+  ownerGooglePlayPrepPack?.controls?.storeSpendStillBlocked !== true ||
+  ownerGooglePlayBrowserPack?.id !== 'browser-local-google-play-prep-pack' ||
+  ownerGooglePlayBrowserPack?.receiptStorageKey !== 'agl.googlePlayPrepActionReceipt' ||
+  ownerGooglePlayBrowserPack?.downloadFileName !== 'agl-google-play-prep-pack.json' ||
+  ownerGooglePlayBrowserPack?.controls?.browserLocalOnly !== true ||
+  ownerGooglePlayBrowserPack?.controls?.commandTemplatesOnly !== true ||
+  ownerGooglePlayBrowserPack?.controls?.commandRequiresOwnerRun !== true ||
+  ownerGooglePlayBrowserPack?.controls?.noInputValuesCollected !== true ||
+  ownerGooglePlayBrowserPack?.controls?.noGeneratedValueSerialization !== true ||
+  ownerGooglePlayBrowserPack?.controls?.noSecretValuesStored !== true ||
+  ownerGooglePlayBrowserPack?.controls?.noGithubMutation !== true ||
+  ownerGooglePlayBrowserPack?.controls?.noWorkflowDispatch !== true ||
+  ownerGooglePlayBrowserPack?.controls?.noPaidSpend !== true ||
+  ownerGooglePlayBrowserPack?.controls?.noStoreSubmission !== true ||
+  ownerGooglePlayBrowserPack?.controls?.noRevenueEnablement !== true ||
+  !storeReadinessHtml.includes('browser-local-google-play-prep-pack') ||
+  !storeReadinessHtml.includes('Download Google Play prep pack') ||
+  !storeReadinessHtml.includes('Copy Google Play secret command') ||
   autonomousOwnerLoop.evidence?.analyticsSource !== analytics.sourceStatus.activeSource ||
   autonomousOwnerLoop.evidence?.localEventBridgeStatus !== localEventBridge.status ||
   autonomousOwnerLoop.evidence?.dailyChallenge?.gameId !== portfolioPolicy.dailyChallenge?.gameId ||

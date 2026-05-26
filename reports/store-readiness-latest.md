@@ -1,8 +1,8 @@
 # Store Readiness
 
-Generated: 2026-05-26T21:53:33.463Z
+Generated: 2026-05-26T22:03:32.453Z
 Status: store-readiness-prepared-external-blockers
-Source hash: 2bedaab92498
+Source hash: dad15a25bcf2
 
 ## Summary
 
@@ -51,6 +51,21 @@ Source hash: 2bedaab92498
 - local template avoids GitHub mutation: true
 - local env template:
   - AGL_SUPPORT_EMAIL=
+
+## Gated Google Play Prep Pack
+
+- unlock: google-play-account
+- status: google-play-prep-held-by-store-spend
+- missing public inputs: AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED
+- secret inputs: GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
+- browser-local action pack: browser-local-google-play-prep-pack (gated-prep-ready)
+- browser-local receipt key: agl.googlePlayPrepActionReceipt
+- browser-local download file: agl-google-play-prep-pack.json
+- command templates only: true
+- command requires owner run: true
+- no secret values stored: true
+- no paid spend: true
+- store spend still blocked: true
 
 ### Production support contact
 

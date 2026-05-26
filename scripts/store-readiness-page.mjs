@@ -582,6 +582,78 @@ const googlePlayUnlock = {
   validationCommands: ['npm run autonomous:android-release-plan', 'npm run autonomous:store-readiness', 'npm run test:e2e'],
   blockersCleared: ['google-play-account', 'play-service-account'],
 }
+const buildGooglePlayPrepOwnerInputPack = (unlock) => {
+  const publicInputNames = googlePlayAccountReady ? [] : ['AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED']
+  const secretInputNames = playServiceAccountReady ? [] : ['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON']
+  const githubVariableSet = 'gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body "$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED"'
+  const githubSecretSet = 'printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'
+  const storeSpendStillBlocked = unitEconomics.controls?.storeSpendAllowed !== true
+
+  return {
+    unlockId: unlock.id,
+    title: 'Gated Google Play prep pack',
+    status: storeSpendStillBlocked ? 'google-play-prep-held-by-store-spend' : 'google-play-owner-inputs-can-be-staged',
+    readyForSetup: false,
+    canApplyBeforeProductGates: false,
+    storeSubmissionStillBlocked: true,
+    missingInputCount: publicInputNames.length + secretInputNames.length,
+    missingPublicInputNames: publicInputNames,
+    secretInputCount: secretInputNames.length,
+    secretInputNames,
+    commands: {
+      githubVariableSet,
+      githubSecretSet,
+      validateAndroidRelease: 'npm run autonomous:android-release-plan',
+      validateStoreReadiness: 'npm run autonomous:store-readiness',
+      validationCommands: unlock.validationCommands,
+    },
+    browserLocalActionPack: {
+      id: 'browser-local-google-play-prep-pack',
+      status: 'gated-prep-ready',
+      receiptStorageKey: 'agl.googlePlayPrepActionReceipt',
+      downloadFileName: 'agl-google-play-prep-pack.json',
+      publicInputNames,
+      secretInputNames,
+      commands: {
+        githubVariableSet,
+        githubSecretSet,
+        validationCommands: unlock.validationCommands,
+      },
+      controls: {
+        browserLocalOnly: true,
+        commandTemplatesOnly: true,
+        commandRequiresOwnerRun: true,
+        noInputValuesCollected: true,
+        noGeneratedValueSerialization: true,
+        noSecretValues: true,
+        noSecretValuesStored: true,
+        noGithubMutation: true,
+        noWorkflowDispatch: true,
+        noAccountCreation: true,
+        noPaidSpend: true,
+        noStoreSubmission: true,
+        noRevenueEnablement: true,
+        storeSpendStillBlocked,
+        gatedByProductSignals: true,
+      },
+    },
+    controls: {
+      zeroPaidSpend: true,
+      noPaidSpend: true,
+      noSecretValuesStored: true,
+      noSecretValuesSerialized: true,
+      noMutation: true,
+      noWorkflowDispatch: true,
+      noAccountCreation: true,
+      noStoreSubmission: true,
+      noRevenueEnablement: true,
+      storeSpendStillBlocked,
+      commandRequiresOwnerRun: true,
+      productGatesStillRequired: true,
+    },
+  }
+}
+const googlePlayPrepOwnerInputPack = buildGooglePlayPrepOwnerInputPack(googlePlayUnlock)
 const iosUnlock = {
   id: 'ios-app-store-account',
   title: 'Apple Developer and App Store Connect',
@@ -692,6 +764,7 @@ const payload = {
   publicRoutes,
   storeOwnerUnlockSummary,
   supportOwnerInputPack,
+  googlePlayPrepOwnerInputPack,
   storeOwnerUnlocks,
   platformHandoffs,
   storePaybackLadder,
@@ -710,6 +783,7 @@ const publicPayload = {
   publicRoutes,
   storeOwnerUnlockSummary,
   supportOwnerInputPack,
+  googlePlayPrepOwnerInputPack,
   storePaybackLadder,
   storeOwnerUnlocks: storeOwnerUnlocks.map((unlock) => ({
     id: unlock.id,
@@ -893,7 +967,8 @@ const html = `<!doctype html>
         margin-top: 6px;
       }
 
-      .support-action-panel {
+      .support-action-panel,
+      .store-action-panel {
         display: grid;
         gap: 12px;
         margin: 18px 0 20px;
@@ -923,7 +998,8 @@ const html = `<!doctype html>
         font: inherit;
       }
 
-      .support-controls {
+      .support-controls,
+      .store-controls {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
@@ -1050,6 +1126,20 @@ const html = `<!doctype html>
           </div>
           <p class="lede" id="support-contact-validation-status" aria-live="polite">Waiting for support email. Typed values stay in this browser session unless you choose a local download or copy action; generated artifacts contain only field names.</p>
         </div>
+        <h3>Gated Google Play Prep Pack</h3>
+        <div class="row"><span>Prep status</span><strong>${escapeHtml(googlePlayPrepOwnerInputPack.status)}</strong></div>
+        <div class="row"><span>Missing public input</span><strong>${escapeHtml(googlePlayPrepOwnerInputPack.missingPublicInputNames.join(', ') || 'none')}</strong></div>
+        <div class="row"><span>Missing secret input</span><strong>${escapeHtml(googlePlayPrepOwnerInputPack.secretInputNames.join(', ') || 'none')}</strong></div>
+        <div class="store-action-panel" aria-label="Browser-local Google Play prep">
+          <div class="row"><span>Action pack</span><strong><code>${escapeHtml(googlePlayPrepOwnerInputPack.browserLocalActionPack.id)}</code></strong></div>
+          <div class="store-controls">
+            <button id="download-google-play-prep-pack" type="button">Download Google Play prep pack</button>
+            <button id="copy-google-play-variable-command" type="button">Copy Google Play variable command</button>
+            <button id="copy-google-play-secret-command" type="button">Copy Google Play secret command</button>
+            <button id="copy-google-play-validation-commands" type="button">Copy Google Play validation commands</button>
+          </div>
+          <p class="lede" id="google-play-prep-status" aria-live="polite">Google Play prep is staged as command templates only. Store spend, account creation, revenue, workflow dispatch, and store submission remain blocked.</p>
+        </div>
         <div class="grid">
           ${storeOwnerUnlocks
             .map(
@@ -1109,9 +1199,19 @@ const html = `<!doctype html>
         const copyShellButton = document.getElementById('copy-filled-support-contact-shell')
         const copyCommandButton = document.getElementById('copy-support-contact-variable-command')
         const actionButtons = [downloadButton, copyShellButton, copyCommandButton]
+        const googlePlayPrepPack = ${JSON.stringify(googlePlayPrepOwnerInputPack.browserLocalActionPack)}
+        const googlePlayPrepStatus = document.getElementById('google-play-prep-status')
+        const downloadGooglePlayPrepButton = document.getElementById('download-google-play-prep-pack')
+        const copyGooglePlayVariableCommandButton = document.getElementById('copy-google-play-variable-command')
+        const copyGooglePlaySecretCommandButton = document.getElementById('copy-google-play-secret-command')
+        const copyGooglePlayValidationCommandsButton = document.getElementById('copy-google-play-validation-commands')
 
         const setStatus = (message) => {
           if (status) status.textContent = message
+        }
+
+        const setGooglePlayPrepStatus = (message) => {
+          if (googlePlayPrepStatus) googlePlayPrepStatus.textContent = message
         }
 
         const setSupportButtons = (enabled) => {
@@ -1199,6 +1299,52 @@ const html = `<!doctype html>
           await navigator.clipboard.writeText(text)
         }
 
+        const writeGooglePlayPrepReceipt = (action, details = {}) => {
+          const receipt = {
+            action,
+            actionPackId: googlePlayPrepPack.id,
+            timestamp: new Date().toISOString(),
+            publicInputNames: googlePlayPrepPack.publicInputNames,
+            secretInputNames: googlePlayPrepPack.secretInputNames,
+            valueStored: false,
+            valueSerialized: false,
+            noSecretValuesStored: true,
+            noGithubMutation: true,
+            noWorkflowDispatch: true,
+            noAccountCreation: true,
+            noPaidSpend: true,
+            noStoreSubmission: true,
+            noRevenueEnablement: true,
+            storeSpendStillBlocked: googlePlayPrepPack.controls.storeSpendStillBlocked,
+            commandRequiresOwnerRun: true,
+            ...details,
+          }
+
+          try {
+            window.localStorage.setItem(googlePlayPrepPack.receiptStorageKey, JSON.stringify(receipt))
+          } catch {
+            // Private browsing can reject localStorage; receipts are best-effort only.
+          }
+
+          return receipt
+        }
+
+        const googlePlayPrepDownloadText = () =>
+          JSON.stringify(
+            {
+              id: googlePlayPrepPack.id,
+              generatedAt: new Date().toISOString(),
+              publicInputNames: googlePlayPrepPack.publicInputNames,
+              secretInputNames: googlePlayPrepPack.secretInputNames,
+              commands: googlePlayPrepPack.commands,
+              controls: googlePlayPrepPack.controls,
+              valueStored: false,
+              valueSerialized: false,
+            },
+            null,
+            2,
+          ) + '\\n'
+
         validateButton?.addEventListener('click', () => {
           validateSupportContactInput()
         })
@@ -1239,6 +1385,44 @@ const html = `<!doctype html>
             setStatus('GitHub variable command copied locally. It only runs if you paste it in your terminal.')
           } catch {
             setStatus('Clipboard is unavailable in this browser session.')
+          }
+        })
+
+        downloadGooglePlayPrepButton?.addEventListener('click', () => {
+          downloadText(googlePlayPrepDownloadText(), googlePlayPrepPack.downloadFileName)
+          writeGooglePlayPrepReceipt('download-google-play-prep-pack', {
+            fileName: googlePlayPrepPack.downloadFileName,
+          })
+          setGooglePlayPrepStatus('Google Play prep pack downloaded locally without collecting account or secret values.')
+        })
+
+        copyGooglePlayVariableCommandButton?.addEventListener('click', async () => {
+          try {
+            await copyText(googlePlayPrepPack.commands.githubVariableSet)
+            writeGooglePlayPrepReceipt('copy-google-play-variable-command')
+            setGooglePlayPrepStatus('Google Play variable command copied. It only runs if you paste it in your terminal.')
+          } catch {
+            setGooglePlayPrepStatus('Clipboard is unavailable in this browser session.')
+          }
+        })
+
+        copyGooglePlaySecretCommandButton?.addEventListener('click', async () => {
+          try {
+            await copyText(googlePlayPrepPack.commands.githubSecretSet)
+            writeGooglePlayPrepReceipt('copy-google-play-secret-command', { secretCommandUsesStdin: true })
+            setGooglePlayPrepStatus('Google Play secret command copied as a stdin-fed template; no secret value was collected.')
+          } catch {
+            setGooglePlayPrepStatus('Clipboard is unavailable in this browser session.')
+          }
+        })
+
+        copyGooglePlayValidationCommandsButton?.addEventListener('click', async () => {
+          try {
+            await copyText((googlePlayPrepPack.commands.validationCommands || []).join('\\n') + '\\n')
+            writeGooglePlayPrepReceipt('copy-google-play-validation-commands')
+            setGooglePlayPrepStatus('Google Play validation commands copied.')
+          } catch {
+            setGooglePlayPrepStatus('Clipboard is unavailable in this browser session.')
           }
         })
 
@@ -1304,6 +1488,21 @@ const report = [
   ...(supportOwnerInputPack.localEnvTemplateLines.length
     ? ['- local env template:', ...supportOwnerInputPack.localEnvTemplateLines.map((line) => `  - ${line}`)]
     : ['- local env template: none']),
+  '',
+  '## Gated Google Play Prep Pack',
+  '',
+  `- unlock: ${googlePlayPrepOwnerInputPack.unlockId}`,
+  `- status: ${googlePlayPrepOwnerInputPack.status}`,
+  `- missing public inputs: ${googlePlayPrepOwnerInputPack.missingPublicInputNames.join(', ') || 'none'}`,
+  `- secret inputs: ${googlePlayPrepOwnerInputPack.secretInputNames.join(', ') || 'none'}`,
+  `- browser-local action pack: ${googlePlayPrepOwnerInputPack.browserLocalActionPack.id} (${googlePlayPrepOwnerInputPack.browserLocalActionPack.status})`,
+  `- browser-local receipt key: ${googlePlayPrepOwnerInputPack.browserLocalActionPack.receiptStorageKey}`,
+  `- browser-local download file: ${googlePlayPrepOwnerInputPack.browserLocalActionPack.downloadFileName}`,
+  `- command templates only: ${googlePlayPrepOwnerInputPack.browserLocalActionPack.controls.commandTemplatesOnly}`,
+  `- command requires owner run: ${googlePlayPrepOwnerInputPack.browserLocalActionPack.controls.commandRequiresOwnerRun}`,
+  `- no secret values stored: ${googlePlayPrepOwnerInputPack.controls.noSecretValuesStored}`,
+  `- no paid spend: ${googlePlayPrepOwnerInputPack.controls.noPaidSpend}`,
+  `- store spend still blocked: ${googlePlayPrepOwnerInputPack.controls.storeSpendStillBlocked}`,
   '',
   ...storeOwnerUnlocks.flatMap((unlock) => [
     `### ${unlock.title}`,
@@ -1376,17 +1575,23 @@ if (jsonMode) {
     `Support input pack: ${supportOwnerInputPack.status}`,
     `Local env file: ${supportOwnerInputPack.localEnvFile}`,
     `Missing inputs: ${supportOwnerInputPack.missingInputNames.join(', ') || 'none'}`,
+    `Google Play prep pack: ${googlePlayPrepOwnerInputPack.status}`,
+    `Google Play prep action pack: ${googlePlayPrepOwnerInputPack.browserLocalActionPack.id}`,
     '',
     'Commands:',
     `  - NPM template: ${supportOwnerInputPack.commands.npmWriteLocalEnvTemplate}`,
     `  - Write local env template: ${supportOwnerInputPack.commands.writeLocalEnvTemplate}`,
     `  - Setup write local env template: ${supportOwnerInputPack.commands.setupWriteLocalEnvTemplate}`,
     `  - Sync configured values: ${supportOwnerInputPack.commands.syncConfiguredValues}`,
+    `  - Google Play variable command: ${googlePlayPrepOwnerInputPack.commands.githubVariableSet}`,
+    `  - Google Play secret command: ${googlePlayPrepOwnerInputPack.commands.githubSecretSet}`,
     '',
     'Guardrails:',
     `  - No secret values are stored: ${supportOwnerInputPack.controls.noSecretValuesStored}.`,
     `  - Existing local values are preserved: ${supportOwnerInputPack.controls.localTemplateWritePreservesExistingValues}.`,
     `  - No GitHub mutation is performed by the template writer: ${supportOwnerInputPack.controls.localTemplateWriteNoGithubMutation}.`,
+    `  - Google Play prep cannot create accounts: ${googlePlayPrepOwnerInputPack.controls.noAccountCreation}.`,
+    `  - Google Play prep keeps store submission blocked: ${googlePlayPrepOwnerInputPack.controls.noStoreSubmission}.`,
     ...(localTemplateWriteResult
       ? [
           '',

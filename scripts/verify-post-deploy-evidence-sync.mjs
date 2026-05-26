@@ -375,7 +375,15 @@ if (
   storeReadiness.publicRoutes?.storeReadiness !== '/store-readiness.html' ||
   storeReadiness.controls?.noStoreSubmission !== true ||
   storeReadiness.controls?.noRevenueEnablement !== true ||
-  storeReadiness.controls?.postDeploySmokeRequired !== true
+  storeReadiness.controls?.postDeploySmokeRequired !== true ||
+  publicStoreReadiness.googlePlayPrepOwnerInputPack?.unlockId !== 'google-play-account' ||
+  JSON.stringify(publicStoreReadiness.googlePlayPrepOwnerInputPack) !==
+    JSON.stringify(storeReadiness.googlePlayPrepOwnerInputPack) ||
+  storeReadiness.googlePlayPrepOwnerInputPack?.browserLocalActionPack?.id !== 'browser-local-google-play-prep-pack' ||
+  storeReadiness.googlePlayPrepOwnerInputPack?.browserLocalActionPack?.controls?.noSecretValuesStored !== true ||
+  storeReadiness.googlePlayPrepOwnerInputPack?.browserLocalActionPack?.controls?.noWorkflowDispatch !== true ||
+  storeReadiness.googlePlayPrepOwnerInputPack?.browserLocalActionPack?.controls?.noStoreSubmission !== true ||
+  storeReadiness.googlePlayPrepOwnerInputPack?.browserLocalActionPack?.controls?.noRevenueEnablement !== true
 ) {
   fail('Post-deploy evidence sync must refresh the public store readiness handoff without enabling store submission or revenue.')
 }

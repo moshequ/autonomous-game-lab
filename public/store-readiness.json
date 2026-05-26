@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-26T21:53:33.463Z",
-  "sourceDataHash": "2bedaab92498",
+  "generatedAt": "2026-05-26T22:03:32.453Z",
+  "sourceDataHash": "dad15a25bcf2",
   "status": "store-readiness-prepared-external-blockers",
   "summary": {
     "launchCandidateId": "market-pulse",
@@ -75,8 +75,10 @@
         "ready": false,
         "configuredInRepository": false,
         "availableLocally": false,
-        "availableInLocalEnvFile": false,
-        "localEnvFiles": [],
+        "availableInLocalEnvFile": true,
+        "localEnvFiles": [
+          ".env.production.local"
+        ],
         "validation": {
           "kind": "email-shape",
           "status": "not-checked-missing-input",
@@ -152,6 +154,85 @@
       "localTemplateWritePreservesExistingValues": true,
       "localTemplateWriteNoGithubMutation": true,
       "onlySupportContactInput": true
+    }
+  },
+  "googlePlayPrepOwnerInputPack": {
+    "unlockId": "google-play-account",
+    "title": "Gated Google Play prep pack",
+    "status": "google-play-prep-held-by-store-spend",
+    "readyForSetup": false,
+    "canApplyBeforeProductGates": false,
+    "storeSubmissionStillBlocked": true,
+    "missingInputCount": 2,
+    "missingPublicInputNames": [
+      "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED"
+    ],
+    "secretInputCount": 1,
+    "secretInputNames": [
+      "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
+    ],
+    "commands": {
+      "githubVariableSet": "gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body \"$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED\"",
+      "githubSecretSet": "printf \"%s\" \"$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+      "validateAndroidRelease": "npm run autonomous:android-release-plan",
+      "validateStoreReadiness": "npm run autonomous:store-readiness",
+      "validationCommands": [
+        "npm run autonomous:android-release-plan",
+        "npm run autonomous:store-readiness",
+        "npm run test:e2e"
+      ]
+    },
+    "browserLocalActionPack": {
+      "id": "browser-local-google-play-prep-pack",
+      "status": "gated-prep-ready",
+      "receiptStorageKey": "agl.googlePlayPrepActionReceipt",
+      "downloadFileName": "agl-google-play-prep-pack.json",
+      "publicInputNames": [
+        "AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED"
+      ],
+      "secretInputNames": [
+        "GOOGLE_PLAY_SERVICE_ACCOUNT_JSON"
+      ],
+      "commands": {
+        "githubVariableSet": "gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body \"$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED\"",
+        "githubSecretSet": "printf \"%s\" \"$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON\" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON",
+        "validationCommands": [
+          "npm run autonomous:android-release-plan",
+          "npm run autonomous:store-readiness",
+          "npm run test:e2e"
+        ]
+      },
+      "controls": {
+        "browserLocalOnly": true,
+        "commandTemplatesOnly": true,
+        "commandRequiresOwnerRun": true,
+        "noInputValuesCollected": true,
+        "noGeneratedValueSerialization": true,
+        "noSecretValues": true,
+        "noSecretValuesStored": true,
+        "noGithubMutation": true,
+        "noWorkflowDispatch": true,
+        "noAccountCreation": true,
+        "noPaidSpend": true,
+        "noStoreSubmission": true,
+        "noRevenueEnablement": true,
+        "storeSpendStillBlocked": true,
+        "gatedByProductSignals": true
+      }
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "noPaidSpend": true,
+      "noSecretValuesStored": true,
+      "noSecretValuesSerialized": true,
+      "noMutation": true,
+      "noWorkflowDispatch": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "storeSpendStillBlocked": true,
+      "commandRequiresOwnerRun": true,
+      "productGatesStillRequired": true
     }
   },
   "storePaybackLadder": {

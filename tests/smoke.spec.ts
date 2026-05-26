@@ -13790,6 +13790,68 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
         onlySupportContactInput: boolean
       }
     }
+    googlePlayPrepOwnerInputPack: {
+      unlockId: string
+      status: string
+      readyForSetup: boolean
+      canApplyBeforeProductGates: boolean
+      storeSubmissionStillBlocked: boolean
+      missingInputCount: number
+      missingPublicInputNames: string[]
+      secretInputCount: number
+      secretInputNames: string[]
+      commands: {
+        githubVariableSet: string
+        githubSecretSet: string
+        validateAndroidRelease: string
+        validateStoreReadiness: string
+        validationCommands: string[]
+      }
+      browserLocalActionPack: {
+        id: string
+        status: string
+        receiptStorageKey: string
+        downloadFileName: string
+        publicInputNames: string[]
+        secretInputNames: string[]
+        commands: {
+          githubVariableSet: string
+          githubSecretSet: string
+          validationCommands: string[]
+        }
+        controls: {
+          browserLocalOnly: boolean
+          commandTemplatesOnly: boolean
+          commandRequiresOwnerRun: boolean
+          noInputValuesCollected: boolean
+          noGeneratedValueSerialization: boolean
+          noSecretValues: boolean
+          noSecretValuesStored: boolean
+          noGithubMutation: boolean
+          noWorkflowDispatch: boolean
+          noAccountCreation: boolean
+          noPaidSpend: boolean
+          noStoreSubmission: boolean
+          noRevenueEnablement: boolean
+          storeSpendStillBlocked: boolean
+          gatedByProductSignals: boolean
+        }
+      }
+      controls: {
+        zeroPaidSpend: boolean
+        noPaidSpend: boolean
+        noSecretValuesStored: boolean
+        noSecretValuesSerialized: boolean
+        noMutation: boolean
+        noWorkflowDispatch: boolean
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        storeSpendStillBlocked: boolean
+        commandRequiresOwnerRun: boolean
+        productGatesStillRequired: boolean
+      }
+    }
     storeOwnerUnlocks: Array<{
       id: string
       status: string
@@ -13851,6 +13913,7 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
     publicRoutes: Record<string, string>
     storeOwnerUnlockSummary: { nextUnlockId: string; lowestInputUnlockId: string }
     supportOwnerInputPack: typeof readiness.supportOwnerInputPack
+    googlePlayPrepOwnerInputPack: typeof readiness.googlePlayPrepOwnerInputPack
     storePaybackLadder: typeof readiness.storePaybackLadder
     storeOwnerUnlocks: Array<{ id: string; status: string; setupCommands: string[]; validationCommands: string[] }>
     platformHandoffs: Array<{ id: string }>
@@ -13956,6 +14019,61 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(readiness.supportOwnerInputPack.controls.localTemplateWritePreservesExistingValues).toBe(true)
   expect(readiness.supportOwnerInputPack.controls.localTemplateWriteNoGithubMutation).toBe(true)
   expect(readiness.supportOwnerInputPack.controls.onlySupportContactInput).toBe(true)
+  expect(readiness.googlePlayPrepOwnerInputPack).toMatchObject({
+    unlockId: 'google-play-account',
+    status: 'google-play-prep-held-by-store-spend',
+    readyForSetup: false,
+    canApplyBeforeProductGates: false,
+    storeSubmissionStillBlocked: true,
+    missingPublicInputNames: ['AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED'],
+    secretInputNames: ['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    commands: {
+      githubVariableSet: 'gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body "$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED"',
+      githubSecretSet:
+        'printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON',
+      validateAndroidRelease: 'npm run autonomous:android-release-plan',
+      validateStoreReadiness: 'npm run autonomous:store-readiness',
+    },
+    browserLocalActionPack: {
+      id: 'browser-local-google-play-prep-pack',
+      status: 'gated-prep-ready',
+      receiptStorageKey: 'agl.googlePlayPrepActionReceipt',
+      downloadFileName: 'agl-google-play-prep-pack.json',
+      publicInputNames: ['AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED'],
+      secretInputNames: ['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+      controls: {
+        browserLocalOnly: true,
+        commandTemplatesOnly: true,
+        commandRequiresOwnerRun: true,
+        noInputValuesCollected: true,
+        noGeneratedValueSerialization: true,
+        noSecretValues: true,
+        noSecretValuesStored: true,
+        noGithubMutation: true,
+        noWorkflowDispatch: true,
+        noAccountCreation: true,
+        noPaidSpend: true,
+        noStoreSubmission: true,
+        noRevenueEnablement: true,
+        storeSpendStillBlocked: true,
+        gatedByProductSignals: true,
+      },
+    },
+    controls: {
+      zeroPaidSpend: true,
+      noPaidSpend: true,
+      noSecretValuesStored: true,
+      noSecretValuesSerialized: true,
+      noMutation: true,
+      noWorkflowDispatch: true,
+      noAccountCreation: true,
+      noStoreSubmission: true,
+      noRevenueEnablement: true,
+      storeSpendStillBlocked: true,
+      commandRequiresOwnerRun: true,
+      productGatesStillRequired: true,
+    },
+  })
   const supportUnlock = readiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'support-contact')
   const googlePlayUnlock = readiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'google-play-account')
   expect(supportUnlock?.status).toBe('needs-production-support-email')
@@ -14019,6 +14137,7 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   expect(publicReadiness.publicRoutes.storeReadiness).toBe('/store-readiness.html')
   expect(publicReadiness.storeOwnerUnlockSummary.nextUnlockId).toBe('support-contact')
   expect(publicReadiness.supportOwnerInputPack).toEqual(readiness.supportOwnerInputPack)
+  expect(publicReadiness.googlePlayPrepOwnerInputPack).toEqual(readiness.googlePlayPrepOwnerInputPack)
   expect(publicReadiness.storePaybackLadder).toEqual(readiness.storePaybackLadder)
   expect(publicReadiness.storeOwnerUnlocks.find((unlock) => unlock.id === 'support-contact')?.setupCommands).toContain(
     './ops/github/setup-production.sh --support-input-template',
@@ -14119,6 +14238,80 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
     valueSerialized: false,
   })
   expect(JSON.stringify(supportCommandReceipt)).not.toContain('support@example.com')
+  await expect(page.getByRole('heading', { name: 'Gated Google Play Prep Pack' })).toBeVisible()
+  await expect(page.getByLabel('Browser-local Google Play prep')).toContainText('browser-local-google-play-prep-pack')
+  await expect(page.getByRole('button', { name: 'Download Google Play prep pack' })).toBeVisible()
+  const googlePlayPrepDownloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download Google Play prep pack' }).click()
+  const googlePlayPrepDownload = await googlePlayPrepDownloadPromise
+  expect(googlePlayPrepDownload.suggestedFilename()).toBe('agl-google-play-prep-pack.json')
+  const googlePlayPrepDownloadPath = await googlePlayPrepDownload.path()
+  if (!googlePlayPrepDownloadPath) {
+    throw new Error('Expected Google Play prep pack download path.')
+  }
+  const googlePlayPrepDownloadJson = JSON.parse(await readFile(googlePlayPrepDownloadPath, 'utf8')) as {
+    id: string
+    publicInputNames: string[]
+    secretInputNames: string[]
+    commands: { githubVariableSet: string; githubSecretSet: string; validationCommands: string[] }
+    controls: { noSecretValuesStored: boolean; noAccountCreation: boolean; noStoreSubmission: boolean }
+    valueStored: boolean
+    valueSerialized: boolean
+  }
+  expect(googlePlayPrepDownloadJson).toMatchObject({
+    id: 'browser-local-google-play-prep-pack',
+    publicInputNames: ['AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED'],
+    secretInputNames: ['GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'],
+    valueStored: false,
+    valueSerialized: false,
+    controls: {
+      noSecretValuesStored: true,
+      noAccountCreation: true,
+      noStoreSubmission: true,
+    },
+  })
+  expect(googlePlayPrepDownloadJson.commands.githubSecretSet).toBe(
+    'printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON',
+  )
+  const googlePlayPrepDownloadReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.googlePlayPrepActionReceipt') ?? '{}'),
+  )
+  expect(googlePlayPrepDownloadReceipt).toMatchObject({
+    action: 'download-google-play-prep-pack',
+    actionPackId: 'browser-local-google-play-prep-pack',
+    fileName: 'agl-google-play-prep-pack.json',
+    valueStored: false,
+    valueSerialized: false,
+    noSecretValuesStored: true,
+    noGithubMutation: true,
+    noWorkflowDispatch: true,
+    noAccountCreation: true,
+    noPaidSpend: true,
+    noStoreSubmission: true,
+    noRevenueEnablement: true,
+    commandRequiresOwnerRun: true,
+  })
+  await page.getByRole('button', { name: 'Copy Google Play variable command' }).click()
+  await expect
+    .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
+    .toBe('gh variable set AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED --body "$AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED"')
+  await page.getByRole('button', { name: 'Copy Google Play secret command' }).click()
+  await expect
+    .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
+    .toBe('printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON')
+  const googlePlaySecretReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.googlePlayPrepActionReceipt') ?? '{}'),
+  )
+  expect(googlePlaySecretReceipt).toMatchObject({
+    action: 'copy-google-play-secret-command',
+    secretCommandUsesStdin: true,
+    valueStored: false,
+    valueSerialized: false,
+  })
+  await page.getByRole('button', { name: 'Copy Google Play validation commands' }).click()
+  await expect
+    .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
+    .toBe('npm run autonomous:android-release-plan\nnpm run autonomous:store-readiness\nnpm run test:e2e\n')
   await expect(page.getByRole('link', { name: 'store-readiness.json' })).toHaveAttribute(
     'href',
     './store-readiness.json',
