@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T05:10:29.761Z",
+  "generatedAt": "2026-05-26T05:13:54.097Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -13,7 +13,7 @@
       "refresh-completion-loop",
       "refresh-replay-loop"
     ],
-    "latestRunAppended": true,
+    "latestRunAppended": false,
     "compactedDuplicateDryRuns": 0
   },
   "summary": {
@@ -51,73 +51,6 @@
         "status": "executed",
         "attemptedActionId": "seed-portfolio-traffic",
         "resultCount": 5,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260525234233-run-production-unlock-runner",
-      "generatedAt": "2026-05-25T23:42:33.382Z",
-      "runFingerprint": "4d8738d891f65e3e",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "run-production-unlock-runner",
-      "selectedCommand": "npm run autonomous:unlock-runner -- --execute",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "optimize-daily-retention",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "bootstrap-production-setup",
-        "run-production-unlock-runner",
-        "refresh-objective-audit",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 35,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260525234335-refresh-completion-loop",
-      "generatedAt": "2026-05-25T23:43:35.741Z",
-      "runFingerprint": "13939e3e752a71ab",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-completion-loop",
-      "selectedCommand": "npm run autonomous:completion-loop",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "optimize-daily-retention",
-        "prepare-release-candidate",
-        "run-post-deploy-smoke",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "bootstrap-production-setup"
-      ],
-      "blockedActionCount": 35,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
         "failedScripts": []
       },
       "controls": {
@@ -1201,6 +1134,61 @@
     {
       "id": "20260526051029-optimize-daily-retention",
       "generatedAt": "2026-05-26T05:10:29.761Z",
+      "runFingerprint": "66a938481d3e091b",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "optimize-daily-retention",
+      "selectedCommand": "npm run autonomous:retention",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "optimize-daily-retention"
+      ],
+      "blockedActionCount": 35,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260526051351-optimize-daily-retention",
+      "generatedAt": "2026-05-26T05:13:51.646Z",
+      "runFingerprint": "88b6f03485158be0",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "optimize-daily-retention",
+      "selectedCommand": "npm run autonomous:retention",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "optimize-daily-retention",
+        "refresh-objective-audit"
+      ],
+      "blockedActionCount": 35,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260526051352-optimize-daily-retention",
+      "generatedAt": "2026-05-26T05:13:52.120Z",
       "runFingerprint": "66a938481d3e091b",
       "mode": "plan-only",
       "status": "operator-plan-ready",
