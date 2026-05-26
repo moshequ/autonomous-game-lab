@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T19:50:11.065Z",
+  "generatedAt": "2026-05-26T20:06:55.674Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -67,7 +67,7 @@
         "Product optimizer: product-optimization-ready",
         "Gate recovery: product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; needed lift 128",
         "Sample plan: product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70",
-        "First-move coach: first-move-coach-ready; enabled targets 6",
+        "First-move coach: first-move-coach-ready; enabled targets 10",
         "Completion loop: completion-loop-ready; prompt armed; finish line armed",
         "Replay loop: replay-loop-ready; prompt armed",
         "Retention loop: retention-loop-ready; return intent armed",
@@ -76,7 +76,7 @@
         "Backlog: improvement-backlog-ready; items 4; hash 56a2cdba4546",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
         "Applied/deferred actions: 7",
-        "Operator selected: refresh-first-move-coach; status operator-plan-ready; execution not-requested"
+        "Operator selected: none; status operator-held; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -90,14 +90,14 @@
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
-        "Operator: operator-plan-ready",
+        "Operator: operator-held",
         "Operator history: operator-history-ready; records 40; executed 6",
         "Bootstrap: production-bootstrap-ready",
         "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 33",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34; local artifact predeploy-artifact-smoke-passed 34/34",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26471268718; live matches artifact true; candidate pwa-14a4072ca343",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26472135084; live matches artifact true; candidate pwa-09ff986586aa",
         "Live site monitor: live-site-monitor-passed; checks 34/34; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
@@ -244,19 +244,19 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 107,
-    "currentGitWorktreeDirtyFiles": 107,
-    "currentGeneratedEvidenceDirtyFiles": 107,
+    "currentWorktreeDirtyFiles": 102,
+    "currentGitWorktreeDirtyFiles": 102,
+    "currentGeneratedEvidenceDirtyFiles": 102,
     "currentNonGeneratedWorktreeDirtyFiles": 0,
     "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "114f76e0e54e",
+    "productionBootstrapSourceDataHash": "9598fa96e76d",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-first-move-coach"
+    "nextBestAction": "hold-for-external-input"
   }
 }

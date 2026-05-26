@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T19:50:05.250Z",
+  "generatedAt": "2026-05-26T20:06:50.851Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
     "loaded": false,
@@ -38,14 +38,14 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-625bf75f84d1",
-    "aggregateHash": "625bf75f84d1fa3378732faf03f724cf3726183458663bf89fa34438db558e7f",
+    "candidateId": "pwa-0c9911182548",
+    "aggregateHash": "0c99111825482d803587bfbc8613c8c3b40ea3b1f180b512f89e2280efc08a17",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-14a4072ca343",
-    "aggregateHash": "14a4072ca34374b59d1f1414f801acee25e51df3d0e5d2417e1e4d40261b60f3",
+    "candidateId": "pwa-09ff986586aa",
+    "aggregateHash": "09ff986586aaadc35aaf584a06e38b44b1d04403973c2e03f63d7875d03f2c61",
     "localCandidateMatches": false,
     "strictManifestComparison": false,
     "postDeploySmokeUrls": 33,
@@ -163,7 +163,7 @@
         "file": "dist/owner-unlock-brief.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 28050,
+        "bytes": 28054,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -416,8 +416,8 @@
         "bytes": 39579,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-625bf75f84d1",
-        "localAggregateHash": "625bf75f84d1fa3378732faf03f724cf3726183458663bf89fa34438db558e7f",
+        "localCandidateId": "pwa-0c9911182548",
+        "localAggregateHash": "0c99111825482d803587bfbc8613c8c3b40ea3b1f180b512f89e2280efc08a17",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -557,7 +557,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 28050,
+      "bytes": 28054,
       "textMatched": true
     },
     {
@@ -669,7 +669,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 5636,
+      "bytes": 5625,
       "textMatched": true
     },
     {
@@ -711,7 +711,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/store-readiness.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 14672,
+      "bytes": 14630,
       "textMatched": true
     },
     {
@@ -901,7 +901,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-625bf75f84d1",
+      "requiredText": "pwa-0c9911182548",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
@@ -913,8 +913,8 @@
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-14a4072ca343",
-      "deployedAggregateHash": "14a4072ca34374b59d1f1414f801acee25e51df3d0e5d2417e1e4d40261b60f3",
+      "deployedCandidateId": "pwa-09ff986586aa",
+      "deployedAggregateHash": "09ff986586aaadc35aaf584a06e38b44b1d04403973c2e03f63d7875d03f2c61",
       "deployedPostDeploySmoke": [
         {
           "id": "app-shell",
@@ -1152,7 +1152,7 @@
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-14a4072ca343; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-09ff986586aa; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 }
