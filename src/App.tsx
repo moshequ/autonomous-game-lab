@@ -1737,10 +1737,7 @@ function App() {
       setSelectedGameId(mission.gameId)
     }
 
-    if (typeof window !== 'undefined') {
-      const playUrl = new URL(mission.playPath, window.location.origin)
-      window.history.replaceState(null, '', `${playUrl.pathname}${playUrl.search}`)
-    }
+    replaceHistoryWithCampaignUrl(mission.playPath)
 
     trackEvent('gate_sample_mission_clicked', {
       gameId: mission.gameId,

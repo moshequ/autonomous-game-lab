@@ -7749,6 +7749,18 @@ test('local event drop folder autosaves gate sample starts without external uplo
   await expect(bridge).toContainText('saved')
 })
 
+test('gate sample starts preserve the deployed base path', async ({ page }) => {
+  await page.goto('/autonomous-game-lab/')
+
+  const samplePlan = page.getByLabel('Product Gate Sample Plan')
+  await samplePlan.getByRole('button', { name: /Start sample for/ }).first().click()
+
+  const startedUrl = new URL(page.url())
+  expect(startedUrl.pathname).toBe('/autonomous-game-lab/')
+  expect(startedUrl.searchParams.get('utm_source')).toBe('gate_sample')
+  expect(startedUrl.searchParams.get('utm_campaign')).toMatch(/^gate-sample-/)
+})
+
 test('lantern relay prototype is playable and instrumented', async ({ page }) => {
   await page.goto('/')
   await page
