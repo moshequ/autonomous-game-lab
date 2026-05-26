@@ -1,21 +1,21 @@
 # Performance Budget
 
-Generated: 2026-05-26T04:19:52.548Z
+Generated: 2026-05-26T04:38:09.241Z
 Status: performance-budget-ready
-Initial JS: 651.7 KB (175.2 KB gzip)
+Initial JS: 651.4 KB (175.1 KB gzip)
 Initial CSS: 10.5 KB (2.8 KB gzip)
-Deferred game chunk: GameCanvas-Dn5eJjiO.js, 3.3 KB
+Deferred game chunk: GameCanvas-C82iKRww.js, 3.3 KB
 Largest JS chunk deferred: yes
 
 ## Checks
 
-- pass: initial-js-target - Initial JS is 651.7 KB; target is 686 KB.
-- pass: initial-js-budget - Initial JS is 651.7 KB; deploy cap is 700 KB.
-- pass: initial-js-gzip-budget - Initial JS gzip is 175.2 KB; budget is 200 KB.
+- pass: initial-js-target - Initial JS is 651.4 KB; target is 686 KB.
+- pass: initial-js-budget - Initial JS is 651.4 KB; deploy cap is 700 KB.
+- pass: initial-js-gzip-budget - Initial JS gzip is 175.1 KB; budget is 200 KB.
 - pass: initial-css-budget - Initial CSS is 10.5 KB; budget is 40 KB.
 - pass: manifest - PWA manifest exists in dist.
 - pass: service-worker - Service worker exists in dist.
-- pass: game-runtime-deferred - GameCanvas-Dn5eJjiO.js is deferred from the initial shell.
+- pass: game-runtime-deferred - GameCanvas-C82iKRww.js is deferred from the initial shell.
 - pass: largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
