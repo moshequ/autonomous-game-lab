@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-26T20:13:34.319Z
+Generated: 2026-05-26T20:17:30.504Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -16,14 +16,13 @@ Autonomy score: 44/45 (98%)
 ## Execution Backoff
 
 - Status: cooling-down
-- Selectable actions: seed-portfolio-traffic, refresh-product-gate-recovery, collect-gate-sample-local-drops, bootstrap-production-setup, collect-live-events
-- Held actions: seed-portfolio-traffic, refresh-product-gate-recovery, collect-gate-sample-local-drops, bootstrap-production-setup, collect-live-events
+- Selectable actions: seed-portfolio-traffic, refresh-product-gate-recovery, collect-gate-sample-local-drops, collect-live-events
+- Held actions: seed-portfolio-traffic, refresh-product-gate-recovery, collect-gate-sample-local-drops, collect-live-events
 - Next resume: 2026-05-27T08:23:08.550Z
 - No repeat cycling: true
 - held seed-portfolio-traffic: seed-portfolio-traffic; resume 2026-05-27T08:51:05.423Z
 - held refresh-product-gate-recovery: collect-gate-sample-local-drops; resume 2026-05-27T08:23:08.550Z
 - held collect-gate-sample-local-drops: collect-gate-sample-local-drops; resume 2026-05-27T08:23:08.550Z
-- held bootstrap-production-setup: bootstrap-production-setup; resume 2026-05-27T13:40:49.308Z
 - held collect-live-events: collect-gate-sample-local-drops; resume 2026-05-27T08:23:08.550Z
 
 ## External Input Handoff
@@ -63,7 +62,7 @@ Autonomy score: 44/45 (98%)
 - ready: organic-seed-loop - Target market-pulse; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily market-pulse; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 670 KB; gzip 178.3 KB; deferred chunks 31.
+- ready: performance-budget - Initial JS 670.1 KB; gzip 178.4 KB; deferred chunks 31.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -78,7 +77,7 @@ Autonomy score: 44/45 (98%)
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 93; smoke URLs 33.
 - ready: post-deploy-smoke - Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 34/34 passed; local artifact predeploy-artifact-smoke-passed 34/34 passed.
-- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26472135084; live matches artifact true; strict true.
+- ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26472623746; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34; live matches synced deploy true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
@@ -121,7 +120,7 @@ Autonomy score: 44/45 (98%)
 - monitor: refresh-completion-loop - npm run autonomous:completion-loop
 - monitor: refresh-replay-loop - npm run autonomous:replay-loop
 - monitor: prepare-repository-channel - npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap
-- armed: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
+- monitor: bootstrap-production-setup - npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 - monitor: activate-production-when-configured - npm run autonomous:activate-production
 - monitor: refresh-production-blocker-handoff - npm run autonomous:blocker-handoff
 - monitor: run-production-unlock-runner - npm run autonomous:unlock-runner -- --execute

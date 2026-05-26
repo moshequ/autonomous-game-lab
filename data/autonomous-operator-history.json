@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T20:13:34.056Z",
+  "generatedAt": "2026-05-26T20:17:30.305Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -25,7 +25,7 @@
     "plannedRecords": 33,
     "executedRecords": 7,
     "failedRecords": 0,
-    "lastActionId": "prepare-release-candidate",
+    "lastActionId": "refresh-objective-audit",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "optimize-store-listing"
   },
@@ -64,36 +64,6 @@
         "status": "executed",
         "attemptedActionId": "collect-gate-sample-local-drops",
         "resultCount": 1,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260526143457-refresh-completion-loop",
-      "generatedAt": "2026-05-26T14:34:57.207Z",
-      "runFingerprint": "68af8422f723f98e",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "refresh-completion-loop",
-      "selectedCommand": "npm run autonomous:completion-loop",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "refresh-organic-seed-loop",
-        "refresh-completion-loop",
-        "refresh-replay-loop",
-        "apply-safe-improvements"
-      ],
-      "blockedActionCount": 35,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
         "failedScripts": []
       },
       "controls": {
@@ -1288,6 +1258,36 @@
         "refresh-product-gate-recovery",
         "collect-gate-sample-local-drops",
         "bootstrap-production-setup",
+        "collect-live-events"
+      ],
+      "blockedActionCount": 35,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260526201727-refresh-objective-audit",
+      "generatedAt": "2026-05-26T20:17:27.460Z",
+      "runFingerprint": "b9cef8d4d48c5568",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-objective-audit",
+      "selectedCommand": "npm run autonomous:objective-audit",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-product-gate-recovery",
+        "collect-gate-sample-local-drops",
+        "refresh-objective-audit",
         "collect-live-events"
       ],
       "blockedActionCount": 35,
