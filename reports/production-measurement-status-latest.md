@@ -1,6 +1,6 @@
 # Production Measurement Status
 
-Generated: 2026-05-26T17:35:37.562Z
+Generated: 2026-05-26T18:06:59.959Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
 Live candidate: pwa-93d411204f10

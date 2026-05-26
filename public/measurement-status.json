@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T17:35:37.562Z",
+  "generatedAt": "2026-05-26T18:06:59.959Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-93d411204f10",
@@ -42,6 +42,26 @@
     "defaultedPublicInputNames": [
       "VITE_POSTHOG_HOST"
     ],
+    "deploymentChain": {
+      "status": "zero-secret-runtime-config-chain-ready",
+      "ownerCommandStatus": "ready",
+      "inputWatchWorkflow": ".github/workflows/production-input-watch.yml",
+      "inputWatchWorkflowName": "Production Input Watch",
+      "deployWorkflow": ".github/workflows/web-pwa-deploy.yml",
+      "deployTrigger": "workflow_run: Production Input Watch",
+      "evidenceSyncWorkflow": ".github/workflows/post-deploy-evidence-sync.yml",
+      "evidenceSyncTrigger": "workflow_run: Web PWA Deploy",
+      "finalVerifier": "/measurement-status.html runtime config fetch",
+      "controls": {
+        "ownerRunRequired": true,
+        "noPageDispatch": true,
+        "publicInputsOnly": true,
+        "noSecretValues": true,
+        "zeroPaidSpend": true,
+        "noStoreSubmission": true,
+        "noRevenueEnablement": true
+      }
+    },
     "controls": {
       "readOnlyConfigFetch": true,
       "statusOnlyNoValuesDisplayed": true,

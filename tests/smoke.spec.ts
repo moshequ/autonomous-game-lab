@@ -10657,6 +10657,26 @@ test('production measurement status publishes public aggregate evidence handoff'
       requiredForProductionAnalytics: string[]
       requiredForSupportContact: string[]
       defaultedPublicInputNames: string[]
+      deploymentChain: {
+        status: string
+        ownerCommandStatus: string
+        inputWatchWorkflow: string
+        inputWatchWorkflowName: string
+        deployWorkflow: string
+        deployTrigger: string
+        evidenceSyncWorkflow: string
+        evidenceSyncTrigger: string
+        finalVerifier: string
+        controls: {
+          ownerRunRequired: boolean
+          noPageDispatch: boolean
+          publicInputsOnly: boolean
+          noSecretValues: boolean
+          zeroPaidSpend: boolean
+          noStoreSubmission: boolean
+          noRevenueEnablement: boolean
+        }
+      }
       controls: {
         readOnlyConfigFetch: boolean
         statusOnlyNoValuesDisplayed: boolean
@@ -11451,6 +11471,32 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.ownerRuntimeConfig.requiredForProductionAnalytics).toEqual(['VITE_POSTHOG_KEY'])
   expect(measurement.ownerRuntimeConfig.requiredForSupportContact).toEqual(['AGL_SUPPORT_EMAIL'])
   expect(measurement.ownerRuntimeConfig.defaultedPublicInputNames).toEqual(['VITE_POSTHOG_HOST'])
+  expect(measurement.ownerRuntimeConfig.deploymentChain.status).toBe('zero-secret-runtime-config-chain-ready')
+  expect(measurement.ownerRuntimeConfig.deploymentChain.ownerCommandStatus).toBe('ready')
+  expect(measurement.ownerRuntimeConfig.deploymentChain.inputWatchWorkflow).toBe(
+    '.github/workflows/production-input-watch.yml',
+  )
+  expect(measurement.ownerRuntimeConfig.deploymentChain.inputWatchWorkflowName).toBe('Production Input Watch')
+  expect(measurement.ownerRuntimeConfig.deploymentChain.deployWorkflow).toBe('.github/workflows/web-pwa-deploy.yml')
+  expect(measurement.ownerRuntimeConfig.deploymentChain.deployTrigger).toBe(
+    'workflow_run: Production Input Watch',
+  )
+  expect(measurement.ownerRuntimeConfig.deploymentChain.evidenceSyncWorkflow).toBe(
+    '.github/workflows/post-deploy-evidence-sync.yml',
+  )
+  expect(measurement.ownerRuntimeConfig.deploymentChain.evidenceSyncTrigger).toBe(
+    'workflow_run: Web PWA Deploy',
+  )
+  expect(measurement.ownerRuntimeConfig.deploymentChain.finalVerifier).toBe(
+    '/measurement-status.html runtime config fetch',
+  )
+  expect(measurement.ownerRuntimeConfig.deploymentChain.controls.ownerRunRequired).toBe(true)
+  expect(measurement.ownerRuntimeConfig.deploymentChain.controls.noPageDispatch).toBe(true)
+  expect(measurement.ownerRuntimeConfig.deploymentChain.controls.publicInputsOnly).toBe(true)
+  expect(measurement.ownerRuntimeConfig.deploymentChain.controls.noSecretValues).toBe(true)
+  expect(measurement.ownerRuntimeConfig.deploymentChain.controls.zeroPaidSpend).toBe(true)
+  expect(measurement.ownerRuntimeConfig.deploymentChain.controls.noStoreSubmission).toBe(true)
+  expect(measurement.ownerRuntimeConfig.deploymentChain.controls.noRevenueEnablement).toBe(true)
   expect(measurement.ownerRuntimeConfig.controls.readOnlyConfigFetch).toBe(true)
   expect(measurement.ownerRuntimeConfig.controls.statusOnlyNoValuesDisplayed).toBe(true)
   expect(measurement.ownerRuntimeConfig.controls.noSecretValues).toBe(true)
@@ -12351,6 +12397,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('owner-runtime-posthog-status')
   expect(html).toContain('owner-runtime-support-status')
   expect(html).toContain('owner-runtime-config-inputs')
+  expect(html).toContain('owner-runtime-next-action')
+  expect(html).toContain('zero-secret-runtime-config-chain-ready')
   expect(html).toContain('Open runtime config')
   expect(html).toContain('Start current sample')
   expect(html).toContain('sample-next.html')
@@ -12477,9 +12525,21 @@ test('production measurement status publishes public aggregate evidence handoff'
       : ownerRuntimeConfig.invalidPublicInputNames.includes('AGL_SUPPORT_EMAIL')
         ? 'fix AGL_SUPPORT_EMAIL'
         : 'waiting for AGL_SUPPORT_EMAIL'
+  const expectedRuntimeNextAction =
+    ownerRuntimeConfig.analytics.posthogConfigured &&
+    ownerRuntimeConfig.configuredPublicInputNames.includes('VITE_POSTHOG_KEY') &&
+    ownerRuntimeConfig.support.configured &&
+    ownerRuntimeConfig.configuredPublicInputNames.includes('AGL_SUPPORT_EMAIL')
+      ? 'run readiness validation'
+      : ownerRuntimeConfig.invalidPublicInputNames.length
+        ? `fix ${ownerRuntimeConfig.invalidPublicInputNames.join(', ')}`
+        : ownerRuntimeConfig.missingPublicInputNames.length
+          ? `waiting for ${ownerRuntimeConfig.missingPublicInputNames.join(', ')}`
+          : 'review runtime config'
   await expect(page.locator('#owner-runtime-config-inputs')).toContainText(expectedRuntimeInputs)
   await expect(page.locator('#owner-runtime-posthog-status')).toContainText(expectedPosthogStatus)
   await expect(page.locator('#owner-runtime-support-status')).toContainText(expectedSupportStatus)
+  await expect(page.locator('#owner-runtime-next-action')).toContainText(expectedRuntimeNextAction)
   await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Player Evidence Invite Pack' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()

@@ -199,6 +199,14 @@
             <span>Configured public inputs</span>
             <strong id="owner-runtime-config-inputs">checking</strong>
           </div>
+          <div class="card">
+            <span>Next runtime step</span>
+            <strong id="owner-runtime-next-action">checking</strong>
+          </div>
+          <div class="card">
+            <span>After input watch</span>
+            <strong>zero-secret-runtime-config-chain-ready</strong>
+          </div>
         </div>
         <div class="actions">
           <a href="./owner-runtime-config.json">Open runtime config</a>
@@ -1225,6 +1233,7 @@
         const ownerRuntimePosthogStatus = document.getElementById('owner-runtime-posthog-status')
         const ownerRuntimeSupportStatus = document.getElementById('owner-runtime-support-status')
         const ownerRuntimeConfigInputs = document.getElementById('owner-runtime-config-inputs')
+        const ownerRuntimeNextAction = document.getElementById('owner-runtime-next-action')
         const readLiveReleaseManifest = async () => {
           try {
             const response = await fetch('./release-candidate.json', { cache: 'no-store' })
@@ -1258,6 +1267,9 @@
             const invalidInputNames = Array.isArray(config?.invalidPublicInputNames)
               ? config.invalidPublicInputNames.filter((name) => typeof name === 'string')
               : []
+            const missingInputNames = Array.isArray(config?.missingPublicInputNames)
+              ? config.missingPublicInputNames.filter((name) => typeof name === 'string')
+              : []
             const posthogReady =
               config?.analytics?.posthogConfigured === true && configuredInputNames.includes('VITE_POSTHOG_KEY')
             const supportReady =
@@ -1276,11 +1288,20 @@
             ownerRuntimeConfigInputs.textContent = configuredInputNames.length
               ? configuredInputNames.join(', ')
               : 'none'
+            ownerRuntimeNextAction.textContent =
+              posthogReady && supportReady
+                ? 'run readiness validation'
+                : invalidInputNames.length
+                  ? 'fix ' + invalidInputNames.join(', ')
+                  : missingInputNames.length
+                    ? 'waiting for ' + missingInputNames.join(', ')
+                    : 'review runtime config'
           } catch {
             ownerRuntimeConfigLiveStatus.textContent = 'unavailable'
             ownerRuntimePosthogStatus.textContent = 'runtime config unavailable'
             ownerRuntimeSupportStatus.textContent = 'runtime config unavailable'
             ownerRuntimeConfigInputs.textContent = 'unavailable'
+            ownerRuntimeNextAction.textContent = 'runtime config unavailable'
           }
         }
         readLiveReleaseManifest()

@@ -995,6 +995,26 @@ const payload = {
     requiredForProductionAnalytics: ['VITE_POSTHOG_KEY'],
     requiredForSupportContact: ['AGL_SUPPORT_EMAIL'],
     defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
+    deploymentChain: {
+      status: 'zero-secret-runtime-config-chain-ready',
+      ownerCommandStatus: ownerInputActionPack?.productionInputWatchCommand?.status ?? 'missing',
+      inputWatchWorkflow: '.github/workflows/production-input-watch.yml',
+      inputWatchWorkflowName: 'Production Input Watch',
+      deployWorkflow: '.github/workflows/web-pwa-deploy.yml',
+      deployTrigger: 'workflow_run: Production Input Watch',
+      evidenceSyncWorkflow: '.github/workflows/post-deploy-evidence-sync.yml',
+      evidenceSyncTrigger: 'workflow_run: Web PWA Deploy',
+      finalVerifier: '/measurement-status.html runtime config fetch',
+      controls: {
+        ownerRunRequired: true,
+        noPageDispatch: true,
+        publicInputsOnly: true,
+        noSecretValues: true,
+        zeroPaidSpend: true,
+        noStoreSubmission: true,
+        noRevenueEnablement: true,
+      },
+    },
     controls: {
       readOnlyConfigFetch: true,
       statusOnlyNoValuesDisplayed: true,
@@ -2197,6 +2217,14 @@ const html = `<!doctype html>
             <span>Configured public inputs</span>
             <strong id="owner-runtime-config-inputs">checking</strong>
           </div>
+          <div class="card">
+            <span>Next runtime step</span>
+            <strong id="owner-runtime-next-action">checking</strong>
+          </div>
+          <div class="card">
+            <span>After input watch</span>
+            <strong>${escapeHtml(payload.ownerRuntimeConfig.deploymentChain.status)}</strong>
+          </div>
         </div>
         <div class="actions">
           <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.ownerRuntimeConfig))}">Open runtime config</a>
@@ -2925,6 +2953,7 @@ const html = `<!doctype html>
         const ownerRuntimePosthogStatus = document.getElementById('owner-runtime-posthog-status')
         const ownerRuntimeSupportStatus = document.getElementById('owner-runtime-support-status')
         const ownerRuntimeConfigInputs = document.getElementById('owner-runtime-config-inputs')
+        const ownerRuntimeNextAction = document.getElementById('owner-runtime-next-action')
         const readLiveReleaseManifest = async () => {
           try {
             const response = await fetch('./release-candidate.json', { cache: 'no-store' })
@@ -2958,6 +2987,9 @@ const html = `<!doctype html>
             const invalidInputNames = Array.isArray(config?.invalidPublicInputNames)
               ? config.invalidPublicInputNames.filter((name) => typeof name === 'string')
               : []
+            const missingInputNames = Array.isArray(config?.missingPublicInputNames)
+              ? config.missingPublicInputNames.filter((name) => typeof name === 'string')
+              : []
             const posthogReady =
               config?.analytics?.posthogConfigured === true && configuredInputNames.includes('VITE_POSTHOG_KEY')
             const supportReady =
@@ -2976,11 +3008,20 @@ const html = `<!doctype html>
             ownerRuntimeConfigInputs.textContent = configuredInputNames.length
               ? configuredInputNames.join(', ')
               : 'none'
+            ownerRuntimeNextAction.textContent =
+              posthogReady && supportReady
+                ? 'run readiness validation'
+                : invalidInputNames.length
+                  ? 'fix ' + invalidInputNames.join(', ')
+                  : missingInputNames.length
+                    ? 'waiting for ' + missingInputNames.join(', ')
+                    : 'review runtime config'
           } catch {
             ownerRuntimeConfigLiveStatus.textContent = 'unavailable'
             ownerRuntimePosthogStatus.textContent = 'runtime config unavailable'
             ownerRuntimeSupportStatus.textContent = 'runtime config unavailable'
             ownerRuntimeConfigInputs.textContent = 'unavailable'
+            ownerRuntimeNextAction.textContent = 'runtime config unavailable'
           }
         }
         readLiveReleaseManifest()
