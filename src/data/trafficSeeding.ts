@@ -1,11 +1,11 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-25T23:39:02.446Z",
+  "generatedAt": "2026-05-26T05:43:27.733Z",
   "status": "traffic-seeding-ready",
-  "sourceDataHash": "4067d771a381",
+  "sourceDataHash": "d4fe68f793e4",
   "analyticsSource": "fixture-sample",
   "publicUrlMode": "absolute-origin",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
-  "portfolioGeneratedAt": "2026-05-25T23:38:59.968Z",
+  "portfolioGeneratedAt": "2026-05-26T05:43:27.486Z",
   "guardrails": {
     "maxCostUsd": 0,
     "noPaidPromotion": true,
@@ -319,10 +319,10 @@ export const trafficSeeding = {
       "gateId": "d1Retention",
       "gameId": "market-pulse",
       "campaignId": "gate-sample-20260526-d1Retention",
-      "challengeDate": "2026-05-25",
-      "intentDate": "2026-05-26",
+      "challengeDate": "2026-05-26",
+      "intentDate": "2026-05-27",
       "queryParam": "return_intent",
-      "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention&return_intent=2026-05-26",
+      "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention&return_intent=2026-05-27",
       "copyCta": "Copy return link",
       "calendarCta": "Save reminder",
       "calendarFileExtension": ".ics",
@@ -397,7 +397,7 @@ export const trafficSeeding = {
     "Feature Market Pulse in the internal growth loop and share manifest.",
     "Feature Sample First game completion as the default product-gate sample share link.",
     "Expose Sample D1 retention through /sample-fastest.html for the quickest separate gate validation.",
-    "Publish a player-initiated D1 return handoff on /sample-fastest.html for 2026-05-26.",
+    "Publish a player-initiated D1 return handoff on /sample-fastest.html for 2026-05-27.",
     "Keep traffic sources organic/internal until paid acquisition gates pass.",
     "Judge seeded games only after each reaches the target start sample."
   ]
