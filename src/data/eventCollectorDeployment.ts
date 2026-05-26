@@ -1,9 +1,17 @@
 export const eventCollectorDeployment = {
-  "generatedAt": "2026-05-25T23:01:23.527Z",
+  "generatedAt": "2026-05-26T06:45:47.894Z",
   "status": "blocked-needs-cloudflare-env",
   "envFiles": {
     "loaded": true,
     "loadedFiles": [
+      {
+        "path": ".env.production.local",
+        "keys": [
+          "VITE_POSTHOG_KEY",
+          "VITE_POSTHOG_HOST",
+          "AGL_SUPPORT_EMAIL"
+        ]
+      },
       {
         "path": "ops/production.env.local",
         "keys": [
@@ -16,6 +24,9 @@ export const eventCollectorDeployment = {
       }
     ],
     "loadedKeys": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL",
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",

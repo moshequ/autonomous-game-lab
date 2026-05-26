@@ -1517,6 +1517,7 @@ if (
   !localEventBridgeSource.includes('eventCountAtExport') ||
   !localEventBridgeSource.includes('unexportedEventsBeforeExport') ||
   !localEventBridgeSource.includes('AGL_LOCAL_EVENT_DROP_DIRS') ||
+  !localEventBridgeSource.includes("'local_router_share_clicked'") ||
   !localEventBridgeSource.includes('sanitizeProperties') ||
   !localEventBridgeSource.includes('sensitivePropertyKeys') ||
   !localEventBridgeSource.includes('writeFile(targetPath, JSON.stringify(candidate.sanitizedEvents') ||
@@ -1602,7 +1603,8 @@ if (
   eventIngestSmoke.analytics?.counts?.game_viewed < 3 ||
   eventIngestSmoke.analytics?.counts?.game_started < 2 ||
   eventIngestSmoke.analytics?.counts?.tutorial_completed < 1 ||
-  eventIngestSmoke.analytics?.counts?.level_completed < 1
+  eventIngestSmoke.analytics?.counts?.level_completed < 1 ||
+  eventIngestSmoke.analytics?.counts?.local_router_share_clicked !== 1
 ) {
   fail('Event ingest smoke must prove exported player events become deduped local analytics, retention metrics, and opt-in gate-sample downloads.')
 }

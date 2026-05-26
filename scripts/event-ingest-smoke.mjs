@@ -149,6 +149,20 @@ try {
       createdAt: '2026-05-17T10:06:00.000Z',
     },
     {
+      id: 'smoke-router-share',
+      name: 'local_router_share_clicked',
+      properties: {
+        gameId: smokeGameId,
+        anonymousId: 'anon-smoke',
+        sessionId: 'session-smoke-a',
+        sessionDate: '2026-05-17',
+        campaignId: 'gate-sample-smoke-firstGameCompletion',
+        source: 'local_router',
+        channel: 'product-gate-sample',
+      },
+      createdAt: '2026-05-17T10:07:00.000Z',
+    },
+    {
       id: 'smoke-return',
       name: 'game_viewed',
       properties: {
@@ -199,7 +213,7 @@ try {
   if (
     bridge.status !== 'bridge-ready-for-ingest' ||
     bridge.copiedFiles.length !== 1 ||
-    bridge.inbox.validEvents !== 6 ||
+    bridge.inbox.validEvents !== 7 ||
     bridge.controls.noSyntheticEvents !== true ||
     bridge.controls.noExternalUpload !== true ||
     bridge.controls.piiStrippingEnabled !== true ||
@@ -224,8 +238,8 @@ try {
 
   const ingest = JSON.parse(await readFile(ingestOutput, 'utf8'))
 
-  if (ingest.status !== 'imported' || ingest.importedEvents !== 6 || ingest.importedFiles.length !== 1) {
-    fail(`Expected one deduped import with 6 events, got ${JSON.stringify(ingest)}`)
+  if (ingest.status !== 'imported' || ingest.importedEvents !== 7 || ingest.importedFiles.length !== 1) {
+    fail(`Expected one deduped import with 7 events, got ${JSON.stringify(ingest)}`)
   }
 
   await run(process.execPath, ['scripts/analytics-rollup.mjs'], {
@@ -297,9 +311,9 @@ try {
   if (
     incrementalIngest.status !== 'imported' ||
     incrementalIngest.importedEvents !== 1 ||
-    incrementalIngest.duplicateEvents < 12 ||
+    incrementalIngest.duplicateEvents < 14 ||
     incrementalIngest.importedFiles.length !== 1 ||
-    incrementalIngest.importedFiles[0]?.duplicateEvents !== 6
+    incrementalIngest.importedFiles[0]?.duplicateEvents !== 7
   ) {
     fail(`Expected incremental ingest to persist only 1 new event, got ${JSON.stringify(incrementalIngest)}`)
   }
@@ -314,11 +328,12 @@ try {
   const incrementalGame = incrementalAnalytics.games.find((row) => row.gameId === smokeGameId)
 
   if (
-    incrementalAnalytics.sourceStatus.localEventDrops.events !== 7 ||
+    incrementalAnalytics.sourceStatus.localEventDrops.events !== 8 ||
     incrementalAnalytics.sourceStatus.localEventDrops.duplicateEvents !== 0 ||
     incrementalGame?.counts.game_viewed !== 3 ||
     incrementalGame?.counts.game_started !== 2 ||
-    incrementalGame?.counts.level_completed !== 1
+    incrementalGame?.counts.level_completed !== 1 ||
+    incrementalGame?.counts.local_router_share_clicked !== 1
   ) {
     fail(`Expected event-level deduped analytics after incremental import, got ${JSON.stringify(incrementalAnalytics)}`)
   }
@@ -540,7 +555,7 @@ try {
     fixture: {
       sourceFile: 'player-events-smoke.json',
       exportedEvents: exportedEvents.length,
-      uniqueEvents: 6,
+      uniqueEvents: 7,
       gameId: smokeGameId,
       title: smokeGameTitle,
       gameSourceFile: 'data/generated-playable-games.json',
@@ -614,6 +629,7 @@ try {
         game_started: incrementalGame.counts.game_started,
         tutorial_completed: incrementalGame.counts.tutorial_completed,
         level_completed: incrementalGame.counts.level_completed,
+        local_router_share_clicked: incrementalGame.counts.local_router_share_clicked,
       },
       metrics: {
         startRate: incrementalGame.metrics.startRate,

@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-26T06:33:24.060Z
+Generated: 2026-05-26T07:03:28.469Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -11,16 +11,17 @@ Autonomy score: 44/45 (98%)
 - Command: No local command is available until external inputs, configured credentials, or new player evidence arrive.
 - Rationale: All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state.
 - Last executed action: seed-portfolio-traffic
-- Recent executed actions: seed-portfolio-traffic, bootstrap-production-setup, optimize-daily-retention, refresh-replay-loop, refresh-completion-loop
+- Recent executed actions: seed-portfolio-traffic, bootstrap-production-setup, optimize-daily-retention, refresh-replay-loop
 
 ## Execution Backoff
 
 - Status: cooling-down
-- Selectable actions: seed-portfolio-traffic
-- Held actions: seed-portfolio-traffic
+- Selectable actions: seed-portfolio-traffic, refresh-organic-seed-loop
+- Held actions: seed-portfolio-traffic, refresh-organic-seed-loop
 - Next resume: 2026-05-26T23:43:28.218Z
 - No repeat cycling: true
 - held seed-portfolio-traffic: seed-portfolio-traffic; resume 2026-05-26T23:43:28.218Z
+- held refresh-organic-seed-loop: seed-portfolio-traffic; resume 2026-05-26T23:43:28.218Z
 
 ## External Input Handoff
 
@@ -28,7 +29,7 @@ Autonomy score: 44/45 (98%)
 - Recommended path: first-party-collector
 - Lowest-input path: posthog-browser
 - Public status: /measurement-status.html
-- Missing inputs: 5 variable(s), 1 secret(s)
+- Missing inputs: 7 variable(s), 3 secret(s)
 - validate: npm run autonomous:event-collector-smoke
 - validate: npm run autonomous:collector-deploy-plan
 - validate: npm run autonomous:readiness
@@ -51,8 +52,8 @@ Autonomy score: 44/45 (98%)
 - ready: game-factory - 10 playable games; 5 generated runtime games.
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
-- ready: autonomous-cadence - Cadence cadence-ready; Codex active-declared-unverified; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.
+- ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 26; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Market Pulse; seed traffic: market-pulse, guild-garden, canopy-bloom, metro-loom.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate market-pulse.
@@ -78,11 +79,11 @@ Autonomy score: 44/45 (98%)
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 32/32; live matches synced deploy true.
 - ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.
 - ready: production-activation - Activation activation-ready; mode dry-run; execution dry-run; gh ready.
-- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
+- ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
 - ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
-- ready: operator-history - History operator-history-ready; records 40; executed 5.
+- ready: operator-history - History operator-history-ready; records 40; executed 4.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
@@ -98,7 +99,7 @@ Autonomy score: 44/45 (98%)
 - monitor: refresh-autonomous-cadence - npm run autonomous:cadence
 - monitor: refresh-autonomous-self-update - npm run autonomous:self-update
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
-- monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
+- armed: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - monitor: refresh-support-feedback - npm run autonomous:support-feedback
 - monitor: optimize-daily-retention - npm run autonomous:retention
 - monitor: measure-pwa-install-loop - npm run autonomous:pwa-install
@@ -140,6 +141,8 @@ Autonomy score: 44/45 (98%)
 - ADMOB_PUBLISHER_ID: Native app seller line for app-ads.txt and Android rewarded tests after app-store gates pass.
 - AGL_GOOGLE_PLAY_ACCOUNT_CONNECTED: Allows native packaging gates to treat Play Console access as connected.
 - CLOUDFLARE_API_TOKEN: Repository secret sourced from CLOUDFLARE_API_TOKEN.
+- VITE_EVENT_COLLECTOR_WRITE_TOKEN: Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.
+- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
 - POSTHOG_PERSONAL_API_KEY: Repository secret sourced from POSTHOG_PERSONAL_API_KEY.
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: Repository secret sourced from GOOGLE_PLAY_SERVICE_ACCOUNT_JSON.
 

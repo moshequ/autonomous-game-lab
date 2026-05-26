@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T06:33:24.060Z",
+  "generatedAt": "2026-05-26T07:03:28.469Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -35,16 +35,18 @@
     "status": "cooling-down",
     "localActionAvailable": true,
     "executableWithoutRepeatCount": 0,
-    "heldActionCount": 1,
+    "heldActionCount": 2,
     "selectableActionIds": [
-      "seed-portfolio-traffic"
+      "seed-portfolio-traffic",
+      "refresh-organic-seed-loop"
     ],
     "executableActionIds": [],
     "heldActionIds": [
-      "seed-portfolio-traffic"
+      "seed-portfolio-traffic",
+      "refresh-organic-seed-loop"
     ],
     "nextResumeAt": "2026-05-26T23:43:28.218Z",
-    "nextResumeInHours": 17.168,
+    "nextResumeInHours": 16.667,
     "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
     "controls": {
       "avoidImmediateRepeat": true,
@@ -63,7 +65,19 @@
           "seed-portfolio-traffic"
         ],
         "suppressedUntil": "2026-05-26T23:43:28.218Z",
-        "resumeInHours": 17.168,
+        "resumeInHours": 16.667,
+        "resumeCondition": "Wait for repeat-suppression cooldown, new player evidence, or owner-provided production inputs."
+      },
+      {
+        "id": "refresh-organic-seed-loop",
+        "status": "armed",
+        "command": "npm run autonomous:organic-seed-loop",
+        "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign.",
+        "sourceActionIds": [
+          "seed-portfolio-traffic"
+        ],
+        "suppressedUntil": "2026-05-26T23:43:28.218Z",
+        "resumeInHours": 16.667,
         "resumeCondition": "Wait for repeat-suppression cooldown, new player evidence, or owner-provided production inputs."
       }
     ]
@@ -80,15 +94,15 @@
     "lowestInputMissingVariableCount": 2,
     "lowestInputMissingSecretCount": 0,
     "lowestInputMissingInputCount": 2,
-    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 8 for the recommended path.",
     "publicStatusPage": "/measurement-status.html",
     "publicStatusJson": "/measurement-status.json",
     "setupScript": "ops/github/setup-production.sh",
     "envTemplate": "ops/production.env.example",
     "ownerActionRequired": 4,
     "externalOwnerActions": 4,
-    "missingVariableCount": 5,
-    "missingSecretCount": 1,
+    "missingVariableCount": 7,
+    "missingSecretCount": 3,
     "productGateBlockers": 3,
     "requiredVariables": [
       {
@@ -100,13 +114,13 @@
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
         "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true,
+        "configured": false,
         "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
       },
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
         "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true,
+        "configured": false,
         "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
       },
       {
@@ -132,13 +146,13 @@
       {
         "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
         "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true,
+        "configured": false,
         "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
       },
       {
         "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true,
+        "configured": false,
         "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
       }
     ],
@@ -229,8 +243,8 @@
       "priority": "primary",
       "nextUnlockId": "production-analytics-browser",
       "publicStatusPage": "/measurement-status.html",
-      "missingVariableCount": 5,
-      "missingSecretCount": 1
+      "missingVariableCount": 7,
+      "missingSecretCount": 3
     },
     {
       "id": "store-readiness",
@@ -250,13 +264,12 @@
       "seed-portfolio-traffic",
       "bootstrap-production-setup",
       "optimize-daily-retention",
-      "refresh-replay-loop",
-      "refresh-completion-loop"
+      "refresh-replay-loop"
     ],
     "expiredExecutedActionIds": [],
     "lastExecutedActionId": "seed-portfolio-traffic",
     "lastExecutedActionStillExecutable": true,
-    "lastExecutedAgeHours": 0.832,
+    "lastExecutedAgeHours": 1.333,
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -266,7 +279,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-26T06:33:23.523Z",
+      "auditGeneratedAt": "2026-05-26T07:03:10.036Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -289,8 +302,8 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-26T06:33:23.325Z",
-        "ageHours": 0,
+        "artifactGeneratedAt": "2026-05-26T07:02:57.287Z",
+        "ageHours": 0.009,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -300,8 +313,8 @@
         "fresh": true,
         "ready": true,
         "status": "self-update-ready",
-        "artifactGeneratedAt": "2026-05-25T23:03:36.105Z",
-        "ageHours": 7.497,
+        "artifactGeneratedAt": "2026-05-26T06:55:57.676Z",
+        "ageHours": 0.125,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -312,7 +325,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-26T05:04:26.141Z",
-        "ageHours": 1.483,
+        "ageHours": 1.984,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -323,7 +336,7 @@
         "ready": true,
         "status": "performance-budget-ready",
         "artifactGeneratedAt": "2026-05-26T06:33:03.783Z",
-        "ageHours": 0.006,
+        "ageHours": 0.507,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -334,7 +347,7 @@
         "ready": true,
         "status": "live-site-monitor-passed",
         "artifactGeneratedAt": "2026-05-26T06:33:08.465Z",
-        "ageHours": 0.004,
+        "ageHours": 0.506,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -359,9 +372,9 @@
         "current": true,
         "ready": true,
         "status": "retention-loop-ready",
-        "artifactGeneratedAt": "2026-05-26T05:15:11.916Z",
-        "artifactSourceDataHash": "667c501b4f43",
-        "sourceDataHash": "667c501b4f43",
+        "artifactGeneratedAt": "2026-05-26T06:55:47.774Z",
+        "artifactSourceDataHash": "a41f4a02ca04",
+        "sourceDataHash": "a41f4a02ca04",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -392,7 +405,7 @@
         "current": true,
         "ready": true,
         "status": "acquisition-learning-ready",
-        "artifactGeneratedAt": "2026-05-26T05:43:27.970Z",
+        "artifactGeneratedAt": "2026-05-26T06:45:49.596Z",
         "artifactSourceDataHash": "2f8d29de1e9b",
         "sourceDataHash": "2f8d29de1e9b",
         "evaluatedInputIds": [
@@ -404,12 +417,12 @@
         ]
       },
       "organicSeedLoop": {
-        "current": true,
-        "ready": true,
+        "current": false,
+        "ready": false,
         "status": "organic-seed-loop-ready",
-        "artifactGeneratedAt": "2026-05-26T05:43:28.205Z",
-        "artifactSourceDataHash": "4726bb5b57ea",
-        "sourceDataHash": "4726bb5b57ea",
+        "artifactGeneratedAt": "2026-05-26T06:45:50.072Z",
+        "artifactSourceDataHash": "3931b76a9e76",
+        "sourceDataHash": "ead257c72312",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -423,9 +436,9 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-26T06:32:52.541Z",
-        "artifactSourceDataHash": "8ee2cbb9b8b6",
-        "sourceDataHash": "8ee2cbb9b8b6",
+        "artifactGeneratedAt": "2026-05-26T06:57:32.989Z",
+        "artifactSourceDataHash": "0f14b99b5770",
+        "sourceDataHash": "0f14b99b5770",
         "evaluatedInputIds": [
           "analytics-rollup",
           "growth-plan",
@@ -441,7 +454,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-26T06:33:22.040Z",
+        "artifactGeneratedAt": "2026-05-26T06:56:16.860Z",
         "artifactSourceDataHash": "3325a748aa6f",
         "sourceDataHash": "3325a748aa6f",
         "evaluatedInputIds": [
@@ -459,9 +472,9 @@
         "current": true,
         "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-26T06:20:40.075Z",
-        "artifactSourceDataHash": "3d1e8058ac84",
-        "sourceDataHash": "3d1e8058ac84",
+        "artifactGeneratedAt": "2026-05-26T06:55:48.017Z",
+        "artifactSourceDataHash": "a87be8103478",
+        "sourceDataHash": "a87be8103478",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -481,9 +494,9 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-26T06:32:40.992Z",
-        "artifactSourceDataHash": "ac376d981c1d",
-        "sourceDataHash": "ac376d981c1d",
+        "artifactGeneratedAt": "2026-05-26T06:57:40.968Z",
+        "artifactSourceDataHash": "b9024b008d7c",
+        "sourceDataHash": "b9024b008d7c",
         "evaluatedInputIds": [
           "prototype-pipeline",
           "production-gates",
@@ -496,9 +509,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-26T06:32:52.699Z",
-        "artifactSourceDataHash": "669d3a7f6945",
-        "sourceDataHash": "669d3a7f6945",
+        "artifactGeneratedAt": "2026-05-26T06:57:43.525Z",
+        "artifactSourceDataHash": "cd11661b6d2d",
+        "sourceDataHash": "cd11661b6d2d",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -516,9 +529,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-26T06:32:52.855Z",
-        "artifactSourceDataHash": "a5f3e5f50549",
-        "sourceDataHash": "a5f3e5f50549",
+        "artifactGeneratedAt": "2026-05-26T06:57:46.398Z",
+        "artifactSourceDataHash": "e942e7b0b93c",
+        "sourceDataHash": "e942e7b0b93c",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -605,7 +618,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 88.67,
+      "scanAgeHours": 89.17,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -617,8 +630,7 @@
       "sampleDateCurrent": true,
       "freshAfterLastDownloadsScan": true,
       "staleInputIds": [
-        "product-gate-recovery",
-        "product-optimization"
+        "product-gate-recovery"
       ]
     },
     "localEventCollectionFreshness": {
@@ -626,7 +638,7 @@
       "localDropCollectionCurrent": true,
       "ready": true,
       "status": "bridge-waiting-for-export",
-      "bridgeGeneratedAt": "2026-05-25T23:01:24.467Z",
+      "bridgeGeneratedAt": "2026-05-26T06:55:46.815Z",
       "analyticsSource": "fixture-sample",
       "evidenceReadyNow": false,
       "evaluatedInputIds": [
@@ -650,7 +662,9 @@
     "skippedRecentlyExecutedActionIds": [
       "seed-portfolio-traffic"
     ],
-    "skippedRecentlySatisfiedActionIds": [],
+    "skippedRecentlySatisfiedActionIds": [
+      "refresh-organic-seed-loop"
+    ],
     "preferredActionOrder": [
       "prepare-repository-channel",
       "deploy-web-pwa",
@@ -687,9 +701,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-26T06:33:22.752Z",
-      "artifactSourceDataHash": "49c6f1124f48",
-      "sourceDataHash": "49c6f1124f48",
+      "bootstrapGeneratedAt": "2026-05-26T07:02:11.106Z",
+      "artifactSourceDataHash": "52146ee7532d",
+      "sourceDataHash": "52146ee7532d",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -704,11 +718,11 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-26T06:33:14.251Z",
+      "generatedAt": "2026-05-26T07:02:25.278Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
-      "missingSecrets": 3,
+      "missingSecrets": 5,
       "sourceStatusesFresh": true,
       "evaluatedSourceStatuses": [
         "production-environment",
@@ -770,14 +784,14 @@
       "id": "autonomous-cadence",
       "status": "ready",
       "autonomy": "scheduled-local-owner-loop",
-      "evidence": "Cadence cadence-ready; Codex active-declared-unverified; GitHub scheduled.",
+      "evidence": "Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.",
       "nextAction": "Let the daily Codex automation run the local owner loop and keep the GitHub scheduled workflow as CI evidence."
     },
     {
       "id": "autonomous-self-update",
       "status": "ready",
       "autonomy": "gated-generated-change-persistence",
-      "evidence": "Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.",
+      "evidence": "Self-update self-update-ready; safe pending 26; unsafe pending 0; remote push held.",
       "nextAction": "When a GitHub repository is connected, set AGL_AUTONOMOUS_SELF_UPDATE=1 and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 to let verified generated changes persist."
     },
     {
@@ -820,7 +834,7 @@
       "status": "ready",
       "autonomy": "automatic-browser-controlled",
       "evidence": "Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).",
-      "nextAction": "Route zero-spend install traffic through /?game=market-pulse&utm_source=pwa_install&utm_campaign=pwa-install-market-pulse until 20 prompt view(s) and 10 launch-mode event(s) are collected."
+      "nextAction": "Publish to a stable HTTPS host before treating PWA install evidence as production-ready."
     },
     {
       "id": "performance-budget",
@@ -959,7 +973,7 @@
       "id": "production-blocker-handoff",
       "status": "ready",
       "autonomy": "ranked-external-unlock-router",
-      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.",
+      "evidence": "Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.",
       "nextAction": "Start with Browser production analytics; it is the highest-priority zero-spend owner input."
     },
     {
@@ -987,7 +1001,7 @@
       "id": "operator-history",
       "status": "ready",
       "autonomy": "operator-audit-trail",
-      "evidence": "History operator-history-ready; records 40; executed 5.",
+      "evidence": "History operator-history-ready; records 40; executed 4.",
       "nextAction": "Keep a capped durable record of operator plans and one-action executions."
     },
     {
@@ -1095,13 +1109,13 @@
     },
     {
       "id": "refresh-organic-seed-loop",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:organic-seed-loop",
       "targets": [
         "market-pulse"
       ],
-      "reason": "Organic seed surface already reflects current traffic, acquisition, retention, and analytics inputs."
+      "reason": "Refreshes the player-initiated zero-cost share surface for the highest-opportunity seed campaign."
     },
     {
       "id": "refresh-support-feedback",
@@ -1326,7 +1340,7 @@
       "targets": [
         "production-analytics-browser"
       ],
-      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 3 secret blocker(s)."
+      "reason": "Production blocker handoff already ranks 4 owner input(s), 7 env blocker(s), and 5 secret blocker(s)."
     },
     {
       "id": "run-production-unlock-runner",
@@ -1355,7 +1369,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "refresh-objective-audit"
+        "refresh-production-blocker-handoff"
       ],
       "reason": "Operator history is already capped and published; keep attention on product evidence."
     },
@@ -1473,6 +1487,20 @@
       "status": "credential-required",
       "target": "CLOUDFLARE_API_TOKEN",
       "purpose": "Repository secret sourced from CLOUDFLARE_API_TOKEN.",
+      "source": "production-bootstrap"
+    },
+    {
+      "id": "secret-vite-event-collector-write-token",
+      "status": "credential-required",
+      "target": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "purpose": "Repository secret sourced from VITE_EVENT_COLLECTOR_WRITE_TOKEN.",
+      "source": "production-bootstrap"
+    },
+    {
+      "id": "secret-agl-event-collector-admin-token",
+      "status": "credential-required",
+      "target": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "purpose": "Repository secret sourced from AGL_EVENT_COLLECTOR_ADMIN_TOKEN.",
       "source": "production-bootstrap"
     },
     {

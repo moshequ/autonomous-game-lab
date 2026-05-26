@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-25T23:01:24.392Z",
+  "generatedAt": "2026-05-26T07:03:53.517Z",
   "status": "pass",
   "fixture": {
     "sourceFile": "player-events-smoke.json",
-    "exportedEvents": 7,
-    "uniqueEvents": 6,
+    "exportedEvents": 8,
+    "uniqueEvents": 7,
     "gameId": "market-pulse",
     "title": "Market Pulse",
     "gameSourceFile": "data/generated-playable-games.json"
@@ -12,7 +12,7 @@
   "bridge": {
     "status": "bridge-ready-for-ingest",
     "copiedFiles": 1,
-    "inboxValidEvents": 6,
+    "inboxValidEvents": 7,
     "noSyntheticEvents": true,
     "noExternalUpload": true,
     "downloadsOptInCommand": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge",
@@ -27,7 +27,7 @@
     "explicitScanEvidenceFound": true,
     "explicitScanCopiedFiles": 1,
     "sensitivePropertiesDropped": 1,
-    "gateSampleEvents": 3,
+    "gateSampleEvents": 5,
     "campaignId": "gate-sample-smoke-firstGameCompletion",
     "exportCoverageReceipts": 1,
     "exportCoverageReadyForIngest": true
@@ -36,13 +36,13 @@
     "downloadsImportEnabled": false,
     "explicitScanStatus": "evidence-found",
     "explicitScanEvidenceFound": true,
-    "preservedScanAt": "2026-05-25T23:01:24.151Z"
+    "preservedScanAt": "2026-05-26T07:03:53.257Z"
   },
   "ingest": {
     "status": "imported",
-    "importedEvents": 6,
+    "importedEvents": 7,
     "importedFiles": 1,
-    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-qqUZPg/player-events",
+    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-HpENLG/player-events",
     "piiStrippingEnabled": true,
     "importedFilesAreSanitized": true
   },
@@ -50,8 +50,8 @@
     "status": "imported",
     "importedEvents": 1,
     "importedFiles": 1,
-    "duplicateEvents": 12,
-    "importedFileDuplicateEvents": 6
+    "duplicateEvents": 14,
+    "importedFileDuplicateEvents": 7
   },
   "productionExport": {
     "status": "imported",
@@ -69,7 +69,7 @@
   "analytics": {
     "activeSource": "local-event-drops",
     "localEventFiles": 2,
-    "localEvents": 7,
+    "localEvents": 8,
     "duplicateEvents": 0,
     "retentionSource": "local-event-drops",
     "d1Retention": 1,
@@ -77,7 +77,8 @@
       "game_viewed": 3,
       "game_started": 2,
       "tutorial_completed": 1,
-      "level_completed": 1
+      "level_completed": 1,
+      "local_router_share_clicked": 1
     },
     "metrics": {
       "startRate": 0.667,

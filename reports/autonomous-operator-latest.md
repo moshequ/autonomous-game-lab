@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-26T06:33:23.875Z
+Generated: 2026-05-26T07:03:00.835Z
 Status: operator-held
 Mode: plan-only
 Owner decision: hold-for-external-input
@@ -26,7 +26,7 @@ Execution: not-requested
 - recommended path: first-party-collector
 - lowest-input path: posthog-browser
 - public status: /measurement-status.html
-- missing inputs: 5 variable(s), 1 secret(s)
+- missing inputs: 7 variable(s), 3 secret(s)
 - validate: npm run autonomous:event-collector-smoke
 - validate: npm run autonomous:collector-deploy-plan
 - validate: npm run autonomous:readiness
@@ -43,7 +43,7 @@ Execution: not-requested
 - refresh-autonomous-cadence: status-monitor
 - refresh-autonomous-self-update: status-monitor
 - seed-portfolio-traffic: owner-decision-held
-- refresh-organic-seed-loop: status-monitor
+- refresh-organic-seed-loop: owner-decision-held
 - refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor

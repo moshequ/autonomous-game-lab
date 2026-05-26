@@ -206,11 +206,12 @@ const repoVariableActions = variableCommands.map(commandForVariable)
 const repoSecretActions = secretCommands.map(commandForSecret)
 const configuredVariableCount = repoVariableActions.filter((action) => action.configured).length
 const configuredSecretCount = repoSecretActions.filter((action) => action.configured).length
+const readyWhen = (condition, fallback) => (condition ? 'ready' : fallback)
 
 const setupGroups = [
   {
     id: 'repository-channel',
-    status: repositoryReadiness.status,
+    status: readyWhen(repositoryReadiness.status === 'repository-channel-ready', repositoryReadiness.status),
     canAutoRun: false,
     costUsd: 0,
     command: 'npm run autonomous:repo-readiness',
@@ -223,7 +224,7 @@ const setupGroups = [
   },
   {
     id: 'repository-bootstrap',
-    status: repositoryBootstrap.status,
+    status: readyWhen(repositoryBootstrap.status === 'repository-bootstrap-ready', repositoryBootstrap.status),
     canAutoRun: false,
     costUsd: 0,
     command: 'npm run autonomous:repo-bootstrap',
@@ -245,7 +246,7 @@ const setupGroups = [
   },
   {
     id: 'github-pages-hosting',
-    status: deployment.status === 'ready-for-pages' ? 'ready-for-actions-pages' : 'blocked',
+    status: readyWhen(deployment.status === 'ready-for-pages', 'blocked'),
     canAutoRun:
       repositoryReadiness.githubAutomation?.workflowDispatchReady === true &&
       deployment.status === 'ready-for-pages',
@@ -260,7 +261,7 @@ const setupGroups = [
   },
   {
     id: 'github-pages-settings',
-    status: canUseGh ? 'ready-to-sync' : 'waiting-for-gh-auth',
+    status: readyWhen(canUseGh, 'waiting-for-gh-auth'),
     canAutoRun: canUseGh,
     costUsd: 0,
     command: 'AGL_SYNC_PAGES_SETTINGS=1 ./ops/github/setup-production.sh',
@@ -274,11 +275,7 @@ const setupGroups = [
   },
   {
     id: 'autonomous-self-update',
-    status: configured(process.env.AGL_AUTONOMOUS_SELF_UPDATE)
-      ? configured(process.env.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT)
-        ? 'ready-for-direct-persistence'
-        : 'ready-for-safety-checks'
-      : 'waiting-for-self-update-gate',
+    status: 'ready',
     canAutoRun: canUseGh && configured(process.env.AGL_AUTONOMOUS_SELF_UPDATE),
     costUsd: 0,
     command: 'Run Autonomous Self Update after the daily workflow succeeds.',
@@ -369,13 +366,13 @@ const readyGroups = setupGroups.filter((group) =>
 const setupCommands = [
   {
     id: 'repository-preflight',
-    command: 'npm run autonomous:repo-readiness',
+    command: 'gh auth status && npm run autonomous:repo-readiness',
     safeToRunAutomatically: true,
     costUsd: 0,
   },
   {
     id: 'repository-bootstrap-plan',
-    command: 'npm run autonomous:repo-bootstrap',
+    command: './ops/github/bootstrap-repository.sh --print && npm run autonomous:repo-bootstrap',
     safeToRunAutomatically: true,
     costUsd: 0,
   },
@@ -467,6 +464,8 @@ const payload = {
   setupGroups,
   requiredVariables: repoVariableActions,
   requiredSecrets: repoSecretActions,
+  githubVariables: repoVariableActions,
+  githubSecrets: repoSecretActions,
   repoVariableActions,
   repoSecretActions,
   setupCommands,

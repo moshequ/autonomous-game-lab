@@ -84,6 +84,7 @@ const allowedEventNames = new Set([
   'pwa_launch_mode_detected',
   'local_router_card_viewed',
   'local_router_choice_clicked',
+  'local_router_share_clicked',
   'local_router_choice_dismissed',
   'local_event_drop_folder_connected',
   'local_event_drop_folder_exported',
