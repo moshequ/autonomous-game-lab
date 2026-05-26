@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T18:42:58.874Z",
+  "generatedAt": "2026-05-26T18:56:45.489Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": false,
@@ -39,7 +39,7 @@
     "insideWorkTree": true,
     "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "currentBranch": "main",
-    "dirtyFiles": 78,
+    "dirtyFiles": 80,
     "dirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -76,6 +76,7 @@
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
       "public/product-gate-recovery.json",
+      "public/store-readiness.html",
       "public/store-readiness.json",
       "reports/deployment-plan-latest.md",
       "reports/live-site-monitor-latest.md",
@@ -106,6 +107,7 @@
       "reports/store-readiness-latest.md",
       "src/data/liveSiteMonitor.ts",
       "src/data/ownerZeroSecretInputSync.ts",
+      "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
@@ -120,7 +122,7 @@
       "src/data/storeListingOptimizer.ts",
       "src/data/storeReadiness.ts"
     ],
-    "generatedEvidenceDirtyFiles": 78,
+    "generatedEvidenceDirtyFiles": 80,
     "generatedEvidenceDirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -157,6 +159,7 @@
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
       "public/product-gate-recovery.json",
+      "public/store-readiness.html",
       "public/store-readiness.json",
       "reports/deployment-plan-latest.md",
       "reports/live-site-monitor-latest.md",
@@ -187,6 +190,7 @@
       "reports/store-readiness-latest.md",
       "src/data/liveSiteMonitor.ts",
       "src/data/ownerZeroSecretInputSync.ts",
+      "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
@@ -238,7 +242,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-ef95eb5777dd",
+    "releaseCandidateId": "pwa-40011e66616b",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
