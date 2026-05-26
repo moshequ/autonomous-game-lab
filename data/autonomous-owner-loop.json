@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T08:33:27.941Z",
+  "generatedAt": "2026-05-26T08:40:38.243Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -21,38 +21,35 @@
     "repositoryHandoffPrepared": false,
     "localActionAvailable": true,
     "heldForExternalInput": false,
-    "heldForExecutionBackoff": false
+    "heldForExecutionBackoff": true
   },
   "ownerDecision": {
-    "nextBestActionId": "apply-safe-improvements",
-    "nextBestAction": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
+    "nextBestActionId": "hold-for-external-input",
+    "nextBestAction": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
     "canExecuteWithoutSpend": true,
     "localActionAvailable": true,
-    "holdReason": null,
-    "rationale": "Release health allows bounded improvement policy updates."
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
+    "rationale": "All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state."
   },
   "executionBackoff": {
-    "status": "ready",
+    "status": "cooling-down",
     "localActionAvailable": true,
-    "executableWithoutRepeatCount": 1,
+    "executableWithoutRepeatCount": 0,
     "heldActionCount": 3,
     "selectableActionIds": [
       "seed-portfolio-traffic",
       "refresh-organic-seed-loop",
-      "refresh-replay-loop",
-      "apply-safe-improvements"
+      "refresh-replay-loop"
     ],
-    "executableActionIds": [
-      "apply-safe-improvements"
-    ],
+    "executableActionIds": [],
     "heldActionIds": [
       "seed-portfolio-traffic",
       "refresh-organic-seed-loop",
       "refresh-replay-loop"
     ],
     "nextResumeAt": "2026-05-26T23:08:56.032Z",
-    "nextResumeInHours": 14.591,
-    "holdReason": null,
+    "nextResumeInHours": 14.472,
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
     "controls": {
       "avoidImmediateRepeat": true,
       "zeroPaidSpend": true,
@@ -70,7 +67,7 @@
           "seed-portfolio-traffic"
         ],
         "suppressedUntil": "2026-05-26T23:43:28.218Z",
-        "resumeInHours": 15.167,
+        "resumeInHours": 15.047,
         "resumeCondition": "Wait for repeat-suppression cooldown, new player evidence, or owner-provided production inputs."
       },
       {
@@ -82,7 +79,7 @@
           "seed-portfolio-traffic"
         ],
         "suppressedUntil": "2026-05-26T23:43:28.218Z",
-        "resumeInHours": 15.167,
+        "resumeInHours": 15.047,
         "resumeCondition": "Wait for repeat-suppression cooldown, new player evidence, or owner-provided production inputs."
       },
       {
@@ -94,14 +91,14 @@
           "refresh-replay-loop"
         ],
         "suppressedUntil": "2026-05-26T23:08:56.032Z",
-        "resumeInHours": 14.591,
+        "resumeInHours": 14.472,
         "resumeCondition": "Wait for repeat-suppression cooldown, new player evidence, or owner-provided production inputs."
       }
     ]
   },
   "externalInputHandoff": {
     "status": "handoff-waiting-on-owner-inputs",
-    "holdReason": null,
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
     "nextUnlockId": "production-analytics-browser",
     "title": "Browser production analytics unlock kit",
     "recommendedPathId": "first-party-collector",
@@ -198,7 +195,7 @@
   },
   "storeExternalInputHandoff": {
     "status": "store-readiness-prepared-external-blockers",
-    "holdReason": null,
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
     "nextUnlockId": "support-contact",
     "title": "Production support contact",
     "costMode": "zero-spend-use-existing-support-address",
@@ -286,17 +283,17 @@
     "expiredExecutedActionIds": [],
     "lastExecutedActionId": "seed-portfolio-traffic",
     "lastExecutedActionStillExecutable": true,
-    "lastExecutedAgeHours": 2.833,
+    "lastExecutedAgeHours": 2.953,
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
       "refresh-organic-seed-loop"
     ],
-    "immediateRepeatSuppressed": false,
+    "immediateRepeatSuppressed": true,
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-26T08:33:27.514Z",
+      "auditGeneratedAt": "2026-05-26T08:40:25.732Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -320,7 +317,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-26T08:33:27.357Z",
-        "ageHours": 0,
+        "ageHours": 0.12,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -331,7 +328,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-26T06:55:57.676Z",
-        "ageHours": 1.625,
+        "ageHours": 1.745,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -342,7 +339,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-26T05:04:26.141Z",
-        "ageHours": 3.484,
+        "ageHours": 3.603,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -353,7 +350,7 @@
         "ready": true,
         "status": "performance-budget-ready",
         "artifactGeneratedAt": "2026-05-26T08:33:12.355Z",
-        "ageHours": 0.004,
+        "ageHours": 0.124,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -364,7 +361,7 @@
         "ready": true,
         "status": "live-site-monitor-passed",
         "artifactGeneratedAt": "2026-05-26T08:33:15.379Z",
-        "ageHours": 0.003,
+        "ageHours": 0.123,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -613,11 +610,11 @@
         ]
       },
       "appliedImprovements": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "applied-improvements-ready",
-        "artifactGeneratedAt": "2026-05-25T12:13:02.101Z",
-        "artifactSourceDataHash": "0fbd12c8bda3",
+        "artifactGeneratedAt": "2026-05-26T08:38:33.442Z",
+        "artifactSourceDataHash": "a11dae7f991c",
         "sourceDataHash": "a11dae7f991c",
         "evaluatedInputIds": [
           "analytics-rollup",
@@ -635,7 +632,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 90.67,
+      "scanAgeHours": 90.79,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -1013,7 +1010,7 @@
       "id": "autonomous-operator",
       "status": "ready",
       "autonomy": "one-safe-action-runner",
-      "evidence": "Operator operator-plan-ready; selected apply-safe-improvements; execution not-requested.",
+      "evidence": "Operator operator-held; selected none; execution not-requested.",
       "nextAction": "Keep a dry-run operator plan ready, then execute only one allowlisted local action when explicitly requested."
     },
     {
@@ -1378,7 +1375,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:operator",
       "targets": [
-        "apply-safe-improvements"
+        "owner-loop-safe-actions"
       ],
       "reason": "One-action operator plan is already published; avoid cycling on meta-operator refreshes."
     },
@@ -1426,10 +1423,10 @@
     },
     {
       "id": "apply-safe-improvements",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-      "reason": "Release health allows bounded improvement policy updates."
+      "reason": "Applied improvements already reflect the current analytics, experiment, and backlog evidence."
     },
     {
       "id": "deploy-web-pwa",
@@ -1604,7 +1601,7 @@
     "productionUnlockRunnerStatus": "unlock-runner-idle",
     "supportChannelStatus": "support-channel-ready",
     "supportFeedbackStatus": "support-feedback-empty",
-    "autonomousOperatorStatus": "operator-plan-ready",
+    "autonomousOperatorStatus": "operator-held",
     "autonomousOperatorHistoryStatus": "operator-history-ready",
     "objectiveAuditStatus": "objective-in-progress",
     "storeListingOptimizerStatus": "store-listing-optimizer-ready",

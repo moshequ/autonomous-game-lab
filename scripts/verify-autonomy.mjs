@@ -4301,6 +4301,30 @@ if (hasDuplicateOperatorDryRun) {
   fail('Autonomous operator history must compact repeated no-op dry-run plans instead of appending duplicate records.')
 }
 
+const appliedImprovementActions = applied.actions ?? []
+const appliedImprovementActionsHaveIdentity =
+  appliedImprovementActions.length > 0 &&
+  appliedImprovementActions.every(
+    (action) =>
+      typeof action.id === 'string' &&
+      action.id.length > 0 &&
+      typeof action.actionType === 'string' &&
+      action.actionType.length > 0 &&
+      typeof action.target === 'string' &&
+      action.target.length > 0,
+  )
+const appliedImprovementActionIds = appliedImprovementActions.map((action) => action.id)
+const appliedImprovementActionIdsUnique =
+  new Set(appliedImprovementActionIds).size === appliedImprovementActionIds.length
+
+if (
+  applied.status !== 'applied-improvements-ready' ||
+  !appliedImprovementActionsHaveIdentity ||
+  !appliedImprovementActionIdsUnique
+) {
+  fail('Applied improvement actions must publish stable ids, action types, and targets for downstream autonomy audits.')
+}
+
 const cadenceCodexDesktopStatus = autonomousCadence.schedulers?.codexDesktop?.status
 const cadenceCodexDesktopStatusAllowed = ['active-confirmed', 'active-declared-unverified'].includes(
   cadenceCodexDesktopStatus,

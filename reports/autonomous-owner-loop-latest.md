@@ -1,22 +1,22 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-26T08:33:27.941Z
+Generated: 2026-05-26T08:40:38.243Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
 
 ## Owner Decision
 
-- Next action: apply-safe-improvements
-- Command: npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
-- Rationale: Release health allows bounded improvement policy updates.
+- Next action: hold-for-external-input
+- Command: No local command is available until external inputs, configured credentials, or new player evidence arrive.
+- Rationale: All safe local refresh actions are current; hold execution until owner-provided inputs, production analytics, or real player evidence changes the state.
 - Last executed action: seed-portfolio-traffic
 - Recent executed actions: seed-portfolio-traffic, bootstrap-production-setup, optimize-daily-retention, refresh-replay-loop
 
 ## Execution Backoff
 
-- Status: ready
-- Selectable actions: seed-portfolio-traffic, refresh-organic-seed-loop, refresh-replay-loop, apply-safe-improvements
+- Status: cooling-down
+- Selectable actions: seed-portfolio-traffic, refresh-organic-seed-loop, refresh-replay-loop
 - Held actions: seed-portfolio-traffic, refresh-organic-seed-loop, refresh-replay-loop
 - Next resume: 2026-05-26T23:08:56.032Z
 - No repeat cycling: true
@@ -83,7 +83,7 @@ Autonomy score: 44/45 (98%)
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 3.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
-- ready: autonomous-operator - Operator operator-plan-ready; selected apply-safe-improvements; execution not-requested.
+- ready: autonomous-operator - Operator operator-held; selected none; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 4.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 15.
 - ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.
@@ -128,7 +128,7 @@ Autonomy score: 44/45 (98%)
 - monitor: refresh-objective-audit - npm run autonomous:objective-audit
 - monitor: optimize-store-listing - npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 - monitor: prepare-android-signing - npm run autonomous:android-signing
-- armed: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
+- monitor: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
 - ready-when-repository-pages-enabled: deploy-web-pwa - Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.
 - monitor: collect-live-events - npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan
 

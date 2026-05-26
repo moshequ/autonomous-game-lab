@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T08:33:28.002Z",
+  "generatedAt": "2026-05-26T08:40:10.001Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -782,7 +782,7 @@
       {
         "id": "autonomous-operator",
         "status": "pass",
-        "detail": "Autonomous operator is operator-plan-ready; selected apply-safe-improvements; execution not-requested."
+        "detail": "Autonomous operator is operator-held; selected none; execution not-requested."
       },
       {
         "id": "autonomous-operator-history",
@@ -5783,16 +5783,9 @@
     ]
   },
   "autonomousOperator": {
-    "status": "operator-plan-ready",
+    "status": "operator-held",
     "mode": "plan-only",
-    "selectedAction": {
-      "id": "apply-safe-improvements",
-      "status": "armed",
-      "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
-      "targets": [],
-      "reason": "Release health allows bounded improvement policy updates.",
-      "costUsd": 0
-    },
+    "selectedAction": null,
     "controls": {
       "zeroPaidSpend": true,
       "allOwnerGuardrailsEnforced": true,
@@ -5814,12 +5807,7 @@
       "attemptedActionId": null,
       "results": []
     },
-    "eligibleActionIds": [
-      "seed-portfolio-traffic",
-      "refresh-organic-seed-loop",
-      "refresh-replay-loop",
-      "apply-safe-improvements"
-    ],
+    "eligibleActionIds": [],
     "blockedActions": [
       {
         "id": "run-daily-owner-loop",
@@ -5849,13 +5837,13 @@
         "id": "seed-portfolio-traffic",
         "status": "armed",
         "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-        "reason": "not-selected-this-run"
+        "reason": "owner-decision-held"
       },
       {
         "id": "refresh-organic-seed-loop",
         "status": "armed",
         "command": "npm run autonomous:organic-seed-loop",
-        "reason": "not-selected-this-run"
+        "reason": "owner-decision-held"
       },
       {
         "id": "refresh-support-feedback",
@@ -5957,7 +5945,7 @@
         "id": "refresh-replay-loop",
         "status": "armed",
         "command": "npm run autonomous:replay-loop",
-        "reason": "not-selected-this-run"
+        "reason": "owner-decision-held"
       },
       {
         "id": "prepare-repository-channel",
@@ -6017,6 +6005,12 @@
         "id": "prepare-android-signing",
         "status": "monitor",
         "command": "npm run autonomous:android-signing",
+        "reason": "status-monitor"
+      },
+      {
+        "id": "apply-safe-improvements",
+        "status": "monitor",
+        "command": "npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments",
         "reason": "status-monitor"
       },
       {
@@ -7238,12 +7232,12 @@
       "zeroSpendGuard": true,
       "noRevenueEnablementUntilGatesPass": true,
       "noStoreSubmissionUntilExternalAccounts": true,
-      "currentWorktreeClean": true,
-      "currentWorktreeDirtyFiles": 102,
-      "currentGitWorktreeDirtyFiles": 102,
-      "currentGeneratedEvidenceDirtyFiles": 102,
-      "currentNonGeneratedWorktreeDirtyFiles": 0,
-      "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
+      "currentWorktreeClean": false,
+      "currentWorktreeDirtyFiles": 18,
+      "currentGitWorktreeDirtyFiles": 18,
+      "currentGeneratedEvidenceDirtyFiles": 16,
+      "currentNonGeneratedWorktreeDirtyFiles": 2,
+      "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
       "productionBootstrapFresh": true,
       "productionBootstrapSourceDataHash": "9492e8de3a4d",
       "productionBootstrapStaleInputIds": [],
@@ -7252,7 +7246,7 @@
     "completion": {
       "canMarkGoalComplete": false,
       "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-      "nextBestAction": "apply-safe-improvements"
+      "nextBestAction": "hold-for-external-input"
     },
     "requirements": [
       {
@@ -7320,7 +7314,7 @@
           "Backlog: improvement-backlog-ready; items 4; hash 87f698a1a438",
           "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
           "Applied/deferred actions: 7",
-          "Operator selected: apply-safe-improvements; status operator-plan-ready; execution not-requested"
+          "Operator selected: none; status operator-held; execution not-requested"
         ],
         "blockers": [],
         "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -7334,7 +7328,7 @@
           "Owner loop: owner-loop-ready",
           "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
           "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
-          "Operator: operator-plan-ready",
+          "Operator: operator-held",
           "Operator history: operator-history-ready; records 40; executed 4",
           "Bootstrap: production-bootstrap-ready",
           "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-25T12:13:02.101Z",
+  "generatedAt": "2026-05-26T08:38:33.442Z",
   "status": "applied-improvements-ready",
-  "sourceDataHash": "0fbd12c8bda3",
+  "sourceDataHash": "a11dae7f991c",
   "releaseHealthStatus": "monitoring",
   "experimentResultsStatus": "evaluated",
   "playableGameIds": [
@@ -22,7 +22,10 @@
       "source": "experiment-results",
       "experiment": "first_session_pacing",
       "title": "Promote winning experiment variant",
-      "reason": "fast-start is already at the maximum safe traffic weight"
+      "reason": "fast-start is already at the maximum safe traffic weight",
+      "id": "experiment-recommendation__first-session-pacing__all-games__promote-winning-experiment-variant",
+      "actionType": "experiment-recommendation",
+      "target": "all-games"
     },
     {
       "status": "skipped",
@@ -30,7 +33,10 @@
       "experiment": "reward_offer",
       "title": "Promote winning experiment variant",
       "reason": "same experiment result already produced an applied change",
-      "sourceDataHash": "0fbd12c8bda3"
+      "sourceDataHash": "a11dae7f991c",
+      "id": "experiment-recommendation__reward-offer__all-games__promote-winning-experiment-variant",
+      "actionType": "experiment-recommendation",
+      "target": "all-games"
     },
     {
       "status": "skipped",
@@ -38,7 +44,10 @@
       "experiment": "thumbnail_board_state_v2",
       "title": "Promote winning experiment variant",
       "reason": "same experiment result already produced an applied change",
-      "sourceDataHash": "0fbd12c8bda3"
+      "sourceDataHash": "a11dae7f991c",
+      "id": "experiment-recommendation__thumbnail-board-state-v2__all-games__promote-winning-experiment-variant",
+      "actionType": "experiment-recommendation",
+      "target": "all-games"
     },
     {
       "status": "skipped",
@@ -46,7 +55,10 @@
       "gameId": "harbor-rings",
       "title": "Shorten first tutorial",
       "reason": "same diagnosed issue already produced an applied change",
-      "sourceDataHash": "0fbd12c8bda3"
+      "sourceDataHash": "a11dae7f991c",
+      "id": "improvement-backlog-item__first-session-pacing__harbor-rings__shorten-first-tutorial",
+      "actionType": "improvement-backlog-item",
+      "target": "harbor-rings"
     },
     {
       "status": "skipped",
@@ -54,14 +66,20 @@
       "gameId": "harbor-rings",
       "title": "Improve title and thumbnail",
       "reason": "same diagnosed issue already produced an applied change",
-      "sourceDataHash": "0fbd12c8bda3"
+      "sourceDataHash": "a11dae7f991c",
+      "id": "improvement-backlog-item__thumbnail-board-state-v2__harbor-rings__improve-title-and-thumbnail",
+      "actionType": "improvement-backlog-item",
+      "target": "harbor-rings"
     },
     {
       "status": "deferred",
       "experiment": "target_score_curve",
       "gameId": "harbor-rings",
       "title": "Rebalance first-game difficulty",
-      "reason": "confidence 69% is below 70% guardrail"
+      "reason": "confidence 69% is below 70% guardrail",
+      "id": "improvement-backlog-item__target-score-curve__harbor-rings__rebalance-first-game-difficulty",
+      "actionType": "improvement-backlog-item",
+      "target": "harbor-rings"
     },
     {
       "status": "skipped",
@@ -69,7 +87,10 @@
       "gameId": "harbor-rings",
       "title": "Add daily goal reward copy and result animation",
       "reason": "same diagnosed issue already produced an applied change",
-      "sourceDataHash": "0fbd12c8bda3"
+      "sourceDataHash": "a11dae7f991c",
+      "id": "improvement-backlog-item__reward-offer__harbor-rings__add-daily-goal-reward-copy-and-result-animation",
+      "actionType": "improvement-backlog-item",
+      "target": "harbor-rings"
     }
   ],
   "history": [

@@ -8,14 +8,14 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "apply-safe-improvements"
+    "nextBestActionId": "hold-for-external-input"
   },
   "executionBackoff": {
-    "status": "ready",
+    "status": "cooling-down",
     "heldActionCount": 3,
-    "executableWithoutRepeatCount": 1,
+    "executableWithoutRepeatCount": 0,
     "nextResumeAt": "2026-05-26T23:08:56.032Z",
-    "nextResumeInHours": 14.591,
+    "nextResumeInHours": 14.472,
     "heldActionIds": [
       "seed-portfolio-traffic",
       "refresh-organic-seed-loop",

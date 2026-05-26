@@ -57,6 +57,49 @@ const history = previous.history ?? []
 const actions = []
 const touchedExperiments = new Set()
 
+const slugPart = (value) =>
+  String(value ?? 'unknown')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80) || 'unknown'
+
+const actionTypeFor = (action) => {
+  if (action.status === 'applied') {
+    return 'experiment-policy-change'
+  }
+
+  if (action.source === 'experiment-results') {
+    return 'experiment-recommendation'
+  }
+
+  return 'improvement-backlog-item'
+}
+
+const targetFor = (action) =>
+  action.gameId ??
+  (action.source === 'experiment-results' ? 'all-games' : null) ??
+  action.experiment ??
+  'unknown'
+
+const actionIdFor = (action, index) =>
+  [
+    actionTypeFor(action),
+    action.experiment ?? 'no-experiment',
+    targetFor(action),
+    action.title ?? action.reason ?? `action-${index + 1}`,
+  ]
+    .map(slugPart)
+    .join('__')
+
+const decorateAction = (action, index) => ({
+  ...action,
+  id: action.id ?? actionIdFor(action, index),
+  actionType: action.actionType ?? actionTypeFor(action),
+  target: action.target ?? targetFor(action),
+})
+
 const minimumConfidenceFor = (experiment) =>
   policy.guardrails.minimumConfidenceByExperiment?.[experiment] ?? policy.guardrails.minimumConfidence
 
@@ -356,7 +399,8 @@ for (const issue of backlog) {
   actions.push(applyIssue(issue))
 }
 
-const appliedActions = actions.filter((action) => action.status === 'applied')
+const decoratedActions = actions.map(decorateAction)
+const appliedActions = decoratedActions.filter((action) => action.status === 'applied')
 
 if (appliedActions.length) {
   policy.generatedAt = new Date().toISOString()
@@ -395,7 +439,7 @@ const payload = {
   releaseHealthStatus: releaseHealth.status,
   experimentResultsStatus: experimentResults.status,
   playableGameIds: [...playableGameIds],
-  actions,
+  actions: decoratedActions,
   history: nextHistory,
 }
 
@@ -410,11 +454,11 @@ const report = [
   '',
   '## Actions',
   '',
-  ...actions.map((action) =>
+  ...decoratedActions.map((action) =>
     action.status === 'applied'
-      ? `- applied: ${action.experiment} for ${action.gameId}; ${action.change}.`
+      ? `- applied: ${action.id}; ${action.experiment} for ${action.target}; ${action.change}.`
       : `- ${action.status}: ${action.experiment ?? 'none'} for ${
-          action.gameId ?? (action.source === 'experiment-results' ? 'all-games' : 'unknown')
+          action.target
         }; ${action.reason}.`,
   ),
   '',
