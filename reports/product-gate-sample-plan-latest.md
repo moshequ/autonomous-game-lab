@@ -1,8 +1,8 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-26T22:29:25.660Z
+Generated: 2026-05-26T22:53:09.905Z
 Status: product-gate-sample-plan-ready
-Source hash: 7579829b3023
+Source hash: 431a22afe3a5
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
 Default route: firstGameCompletion (gate-sample-20260527-firstGameCompletion)
@@ -16,6 +16,8 @@ Return handoff missions: 1
 Downloads scan: no-evidence-found; cooling down false
 Next recommended Downloads scan: 2026-05-22T17:53:13.086Z
 Public sample page: /gate-sample.html
+Safe local drop inbox: data/player-events/inbox
+Safe local drop import: npm run autonomous:collect-local-event-drops
 Runtime evidence policy: active
 
 ## Missions

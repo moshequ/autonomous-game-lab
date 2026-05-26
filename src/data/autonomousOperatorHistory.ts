@@ -5,7 +5,7 @@ export const autonomousOperatorHistory = {
     "plannedRecords": 34,
     "executedRecords": 6,
     "failedRecords": 0,
-    "lastActionId": "collect-gate-sample-local-drops",
+    "lastActionId": "refresh-first-move-coach",
     "lastExecutionStatus": "not-requested",
     "lastExecutedActionId": "optimize-store-listing"
   }

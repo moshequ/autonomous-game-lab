@@ -3331,6 +3331,12 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       localFolderDrop: {
         mode: string
         supportedRuntime: string
+        filenamePattern: string
+        inboxDirectory: string
+        localDropImportCommand: string
+        configuredDropDirEnv: string
+        explicitDownloadsOptInRequired: boolean
+        noAutomaticDownloadsScan: boolean
         fallback: string
         selfDescribingExportReceipts: boolean
         noExternalUpload: boolean
@@ -9722,6 +9728,15 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   )
 
   await page.addInitScript(({ campaignId, gameId, viewEvent, successEvent }) => {
+    const target = window as Window & { __gateSampleCopiedText?: string }
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: async (text: string) => {
+          target.__gateSampleCopiedText = text
+        },
+      },
+    })
     window.localStorage.setItem(
       'agl.analytics.events',
       JSON.stringify([
@@ -9793,6 +9808,12 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   expect(samplePlan.publicSamplePage.localFolderDrop).toMatchObject({
     mode: 'browser-selected-local-folder',
     supportedRuntime: 'showDirectoryPicker',
+    filenamePattern: 'player-events*.json',
+    inboxDirectory: 'data/player-events/inbox',
+    localDropImportCommand: 'npm run autonomous:collect-local-event-drops',
+    configuredDropDirEnv: 'AGL_LOCAL_EVENT_DROP_DIRS',
+    explicitDownloadsOptInRequired: true,
+    noAutomaticDownloadsScan: true,
     fallback: 'download',
     selfDescribingExportReceipts: true,
     noExternalUpload: true,
@@ -9825,6 +9846,12 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
   )
   await expect(firstMission.getByRole('button', { name: 'Share evidence' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Connect drop folder' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Copy safe import' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Copy inbox path' })).toBeVisible()
+  await expect(page.getByLabel('Local evidence bridge handoff')).toContainText('data/player-events/inbox')
+  await expect(page.getByLabel('Local evidence bridge handoff')).toContainText(
+    'npm run autonomous:collect-local-event-drops',
+  )
   await expect(page.getByText(/Manual download fallback|Optional local drop folder/)).toBeVisible()
   await firstMission.getByRole('button', { name: 'Share mission' }).click()
   await page.waitForFunction((campaignId) => {
@@ -9901,6 +9928,36 @@ test('zero-spend gate sample page is reachable and uses runtime-relative mission
     const exportReceipt = events.findLast((event) => event.name === 'analytics_exported')
     expect(exportReceipt?.properties.eventCountAtExport).toBe(events.length)
   }
+
+  await page.getByRole('button', { name: 'Copy safe import' }).click()
+  await expect(page.getByText('Safe import command copied.')).toBeVisible()
+
+  const copiedHandoff = await page.evaluate(() => {
+    const target = window as Window & { __gateSampleCopiedText?: string }
+    const events = JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+      name: string
+      properties: Record<string, string | number | boolean>
+    }>
+
+    return {
+      text: target.__gateSampleCopiedText,
+      event: events.findLast((event) => event.name === 'player_evidence_command_copied'),
+    }
+  })
+
+  expect(copiedHandoff.text).toBe('npm run autonomous:collect-local-event-drops')
+  expect(copiedHandoff.event?.properties).toMatchObject({
+    copyType: 'public-gate-sample-safe-import-command',
+    surface: 'public-gate-sample-page',
+    channel: 'product-gate-sample',
+    succeeded: true,
+    noAutomaticDownloadsScan: true,
+    explicitDownloadsOptInRequired: true,
+    localDropImportBeforeDownloads: true,
+    noExternalUpload: true,
+    zeroPaidSpend: true,
+    noSyntheticEvents: true,
+  })
   expect(fastestMission).toBeTruthy()
 
   if (fastestMission) {

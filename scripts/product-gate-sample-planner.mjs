@@ -488,6 +488,11 @@ const defaultRoute = defaultRouteMissionWithEvidence
   : null
 const collectSampleDownloadsCommand = 'npm run autonomous:collect-sample-downloads'
 const collectLocalEventDropsCommand = 'npm run autonomous:collect-local-event-drops'
+const eventDropContract = localEventBridge.eventDropContract ?? {}
+const localDropInboxDirectory = eventDropContract.inboxDirectory ?? 'data/player-events/inbox'
+const localDropFilenamePattern = eventDropContract.filenamePattern ?? 'player-events*.json'
+const localDropImportCommand = eventDropContract.localDropImportCommand ?? collectLocalEventDropsCommand
+const explicitDownloadsImportCommand = eventDropContract.downloadsImportCommand ?? collectSampleDownloadsCommand
 const aggregateEvidenceRepository =
   typeof supportChannel.repository?.target === 'string' && /^[\w.-]+\/[\w.-]+$/.test(supportChannel.repository.target)
     ? supportChannel.repository.target
@@ -579,9 +584,15 @@ const payload = {
     localFolderDrop: {
       mode: 'browser-selected-local-folder',
       supportedRuntime: 'showDirectoryPicker',
-      filenamePattern: 'player-events*.json',
+      filenamePattern: localDropFilenamePattern,
       fallback: 'download',
-      bridgeImport: 'data/player-events/inbox or AGL_LOCAL_EVENT_DROP_DIRS via npm run autonomous:collect-local-event-drops',
+      inboxDirectory: localDropInboxDirectory,
+      bridgeImport: `${localDropInboxDirectory} or AGL_LOCAL_EVENT_DROP_DIRS via ${localDropImportCommand}`,
+      localDropImportCommand,
+      explicitDownloadsImportCommand,
+      configuredDropDirEnv: 'AGL_LOCAL_EVENT_DROP_DIRS',
+      explicitDownloadsOptInRequired: true,
+      noAutomaticDownloadsScan: true,
       selfDescribingExportReceipts: true,
       noExternalUpload: true,
       playerInitiatedOnly: true,
@@ -662,6 +673,17 @@ const payload = {
       'zeroPaidSpend',
       'noSyntheticEvents',
     ],
+    publicPageHandoffTelemetry: {
+      event: 'player_evidence_command_copied',
+      copyTypes: ['public-gate-sample-safe-import-command', 'public-gate-sample-inbox-path'],
+      controls: {
+        zeroPaidSpend: true,
+        noSyntheticEvents: true,
+        noAutomaticDownloadsScan: true,
+        localDropImportBeforeDownloads: true,
+        noExternalUpload: true,
+      },
+    },
     defaultRouting: {
       status: defaultRouteMission ? 'active' : 'inactive',
       gateId: defaultRouteMission?.gateId ?? null,
@@ -851,6 +873,8 @@ const report = [
   `Downloads scan: ${payload.summary.downloadsScanStatus}; cooling down ${payload.summary.downloadsScanCoolingDown}`,
   `Next recommended Downloads scan: ${payload.summary.downloadsScanNextRecommendedAt}`,
   `Public sample page: ${payload.publicSamplePage.path}`,
+  `Safe local drop inbox: ${payload.publicSamplePage.localFolderDrop.inboxDirectory}`,
+  `Safe local drop import: ${payload.publicSamplePage.localFolderDrop.localDropImportCommand}`,
   `Runtime evidence policy: ${payload.runtimeEvidencePolicy.status}`,
   '',
   '## Missions',
@@ -985,6 +1009,21 @@ const publicMissionEvidence = payload.missions.map((mission) => ({
 const publicSupportEvidence = {
   repository: aggregateEvidenceRepository,
   template: 'analytics-evidence.yml',
+}
+const publicHandoffEvidence = {
+  safeImportCommand: payload.publicSamplePage.localFolderDrop.localDropImportCommand,
+  inboxDirectory: payload.publicSamplePage.localFolderDrop.inboxDirectory,
+  filenamePattern: payload.publicSamplePage.localFolderDrop.filenamePattern,
+  configuredDropDirEnv: payload.publicSamplePage.localFolderDrop.configuredDropDirEnv,
+  explicitDownloadsImportCommand: payload.publicSamplePage.localFolderDrop.explicitDownloadsImportCommand,
+  controls: {
+    zeroPaidSpend: payload.publicSamplePage.zeroPaidSpend,
+    noSyntheticEvents: payload.publicSamplePage.noSyntheticEvents,
+    noAutomaticDownloadsScan: payload.publicSamplePage.localFolderDrop.noAutomaticDownloadsScan,
+    explicitDownloadsOptInRequired: payload.publicSamplePage.localFolderDrop.explicitDownloadsOptInRequired,
+    noExternalUpload: payload.publicSamplePage.localFolderDrop.noExternalUpload,
+    playerInitiatedOnly: payload.publicSamplePage.localFolderDrop.playerInitiatedOnly,
+  },
 }
 
 const gateSamplePage = `<!doctype html>
@@ -1181,6 +1220,7 @@ const gateSamplePage = `<!doctype html>
       .evidence,
       .returnLink,
       .calendar,
+      .copyCommand,
       .folder {
         display: inline-flex;
         align-items: center;
@@ -1226,12 +1266,18 @@ const gateSamplePage = `<!doctype html>
         cursor: pointer;
       }
 
+      .copyCommand {
+        background: #343f3b;
+        cursor: pointer;
+      }
+
       .play:focus-visible,
       .share:focus-visible,
       .export:focus-visible,
       .evidence:focus-visible,
       .returnLink:focus-visible,
       .calendar:focus-visible,
+      .copyCommand:focus-visible,
       .folder:focus-visible {
         outline: 3px solid #b87b16;
         outline-offset: 2px;
@@ -1244,6 +1290,36 @@ const gateSamplePage = `<!doctype html>
 
       .handoff h2 {
         margin-bottom: 8px;
+      }
+
+      .handoffGrid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin: 14px 0 0;
+      }
+
+      .handoffGrid div {
+        border: 1px solid #d8e0dd;
+        border-radius: 7px;
+        padding: 10px;
+        background: #fff;
+      }
+
+      .handoffGrid dt {
+        color: #4a5753;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .handoffGrid dd {
+        margin: 4px 0 0;
+      }
+
+      .handoffGrid code {
+        overflow-wrap: anywhere;
+        font-size: 0.84rem;
       }
 
       .handoffActions {
@@ -1264,6 +1340,7 @@ const gateSamplePage = `<!doctype html>
         .recommended,
         .summary,
         .missions,
+        .handoffGrid,
         .missionActions {
           grid-template-columns: 1fr;
         }
@@ -1291,14 +1368,22 @@ const gateSamplePage = `<!doctype html>
       <section class="handoff" aria-label="Evidence handoff">
         <h2>Evidence handoff</h2>
         <p>The app buffers anonymous gameplay events locally, forwards them when a production collector exists, and keeps revenue disabled until observed samples clear every product gate. Export buttons create the same player-initiated event drop consumed by the local bridge.</p>
+        <dl class="handoffGrid" aria-label="Local evidence bridge handoff">
+          <div><dt>Inbox</dt><dd><code>${escapeHtml(payload.publicSamplePage.localFolderDrop.inboxDirectory)}</code></dd></div>
+          <div><dt>Files</dt><dd><code>${escapeHtml(payload.publicSamplePage.localFolderDrop.filenamePattern)}</code></dd></div>
+          <div><dt>Safe import</dt><dd><code>${escapeHtml(payload.publicSamplePage.localFolderDrop.localDropImportCommand)}</code></dd></div>
+        </dl>
         <div class="handoffActions">
           <button class="folder" type="button" data-connect-drop-folder>Connect drop folder</button>
+          <button class="copyCommand" type="button" data-copy-import-command>Copy safe import</button>
+          <button class="copyCommand" type="button" data-copy-inbox-path>Copy inbox path</button>
           <p class="dropStatus" data-drop-folder-status>Manual download fallback active.</p>
         </div>
       </section>
     </main>
     <script type="application/json" id="gate-sample-mission-data">${safeJsonScript(publicMissionEvidence)}</script>
     <script type="application/json" id="gate-sample-support-data">${safeJsonScript(publicSupportEvidence)}</script>
+    <script type="application/json" id="gate-sample-handoff-data">${safeJsonScript(publicHandoffEvidence)}</script>
     <script>
       (() => {
         const bufferKey = 'agl.analytics.events'
@@ -1307,6 +1392,7 @@ const gateSamplePage = `<!doctype html>
         const localExportAgeThresholdHours = 24
         const missions = JSON.parse(document.getElementById('gate-sample-mission-data')?.textContent || '[]')
         const support = JSON.parse(document.getElementById('gate-sample-support-data')?.textContent || '{}')
+        const handoff = JSON.parse(document.getElementById('gate-sample-handoff-data')?.textContent || '{}')
         let dropDirectoryHandle = null
 
         const readEvents = () => {
@@ -1608,6 +1694,47 @@ const gateSamplePage = `<!doctype html>
           } catch {
             setDropFolderStatus('Drop folder was not connected; manual download fallback remains active.')
           }
+        }
+
+        const copyHandoffText = async ({ copyType, text, statusMessage }) => {
+          let method = 'clipboard'
+          let succeeded = false
+
+          if (navigator.clipboard?.writeText && text) {
+            try {
+              await navigator.clipboard.writeText(text)
+              succeeded = true
+            } catch {
+              method = 'clipboard_unavailable'
+            }
+          } else {
+            method = 'unsupported'
+          }
+
+          writeEvents([
+            ...readEvents(),
+            {
+              id: createId(),
+              name: 'player_evidence_command_copied',
+              properties: {
+                copyType,
+                method,
+                succeeded,
+                commandLength: String(text || '').length,
+                surface: 'public-gate-sample-page',
+                channel: 'product-gate-sample',
+                zeroPaidSpend: handoff.controls?.zeroPaidSpend === true,
+                noSyntheticEvents: handoff.controls?.noSyntheticEvents === true,
+                noAutomaticDownloadsScan: handoff.controls?.noAutomaticDownloadsScan === true,
+                explicitDownloadsOptInRequired: handoff.controls?.explicitDownloadsOptInRequired === true,
+                localDropImportBeforeDownloads: true,
+                noExternalUpload: handoff.controls?.noExternalUpload === true,
+                playerInitiatedOnly: handoff.controls?.playerInitiatedOnly === true,
+              },
+              createdAt: new Date().toISOString(),
+            },
+          ])
+          setDropFolderStatus(succeeded ? statusMessage : 'Clipboard unavailable; use the visible handoff values.')
         }
 
         const downloadEvents = (events, fileName) => {
@@ -2036,6 +2163,22 @@ const gateSamplePage = `<!doctype html>
 
         document.querySelector('[data-connect-drop-folder]')?.addEventListener('click', () => {
           void connectDropFolder()
+        })
+
+        document.querySelector('[data-copy-import-command]')?.addEventListener('click', () => {
+          void copyHandoffText({
+            copyType: 'public-gate-sample-safe-import-command',
+            text: handoff.safeImportCommand,
+            statusMessage: 'Safe import command copied.',
+          })
+        })
+
+        document.querySelector('[data-copy-inbox-path]')?.addEventListener('click', () => {
+          void copyHandoffText({
+            copyType: 'public-gate-sample-inbox-path',
+            text: handoff.inboxDirectory,
+            statusMessage: 'Inbox path copied.',
+          })
         })
 
         document.querySelectorAll('[data-export-campaign]').forEach((button) => {

@@ -1,8 +1,8 @@
 # Product Gate Recovery
 
-Generated: 2026-05-26T22:47:35.238Z
+Generated: 2026-05-26T22:55:06.259Z
 Status: product-gate-recovery-ready
-Source hash: 458a7de02e26
+Source hash: 8d210205988c
 Analytics source: fixture-sample
 Failing gates: 3
 Primary bottleneck: firstGameCompletion

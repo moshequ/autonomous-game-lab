@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-26T22:29:25.660Z",
-  "sourceDataHash": "7579829b3023",
+  "generatedAt": "2026-05-26T22:53:09.905Z",
+  "sourceDataHash": "431a22afe3a5",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -39,7 +39,7 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T13:53:13.086Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 104.6,
+    "scanAgeHours": 105,
     "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
   },
@@ -90,7 +90,13 @@
       "supportedRuntime": "showDirectoryPicker",
       "filenamePattern": "player-events*.json",
       "fallback": "download",
+      "inboxDirectory": "data/player-events/inbox",
       "bridgeImport": "data/player-events/inbox or AGL_LOCAL_EVENT_DROP_DIRS via npm run autonomous:collect-local-event-drops",
+      "localDropImportCommand": "npm run autonomous:collect-local-event-drops",
+      "explicitDownloadsImportCommand": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge",
+      "configuredDropDirEnv": "AGL_LOCAL_EVENT_DROP_DIRS",
+      "explicitDownloadsOptInRequired": true,
+      "noAutomaticDownloadsScan": true,
       "selfDescribingExportReceipts": true,
       "noExternalUpload": true,
       "playerInitiatedOnly": true
@@ -174,6 +180,20 @@
       "zeroPaidSpend",
       "noSyntheticEvents"
     ],
+    "publicPageHandoffTelemetry": {
+      "event": "player_evidence_command_copied",
+      "copyTypes": [
+        "public-gate-sample-safe-import-command",
+        "public-gate-sample-inbox-path"
+      ],
+      "controls": {
+        "zeroPaidSpend": true,
+        "noSyntheticEvents": true,
+        "noAutomaticDownloadsScan": true,
+        "localDropImportBeforeDownloads": true,
+        "noExternalUpload": true
+      }
+    },
     "defaultRouting": {
       "status": "active",
       "gateId": "firstGameCompletion",

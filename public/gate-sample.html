@@ -192,6 +192,7 @@
       .evidence,
       .returnLink,
       .calendar,
+      .copyCommand,
       .folder {
         display: inline-flex;
         align-items: center;
@@ -237,12 +238,18 @@
         cursor: pointer;
       }
 
+      .copyCommand {
+        background: #343f3b;
+        cursor: pointer;
+      }
+
       .play:focus-visible,
       .share:focus-visible,
       .export:focus-visible,
       .evidence:focus-visible,
       .returnLink:focus-visible,
       .calendar:focus-visible,
+      .copyCommand:focus-visible,
       .folder:focus-visible {
         outline: 3px solid #b87b16;
         outline-offset: 2px;
@@ -255,6 +262,36 @@
 
       .handoff h2 {
         margin-bottom: 8px;
+      }
+
+      .handoffGrid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin: 14px 0 0;
+      }
+
+      .handoffGrid div {
+        border: 1px solid #d8e0dd;
+        border-radius: 7px;
+        padding: 10px;
+        background: #fff;
+      }
+
+      .handoffGrid dt {
+        color: #4a5753;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .handoffGrid dd {
+        margin: 4px 0 0;
+      }
+
+      .handoffGrid code {
+        overflow-wrap: anywhere;
+        font-size: 0.84rem;
       }
 
       .handoffActions {
@@ -275,6 +312,7 @@
         .recommended,
         .summary,
         .missions,
+        .handoffGrid,
         .missionActions {
           grid-template-columns: 1fr;
         }
@@ -395,14 +433,22 @@
       <section class="handoff" aria-label="Evidence handoff">
         <h2>Evidence handoff</h2>
         <p>The app buffers anonymous gameplay events locally, forwards them when a production collector exists, and keeps revenue disabled until observed samples clear every product gate. Export buttons create the same player-initiated event drop consumed by the local bridge.</p>
+        <dl class="handoffGrid" aria-label="Local evidence bridge handoff">
+          <div><dt>Inbox</dt><dd><code>data/player-events/inbox</code></dd></div>
+          <div><dt>Files</dt><dd><code>player-events*.json</code></dd></div>
+          <div><dt>Safe import</dt><dd><code>npm run autonomous:collect-local-event-drops</code></dd></div>
+        </dl>
         <div class="handoffActions">
           <button class="folder" type="button" data-connect-drop-folder>Connect drop folder</button>
+          <button class="copyCommand" type="button" data-copy-import-command>Copy safe import</button>
+          <button class="copyCommand" type="button" data-copy-inbox-path>Copy inbox path</button>
           <p class="dropStatus" data-drop-folder-status>Manual download fallback active.</p>
         </div>
       </section>
     </main>
     <script type="application/json" id="gate-sample-mission-data">[{"id":"collect-firstGameCompletion-sample","gateId":"firstGameCompletion","gameId":"harbor-rings","title":"Harbor Rings","campaignId":"gate-sample-20260527-firstGameCompletion","playPath":"/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-firstGameCompletion","returnHandoff":null,"needed":{"promptViews":30,"successes":128,"minimumPromptViewsForDecision":30},"telemetry":{"view":["completion_nudge_viewed","finish_line_coach_viewed","first_move_coach_shown"],"action":["completion_nudge_clicked","finish_line_coach_clicked","first_move_coach_used"],"success":["level_completed"],"failure":["game_abandoned"],"collectionEvents":["completion_nudge_viewed","finish_line_coach_viewed","first_move_coach_shown","completion_nudge_clicked","finish_line_coach_clicked","first_move_coach_used","level_completed"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}},{"id":"collect-replayRate-sample","gateId":"replayRate","gameId":"harbor-rings","title":"Harbor Rings","campaignId":"gate-sample-20260527-replayRate","playPath":"/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-replayRate","returnHandoff":null,"needed":{"promptViews":30,"successes":10,"minimumPromptViewsForDecision":30},"telemetry":{"view":["replay_prompt_viewed"],"action":["replay_prompt_clicked"],"success":["replay_clicked"],"failure":["replay_prompt_dismissed"],"collectionEvents":["replay_prompt_viewed","replay_prompt_clicked","replay_clicked"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}},{"id":"collect-d1Retention-sample","gateId":"d1Retention","gameId":"market-pulse","title":"Market Pulse","campaignId":"gate-sample-20260527-d1Retention","playPath":"/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention","returnHandoff":{"status":"armed","gateId":"d1Retention","gameId":"market-pulse","title":"Market Pulse","campaignId":"gate-sample-20260527-d1Retention","challengeDate":"2026-05-26","intentDate":"2026-05-27","queryParam":"return_intent","returnPath":"/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention&return_intent=2026-05-27","copyCta":"Copy return link","calendarCta":"Save reminder","calendarFileExtension":".ics","surface":"product-gate-sample-return-handoff","telemetry":{"copied":"daily_return_link_copied","calendarDownloaded":"daily_return_calendar_downloaded"},"controls":{"zeroPaidSpend":true,"playerInitiatedOnly":true,"noNotificationPermissionRequest":true,"noPushNotifications":true,"noAccountRequired":true,"noExternalUpload":true,"noRevenueEnablement":true,"noSyntheticEvents":true}},"needed":{"promptViews":10,"successes":1,"minimumPromptViewsForDecision":10},"telemetry":{"view":["daily_goal_reward_viewed","daily_return_prompt_viewed","daily_return_commitment_viewed","daily_return_intent_viewed"],"action":["daily_goal_reward_clicked","daily_return_prompt_clicked","daily_return_link_copied","daily_return_calendar_downloaded","daily_return_intent_started"],"success":["daily_return_intent_started"],"failure":["daily_return_prompt_dismissed","daily_return_intent_cleared"],"collectionEvents":["daily_goal_reward_viewed","daily_return_prompt_viewed","daily_return_commitment_viewed","daily_return_intent_viewed","daily_goal_reward_clicked","daily_return_prompt_clicked","daily_return_link_copied","daily_return_calendar_downloaded","daily_return_intent_started","daily_return_intent_started"]},"controls":{"costUsd":0,"noSyntheticEvents":true,"noRevenueEnablement":true}}]</script>
     <script type="application/json" id="gate-sample-support-data">{"repository":"moshequ/autonomous-game-lab","template":"analytics-evidence.yml"}</script>
+    <script type="application/json" id="gate-sample-handoff-data">{"safeImportCommand":"npm run autonomous:collect-local-event-drops","inboxDirectory":"data/player-events/inbox","filenamePattern":"player-events*.json","configuredDropDirEnv":"AGL_LOCAL_EVENT_DROP_DIRS","explicitDownloadsImportCommand":"AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge","controls":{"zeroPaidSpend":true,"noSyntheticEvents":true,"noAutomaticDownloadsScan":true,"explicitDownloadsOptInRequired":true,"noExternalUpload":true,"playerInitiatedOnly":true}}</script>
     <script>
       (() => {
         const bufferKey = 'agl.analytics.events'
@@ -411,6 +457,7 @@
         const localExportAgeThresholdHours = 24
         const missions = JSON.parse(document.getElementById('gate-sample-mission-data')?.textContent || '[]')
         const support = JSON.parse(document.getElementById('gate-sample-support-data')?.textContent || '{}')
+        const handoff = JSON.parse(document.getElementById('gate-sample-handoff-data')?.textContent || '{}')
         let dropDirectoryHandle = null
 
         const readEvents = () => {
@@ -712,6 +759,47 @@
           } catch {
             setDropFolderStatus('Drop folder was not connected; manual download fallback remains active.')
           }
+        }
+
+        const copyHandoffText = async ({ copyType, text, statusMessage }) => {
+          let method = 'clipboard'
+          let succeeded = false
+
+          if (navigator.clipboard?.writeText && text) {
+            try {
+              await navigator.clipboard.writeText(text)
+              succeeded = true
+            } catch {
+              method = 'clipboard_unavailable'
+            }
+          } else {
+            method = 'unsupported'
+          }
+
+          writeEvents([
+            ...readEvents(),
+            {
+              id: createId(),
+              name: 'player_evidence_command_copied',
+              properties: {
+                copyType,
+                method,
+                succeeded,
+                commandLength: String(text || '').length,
+                surface: 'public-gate-sample-page',
+                channel: 'product-gate-sample',
+                zeroPaidSpend: handoff.controls?.zeroPaidSpend === true,
+                noSyntheticEvents: handoff.controls?.noSyntheticEvents === true,
+                noAutomaticDownloadsScan: handoff.controls?.noAutomaticDownloadsScan === true,
+                explicitDownloadsOptInRequired: handoff.controls?.explicitDownloadsOptInRequired === true,
+                localDropImportBeforeDownloads: true,
+                noExternalUpload: handoff.controls?.noExternalUpload === true,
+                playerInitiatedOnly: handoff.controls?.playerInitiatedOnly === true,
+              },
+              createdAt: new Date().toISOString(),
+            },
+          ])
+          setDropFolderStatus(succeeded ? statusMessage : 'Clipboard unavailable; use the visible handoff values.')
         }
 
         const downloadEvents = (events, fileName) => {
@@ -1140,6 +1228,22 @@
 
         document.querySelector('[data-connect-drop-folder]')?.addEventListener('click', () => {
           void connectDropFolder()
+        })
+
+        document.querySelector('[data-copy-import-command]')?.addEventListener('click', () => {
+          void copyHandoffText({
+            copyType: 'public-gate-sample-safe-import-command',
+            text: handoff.safeImportCommand,
+            statusMessage: 'Safe import command copied.',
+          })
+        })
+
+        document.querySelector('[data-copy-inbox-path]')?.addEventListener('click', () => {
+          void copyHandoffText({
+            copyType: 'public-gate-sample-inbox-path',
+            text: handoff.inboxDirectory,
+            statusMessage: 'Inbox path copied.',
+          })
         })
 
         document.querySelectorAll('[data-export-campaign]').forEach((button) => {

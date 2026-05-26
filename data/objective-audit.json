@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T22:47:36.699Z",
+  "generatedAt": "2026-05-26T22:55:08.521Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -73,10 +73,10 @@
         "Retention loop: retention-loop-ready; return intent armed",
         "Organic seed loop: organic-seed-loop-ready; target market-pulse",
         "Experiment results: evaluated",
-        "Backlog: improvement-backlog-ready; items 4; hash 56a2cdba4546",
+        "Backlog: improvement-backlog-ready; items 4; hash e2c7b8df405d",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
         "Applied/deferred actions: 7",
-        "Operator selected: collect-gate-sample-local-drops; status operator-plan-ready; execution not-requested"
+        "Operator selected: refresh-first-move-coach; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -88,7 +88,7 @@
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
-        "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
+        "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-plan-ready",
         "Operator history: operator-history-ready; records 40; executed 6",
@@ -243,20 +243,20 @@
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 104,
-    "currentGitWorktreeDirtyFiles": 104,
-    "currentGeneratedEvidenceDirtyFiles": 104,
-    "currentNonGeneratedWorktreeDirtyFiles": 0,
-    "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
+    "currentWorktreeClean": false,
+    "currentWorktreeDirtyFiles": 123,
+    "currentGitWorktreeDirtyFiles": 123,
+    "currentGeneratedEvidenceDirtyFiles": 120,
+    "currentNonGeneratedWorktreeDirtyFiles": 3,
+    "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "5fa51a8cc926",
+    "productionBootstrapSourceDataHash": "ed9b11081990",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "collect-gate-sample-local-drops"
+    "nextBestAction": "refresh-first-move-coach"
   }
 }

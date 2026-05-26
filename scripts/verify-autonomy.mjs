@@ -2947,6 +2947,15 @@ if (
   productGateSamplePlan.publicSamplePage?.exportSurface !== 'product-gate-sample' ||
   productGateSamplePlan.publicSamplePage?.localFolderDrop?.mode !== 'browser-selected-local-folder' ||
   productGateSamplePlan.publicSamplePage?.localFolderDrop?.supportedRuntime !== 'showDirectoryPicker' ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.filenamePattern !==
+    localEventBridge.eventDropContract?.filenamePattern ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.inboxDirectory !==
+    localEventBridge.eventDropContract?.inboxDirectory ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.localDropImportCommand !==
+    'npm run autonomous:collect-local-event-drops' ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.configuredDropDirEnv !== 'AGL_LOCAL_EVENT_DROP_DIRS' ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.explicitDownloadsOptInRequired !== true ||
+  productGateSamplePlan.publicSamplePage?.localFolderDrop?.noAutomaticDownloadsScan !== true ||
   productGateSamplePlan.publicSamplePage?.localFolderDrop?.fallback !== 'download' ||
   productGateSamplePlan.publicSamplePage?.localFolderDrop?.selfDescribingExportReceipts !== true ||
   productGateSamplePlan.publicSamplePage?.localFolderDrop?.noExternalUpload !== true ||
@@ -2975,6 +2984,13 @@ if (
   ) ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('eventDropMode') ||
   !productGateSamplePlan.runtimeEvidencePolicy?.publicPageExportProperties?.includes('noExternalUpload') ||
+  productGateSamplePlan.runtimeEvidencePolicy?.publicPageHandoffTelemetry?.event !==
+    'player_evidence_command_copied' ||
+  !productGateSamplePlan.runtimeEvidencePolicy?.publicPageHandoffTelemetry?.copyTypes?.includes(
+    'public-gate-sample-safe-import-command',
+  ) ||
+  productGateSamplePlan.runtimeEvidencePolicy?.publicPageHandoffTelemetry?.controls?.noAutomaticDownloadsScan !==
+    true ||
   productGateSamplePlan.runtimeEvidencePolicy?.sampleStartPolicy?.event !== 'gate_sample_mission_clicked' ||
   productGateSamplePlan.runtimeEvidencePolicy?.sampleStartPolicy?.runReset !== 'fresh-run-key' ||
   productGateSamplePlan.runtimeEvidencePolicy?.sampleStartPolicy?.controls?.playerInitiatedOnly !== true ||
@@ -3049,15 +3065,20 @@ if (
   !productGateSamplePlanSource.includes('fresh-run-key') ||
   !productGateSamplePlanSource.includes('sourceDataHash') ||
   !productGateSamplePlanSource.includes('publicMissionEvidence') ||
+  !productGateSamplePlanSource.includes('publicHandoffEvidence') ||
+  !productGateSamplePlanSource.includes('data-copy-import-command') ||
   !productGateSamplePlanSource.includes('safeJsonScript') ||
   !productGateSamplePlanSource.includes("url.searchParams.set('body', body)") ||
   !productGateSamplePlanSource.includes('Support type: analytics-evidence') ||
   !productGateSamplePlanSource.includes('parseableBodyFallback') ||
   !gateSampleHtml.includes('gate-sample-mission-data') ||
+  !gateSampleHtml.includes('gate-sample-handoff-data') ||
   !gateSampleHtml.includes('localExportReceiptKey') ||
   !gateSampleHtml.includes('eventCountAtExport') ||
   !gateSampleHtml.includes('data-export-campaign') ||
   !gateSampleHtml.includes('data-connect-drop-folder') ||
+  !gateSampleHtml.includes('data-copy-import-command') ||
+  !gateSampleHtml.includes('player_evidence_command_copied') ||
   !gateSampleHtml.includes('showDirectoryPicker') ||
   !gateSampleHtml.includes('noExternalUpload') ||
   !gateSampleHtml.includes('exportSurfaceDetail') ||

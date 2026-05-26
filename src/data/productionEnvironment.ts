@@ -1,10 +1,38 @@
 export const productionEnvironment = {
-  "generatedAt": "2026-05-26T22:46:55.371Z",
+  "generatedAt": "2026-05-26T22:54:15.065Z",
   "status": "production-env-missing",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": ".env.production.local",
+        "keys": [
+          "VITE_POSTHOG_KEY",
+          "VITE_POSTHOG_HOST",
+          "AGL_SUPPORT_EMAIL"
+        ]
+      },
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL",
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -35,16 +63,97 @@ export const productionEnvironment = {
     }
   },
   "repositoryEnv": {
-    "status": "unavailable",
+    "status": "inspected",
     "repository": "moshequ/autonomous-game-lab",
-    "variables": [],
-    "secrets": [],
-    "variableNames": [],
-    "secretNames": [],
-    "errors": [
-      "variables: failed to get variables: HTTP 403: Resource not accessible by integration (https://api.github.com/repos/moshequ/autonomous-game-lab/actions/variables?per_page=100)",
-      "secrets: failed to get secrets: HTTP 403: Resource not accessible by integration (https://api.github.com/repos/moshequ/autonomous-game-lab/actions/secrets?per_page=100)"
+    "variables": [
+      {
+        "name": "AGL_ANDROID_PACKAGE_NAME",
+        "configured": true
+      },
+      {
+        "name": "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+        "configured": true
+      },
+      {
+        "name": "AGL_AUTONOMOUS_SELF_UPDATE",
+        "configured": true
+      },
+      {
+        "name": "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
+        "configured": true
+      },
+      {
+        "name": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "configured": true
+      },
+      {
+        "name": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "configured": true
+      },
+      {
+        "name": "AGL_PUBLIC_ORIGIN",
+        "configured": true
+      },
+      {
+        "name": "PUBLIC_SITE_URL",
+        "configured": true
+      },
+      {
+        "name": "VITE_BASE_PATH",
+        "configured": true
+      },
+      {
+        "name": "VITE_PUBLIC_ORIGIN",
+        "configured": true
+      }
     ],
+    "secrets": [
+      {
+        "name": "AGL_ANDROID_KEYSTORE_BASE64",
+        "configured": true,
+        "updatedAt": "2026-05-20T07:15:09Z"
+      },
+      {
+        "name": "AGL_ANDROID_KEYSTORE_PASSWORD",
+        "configured": true,
+        "updatedAt": "2026-05-20T07:15:10Z"
+      },
+      {
+        "name": "AGL_ANDROID_KEY_ALIAS",
+        "configured": true,
+        "updatedAt": "2026-05-20T07:15:11Z"
+      },
+      {
+        "name": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "configured": true,
+        "updatedAt": "2026-05-20T08:20:47Z"
+      },
+      {
+        "name": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "configured": true,
+        "updatedAt": "2026-05-20T08:20:46Z"
+      }
+    ],
+    "variableNames": [
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_AUTONOMOUS_SELF_UPDATE",
+      "AGL_AUTONOMOUS_SELF_UPDATE_DIRECT",
+      "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+      "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "AGL_PUBLIC_ORIGIN",
+      "PUBLIC_SITE_URL",
+      "VITE_BASE_PATH",
+      "VITE_PUBLIC_ORIGIN"
+    ],
+    "secretNames": [
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS",
+      "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+      "VITE_EVENT_COLLECTOR_WRITE_TOKEN"
+    ],
+    "errors": [],
     "controls": {
       "readOnlyInspection": true,
       "secretValuesNeverRead": true,
@@ -55,7 +164,7 @@ export const productionEnvironment = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "host": "moshequ.github.io",
     "basePath": "/autonomous-game-lab/",
-    "source": "environment",
+    "source": "github-variable",
     "explicitOriginConfigured": true,
     "githubPagesCandidate": {
       "repository": "moshequ/autonomous-game-lab",
@@ -126,7 +235,7 @@ export const productionEnvironment = {
       "name": "AGL_PUBLIC_ORIGIN",
       "purpose": "HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.",
       "configured": true,
-      "source": "environment",
+      "source": "github-variable",
       "fallback": "github-pages-target"
     },
     {
