@@ -19,6 +19,7 @@ const writeLocalEnvTemplateMode =
   args.has('--write-template') ||
   args.has('--owner-input-template') ||
   args.has('--combined-owner-input-template')
+const templateOnlyMode = writeLocalEnvTemplateMode && args.has('--template-only')
 const writeLocalEnvTemplateCommand = 'node scripts/owner-unlock-preflight.mjs --write-local-env-template'
 const setupWriteLocalEnvTemplateCommand = './ops/github/setup-production.sh --owner-input-template'
 const writeAnalyticsLocalEnvTemplateCommand = 'node scripts/owner-unlock-preflight.mjs --analytics-input-template'
@@ -859,12 +860,14 @@ const localTemplateWriteTarget = writeAnalyticsLocalEnvTemplateMode
   : combinedOwnerInputPreflight ?? ownerInputPack
 const localTemplateWriteResult = writeLocalEnvTemplateMode ? await writeLocalEnvTemplate(localTemplateWriteTarget) : null
 
-await mkdir(path.dirname(outputJsonPath), { recursive: true })
-await mkdir(path.dirname(publicJsonPath), { recursive: true })
-await mkdir(path.dirname(reportPath), { recursive: true })
-await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
-await writeFile(publicJsonPath, JSON.stringify(payload, null, 2) + '\n')
-await writeFile(reportPath, report.join('\n'))
+if (!templateOnlyMode) {
+  await mkdir(path.dirname(outputJsonPath), { recursive: true })
+  await mkdir(path.dirname(publicJsonPath), { recursive: true })
+  await mkdir(path.dirname(reportPath), { recursive: true })
+  await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
+  await writeFile(publicJsonPath, JSON.stringify(payload, null, 2) + '\n')
+  await writeFile(reportPath, report.join('\n'))
+}
 
 const linesForInputs = (items, emptyText) =>
   items.length

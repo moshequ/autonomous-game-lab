@@ -12,6 +12,7 @@ const writeLocalEnvTemplateMode =
   args.has('--write-template') ||
   args.has('--support-input-template') ||
   args.has('--support-contact-template')
+const templateOnlyMode = writeLocalEnvTemplateMode && args.has('--template-only')
 const supportLocalEnvTemplateCommand = 'node scripts/store-readiness-page.mjs --write-local-env-template'
 const setupSupportLocalEnvTemplateCommand = './ops/github/setup-production.sh --support-input-template'
 const dataDir = path.join(root, 'data')
@@ -1085,19 +1086,21 @@ const report = [
 
 const localTemplateWriteResult = writeLocalEnvTemplateMode ? await writeLocalEnvTemplate(supportOwnerInputPack) : null
 
-await mkdir(path.dirname(outputJsonPath), { recursive: true })
-await mkdir(path.dirname(outputTsPath), { recursive: true })
-await mkdir(path.dirname(publicJsonPath), { recursive: true })
-await mkdir(path.dirname(publicHtmlPath), { recursive: true })
-await mkdir(path.dirname(reportPath), { recursive: true })
-await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
-await writeFile(
-  outputTsPath,
-  `export const storeReadiness = ${JSON.stringify(payload, null, 2)} as const\n\nexport type StoreReadiness = typeof storeReadiness\n`,
-)
-await writeFile(publicJsonPath, JSON.stringify(publicPayload, null, 2) + '\n')
-await writeFile(publicHtmlPath, html)
-await writeFile(reportPath, report.join('\n'))
+if (!templateOnlyMode) {
+  await mkdir(path.dirname(outputJsonPath), { recursive: true })
+  await mkdir(path.dirname(outputTsPath), { recursive: true })
+  await mkdir(path.dirname(publicJsonPath), { recursive: true })
+  await mkdir(path.dirname(publicHtmlPath), { recursive: true })
+  await mkdir(path.dirname(reportPath), { recursive: true })
+  await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
+  await writeFile(
+    outputTsPath,
+    `export const storeReadiness = ${JSON.stringify(payload, null, 2)} as const\n\nexport type StoreReadiness = typeof storeReadiness\n`,
+  )
+  await writeFile(publicJsonPath, JSON.stringify(publicPayload, null, 2) + '\n')
+  await writeFile(publicHtmlPath, html)
+  await writeFile(reportPath, report.join('\n'))
+}
 
 if (jsonMode) {
   process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`)

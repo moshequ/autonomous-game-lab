@@ -581,17 +581,17 @@ if [[ "\${1:-}" == "--owner-unlock-preflight" || "\${1:-}" == "--preflight" ]]; 
 fi
 
 if [[ "\${1:-}" == "--owner-input-template" || "\${1:-}" == "--combined-owner-input-template" || "\${1:-}" == "--write-owner-input-template" ]]; then
-  node scripts/owner-unlock-preflight.mjs --write-local-env-template --print
+  node scripts/owner-unlock-preflight.mjs --write-local-env-template --print --template-only
   exit 0
 fi
 
 if [[ "\${1:-}" == "--analytics-input-template" || "\${1:-}" == "--posthog-input-template" || "\${1:-}" == "--write-analytics-input-template" ]]; then
-  node scripts/owner-unlock-preflight.mjs --analytics-input-template --print
+  node scripts/owner-unlock-preflight.mjs --analytics-input-template --print --template-only
   exit 0
 fi
 
 if [[ "\${1:-}" == "--support-input-template" || "\${1:-}" == "--support-contact-template" || "\${1:-}" == "--write-support-input-template" ]]; then
-  node scripts/store-readiness-page.mjs --write-local-env-template --print
+  node scripts/store-readiness-page.mjs --write-local-env-template --print --template-only
   exit 0
 fi
 
