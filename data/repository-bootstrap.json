@@ -1,39 +1,11 @@
 {
-  "generatedAt": "2026-05-26T22:44:14.773Z",
+  "generatedAt": "2026-05-26T22:47:33.486Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": ".env.production.local",
-        "keys": [
-          "VITE_POSTHOG_KEY",
-          "VITE_POSTHOG_HOST",
-          "AGL_SUPPORT_EMAIL"
-        ]
-      },
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "VITE_POSTHOG_KEY",
-      "VITE_POSTHOG_HOST",
-      "AGL_SUPPORT_EMAIL",
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -64,15 +36,15 @@
     }
   },
   "workspace": {
-    "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+    "path": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "before": {
       "insideWorkTree": true,
-      "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+      "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
       "currentBranch": "main",
-      "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+      "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 93,
+      "dirtyFiles": 82,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -101,15 +73,14 @@
         "data/store-listing-optimizer.json",
         "data/store-package.json",
         "data/store-readiness.json",
-        "ops/cloudflare/event-collector-worker.mjs",
         "public/analytics-unlock.json",
         "public/compliance.json",
+        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
         "public/product-gate-recovery.json",
-        "public/store-assets/screenshots/phone-lantern-relay-game.png",
         "public/store-readiness.html",
         "public/store-readiness.json",
         "reports/deployment-plan-latest.md",
@@ -139,17 +110,9 @@
         "reports/store-listing-optimizer-latest.md",
         "reports/store-package-latest.md",
         "reports/store-readiness-latest.md",
-        "scripts/analytics-rollup.mjs",
-        "scripts/event-ingestor.mjs",
-        "scripts/local-event-bridge.mjs",
-        "scripts/player-evidence-watchdog.mjs",
-        "scripts/verify-autonomy.mjs",
-        "scripts/verify-post-deploy-evidence-sync.mjs",
-        "src/App.tsx",
         "src/data/liveSiteMonitor.ts",
         "src/data/ownerZeroSecretInputSync.ts",
         "src/data/performanceBudget.ts",
-        "src/data/playerEvidenceWatchdog.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
@@ -164,11 +127,9 @@
         "src/data/storeAssets.ts",
         "src/data/storeCompliance.ts",
         "src/data/storeListingOptimizer.ts",
-        "src/data/storeReadiness.ts",
-        "src/lib/analytics.ts",
-        "tests/smoke.spec.ts"
+        "src/data/storeReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 83,
+      "generatedEvidenceDirtyFiles": 82,
       "generatedEvidenceDirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -199,12 +160,12 @@
         "data/store-readiness.json",
         "public/analytics-unlock.json",
         "public/compliance.json",
+        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
         "public/product-gate-recovery.json",
-        "public/store-assets/screenshots/phone-lantern-relay-game.png",
         "public/store-readiness.html",
         "public/store-readiness.json",
         "reports/deployment-plan-latest.md",
@@ -237,7 +198,6 @@
         "src/data/liveSiteMonitor.ts",
         "src/data/ownerZeroSecretInputSync.ts",
         "src/data/performanceBudget.ts",
-        "src/data/playerEvidenceWatchdog.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
@@ -254,28 +214,17 @@
         "src/data/storeListingOptimizer.ts",
         "src/data/storeReadiness.ts"
       ],
-      "nonGeneratedDirtyFiles": 10,
-      "nonGeneratedDirtyPaths": [
-        "ops/cloudflare/event-collector-worker.mjs",
-        "scripts/analytics-rollup.mjs",
-        "scripts/event-ingestor.mjs",
-        "scripts/local-event-bridge.mjs",
-        "scripts/player-evidence-watchdog.mjs",
-        "scripts/verify-autonomy.mjs",
-        "scripts/verify-post-deploy-evidence-sync.mjs",
-        "src/App.tsx",
-        "src/lib/analytics.ts",
-        "tests/smoke.spec.ts"
-      ]
+      "nonGeneratedDirtyFiles": 0,
+      "nonGeneratedDirtyPaths": []
     },
     "after": {
       "insideWorkTree": true,
-      "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+      "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
       "currentBranch": "main",
-      "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+      "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 93,
+      "dirtyFiles": 82,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -304,15 +253,14 @@
         "data/store-listing-optimizer.json",
         "data/store-package.json",
         "data/store-readiness.json",
-        "ops/cloudflare/event-collector-worker.mjs",
         "public/analytics-unlock.json",
         "public/compliance.json",
+        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
         "public/product-gate-recovery.json",
-        "public/store-assets/screenshots/phone-lantern-relay-game.png",
         "public/store-readiness.html",
         "public/store-readiness.json",
         "reports/deployment-plan-latest.md",
@@ -342,17 +290,9 @@
         "reports/store-listing-optimizer-latest.md",
         "reports/store-package-latest.md",
         "reports/store-readiness-latest.md",
-        "scripts/analytics-rollup.mjs",
-        "scripts/event-ingestor.mjs",
-        "scripts/local-event-bridge.mjs",
-        "scripts/player-evidence-watchdog.mjs",
-        "scripts/verify-autonomy.mjs",
-        "scripts/verify-post-deploy-evidence-sync.mjs",
-        "src/App.tsx",
         "src/data/liveSiteMonitor.ts",
         "src/data/ownerZeroSecretInputSync.ts",
         "src/data/performanceBudget.ts",
-        "src/data/playerEvidenceWatchdog.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
@@ -367,11 +307,9 @@
         "src/data/storeAssets.ts",
         "src/data/storeCompliance.ts",
         "src/data/storeListingOptimizer.ts",
-        "src/data/storeReadiness.ts",
-        "src/lib/analytics.ts",
-        "tests/smoke.spec.ts"
+        "src/data/storeReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 83,
+      "generatedEvidenceDirtyFiles": 82,
       "generatedEvidenceDirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -402,12 +340,12 @@
         "data/store-readiness.json",
         "public/analytics-unlock.json",
         "public/compliance.json",
+        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
         "public/product-gate-recovery.json",
-        "public/store-assets/screenshots/phone-lantern-relay-game.png",
         "public/store-readiness.html",
         "public/store-readiness.json",
         "reports/deployment-plan-latest.md",
@@ -440,7 +378,6 @@
         "src/data/liveSiteMonitor.ts",
         "src/data/ownerZeroSecretInputSync.ts",
         "src/data/performanceBudget.ts",
-        "src/data/playerEvidenceWatchdog.ts",
         "src/data/postDeployArtifactSync.ts",
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
@@ -457,31 +394,20 @@
         "src/data/storeListingOptimizer.ts",
         "src/data/storeReadiness.ts"
       ],
-      "nonGeneratedDirtyFiles": 10,
-      "nonGeneratedDirtyPaths": [
-        "ops/cloudflare/event-collector-worker.mjs",
-        "scripts/analytics-rollup.mjs",
-        "scripts/event-ingestor.mjs",
-        "scripts/local-event-bridge.mjs",
-        "scripts/player-evidence-watchdog.mjs",
-        "scripts/verify-autonomy.mjs",
-        "scripts/verify-post-deploy-evidence-sync.mjs",
-        "src/App.tsx",
-        "src/lib/analytics.ts",
-        "tests/smoke.spec.ts"
-      ]
+      "nonGeneratedDirtyFiles": 0,
+      "nonGeneratedDirtyPaths": []
     }
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "origin-remote",
-    "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+    "source": "environment",
+    "originRemote": "https://github.com/moshequ/autonomous-game-lab",
     "remoteRepository": "moshequ/autonomous-game-lab",
-    "ownerHint": null,
-    "ownerHintEnv": null,
-    "ownerHintTarget": null,
-    "inferredTarget": "moshequ/autonomous-game-lab",
-    "inferredTargetSource": "gh-auth-user-and-package-name",
+    "ownerHint": "moshequ",
+    "ownerHintEnv": "GITHUB_REPOSITORY_OWNER",
+    "ownerHintTarget": "moshequ/autonomous-game-lab",
+    "inferredTarget": null,
+    "inferredTargetSource": null,
     "packageName": "autonomous-game-lab",
     "inferredRepositoryName": "autonomous-game-lab",
     "remoteParsing": {
@@ -495,23 +421,23 @@
   "githubAutomation": {
     "ghCliAvailable": true,
     "ghAuthAvailable": true,
-    "ghTokenConfigured": false,
+    "ghTokenConfigured": true,
     "ghCredentialReady": true,
-    "ghUserLogin": "moshequ",
+    "ghUserLogin": null,
     "ghReady": true
   },
   "sourceStatus": {
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-f12b60bacca2",
+    "releaseCandidateId": "pwa-6be9d39ffe5e",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
     "status": "target-known",
     "repositoryName": "autonomous-game-lab",
     "target": "moshequ/autonomous-game-lab",
-    "targetSource": "origin-remote",
+    "targetSource": "environment",
     "placeholderTarget": "OWNER/autonomous-game-lab",
     "plannedTarget": "moshequ/autonomous-game-lab",
     "ownerRequired": false,
@@ -574,7 +500,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitFlag": true,
-      "detail": "Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
+      "detail": "Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab."
     },
     {
       "id": "create-initial-commit",
@@ -588,13 +514,13 @@
     },
     {
       "id": "commit-current-snapshot",
-      "status": "ready-for-explicit-snapshot-commit",
+      "status": "ready",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_SNAPSHOT_COMMIT=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "10 non-generated source or artifact file(s) are not committed yet."
+      "detail": "82 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",
@@ -618,18 +544,16 @@
     },
     {
       "id": "push-initial-snapshot",
-      "status": "waiting-for-clean-snapshot",
+      "status": "ready-for-explicit-push",
       "costUsd": 0,
       "command": "AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 AGL_ALLOW_PUSH=1 ./ops/github/bootstrap-repository.sh",
       "mutatesLocalGit": false,
       "mutatesRemoteGitHub": true,
       "requiresExplicitEnv": true,
-      "detail": "Push stays held until a committed local snapshot and origin remote exist."
+      "detail": "Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set."
     }
   ],
-  "blockers": [
-    "Commit current generated changes before pushing to GitHub Pages."
-  ],
+  "blockers": [],
   "helper": {
     "path": "ops/github/bootstrap-repository.sh",
     "status": "generated",

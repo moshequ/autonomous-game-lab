@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-26T22:44:20.233Z
+Generated: 2026-05-26T22:47:37.045Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: collect-gate-sample-local-drops
