@@ -570,6 +570,7 @@ const payload = {
       telemetryProperties: [
         'runId',
         'sampleStartCreatesFreshRun',
+        'directEntryRoute',
         'sameGameRestart',
         'previousGameId',
         'previousRunCompleted',

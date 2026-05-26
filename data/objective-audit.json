@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T05:50:00.126Z",
+  "generatedAt": "2026-05-26T05:55:29.324Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -88,7 +88,7 @@
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
-        "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
+        "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
         "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
         "Operator: operator-held",
         "Operator history: operator-history-ready; records 40; executed 5",
@@ -242,14 +242,14 @@
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 100,
-    "currentGitWorktreeDirtyFiles": 100,
-    "currentGeneratedEvidenceDirtyFiles": 100,
-    "currentNonGeneratedWorktreeDirtyFiles": 0,
-    "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
+    "currentWorktreeClean": false,
+    "currentWorktreeDirtyFiles": 104,
+    "currentGitWorktreeDirtyFiles": 104,
+    "currentGeneratedEvidenceDirtyFiles": 102,
+    "currentNonGeneratedWorktreeDirtyFiles": 2,
+    "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "cc6a5f121790",
+    "productionBootstrapSourceDataHash": "1ab80c7e94ec",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },

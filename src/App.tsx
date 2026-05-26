@@ -714,6 +714,7 @@ function App() {
   const rewardVariant = useMemo(() => getExperimentVariant('reward_offer'), [])
   const thumbnailVariant = useMemo(() => getExperimentVariant('thumbnail_board_state_v2'), [])
   const activeRunId = useMemo(() => `${selectedGameId}-${runSeed}`, [runSeed, selectedGameId])
+  const initialEntryRunIdRef = useRef(activeRunId)
   const localAnalyticsCoverage = useMemo(() => getLocalAnalyticsExportCoverage(events), [events])
   const localEventDropAutosaveStatus =
     localEventDropFolderStatus === 'connected' || localEventDropFolderStatus === 'saved' ? 'armed' : 'manual'
@@ -785,6 +786,14 @@ function App() {
           campaignId: mission.campaignId,
           ownerLoop: mission.ownerLoop,
           surface: 'direct-gate-sample-link',
+          runId: initialEntryRunIdRef.current,
+          sampleStartCreatesFreshRun: true,
+          sameGameRestart: false,
+          previousGameId: null,
+          previousRunCompleted: null,
+          previousRunMoves: null,
+          previousRunResult: null,
+          directEntryRoute: true,
           promptViewsNeeded: mission.needed.promptViews,
           observedSuccessesNeeded: mission.needed.successes,
           costUsd: mission.controls.costUsd,
