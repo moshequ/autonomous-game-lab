@@ -3654,6 +3654,8 @@ if (
   !githubSetupScript.includes('node scripts/owner-unlock-preflight.mjs --analytics-input-template --print') ||
   !githubSetupScript.includes('--support-input-template') ||
   !githubSetupScript.includes('node scripts/store-readiness-page.mjs --write-local-env-template --print') ||
+  !githubSetupScript.includes('--ad-provider-input-template') ||
+  !githubSetupScript.includes('node scripts/monetization-planner.mjs --write-local-env-template --print') ||
   !githubSetupScript.includes('repos/$repo/pages') ||
   !githubSetupScript.includes('build_type=workflow') ||
   !githubSetupScript.includes('RUN_WORKFLOWS') ||
@@ -3666,7 +3668,8 @@ if (
   !githubSetupReadme.includes('--owner-unlock-preflight') ||
   !githubSetupReadme.includes('--owner-input-template') ||
   !githubSetupReadme.includes('--analytics-input-template') ||
-  !githubSetupReadme.includes('--support-input-template')
+  !githubSetupReadme.includes('--support-input-template') ||
+  !githubSetupReadme.includes('--ad-provider-input-template')
 ) {
   fail('Production bootstrap must generate zero-spend GitHub setup stages, sanitized variable/secret commands, and guarded workflow triggers.')
 }
@@ -6515,6 +6518,13 @@ for (const screenshot of storeScreenshotAssets) {
   }
 }
 
+const adProviderOwnerInputPack = monetizationPlan.adProviderOwnerInputPack
+const adProviderBrowserActionPack = adProviderOwnerInputPack?.browserLocalActionPack
+const adProviderFieldIds = new Set(adProviderBrowserActionPack?.fields?.map((field) => field.inputId) ?? [])
+const adProviderProviderPathIds = new Set(
+  adProviderOwnerInputPack?.providerPaths?.map((providerPath) => providerPath.id) ?? [],
+)
+
 if (
   !monetizationPlan.status ||
   !monetizationPlan.placements?.length ||
@@ -6535,8 +6545,35 @@ if (
   publicMonetizationManifest.publicRoutes?.monetization !== '/monetization.html' ||
   publicMonetizationManifest.revenueTestPreflight?.blockingCheckIds?.length !==
     monetizationPlan.revenueTestPreflight?.blockingCheckIds?.length ||
+  publicMonetizationManifest.adProviderOwnerInputPack?.id !== 'zero-secret-ad-provider-input-pack' ||
+  adProviderOwnerInputPack?.id !== 'zero-secret-ad-provider-input-pack' ||
+  adProviderOwnerInputPack?.unlockId !== 'ad-provider-config' ||
+  adProviderOwnerInputPack?.secretInputCount !== 0 ||
+  !adProviderProviderPathIds.has('web-adsense') ||
+  !adProviderProviderPathIds.has('native-admob') ||
+  (adProviderOwnerInputPack?.readyForProviderSetup !== true &&
+    (!adProviderOwnerInputPack?.localEnvTemplateLines?.includes('VITE_ADSENSE_CLIENT_ID=') ||
+      !adProviderOwnerInputPack?.localEnvTemplateLines?.includes('VITE_ADSENSE_REWARDED_SLOT_ID=') ||
+      !adProviderOwnerInputPack?.localEnvTemplateLines?.includes('ADMOB_PUBLISHER_ID='))) ||
+  adProviderOwnerInputPack?.commands?.npmWriteLocalEnvTemplate !== 'npm run autonomous:ad-provider-input-template' ||
+  adProviderOwnerInputPack?.commands?.setupWriteLocalEnvTemplate !==
+    './ops/github/setup-production.sh --ad-provider-input-template' ||
+  adProviderOwnerInputPack?.controls?.noRevenueEnablement !== true ||
+  adProviderOwnerInputPack?.controls?.productGatesStillRequired !== true ||
+  adProviderBrowserActionPack?.id !== 'browser-local-ad-provider-action-pack' ||
+  adProviderBrowserActionPack?.receiptStorageKey !== 'agl.adProviderActionReceipt' ||
+  adProviderBrowserActionPack?.filledDownloadFileName !== 'agl-ad-provider.env' ||
+  adProviderBrowserActionPack?.controls?.noGeneratedValueSerialization !== true ||
+  adProviderBrowserActionPack?.controls?.noGithubMutation !== true ||
+  adProviderBrowserActionPack?.controls?.noRevenueEnablement !== true ||
+  !adProviderFieldIds.has('ad-provider-vite-adsense-client-id') ||
+  !adProviderFieldIds.has('ad-provider-vite-adsense-rewarded-slot-id') ||
+  !adProviderFieldIds.has('ad-provider-admob-publisher-id') ||
   !monetizationHtml.includes('Autonomous Game Lab Monetization Preflight') ||
   !monetizationHtml.includes('Revenue Test Checks') ||
+  !monetizationHtml.includes('Ad Provider Input Pack') ||
+  !monetizationHtml.includes('download-filled-ad-provider-template') ||
+  !monetizationHtml.includes('copy-ad-provider-variable-command') ||
   !monetizationHtml.includes('./measurement-status.html') ||
   !monetizationHtml.includes('./gate-sample.html') ||
   !monetizationHtml.includes('rewarded-hint-after-failed-daily') ||

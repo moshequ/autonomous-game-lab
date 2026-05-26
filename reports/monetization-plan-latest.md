@@ -1,6 +1,6 @@
 # Monetization Plan
 
-Generated: 2026-05-26T13:47:28.933Z
+Generated: 2026-05-26T21:25:36.461Z
 Status: blocked-by-product-gates
 Revenue enabled: false
 Analytics source: fixture-sample
@@ -36,6 +36,26 @@ Public preflight: /monetization.html
 - pass: runtime-guardrails - Rewarded placement waits for a completed failed run, is capped to one offer per session, and never paywalls core rules.
 - pass: telemetry-contract - Revenue telemetry is limited to rewarded/cosmetic lifecycle events and revenue_cents.
 - pass: spend-guard - Revenue preflight does not allow paid acquisition, app-store spend, or store submission.
+
+## Ad Provider Input Pack
+
+- status: ad-provider-input-ready
+- unlock: ad-provider-config
+- local env file: .env.production.local
+- npm template: npm run autonomous:ad-provider-input-template
+- write local env template: node scripts/monetization-planner.mjs --write-local-env-template
+- setup write local env template: ./ops/github/setup-production.sh --ad-provider-input-template
+- missing inputs: VITE_ADSENSE_CLIENT_ID, VITE_ADSENSE_REWARDED_SLOT_ID, ADMOB_PUBLISHER_ID
+- secret inputs: 0
+- browser-local action pack: browser-local-ad-provider-action-pack
+- browser-local receipt key: agl.adProviderActionReceipt
+- browser-local download file: agl-ad-provider.env
+- product gates still required: true
+- no revenue enablement: true
+- local env template:
+  - VITE_ADSENSE_CLIENT_ID=
+  - VITE_ADSENSE_REWARDED_SLOT_ID=
+  - ADMOB_PUBLISHER_ID=
 
 ## Validation
 

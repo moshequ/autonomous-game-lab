@@ -26,6 +26,11 @@ if [[ "${1:-}" == "--support-input-template" || "${1:-}" == "--support-contact-t
   exit 0
 fi
 
+if [[ "${1:-}" == "--ad-provider-input-template" || "${1:-}" == "--monetization-input-template" || "${1:-}" == "--write-ad-provider-input-template" ]]; then
+  node scripts/monetization-planner.mjs --write-local-env-template --print --template-only
+  exit 0
+fi
+
 if ! command -v gh >/dev/null 2>&1; then
   echo "GitHub CLI (gh) is required." >&2
   exit 1

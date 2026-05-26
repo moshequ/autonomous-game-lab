@@ -4243,6 +4243,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
       supportsDottedRepositoryNames: boolean
       writesAnalyticsInputTemplate: boolean
       writesSupportInputTemplate: boolean
+      writesAdProviderInputTemplate: boolean
     }
     requiredVariables: Array<{ repositoryVariable: string; command: string; valueSource: string }>
     requiredSecrets: Array<{ repositorySecret: string; command: string }>
@@ -4279,6 +4280,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(bootstrap.setupScript.supportsDottedRepositoryNames).toBe(true)
   expect(bootstrap.setupScript.writesAnalyticsInputTemplate).toBe(true)
   expect(bootstrap.setupScript.writesSupportInputTemplate).toBe(true)
+  expect(bootstrap.setupScript.writesAdProviderInputTemplate).toBe(true)
   expect(bootstrap.requiredVariables.find((item) => item.repositoryVariable === 'VITE_BASE_PATH')?.valueSource).toMatch(
     /environment|github-variable|production-environment|inferred-github-pages/,
   )
@@ -4305,6 +4307,8 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(setupScript).toContain('node scripts/owner-unlock-preflight.mjs --analytics-input-template --print')
   expect(setupScript).toContain('--support-input-template')
   expect(setupScript).toContain('node scripts/store-readiness-page.mjs --write-local-env-template --print')
+  expect(setupScript).toContain('--ad-provider-input-template')
+  expect(setupScript).toContain('node scripts/monetization-planner.mjs --write-local-env-template --print')
   expect(setupScript).toContain('repos/$repo/pages')
   expect(setupScript).toContain('build_type=workflow')
   expect(setupScript).toContain('RUN_WORKFLOWS')
@@ -13234,12 +13238,127 @@ test('generated compliance manifest is reachable', async ({ page }) => {
 })
 
 test('monetization manifest and app ads placeholder are reachable', async ({ page }) => {
+  const monetization = JSON.parse(await readFile('data/monetization-plan.json', 'utf8')) as {
+    adProviderOwnerInputPack: {
+      id: string
+      unlockId: string
+      secretInputCount: number
+      browserLocalActionPack: {
+        id: string
+        receiptStorageKey: string
+        filledDownloadFileName: string
+        controls: {
+          noRevenueEnablement: boolean
+          noGithubMutation: boolean
+          noGeneratedValueSerialization: boolean
+        }
+      }
+      controls: {
+        productGatesStillRequired: boolean
+        noRevenueEnablement: boolean
+      }
+    }
+  }
+
+  expect(monetization.adProviderOwnerInputPack).toMatchObject({
+    id: 'zero-secret-ad-provider-input-pack',
+    unlockId: 'ad-provider-config',
+    secretInputCount: 0,
+  })
+  expect(monetization.adProviderOwnerInputPack.browserLocalActionPack).toMatchObject({
+    id: 'browser-local-ad-provider-action-pack',
+    receiptStorageKey: 'agl.adProviderActionReceipt',
+    filledDownloadFileName: 'agl-ad-provider.env',
+  })
+  expect(monetization.adProviderOwnerInputPack.browserLocalActionPack.controls.noRevenueEnablement).toBe(true)
+  expect(monetization.adProviderOwnerInputPack.browserLocalActionPack.controls.noGithubMutation).toBe(true)
+  expect(monetization.adProviderOwnerInputPack.browserLocalActionPack.controls.noGeneratedValueSerialization).toBe(true)
+  expect(monetization.adProviderOwnerInputPack.controls.productGatesStillRequired).toBe(true)
+  expect(monetization.adProviderOwnerInputPack.controls.noRevenueEnablement).toBe(true)
+
+  await page.context().grantPermissions(['clipboard-read', 'clipboard-write'])
   await page.goto('/monetization.html')
 
   await expect(page.getByRole('heading', { name: 'Autonomous Game Lab Monetization Preflight' })).toBeVisible()
   await expect(page.getByLabel('Monetization summary')).toContainText('blocked-by-product-gates')
   await expect(page.getByLabel('Revenue test checks')).toContainText('product-gates')
   await expect(page.getByLabel('Revenue placements')).toContainText('rewarded-hint-after-failed-daily')
+  await expect(page.getByLabel('Ad provider input pack')).toContainText('ad-provider-config')
+  await expect(page.getByRole('button', { name: 'Download provider env' })).toBeDisabled()
+  await page.getByLabel('AdSense client id').fill('ca-pub-1234567890123456')
+  await page.getByLabel('AdSense rewarded slot id').fill('1234567890')
+  await page.getByRole('button', { name: 'Check provider IDs' }).click()
+  await expect(page.getByText('Web AdSense provider IDs look ready. Revenue gates still apply.')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download provider env' })).toBeEnabled()
+
+  const providerDownloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download provider env' }).click()
+  const providerDownload = await providerDownloadPromise
+  expect(providerDownload.suggestedFilename()).toBe('agl-ad-provider.env')
+  const providerDownloadPath = await providerDownload.path()
+  if (!providerDownloadPath) {
+    throw new Error('Expected ad provider env download path.')
+  }
+  const providerEnv = await readFile(providerDownloadPath, 'utf8')
+  expect(providerEnv).toContain('VITE_ADSENSE_CLIENT_ID=ca-pub-1234567890123456')
+  expect(providerEnv).toContain('VITE_ADSENSE_REWARDED_SLOT_ID=1234567890')
+
+  const downloadReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.adProviderActionReceipt') ?? '{}'),
+  )
+  expect(downloadReceipt).toMatchObject({
+    action: 'download-ad-provider-env',
+    actionPackId: 'browser-local-ad-provider-action-pack',
+    unlockId: 'ad-provider-config',
+    providerPath: 'web-adsense',
+    validationStatus: 'passed',
+    productGatesStillRequired: true,
+    noRevenueEnablement: true,
+    noGithubMutation: true,
+    noValuesStored: true,
+    fileName: 'agl-ad-provider.env',
+  })
+  expect(JSON.stringify(downloadReceipt)).not.toContain('ca-pub-1234567890123456')
+  expect(JSON.stringify(downloadReceipt)).not.toContain('1234567890')
+
+  await page.getByRole('button', { name: 'Copy shell exports' }).click()
+  await expect
+    .poll(async () =>
+      page.evaluate(() => JSON.parse(window.localStorage.getItem('agl.adProviderActionReceipt') ?? '{}')),
+    )
+    .toMatchObject({
+      action: 'copy-ad-provider-shell-export',
+      providerPath: 'web-adsense',
+      noRevenueEnablement: true,
+    })
+  const shellReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.adProviderActionReceipt') ?? '{}'),
+  )
+  expect(shellReceipt).toMatchObject({
+    action: 'copy-ad-provider-shell-export',
+    providerPath: 'web-adsense',
+    noRevenueEnablement: true,
+  })
+
+  await page.getByRole('button', { name: 'Copy GitHub variable commands' }).click()
+  await expect
+    .poll(async () =>
+      page.evaluate(() => JSON.parse(window.localStorage.getItem('agl.adProviderActionReceipt') ?? '{}')),
+    )
+    .toMatchObject({
+      action: 'copy-ad-provider-variable-command',
+      providerPath: 'web-adsense',
+      commandRequiresOwnerRun: true,
+    })
+  const commandReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.adProviderActionReceipt') ?? '{}'),
+  )
+  expect(commandReceipt).toMatchObject({
+    action: 'copy-ad-provider-variable-command',
+    providerPath: 'web-adsense',
+    commandRequiresOwnerRun: true,
+  })
+
   await expect(page.getByRole('link', { name: 'Open measurement status' })).toHaveAttribute(
     'href',
     './measurement-status.html',
@@ -13253,6 +13372,7 @@ test('monetization manifest and app ads placeholder are reachable', async ({ pag
   await expect(page.locator('body')).toContainText('revenueTestPreflight')
   await expect(page.locator('body')).toContainText('monetization.html')
   await expect(page.locator('body')).toContainText('canArmRevenueTest')
+  await expect(page.locator('body')).toContainText('adProviderOwnerInputPack')
   await expect(page.locator('body')).toContainText('noRevenueEnablementUntilAllChecksPass')
 
   await page.goto('/app-ads.txt')

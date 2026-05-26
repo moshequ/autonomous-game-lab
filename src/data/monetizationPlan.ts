@@ -1,5 +1,5 @@
 export const monetizationPlan = {
-  "generatedAt": "2026-05-26T13:47:28.933Z",
+  "generatedAt": "2026-05-26T21:25:36.461Z",
   "status": "blocked-by-product-gates",
   "revenueEnabled": false,
   "costPosture": "no-new-spend-until-gates-pass",
@@ -111,6 +111,149 @@ export const monetizationPlan = {
       "noPaidSpend": true,
       "noStoreSubmission": true,
       "noSecretValues": true
+    }
+  },
+  "adProviderOwnerInputPack": {
+    "id": "zero-secret-ad-provider-input-pack",
+    "title": "Zero-secret ad provider input pack",
+    "unlockId": "ad-provider-config",
+    "status": "ad-provider-input-ready",
+    "readyForProviderSetup": false,
+    "revenueStillBlockedUntilProductGatesPass": true,
+    "productGatesPassed": false,
+    "promotionAllowed": false,
+    "localEnvFile": ".env.production.local",
+    "localEnvLoadedFiles": [
+      ".env.production.local",
+      "ops/production.env.local"
+    ],
+    "configuredInputNames": [],
+    "missingInputNames": [
+      "VITE_ADSENSE_CLIENT_ID",
+      "VITE_ADSENSE_REWARDED_SLOT_ID",
+      "ADMOB_PUBLISHER_ID"
+    ],
+    "missingInputCount": 3,
+    "secretInputCount": 0,
+    "providerPaths": [
+      {
+        "id": "web-adsense",
+        "title": "Web/PWA AdSense rewarded test",
+        "status": "waiting-on-public-provider-ids",
+        "requiredInputNames": [
+          "VITE_ADSENSE_CLIENT_ID",
+          "VITE_ADSENSE_REWARDED_SLOT_ID"
+        ],
+        "configured": false,
+        "firstPlacementId": "rewarded-hint-after-failed-daily",
+        "revenueGateStillApplies": true
+      },
+      {
+        "id": "native-admob",
+        "title": "Native AdMob seller line",
+        "status": "waiting-on-public-publisher-id",
+        "requiredInputNames": [
+          "ADMOB_PUBLISHER_ID"
+        ],
+        "configured": false,
+        "appAdsTxtPath": "/app-ads.txt",
+        "revenueGateStillApplies": true
+      }
+    ],
+    "localEnvTemplateLines": [
+      "VITE_ADSENSE_CLIENT_ID=",
+      "VITE_ADSENSE_REWARDED_SLOT_ID=",
+      "ADMOB_PUBLISHER_ID="
+    ],
+    "shellExportTemplateLines": [
+      "export VITE_ADSENSE_CLIENT_ID=",
+      "export VITE_ADSENSE_REWARDED_SLOT_ID=",
+      "export ADMOB_PUBLISHER_ID="
+    ],
+    "commands": {
+      "npmWriteLocalEnvTemplate": "npm run autonomous:ad-provider-input-template",
+      "writeLocalEnvTemplate": "node scripts/monetization-planner.mjs --write-local-env-template",
+      "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --ad-provider-input-template",
+      "syncConfiguredValues": "./ops/github/setup-production.sh",
+      "refreshMonetization": "npm run autonomous:monetization",
+      "refreshUnitEconomics": "npm run autonomous:unit-economics",
+      "refreshReadiness": "npm run autonomous:readiness"
+    },
+    "browserLocalActionPack": {
+      "id": "browser-local-ad-provider-action-pack",
+      "status": "ready",
+      "receiptStorageKey": "agl.adProviderActionReceipt",
+      "filledDownloadFileName": "agl-ad-provider.env",
+      "fields": [
+        {
+          "envName": "VITE_ADSENSE_CLIENT_ID",
+          "title": "AdSense client id",
+          "inputId": "ad-provider-vite-adsense-client-id",
+          "validationKind": "adsense-client-id",
+          "inputType": "text",
+          "placeholder": "ca-pub-0000000000000000",
+          "requiredForPath": "web-adsense",
+          "publicValue": true,
+          "maxLength": 64
+        },
+        {
+          "envName": "VITE_ADSENSE_REWARDED_SLOT_ID",
+          "title": "AdSense rewarded slot id",
+          "inputId": "ad-provider-vite-adsense-rewarded-slot-id",
+          "validationKind": "numeric-ad-slot",
+          "inputType": "text",
+          "placeholder": "1234567890",
+          "requiredForPath": "web-adsense",
+          "publicValue": true,
+          "maxLength": 32
+        },
+        {
+          "envName": "ADMOB_PUBLISHER_ID",
+          "title": "AdMob publisher id",
+          "inputId": "ad-provider-admob-publisher-id",
+          "validationKind": "admob-publisher-id",
+          "inputType": "text",
+          "placeholder": "pub-0000000000000000",
+          "requiredForPath": "native-admob",
+          "publicValue": true,
+          "maxLength": 64
+        }
+      ],
+      "commands": {
+        "githubVariableSetAdsenseClient": "gh variable set VITE_ADSENSE_CLIENT_ID --body \"$VITE_ADSENSE_CLIENT_ID\"",
+        "githubVariableSetAdsenseRewardedSlot": "gh variable set VITE_ADSENSE_REWARDED_SLOT_ID --body \"$VITE_ADSENSE_REWARDED_SLOT_ID\"",
+        "githubVariableSetAdmobPublisher": "gh variable set ADMOB_PUBLISHER_ID --body \"$ADMOB_PUBLISHER_ID\"",
+        "validate": "npm run autonomous:monetization",
+        "readiness": "npm run autonomous:readiness"
+      },
+      "controls": {
+        "browserLocalOnly": true,
+        "publicValuesOnly": true,
+        "noGeneratedValueSerialization": true,
+        "noSecretValues": true,
+        "noGithubMutation": true,
+        "noWorkflowDispatch": true,
+        "noRevenueEnablement": true,
+        "noPaidSpend": true,
+        "noStoreSubmission": true,
+        "productGatesStillRequired": true
+      }
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "publicValuesOnly": true,
+      "noSecretValuesStored": true,
+      "noSecretValuesSerialized": true,
+      "noMutation": true,
+      "noWorkflowDispatch": true,
+      "noRevenueEnablement": true,
+      "noPaidSpend": true,
+      "noStoreSubmission": true,
+      "productGatesStillRequired": true,
+      "gitIgnoredLocalEnvFile": true,
+      "localTemplateWriteNoSecretValues": true,
+      "localTemplateWritePreservesExistingValues": true,
+      "localTemplateWriteNoGithubMutation": true
     }
   },
   "placements": [

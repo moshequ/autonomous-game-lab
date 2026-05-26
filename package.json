@@ -68,6 +68,7 @@
     "autonomous:performance": "node scripts/performance-budget.mjs",
     "autonomous:promote": "node scripts/promotion-gate.mjs",
     "autonomous:monetization": "node scripts/monetization-planner.mjs",
+    "autonomous:ad-provider-input-template": "node scripts/monetization-planner.mjs --write-local-env-template --print --template-only",
     "autonomous:unit-economics": "node scripts/unit-economics-guard.mjs",
     "autonomous:first-move-coach": "node scripts/first-move-coach.mjs",
     "autonomous:completion-loop": "node scripts/completion-loop.mjs",

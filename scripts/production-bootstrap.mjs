@@ -482,6 +482,7 @@ const payload = {
     supportsDottedRepositoryNames: true,
     writesAnalyticsInputTemplate: true,
     writesSupportInputTemplate: true,
+    writesAdProviderInputTemplate: true,
     configuresPagesSource: true,
     avoidsSecretEcho: true,
   },
@@ -591,6 +592,11 @@ fi
 
 if [[ "\${1:-}" == "--support-input-template" || "\${1:-}" == "--support-contact-template" || "\${1:-}" == "--write-support-input-template" ]]; then
   node scripts/store-readiness-page.mjs --write-local-env-template --print --template-only
+  exit 0
+fi
+
+if [[ "\${1:-}" == "--ad-provider-input-template" || "\${1:-}" == "--monetization-input-template" || "\${1:-}" == "--write-ad-provider-input-template" ]]; then
+  node scripts/monetization-planner.mjs --write-local-env-template --print --template-only
   exit 0
 fi
 
@@ -827,13 +833,19 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 ./ops/github/setup-production.sh --support-input-template
 \`\`\`
 
-10. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
+10. To create or update only the ignored ad-provider template before adding public AdSense/AdMob ids, run:
+
+\`\`\`bash
+./ops/github/setup-production.sh --ad-provider-input-template
+\`\`\`
+
+11. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 
 \`\`\`bash
 AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ./ops/github/bootstrap-repository.sh
 \`\`\`
 
-11. To sync production variables/secrets, run:
+12. To sync production variables/secrets, run:
 
 \`\`\`bash
 ./ops/github/setup-production.sh

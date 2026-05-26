@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T13:47:28.933Z",
+  "generatedAt": "2026-05-26T21:25:36.461Z",
   "status": "blocked-by-product-gates",
   "revenueEnabled": false,
   "revenueTestPreflight": {
@@ -45,6 +45,60 @@
       "noPaidSpend": true,
       "noStoreSubmission": true,
       "noSecretValues": true
+    }
+  },
+  "adProviderOwnerInputPack": {
+    "id": "zero-secret-ad-provider-input-pack",
+    "unlockId": "ad-provider-config",
+    "status": "ad-provider-input-ready",
+    "missingInputCount": 3,
+    "secretInputCount": 0,
+    "providerPaths": [
+      {
+        "id": "web-adsense",
+        "status": "waiting-on-public-provider-ids",
+        "configured": false,
+        "revenueGateStillApplies": true
+      },
+      {
+        "id": "native-admob",
+        "status": "waiting-on-public-publisher-id",
+        "configured": false,
+        "revenueGateStillApplies": true
+      }
+    ],
+    "browserLocalActionPack": {
+      "id": "browser-local-ad-provider-action-pack",
+      "receiptStorageKey": "agl.adProviderActionReceipt",
+      "filledDownloadFileName": "agl-ad-provider.env",
+      "controls": {
+        "browserLocalOnly": true,
+        "publicValuesOnly": true,
+        "noGeneratedValueSerialization": true,
+        "noSecretValues": true,
+        "noGithubMutation": true,
+        "noWorkflowDispatch": true,
+        "noRevenueEnablement": true,
+        "noPaidSpend": true,
+        "noStoreSubmission": true,
+        "productGatesStillRequired": true
+      }
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "publicValuesOnly": true,
+      "noSecretValuesStored": true,
+      "noSecretValuesSerialized": true,
+      "noMutation": true,
+      "noWorkflowDispatch": true,
+      "noRevenueEnablement": true,
+      "noPaidSpend": true,
+      "noStoreSubmission": true,
+      "productGatesStillRequired": true,
+      "gitIgnoredLocalEnvFile": true,
+      "localTemplateWriteNoSecretValues": true,
+      "localTemplateWritePreservesExistingValues": true,
+      "localTemplateWriteNoGithubMutation": true
     }
   },
   "publicRoutes": {
