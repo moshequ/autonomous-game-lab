@@ -1,5 +1,5 @@
 export const liveSiteMonitor = {
-  "generatedAt": "2026-05-26T09:22:59.438Z",
+  "generatedAt": "2026-05-26T09:57:38.865Z",
   "status": "live-site-monitor-passed",
   "origin": {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
@@ -8,21 +8,21 @@ export const liveSiteMonitor = {
     "basePath": "/autonomous-game-lab/"
   },
   "summary": {
-    "planned": 33,
-    "passed": 33,
+    "planned": 34,
+    "passed": 34,
     "failed": 0,
     "blocked": 0,
     "passRate": 100,
     "latencyP50Ms": 71,
-    "latencyP95Ms": 84,
-    "liveCandidateId": "pwa-ea359fb61213",
-    "syncedCandidateId": "pwa-ea359fb61213",
-    "localCandidateId": "pwa-46448d25d28a",
+    "latencyP95Ms": 86,
+    "liveCandidateId": "pwa-ae3647ad9362",
+    "syncedCandidateId": "pwa-ae3647ad9362",
+    "localCandidateId": "pwa-3c2869c74fa2",
     "liveMatchesSyncedDeploy": true,
     "liveMatchesCurrentLocalCandidate": false,
     "monitoringPlanSource": "synced-live-release-manifest",
-    "monitoredSmokeUrls": 32,
-    "liveSmokeUrls": 32
+    "monitoredSmokeUrls": 33,
+    "liveSmokeUrls": 33
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -40,7 +40,7 @@ export const liveSiteMonitor = {
       "path": "/",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 43
+      "durationMs": 45
     },
     {
       "id": "manifest-webmanifest",
@@ -54,28 +54,28 @@ export const liveSiteMonitor = {
       "path": "/sw.js",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 82
+      "durationMs": 84
     },
     {
       "id": "privacy-html",
       "path": "/privacy.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 75
+      "durationMs": 74
     },
     {
       "id": "support-html",
       "path": "/support.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 79
+      "durationMs": 82
     },
     {
       "id": "measurement-status-html",
       "path": "/measurement-status.html",
       "status": "pass",
       "httpStatus": 200,
-      "durationMs": 84
+      "durationMs": 87
     }
   ]
 } as const

@@ -1,16 +1,16 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-26T09:50:30.019Z
+Generated: 2026-05-26T09:57:46.097Z
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
 Origin source: release-candidate-public-origin
-Candidate: pwa-ca6401eabaa2
-Live candidate: pwa-ea359fb61213
+Candidate: pwa-3c2869c74fa2
+Live candidate: pwa-ae3647ad9362
 
 ## Summary
 
-- Planned: 33
-- Passed: 33
+- Planned: 34
+- Passed: 34
 - Failed: 0
 - Blocked: 0
 
@@ -66,6 +66,7 @@ Checks: 34/34 passed
 - pass: owner-unlock-html - https://moshequ.github.io/autonomous-game-lab/owner-unlock.html - Live URL matched status and required text.
 - pass: owner-unlock-brief-json - https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json - Live URL matched status and required text.
 - pass: owner-unlock-preflight-json - https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json - Live URL matched status and required text.
+- pass: owner-runtime-config-json - https://moshequ.github.io/autonomous-game-lab/owner-runtime-config.json - Live URL matched status and required text.
 - pass: analytics-unlock-html - https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html - Live URL matched status and required text.
 - pass: analytics-unlock-json - https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json - Live URL matched status and required text.
 - pass: product-gate-recovery-html - https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.html - Live URL matched status and required text.
@@ -104,5 +105,5 @@ Checks: 34/34 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-ea359fb61213; run the deploy workflow for strict proof of the current local candidate if needed.
+- Live Pages is reachable and serving pwa-ae3647ad9362; run the deploy workflow for strict proof of the current local candidate if needed.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.
