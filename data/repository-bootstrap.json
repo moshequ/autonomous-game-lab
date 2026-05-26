@@ -1,39 +1,11 @@
 {
-  "generatedAt": "2026-05-26T15:08:22.694Z",
+  "generatedAt": "2026-05-26T15:11:46.614Z",
   "status": "repository-bootstrap-ready",
   "mode": "plan-only",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": ".env.production.local",
-        "keys": [
-          "VITE_POSTHOG_KEY",
-          "VITE_POSTHOG_HOST",
-          "AGL_SUPPORT_EMAIL"
-        ]
-      },
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "VITE_POSTHOG_KEY",
-      "VITE_POSTHOG_HOST",
-      "AGL_SUPPORT_EMAIL",
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -64,15 +36,15 @@
     }
   },
   "workspace": {
-    "path": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+    "path": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "before": {
       "insideWorkTree": true,
-      "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+      "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
       "currentBranch": "main",
-      "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+      "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 80,
+      "dirtyFiles": 81,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -103,6 +75,7 @@
         "data/store-readiness.json",
         "public/analytics-unlock.json",
         "public/compliance.json",
+        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
@@ -155,7 +128,7 @@
         "src/data/storeListingOptimizer.ts",
         "src/data/storeReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 80,
+      "generatedEvidenceDirtyFiles": 81,
       "generatedEvidenceDirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -186,6 +159,7 @@
         "data/store-readiness.json",
         "public/analytics-unlock.json",
         "public/compliance.json",
+        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
@@ -243,12 +217,12 @@
     },
     "after": {
       "insideWorkTree": true,
-      "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
+      "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
       "currentBranch": "main",
-      "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+      "originRemote": "https://github.com/moshequ/autonomous-game-lab",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 80,
+      "dirtyFiles": 81,
       "dirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -279,6 +253,7 @@
         "data/store-readiness.json",
         "public/analytics-unlock.json",
         "public/compliance.json",
+        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
@@ -331,7 +306,7 @@
         "src/data/storeListingOptimizer.ts",
         "src/data/storeReadiness.ts"
       ],
-      "generatedEvidenceDirtyFiles": 80,
+      "generatedEvidenceDirtyFiles": 81,
       "generatedEvidenceDirtyPaths": [
         "data/deployment-plan.json",
         "data/live-site-monitor.json",
@@ -362,6 +337,7 @@
         "data/store-readiness.json",
         "public/analytics-unlock.json",
         "public/compliance.json",
+        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-runtime-config.json",
         "public/owner-unlock-brief.json",
@@ -420,14 +396,14 @@
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "origin-remote",
-    "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
+    "source": "environment",
+    "originRemote": "https://github.com/moshequ/autonomous-game-lab",
     "remoteRepository": "moshequ/autonomous-game-lab",
-    "ownerHint": null,
-    "ownerHintEnv": null,
-    "ownerHintTarget": null,
-    "inferredTarget": "moshequ/autonomous-game-lab",
-    "inferredTargetSource": "gh-auth-user-and-package-name",
+    "ownerHint": "moshequ",
+    "ownerHintEnv": "GITHUB_REPOSITORY_OWNER",
+    "ownerHintTarget": "moshequ/autonomous-game-lab",
+    "inferredTarget": null,
+    "inferredTargetSource": null,
     "packageName": "autonomous-game-lab",
     "inferredRepositoryName": "autonomous-game-lab",
     "remoteParsing": {
@@ -441,23 +417,23 @@
   "githubAutomation": {
     "ghCliAvailable": true,
     "ghAuthAvailable": true,
-    "ghTokenConfigured": false,
+    "ghTokenConfigured": true,
     "ghCredentialReady": true,
-    "ghUserLogin": "moshequ",
+    "ghUserLogin": null,
     "ghReady": true
   },
   "sourceStatus": {
     "repositoryReadiness": "repository-channel-ready",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-86190a8ef2a9",
+    "releaseCandidateId": "pwa-b37f865065ac",
     "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "repositoryTargetPlan": {
     "status": "target-known",
     "repositoryName": "autonomous-game-lab",
     "target": "moshequ/autonomous-game-lab",
-    "targetSource": "origin-remote",
+    "targetSource": "environment",
     "placeholderTarget": "OWNER/autonomous-game-lab",
     "plannedTarget": "moshequ/autonomous-game-lab",
     "ownerRequired": false,
@@ -520,7 +496,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitFlag": true,
-      "detail": "Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new."
+      "detail": "Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab."
     },
     {
       "id": "create-initial-commit",
@@ -540,7 +516,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "80 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "81 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",

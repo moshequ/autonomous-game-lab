@@ -1,22 +1,22 @@
 export const storeAssets = {
-  "generatedAt": "2026-05-26T15:07:42.796Z",
+  "generatedAt": "2026-05-26T15:11:17.630Z",
   "status": "screenshots-ready",
   "basePath": "/autonomous-game-lab/",
   "sourceBuild": "dist",
   "screenshots": [
     {
-      "id": "phone-portal-home",
-      "label": "Mobile portal home",
-      "route": "/",
-      "servedRoute": "/autonomous-game-lab/",
-      "path": "/store-assets/screenshots/phone-portal-home.png",
-      "distPath": "dist/store-assets/screenshots/phone-portal-home.png",
-      "width": 1170,
-      "height": 2532,
-      "bytes": 212121,
+      "id": "desktop-growth-page",
+      "label": "Generated public game landing page",
+      "route": "/games/market-pulse.html",
+      "servedRoute": "/autonomous-game-lab/games/market-pulse.html",
+      "path": "/store-assets/screenshots/desktop-growth-page.png",
+      "distPath": "dist/store-assets/screenshots/desktop-growth-page.png",
+      "width": 1440,
+      "height": 900,
+      "bytes": 59625,
       "platformUse": [
-        "Google Play phone",
-        "Apple iPhone draft"
+        "Web/PWA listing",
+        "press kit"
       ]
     },
     {
@@ -50,22 +50,23 @@ export const storeAssets = {
       ]
     },
     {
-      "id": "desktop-growth-page",
-      "label": "Generated public game landing page",
-      "route": "/games/market-pulse.html",
-      "servedRoute": "/autonomous-game-lab/games/market-pulse.html",
-      "path": "/store-assets/screenshots/desktop-growth-page.png",
-      "distPath": "dist/store-assets/screenshots/desktop-growth-page.png",
-      "width": 1440,
-      "height": 900,
-      "bytes": 59625,
+      "id": "phone-portal-home",
+      "label": "Mobile portal home",
+      "route": "/",
+      "servedRoute": "/autonomous-game-lab/",
+      "path": "/store-assets/screenshots/phone-portal-home.png",
+      "distPath": "dist/store-assets/screenshots/phone-portal-home.png",
+      "width": 1170,
+      "height": 2532,
+      "bytes": 212121,
       "platformUse": [
-        "Web/PWA listing",
-        "press kit"
+        "Google Play phone",
+        "Apple iPhone draft"
       ]
     }
   ],
-  "storePackageUpdated": true
+  "storePackageUpdated": true,
+  "note": "Playwright launch blocked; reused existing screenshot artifacts from public/ and dist/."
 } as const
 
 export type StoreAssets = typeof storeAssets
