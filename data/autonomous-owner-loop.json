@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T12:57:57.238Z",
+  "generatedAt": "2026-05-26T13:05:45.826Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -48,7 +48,7 @@
       "refresh-replay-loop"
     ],
     "nextResumeAt": "2026-05-26T23:08:56.032Z",
-    "nextResumeInHours": 10.183,
+    "nextResumeInHours": 10.053,
     "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
     "controls": {
       "avoidImmediateRepeat": true,
@@ -67,7 +67,7 @@
           "seed-portfolio-traffic"
         ],
         "suppressedUntil": "2026-05-26T23:43:28.218Z",
-        "resumeInHours": 10.759,
+        "resumeInHours": 10.628,
         "resumeCondition": "Wait for repeat-suppression cooldown, new player evidence, or owner-provided production inputs."
       },
       {
@@ -79,7 +79,7 @@
           "seed-portfolio-traffic"
         ],
         "suppressedUntil": "2026-05-26T23:43:28.218Z",
-        "resumeInHours": 10.759,
+        "resumeInHours": 10.628,
         "resumeCondition": "Wait for repeat-suppression cooldown, new player evidence, or owner-provided production inputs."
       },
       {
@@ -91,7 +91,7 @@
           "refresh-replay-loop"
         ],
         "suppressedUntil": "2026-05-26T23:08:56.032Z",
-        "resumeInHours": 10.183,
+        "resumeInHours": 10.053,
         "resumeCondition": "Wait for repeat-suppression cooldown, new player evidence, or owner-provided production inputs."
       }
     ]
@@ -283,7 +283,7 @@
     "expiredExecutedActionIds": [],
     "lastExecutedActionId": "seed-portfolio-traffic",
     "lastExecutedActionStillExecutable": true,
-    "lastExecutedAgeHours": 7.241,
+    "lastExecutedAgeHours": 7.372,
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -293,7 +293,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-26T12:57:56.700Z",
+      "auditGeneratedAt": "2026-05-26T13:05:45.262Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -316,7 +316,7 @@
         "fresh": true,
         "ready": true,
         "status": "cadence-ready",
-        "artifactGeneratedAt": "2026-05-26T12:57:56.498Z",
+        "artifactGeneratedAt": "2026-05-26T13:05:45.053Z",
         "ageHours": 0,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
@@ -328,7 +328,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-26T09:01:48.385Z",
-        "ageHours": 3.936,
+        "ageHours": 4.066,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -339,7 +339,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-26T10:36:13.901Z",
-        "ageHours": 2.362,
+        "ageHours": 2.492,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -349,8 +349,8 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-26T12:57:38.297Z",
-        "ageHours": 0.005,
+        "artifactGeneratedAt": "2026-05-26T13:05:25.628Z",
+        "ageHours": 0.006,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -360,7 +360,7 @@
         "fresh": true,
         "ready": true,
         "status": "live-site-monitor-passed",
-        "artifactGeneratedAt": "2026-05-26T12:57:43.218Z",
+        "artifactGeneratedAt": "2026-05-26T13:05:31.084Z",
         "ageHours": 0.004,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
@@ -373,7 +373,7 @@
         "current": true,
         "ready": true,
         "status": "product-optimization-ready",
-        "artifactGeneratedAt": "2026-05-26T12:57:56.210Z",
+        "artifactGeneratedAt": "2026-05-26T13:05:44.752Z",
         "artifactSourceDataHash": "325bce2331ba",
         "sourceDataHash": "325bce2331ba",
         "evaluatedInputIds": [
@@ -450,7 +450,7 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-26T12:57:26.658Z",
+        "artifactGeneratedAt": "2026-05-26T13:05:14.396Z",
         "artifactSourceDataHash": "e2d44b1111f9",
         "sourceDataHash": "e2d44b1111f9",
         "evaluatedInputIds": [
@@ -468,7 +468,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-26T12:57:55.183Z",
+        "artifactGeneratedAt": "2026-05-26T13:05:43.725Z",
         "artifactSourceDataHash": "c1355ec8af74",
         "sourceDataHash": "c1355ec8af74",
         "evaluatedInputIds": [
@@ -508,7 +508,7 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-26T12:57:14.884Z",
+        "artifactGeneratedAt": "2026-05-26T13:05:02.636Z",
         "artifactSourceDataHash": "dd927ed9dc7f",
         "sourceDataHash": "dd927ed9dc7f",
         "evaluatedInputIds": [
@@ -523,7 +523,7 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-26T12:57:26.819Z",
+        "artifactGeneratedAt": "2026-05-26T13:05:14.555Z",
         "artifactSourceDataHash": "17d6890595dc",
         "sourceDataHash": "17d6890595dc",
         "evaluatedInputIds": [
@@ -543,7 +543,7 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-26T12:57:26.971Z",
+        "artifactGeneratedAt": "2026-05-26T13:05:14.705Z",
         "artifactSourceDataHash": "4dbae64be8ff",
         "sourceDataHash": "4dbae64be8ff",
         "evaluatedInputIds": [
@@ -558,7 +558,7 @@
         "current": true,
         "ready": true,
         "status": "first-move-coach-ready",
-        "artifactGeneratedAt": "2026-05-26T12:57:56.364Z",
+        "artifactGeneratedAt": "2026-05-26T13:05:44.909Z",
         "artifactSourceDataHash": "d13bc88af1e3",
         "sourceDataHash": "d13bc88af1e3",
         "evaluatedInputIds": [
@@ -632,7 +632,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 95.08,
+      "scanAgeHours": 95.21,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -671,8 +671,8 @@
       "liveSiteMonitorFresh": true,
       "smokeActionFresh": true,
       "releaseCandidateActionFresh": true,
-      "liveCandidateId": "pwa-834480f69b0d",
-      "artifactCandidateId": "pwa-834480f69b0d"
+      "liveCandidateId": "pwa-ce61e6f62944",
+      "artifactCandidateId": "pwa-ce61e6f62944"
     },
     "skippedRecentlyExecutedActionIds": [
       "seed-portfolio-traffic",
@@ -717,9 +717,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-26T12:57:55.915Z",
-      "artifactSourceDataHash": "3a411c9431ba",
-      "sourceDataHash": "3a411c9431ba",
+      "bootstrapGeneratedAt": "2026-05-26T13:05:44.463Z",
+      "artifactSourceDataHash": "bccccb9ac576",
+      "sourceDataHash": "bccccb9ac576",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -734,7 +734,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-26T12:57:49.326Z",
+      "generatedAt": "2026-05-26T13:05:37.375Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -856,7 +856,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 656.7 KB; gzip 176.1 KB; deferred chunks 31.",
+      "evidence": "Initial JS 656.2 KB; gzip 175.9 KB; deferred chunks 31.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -955,14 +955,14 @@
       "status": "ready",
       "autonomy": "read-only-live-deploy-verification",
       "evidence": "Smoke post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 34/34 passed; local artifact predeploy-artifact-smoke-passed 34/34 passed.",
-      "nextAction": "Live Pages is reachable and serving pwa-834480f69b0d; run the deploy workflow for strict proof of the current local candidate if needed."
+      "nextAction": "Live Pages is reachable and serving pwa-ce61e6f62944; run the deploy workflow for strict proof of the current local candidate if needed."
     },
     {
       "id": "post-deploy-artifact-sync",
       "status": "ready",
       "autonomy": "read-only-actions-artifact-import",
-      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26449251198; live matches artifact true; strict true.",
-      "nextAction": "Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit."
+      "evidence": "Artifact sync post-deploy-artifact-sync-passed; run 26449611809; live matches artifact true; strict true.",
+      "nextAction": "Current main is deployed; keep strict live artifact evidence in sync after each Pages run."
     },
     {
       "id": "live-site-monitor",
@@ -1170,7 +1170,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-F3jbA1I8.js",
+        "GameCanvas-C7aTvSaw.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1203,7 +1203,7 @@
       "costUsd": 0,
       "command": "npm run autonomous:post-deploy-artifact-sync",
       "targets": [
-        26449251198,
+        26449611809,
         "release-candidate-manifest"
       ],
       "reason": "Strict deploy artifact evidence is already synced from the latest successful Pages workflow."
