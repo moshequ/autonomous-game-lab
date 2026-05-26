@@ -826,6 +826,50 @@ const sourceDataHash = hashSourceData({
   postDeployArtifactSync,
 })
 
+const combinedOwnerInputPreflight = sanitizeCombinedOwnerInputPreflight(
+  ownerUnlockPreflight.combinedOwnerInputPreflight,
+)
+const ownerInputActionPack = combinedOwnerInputPreflight
+  ? {
+      id: 'zero-secret-owner-input-action-pack',
+      sourcePackId: combinedOwnerInputPreflight.id,
+      status: combinedOwnerInputPreflight.readyForSetup
+        ? 'ready-to-sync-configured-owner-inputs'
+        : 'waiting-on-owner-values',
+      localEnvFile: combinedOwnerInputPreflight.localEnvFile,
+      unlockIds: combinedOwnerInputPreflight.unlockIds,
+      analyticsPathId: combinedOwnerInputPreflight.analyticsPathId,
+      supportUnlockId: combinedOwnerInputPreflight.supportUnlockId,
+      missingInputNames: combinedOwnerInputPreflight.missingInputNames,
+      missingInputCount: combinedOwnerInputPreflight.summary?.missingInputs ?? 0,
+      secretInputCount: combinedOwnerInputPreflight.summary?.secretInputs ?? 0,
+      localEnvTemplateLines: combinedOwnerInputPreflight.localEnvTemplateLines,
+      shellExportTemplateLines: combinedOwnerInputPreflight.shellExportTemplateLines,
+      localEnvTemplateText: `${combinedOwnerInputPreflight.localEnvTemplateLines.join('\n')}\n`,
+      shellExportTemplateText: `${combinedOwnerInputPreflight.shellExportTemplateLines.join('\n')}\n`,
+      downloadFileName: 'agl-owner-input-template.env',
+      receiptStorageKey: 'agl.ownerInputActionReceipt',
+      commands: {
+        combinedPreflight: combinedOwnerInputPreflight.commands?.combinedPreflight ?? null,
+        setupWriteLocalEnvTemplate: combinedOwnerInputPreflight.commands?.setupWriteLocalEnvTemplate ?? null,
+        syncConfiguredValues: combinedOwnerInputPreflight.commands?.syncConfiguredValues ?? null,
+        workflowDispatch: combinedOwnerInputPreflight.commands?.workflowDispatch ?? null,
+      },
+      controls: {
+        zeroPaidSpend: true,
+        noSecretValues: true,
+        noSecretValuesStored: combinedOwnerInputPreflight.controls?.noSecretValuesStored === true,
+        localOnlyReceipt: true,
+        localTemplateWriteNoGithubMutation:
+          combinedOwnerInputPreflight.controls?.localTemplateWriteNoGithubMutation === true,
+        workflowDispatchRequiresRunWorkflows:
+          combinedOwnerInputPreflight.controls?.workflowDispatchRequiresRunWorkflows === true,
+        storeSubmissionStillBlocked: combinedOwnerInputPreflight.controls?.storeSubmissionStillBlocked === true,
+        revenueStillBlocked: combinedOwnerInputPreflight.controls?.revenueStillBlocked === true,
+      },
+    }
+  : null
+
 const payload = {
   generatedAt: new Date().toISOString(),
   sourceDataHash,
@@ -917,15 +961,14 @@ const payload = {
     missingInputs: ownerUnlockPreflight.missingInputs ?? [],
     invalidInputs: ownerUnlockPreflight.invalidInputs ?? [],
     lowestInputPreflight: ownerUnlockPreflight.lowestInputPreflight ?? null,
-    combinedOwnerInputPreflight: sanitizeCombinedOwnerInputPreflight(
-      ownerUnlockPreflight.combinedOwnerInputPreflight,
-    ),
+    combinedOwnerInputPreflight,
     minimalInterventionPath: ownerUnlockPreflight.minimalInterventionPath ?? null,
     ownerInputPack: ownerUnlockPreflight.ownerInputPack ?? null,
     pathPreflights: ownerUnlockPreflight.pathPreflights ?? [],
     commands: ownerUnlockPreflight.commands ?? {},
     controls: ownerUnlockPreflight.controls ?? {},
   },
+  ownerInputActionPack,
   publicRoutes: {
     statusPage: '/measurement-status.html',
     statusJson: '/measurement-status.json',
@@ -1132,6 +1175,7 @@ const appPayload = {
     lowestInputSecretInputCount: payload.ownerUnlockPreflight.summary?.lowestInputSecretInputs ?? null,
     combinedOwnerInputPreflight: appCombinedOwnerInputPreflight,
   },
+  ownerInputActionPack: payload.ownerInputActionPack,
 }
 
 const publicPayload = {
@@ -1163,6 +1207,7 @@ const publicPayload = {
   collectorDeployment: payload.collectorDeployment,
   externalUnlockQueue: payload.externalUnlockQueue,
   ownerUnlockPreflight: payload.ownerUnlockPreflight,
+  ownerInputActionPack: payload.ownerInputActionPack,
   publicRoutes: payload.publicRoutes,
   blockers: payload.blockers,
   controls: payload.controls,
@@ -1192,6 +1237,7 @@ const analyticsUnlockPayload = {
     ownerUnlockBrief: payload.externalUnlockQueue.ownerUnlockBrief,
   },
   ownerUnlockPreflight: payload.ownerUnlockPreflight,
+  ownerInputActionPack: payload.ownerInputActionPack,
   publicRoutes: {
     statusPage: payload.publicRoutes.statusPage,
     statusJson: payload.publicRoutes.statusJson,
@@ -1417,6 +1463,53 @@ const ownerUnlockPreflightHtml = (preflight) =>
         ${requiredList(preflight.missingInputs ?? [])}
         <h3>Invalid Inputs</h3>
         ${requiredList(preflight.invalidInputs ?? [])}
+      </section>`
+    : ''
+
+const ownerInputActionPackHtml = (pack) =>
+  pack
+    ? `<section aria-label="Zero-secret owner input pack">
+        <h2>Zero-Secret Owner Input Pack</h2>
+        <p>This browser handoff packages the current lowest-input analytics and support-contact values as empty placeholders only. Downloads and copy actions stay on this device and write only a local receipt.</p>
+        <div class="grid" aria-label="Zero-secret owner input summary">
+          <div class="card">
+            <span>Status</span>
+            <strong>${escapeHtml(pack.status)}</strong>
+          </div>
+          <div class="card">
+            <span>Local env file</span>
+            <strong>${escapeHtml(pack.localEnvFile)}</strong>
+          </div>
+          <div class="card">
+            <span>Missing inputs</span>
+            <strong>${pack.missingInputCount}</strong>
+          </div>
+          <div class="card">
+            <span>Secret inputs</span>
+            <strong>${pack.secretInputCount}</strong>
+          </div>
+          <div class="card">
+            <span>Unlocks</span>
+            <strong>${escapeHtml(pack.unlockIds.join(', ') || 'none')}</strong>
+          </div>
+          <div class="card">
+            <span>Dispatch gate</span>
+            <strong>${pack.controls.workflowDispatchRequiresRunWorkflows ? 'RUN_WORKFLOWS=1 required' : 'disabled'}</strong>
+          </div>
+        </div>
+        <h3>Local Env Template</h3>
+        ${codeList(pack.localEnvTemplateLines)}
+        <h3>Shell Export Template</h3>
+        ${codeList(pack.shellExportTemplateLines)}
+        <h3>Commands After Values Are Filled</h3>
+        ${namedCommandList(pack.commands)}
+        <div class="actions">
+          <button type="button" id="copy-owner-input-template">Copy local env template</button>
+          <button type="button" id="download-owner-input-template">Download local env template</button>
+          <button type="button" id="copy-owner-shell-template">Copy shell exports</button>
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.ownerUnlockPreflightJson))}">Open preflight JSON</a>
+        </div>
+        <p class="localExportStatus" id="owner-input-pack-status" aria-live="polite">Ready to copy or download placeholders. No values or secrets are stored in this page.</p>
       </section>`
     : ''
 
@@ -1785,6 +1878,10 @@ const html = `<!doctype html>
         font-weight: 700;
       }
 
+      code {
+        overflow-wrap: anywhere;
+      }
+
       .eyebrow {
         color: #7d2f18;
         font-size: 0.82rem;
@@ -1827,8 +1924,13 @@ const html = `<!doctype html>
         padding: 22px 0;
       }
 
-      ul {
+      ul,
+      ol {
         padding-left: 20px;
+      }
+
+      li {
+        margin: 6px 0;
       }
 
       .actions {
@@ -1837,11 +1939,27 @@ const html = `<!doctype html>
         gap: 10px;
       }
 
-      .actions a {
+      .actions a,
+      .actions button {
         border: 1px solid #187f7a;
         border-radius: 8px;
+        background: transparent;
+        color: #187f7a;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
         padding: 10px 12px;
         text-decoration: none;
+      }
+
+      .actions button:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+      }
+
+      .localExportStatus {
+        color: #6d675c;
+        font-weight: 700;
       }
     </style>
   </head>
@@ -1919,6 +2037,8 @@ const html = `<!doctype html>
         </div>
         <p class="localExportStatus" id="local-export-status" aria-live="polite">${escapeHtml(payload.publicEvidenceHandoff.measurementPageExport.status)}</p>
       </section>
+
+      ${ownerInputActionPackHtml(payload.ownerInputActionPack)}
 
       <section>
         <h2>Product Evidence</h2>
@@ -2194,6 +2314,7 @@ const html = `<!doctype html>
         const localExportReceiptKey = 'agl.analytics.localExportReceipt'
         const exportSurface = ${JSON.stringify(measurementPageExport.exportSurface)}
         const exportSurfaceDetail = ${JSON.stringify(measurementPageExport.exportSurfaceDetail)}
+        const ownerInputActionPack = ${JSON.stringify(ownerInputActionPack)}
         const readJson = (key, fallback) => {
           try {
             const raw = window.localStorage.getItem(key)
@@ -2272,6 +2393,62 @@ const html = `<!doctype html>
           anchor.click()
           URL.revokeObjectURL(url)
         }
+        const setOwnerInputPackStatus = (message) => {
+          const status = document.getElementById('owner-input-pack-status')
+          if (status) {
+            status.textContent = message
+          }
+        }
+        const writeOwnerInputReceipt = (action) => {
+          if (!ownerInputActionPack) {
+            return
+          }
+          writeJson(ownerInputActionPack.receiptStorageKey, {
+            action,
+            actedAt: new Date().toISOString(),
+            packId: ownerInputActionPack.id,
+            sourcePackId: ownerInputActionPack.sourcePackId,
+            localEnvFile: ownerInputActionPack.localEnvFile,
+            missingInputNames: ownerInputActionPack.missingInputNames,
+            templateLineCount: ownerInputActionPack.localEnvTemplateLines.length,
+            shellExportLineCount: ownerInputActionPack.shellExportTemplateLines.length,
+            noSecretValues: ownerInputActionPack.controls.noSecretValues === true,
+            noSecretValuesStored: ownerInputActionPack.controls.noSecretValuesStored === true,
+            localTemplateWriteNoGithubMutation:
+              ownerInputActionPack.controls.localTemplateWriteNoGithubMutation === true,
+            storeSubmissionStillBlocked: ownerInputActionPack.controls.storeSubmissionStillBlocked === true,
+            revenueStillBlocked: ownerInputActionPack.controls.revenueStillBlocked === true,
+          })
+        }
+        const downloadText = (text, fileName) => {
+          const blob = new Blob([text], { type: 'text/plain' })
+          const url = URL.createObjectURL(blob)
+          const anchor = document.createElement('a')
+          anchor.href = url
+          anchor.download = fileName
+          anchor.click()
+          URL.revokeObjectURL(url)
+        }
+        const copyOwnerInputText = async (text, action, successMessage) => {
+          if (!ownerInputActionPack) {
+            return
+          }
+          try {
+            await navigator.clipboard.writeText(text)
+            writeOwnerInputReceipt(action)
+            setOwnerInputPackStatus(successMessage)
+          } catch {
+            setOwnerInputPackStatus('Clipboard unavailable. Use the download button or the preflight JSON instead.')
+          }
+        }
+        const downloadOwnerInputTemplate = () => {
+          if (!ownerInputActionPack) {
+            return
+          }
+          downloadText(ownerInputActionPack.localEnvTemplateText, ownerInputActionPack.downloadFileName)
+          writeOwnerInputReceipt('download-local-env-template')
+          setOwnerInputPackStatus('Local env template downloaded. Fill it in locally, then run the preflight command.')
+        }
         const exportLocalEventDrop = () => {
           const eventsBeforeExport = readEvents()
           const receipt = readJson(localExportReceiptKey, null)
@@ -2308,6 +2485,27 @@ const html = `<!doctype html>
           )})
         }
         document.getElementById('export-local-event-drop')?.addEventListener('click', exportLocalEventDrop)
+        document
+          .getElementById('copy-owner-input-template')
+          ?.addEventListener('click', () =>
+            copyOwnerInputText(
+              ownerInputActionPack.localEnvTemplateText,
+              'copy-local-env-template',
+              'Local env template copied. Fill it in locally, then run the preflight command.',
+            ),
+          )
+        document
+          .getElementById('download-owner-input-template')
+          ?.addEventListener('click', downloadOwnerInputTemplate)
+        document
+          .getElementById('copy-owner-shell-template')
+          ?.addEventListener('click', () =>
+            copyOwnerInputText(
+              ownerInputActionPack.shellExportTemplateText,
+              'copy-shell-export-template',
+              'Shell export template copied. Values stay in your shell and outside tracked files.',
+            ),
+          )
         updateLocalEvidenceStats()
         const syncedLiveCandidate = ${JSON.stringify(payload.liveRelease.syncedCandidateId)}
         const exactLiveCandidate = document.getElementById('exact-live-candidate')

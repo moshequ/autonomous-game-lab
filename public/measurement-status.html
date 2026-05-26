@@ -42,6 +42,10 @@
         font-weight: 700;
       }
 
+      code {
+        overflow-wrap: anywhere;
+      }
+
       .eyebrow {
         color: #7d2f18;
         font-size: 0.82rem;
@@ -84,8 +88,13 @@
         padding: 22px 0;
       }
 
-      ul {
+      ul,
+      ol {
         padding-left: 20px;
+      }
+
+      li {
+        margin: 6px 0;
       }
 
       .actions {
@@ -94,11 +103,27 @@
         gap: 10px;
       }
 
-      .actions a {
+      .actions a,
+      .actions button {
         border: 1px solid #187f7a;
         border-radius: 8px;
+        background: transparent;
+        color: #187f7a;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 700;
         padding: 10px 12px;
         text-decoration: none;
+      }
+
+      .actions button:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+      }
+
+      .localExportStatus {
+        color: #6d675c;
+        font-weight: 700;
       }
     </style>
   </head>
@@ -175,6 +200,50 @@
           <a href="./gate-sample.html">Open gate sample</a>
         </div>
         <p class="localExportStatus" id="local-export-status" aria-live="polite">measurement-page-export-ready</p>
+      </section>
+
+      <section aria-label="Zero-secret owner input pack">
+        <h2>Zero-Secret Owner Input Pack</h2>
+        <p>This browser handoff packages the current lowest-input analytics and support-contact values as empty placeholders only. Downloads and copy actions stay on this device and write only a local receipt.</p>
+        <div class="grid" aria-label="Zero-secret owner input summary">
+          <div class="card">
+            <span>Status</span>
+            <strong>waiting-on-owner-values</strong>
+          </div>
+          <div class="card">
+            <span>Local env file</span>
+            <strong>.env.production.local</strong>
+          </div>
+          <div class="card">
+            <span>Missing inputs</span>
+            <strong>2</strong>
+          </div>
+          <div class="card">
+            <span>Secret inputs</span>
+            <strong>0</strong>
+          </div>
+          <div class="card">
+            <span>Unlocks</span>
+            <strong>production-analytics-browser, support-contact</strong>
+          </div>
+          <div class="card">
+            <span>Dispatch gate</span>
+            <strong>RUN_WORKFLOWS=1 required</strong>
+          </div>
+        </div>
+        <h3>Local Env Template</h3>
+        <ul><li><code>VITE_POSTHOG_KEY=</code></li><li><code>AGL_SUPPORT_EMAIL=</code></li></ul>
+        <h3>Shell Export Template</h3>
+        <ul><li><code>export VITE_POSTHOG_KEY=</code></li><li><code>export AGL_SUPPORT_EMAIL=</code></li></ul>
+        <h3>Commands After Values Are Filled</h3>
+        <ol><li><strong>combinedPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>setupWriteLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --owner-input-template</code></li><li><strong>syncConfiguredValues</strong> <code>./ops/github/setup-production.sh</code></li><li><strong>workflowDispatch</strong> <code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li></ol>
+        <div class="actions">
+          <button type="button" id="copy-owner-input-template">Copy local env template</button>
+          <button type="button" id="download-owner-input-template">Download local env template</button>
+          <button type="button" id="copy-owner-shell-template">Copy shell exports</button>
+          <a href="./owner-unlock-preflight.json">Open preflight JSON</a>
+        </div>
+        <p class="localExportStatus" id="owner-input-pack-status" aria-live="polite">Ready to copy or download placeholders. No values or secrets are stored in this page.</p>
       </section>
 
       <section>
@@ -690,6 +759,7 @@
         const localExportReceiptKey = 'agl.analytics.localExportReceipt'
         const exportSurface = "measurement-status"
         const exportSurfaceDetail = "public-measurement-status-page"
+        const ownerInputActionPack = {"id":"zero-secret-owner-input-action-pack","sourcePackId":"combined-zero-secret-owner-input-pack","status":"waiting-on-owner-values","localEnvFile":".env.production.local","unlockIds":["production-analytics-browser","support-contact"],"analyticsPathId":"posthog-browser","supportUnlockId":"support-contact","missingInputNames":["VITE_POSTHOG_KEY","AGL_SUPPORT_EMAIL"],"missingInputCount":2,"secretInputCount":0,"localEnvTemplateLines":["VITE_POSTHOG_KEY=","AGL_SUPPORT_EMAIL="],"shellExportTemplateLines":["export VITE_POSTHOG_KEY=","export AGL_SUPPORT_EMAIL="],"localEnvTemplateText":"VITE_POSTHOG_KEY=\nAGL_SUPPORT_EMAIL=\n","shellExportTemplateText":"export VITE_POSTHOG_KEY=\nexport AGL_SUPPORT_EMAIL=\n","downloadFileName":"agl-owner-input-template.env","receiptStorageKey":"agl.ownerInputActionReceipt","commands":{"combinedPreflight":"node scripts/owner-unlock-preflight.mjs --assert --print","setupWriteLocalEnvTemplate":"./ops/github/setup-production.sh --owner-input-template","syncConfiguredValues":"./ops/github/setup-production.sh","workflowDispatch":"RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"},"controls":{"zeroPaidSpend":true,"noSecretValues":true,"noSecretValuesStored":true,"localOnlyReceipt":true,"localTemplateWriteNoGithubMutation":true,"workflowDispatchRequiresRunWorkflows":true,"storeSubmissionStillBlocked":true,"revenueStillBlocked":true}}
         const readJson = (key, fallback) => {
           try {
             const raw = window.localStorage.getItem(key)
@@ -768,6 +838,62 @@
           anchor.click()
           URL.revokeObjectURL(url)
         }
+        const setOwnerInputPackStatus = (message) => {
+          const status = document.getElementById('owner-input-pack-status')
+          if (status) {
+            status.textContent = message
+          }
+        }
+        const writeOwnerInputReceipt = (action) => {
+          if (!ownerInputActionPack) {
+            return
+          }
+          writeJson(ownerInputActionPack.receiptStorageKey, {
+            action,
+            actedAt: new Date().toISOString(),
+            packId: ownerInputActionPack.id,
+            sourcePackId: ownerInputActionPack.sourcePackId,
+            localEnvFile: ownerInputActionPack.localEnvFile,
+            missingInputNames: ownerInputActionPack.missingInputNames,
+            templateLineCount: ownerInputActionPack.localEnvTemplateLines.length,
+            shellExportLineCount: ownerInputActionPack.shellExportTemplateLines.length,
+            noSecretValues: ownerInputActionPack.controls.noSecretValues === true,
+            noSecretValuesStored: ownerInputActionPack.controls.noSecretValuesStored === true,
+            localTemplateWriteNoGithubMutation:
+              ownerInputActionPack.controls.localTemplateWriteNoGithubMutation === true,
+            storeSubmissionStillBlocked: ownerInputActionPack.controls.storeSubmissionStillBlocked === true,
+            revenueStillBlocked: ownerInputActionPack.controls.revenueStillBlocked === true,
+          })
+        }
+        const downloadText = (text, fileName) => {
+          const blob = new Blob([text], { type: 'text/plain' })
+          const url = URL.createObjectURL(blob)
+          const anchor = document.createElement('a')
+          anchor.href = url
+          anchor.download = fileName
+          anchor.click()
+          URL.revokeObjectURL(url)
+        }
+        const copyOwnerInputText = async (text, action, successMessage) => {
+          if (!ownerInputActionPack) {
+            return
+          }
+          try {
+            await navigator.clipboard.writeText(text)
+            writeOwnerInputReceipt(action)
+            setOwnerInputPackStatus(successMessage)
+          } catch {
+            setOwnerInputPackStatus('Clipboard unavailable. Use the download button or the preflight JSON instead.')
+          }
+        }
+        const downloadOwnerInputTemplate = () => {
+          if (!ownerInputActionPack) {
+            return
+          }
+          downloadText(ownerInputActionPack.localEnvTemplateText, ownerInputActionPack.downloadFileName)
+          writeOwnerInputReceipt('download-local-env-template')
+          setOwnerInputPackStatus('Local env template downloaded. Fill it in locally, then run the preflight command.')
+        }
         const exportLocalEventDrop = () => {
           const eventsBeforeExport = readEvents()
           const receipt = readJson(localExportReceiptKey, null)
@@ -802,6 +928,27 @@
           updateLocalEvidenceStats("Local event drop downloaded. Import it with npm run autonomous:collect-local-event-drops.")
         }
         document.getElementById('export-local-event-drop')?.addEventListener('click', exportLocalEventDrop)
+        document
+          .getElementById('copy-owner-input-template')
+          ?.addEventListener('click', () =>
+            copyOwnerInputText(
+              ownerInputActionPack.localEnvTemplateText,
+              'copy-local-env-template',
+              'Local env template copied. Fill it in locally, then run the preflight command.',
+            ),
+          )
+        document
+          .getElementById('download-owner-input-template')
+          ?.addEventListener('click', downloadOwnerInputTemplate)
+        document
+          .getElementById('copy-owner-shell-template')
+          ?.addEventListener('click', () =>
+            copyOwnerInputText(
+              ownerInputActionPack.shellExportTemplateText,
+              'copy-shell-export-template',
+              'Shell export template copied. Values stay in your shell and outside tracked files.',
+            ),
+          )
         updateLocalEvidenceStats()
         const syncedLiveCandidate = "pwa-4b917ebba390"
         const exactLiveCandidate = document.getElementById('exact-live-candidate')

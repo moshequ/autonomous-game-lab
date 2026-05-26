@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-26T16:33:24.830Z",
+  "generatedAt": "2026-05-26T16:43:24.944Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-4b917ebba390",
@@ -100,6 +100,52 @@ export const productionMeasurementStatus = {
         "storeSubmissionStillBlocked": true,
         "revenueStillBlocked": true
       }
+    }
+  },
+  "ownerInputActionPack": {
+    "id": "zero-secret-owner-input-action-pack",
+    "sourcePackId": "combined-zero-secret-owner-input-pack",
+    "status": "waiting-on-owner-values",
+    "localEnvFile": ".env.production.local",
+    "unlockIds": [
+      "production-analytics-browser",
+      "support-contact"
+    ],
+    "analyticsPathId": "posthog-browser",
+    "supportUnlockId": "support-contact",
+    "missingInputNames": [
+      "VITE_POSTHOG_KEY",
+      "AGL_SUPPORT_EMAIL"
+    ],
+    "missingInputCount": 2,
+    "secretInputCount": 0,
+    "localEnvTemplateLines": [
+      "VITE_POSTHOG_KEY=",
+      "AGL_SUPPORT_EMAIL="
+    ],
+    "shellExportTemplateLines": [
+      "export VITE_POSTHOG_KEY=",
+      "export AGL_SUPPORT_EMAIL="
+    ],
+    "localEnvTemplateText": "VITE_POSTHOG_KEY=\nAGL_SUPPORT_EMAIL=\n",
+    "shellExportTemplateText": "export VITE_POSTHOG_KEY=\nexport AGL_SUPPORT_EMAIL=\n",
+    "downloadFileName": "agl-owner-input-template.env",
+    "receiptStorageKey": "agl.ownerInputActionReceipt",
+    "commands": {
+      "combinedPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
+      "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --owner-input-template",
+      "syncConfiguredValues": "./ops/github/setup-production.sh",
+      "workflowDispatch": "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "noSecretValues": true,
+      "noSecretValuesStored": true,
+      "localOnlyReceipt": true,
+      "localTemplateWriteNoGithubMutation": true,
+      "workflowDispatchRequiresRunWorkflows": true,
+      "storeSubmissionStillBlocked": true,
+      "revenueStillBlocked": true
     }
   }
 } as const
