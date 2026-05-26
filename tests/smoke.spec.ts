@@ -10879,6 +10879,24 @@ test('production measurement status publishes public aggregate evidence handoff'
           noWorkflowDispatch: boolean
         }
       }
+      runtimeConfigPreview: {
+        id: string
+        status: string
+        downloadFileName: string
+        targetPublicPath: string
+        defaultPosthogHost: string
+        provider: string
+        controls: {
+          browserLocalOnly: boolean
+          publicValuesOnly: boolean
+          noGeneratedValueSerialization: boolean
+          noSecretValues: boolean
+          noGithubMutation: boolean
+          noWorkflowDispatch: boolean
+          noStoreSubmission: boolean
+          noRevenueEnablement: boolean
+        }
+      }
       commands: {
         combinedPreflight: string | null
         setupWriteLocalEnvTemplate: string | null
@@ -12056,6 +12074,18 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerInputActionPack.valueValidation.controls.browserLocalOnly).toBe(true)
   expect(ownerInputActionPack.valueValidation.controls.noGeneratedValueSerialization).toBe(true)
   expect(ownerInputActionPack.valueValidation.controls.noGithubMutation).toBe(true)
+  expect(ownerInputActionPack.runtimeConfigPreview).toMatchObject({
+    id: 'browser-local-owner-runtime-config-preview',
+    status: 'ready',
+    downloadFileName: 'owner-runtime-config.preview.json',
+    targetPublicPath: 'public/owner-runtime-config.json',
+    defaultPosthogHost: 'https://us.i.posthog.com',
+    provider: 'posthog-browser',
+  })
+  expect(ownerInputActionPack.runtimeConfigPreview.controls.browserLocalOnly).toBe(true)
+  expect(ownerInputActionPack.runtimeConfigPreview.controls.publicValuesOnly).toBe(true)
+  expect(ownerInputActionPack.runtimeConfigPreview.controls.noGeneratedValueSerialization).toBe(true)
+  expect(ownerInputActionPack.runtimeConfigPreview.controls.noWorkflowDispatch).toBe(true)
   expect(ownerInputActionPack.controls.zeroPaidSpend).toBe(true)
   expect(ownerInputActionPack.controls.noSecretValues).toBe(true)
   expect(ownerInputActionPack.controls.noSecretValuesStored).toBe(true)
@@ -12237,8 +12267,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('download-owner-input-template')
   expect(html).toContain('validate-owner-input-values')
   expect(html).toContain('download-filled-owner-input-template')
+  expect(html).toContain('download-owner-runtime-config-preview')
   expect(html).toContain('agl-owner-input-template.env')
   expect(html).toContain('agl-owner-input-filled.env')
+  expect(html).toContain('owner-runtime-config.preview.json')
   expect(html).toContain('.env.production.local')
   expect(html).toContain('AGL_SUPPORT_EMAIL=')
   expect(html).toContain('First-Party Collector Deployment')
@@ -12317,6 +12349,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('button', { name: 'Check zero-secret values' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeDisabled()
   await expect(page.getByRole('button', { name: 'Copy filled shell exports' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeDisabled()
   await expect(page.getByRole('heading', { name: 'First-Party Collector Deployment' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'External Unlock Queue' })).toBeVisible()
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-next.html')
@@ -12416,6 +12449,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   await page.getByRole('button', { name: 'Check zero-secret values' }).click()
   await expect(page.getByText('Zero-secret values passed local checks.')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeEnabled()
+  await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeEnabled()
   const filledTemplateDownloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Download filled local env' }).click()
   const filledTemplateDownload = await filledTemplateDownloadPromise
@@ -12449,6 +12483,79 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(JSON.stringify(filledOwnerInputReceipt)).not.toContain('phc_public_smoke_key')
   expect(JSON.stringify(filledOwnerInputReceipt)).not.toContain('support@example.com')
   await expect(page.getByText('Filled local env downloaded.')).toBeVisible()
+
+  const runtimePreviewDownloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download runtime config preview' }).click()
+  const runtimePreviewDownload = await runtimePreviewDownloadPromise
+  expect(runtimePreviewDownload.suggestedFilename()).toBe('owner-runtime-config.preview.json')
+  const runtimePreviewPath = await runtimePreviewDownload.path()
+  if (!runtimePreviewPath) {
+    throw new Error('Expected owner runtime config preview download path.')
+  }
+  const runtimePreview = JSON.parse(await readFile(runtimePreviewPath, 'utf8')) as {
+    status: string
+    source: string
+    targetPublicPath: string
+    configuredPublicInputNames: string[]
+    defaultedPublicInputNames: string[]
+    analytics: {
+      provider: string
+      posthogConfigured: boolean
+      posthogKey: string
+      posthogHost: string
+    }
+    support: { configured: boolean; email: string }
+    controls: {
+      publicValuesOnly: boolean
+      noSecretValues: boolean
+      browserLocalOnly: boolean
+      noGeneratedValueSerialization: boolean
+      noWorkflowDispatch: boolean
+    }
+  }
+  expect(runtimePreview).toMatchObject({
+    status: 'owner-runtime-config-preview-ready',
+    source: 'measurement-status-browser-local-preview',
+    targetPublicPath: 'public/owner-runtime-config.json',
+    analytics: {
+      provider: 'posthog-browser',
+      posthogConfigured: true,
+      posthogKey: 'phc_public_smoke_key',
+      posthogHost: 'https://us.i.posthog.com',
+    },
+    support: { configured: true, email: 'support@example.com' },
+  })
+  expect(runtimePreview.configuredPublicInputNames).toEqual([
+    'VITE_POSTHOG_KEY',
+    'AGL_SUPPORT_EMAIL',
+  ])
+  expect(runtimePreview.defaultedPublicInputNames).toEqual(['VITE_POSTHOG_HOST'])
+  expect(runtimePreview.controls.publicValuesOnly).toBe(true)
+  expect(runtimePreview.controls.noSecretValues).toBe(true)
+  expect(runtimePreview.controls.browserLocalOnly).toBe(true)
+  expect(runtimePreview.controls.noGeneratedValueSerialization).toBe(true)
+  expect(runtimePreview.controls.noWorkflowDispatch).toBe(true)
+  const runtimePreviewReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.ownerInputActionReceipt') ?? '{}'),
+  )
+  expect(runtimePreviewReceipt).toMatchObject({
+    action: 'download-owner-runtime-config-preview',
+    packId: 'zero-secret-owner-input-action-pack',
+    sourcePackId: 'combined-zero-secret-owner-input-pack',
+    validationStatus: 'passed',
+    runtimeConfigPreviewFileName: 'owner-runtime-config.preview.json',
+    targetPublicPath: 'public/owner-runtime-config.json',
+    publicRuntimeConfigPreview: true,
+    noValuesStored: true,
+  })
+  expect(runtimePreviewReceipt.validatedInputNames).toEqual([
+    'VITE_POSTHOG_KEY',
+    'AGL_SUPPORT_EMAIL',
+  ])
+  expect(runtimePreviewReceipt.defaultedPublicInputNames).toEqual(['VITE_POSTHOG_HOST'])
+  expect(JSON.stringify(runtimePreviewReceipt)).not.toContain('phc_public_smoke_key')
+  expect(JSON.stringify(runtimePreviewReceipt)).not.toContain('support@example.com')
+  await expect(page.getByText('Runtime config preview downloaded.')).toBeVisible()
 
   await page.goto('/analytics-unlock.html')
   await expect(page.getByRole('heading', { name: 'Production Analytics Unlock' })).toBeVisible()

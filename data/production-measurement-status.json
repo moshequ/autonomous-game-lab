@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T17:07:14.278Z",
+  "generatedAt": "2026-05-26T17:12:06.075Z",
   "sourceDataHash": "adf6dc4524a2",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
@@ -2442,6 +2442,24 @@
         "noSecretValues": true,
         "noGithubMutation": true,
         "noWorkflowDispatch": true
+      }
+    },
+    "runtimeConfigPreview": {
+      "id": "browser-local-owner-runtime-config-preview",
+      "status": "ready",
+      "downloadFileName": "owner-runtime-config.preview.json",
+      "targetPublicPath": "public/owner-runtime-config.json",
+      "defaultPosthogHost": "https://us.i.posthog.com",
+      "provider": "posthog-browser",
+      "controls": {
+        "browserLocalOnly": true,
+        "publicValuesOnly": true,
+        "noGeneratedValueSerialization": true,
+        "noSecretValues": true,
+        "noGithubMutation": true,
+        "noWorkflowDispatch": true,
+        "noStoreSubmission": true,
+        "noRevenueEnablement": true
       }
     },
     "commands": {

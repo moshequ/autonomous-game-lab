@@ -252,8 +252,9 @@
           <button type="button" id="validate-owner-input-values">Check zero-secret values</button>
           <button type="button" id="download-filled-owner-input-template" disabled>Download filled local env</button>
           <button type="button" id="copy-filled-owner-shell-template" disabled>Copy filled shell exports</button>
+          <button type="button" id="download-owner-runtime-config-preview" disabled>Download runtime config preview</button>
         </div>
-        <p class="localExportStatus" id="owner-input-validation-status" aria-live="polite">Waiting for local values. Typed values stay in this browser session and are not serialized into generated artifacts.</p>
+        <p class="localExportStatus" id="owner-input-validation-status" aria-live="polite">Waiting for local values. Typed values stay in this browser session unless you choose a local download or copy action; generated artifacts contain only field names.</p>
         <div class="actions">
           <button type="button" id="copy-owner-input-template">Copy local env template</button>
           <button type="button" id="download-owner-input-template">Download local env template</button>
@@ -776,7 +777,7 @@
         const localExportReceiptKey = 'agl.analytics.localExportReceipt'
         const exportSurface = "measurement-status"
         const exportSurfaceDetail = "public-measurement-status-page"
-        const ownerInputActionPack = {"id":"zero-secret-owner-input-action-pack","sourcePackId":"combined-zero-secret-owner-input-pack","status":"waiting-on-owner-values","localEnvFile":".env.production.local","unlockIds":["production-analytics-browser","support-contact"],"analyticsPathId":"posthog-browser","supportUnlockId":"support-contact","missingInputNames":["VITE_POSTHOG_KEY","AGL_SUPPORT_EMAIL"],"missingInputCount":2,"secretInputCount":0,"localEnvTemplateLines":["VITE_POSTHOG_KEY=","AGL_SUPPORT_EMAIL="],"shellExportTemplateLines":["export VITE_POSTHOG_KEY=","export AGL_SUPPORT_EMAIL="],"localEnvTemplateText":"VITE_POSTHOG_KEY=\nAGL_SUPPORT_EMAIL=\n","shellExportTemplateText":"export VITE_POSTHOG_KEY=\nexport AGL_SUPPORT_EMAIL=\n","downloadFileName":"agl-owner-input-template.env","receiptStorageKey":"agl.ownerInputActionReceipt","valueValidation":{"id":"browser-local-zero-secret-owner-input-check","status":"ready","filledDownloadFileName":"agl-owner-input-filled.env","fields":[{"envName":"VITE_POSTHOG_KEY","title":"PostHog browser project key","inputId":"owner-input-vite-posthog-key","validationKind":"posthog-public-key","inputType":"text","placeholder":"phc_public_project_key","required":true,"publicValue":true,"maxLength":256},{"envName":"AGL_SUPPORT_EMAIL","title":"Production support email","inputId":"owner-input-agl-support-email","validationKind":"email-shape","inputType":"email","placeholder":"support@example.com","required":true,"publicValue":true,"maxLength":254}],"controls":{"browserLocalOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true}},"commands":{"combinedPreflight":"node scripts/owner-unlock-preflight.mjs --assert --print","setupWriteLocalEnvTemplate":"./ops/github/setup-production.sh --owner-input-template","syncConfiguredValues":"./ops/github/setup-production.sh","workflowDispatch":"RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"},"controls":{"zeroPaidSpend":true,"noSecretValues":true,"noSecretValuesStored":true,"localOnlyReceipt":true,"localTemplateWriteNoGithubMutation":true,"workflowDispatchRequiresRunWorkflows":true,"storeSubmissionStillBlocked":true,"revenueStillBlocked":true}}
+        const ownerInputActionPack = {"id":"zero-secret-owner-input-action-pack","sourcePackId":"combined-zero-secret-owner-input-pack","status":"waiting-on-owner-values","localEnvFile":".env.production.local","unlockIds":["production-analytics-browser","support-contact"],"analyticsPathId":"posthog-browser","supportUnlockId":"support-contact","missingInputNames":["VITE_POSTHOG_KEY","AGL_SUPPORT_EMAIL"],"missingInputCount":2,"secretInputCount":0,"localEnvTemplateLines":["VITE_POSTHOG_KEY=","AGL_SUPPORT_EMAIL="],"shellExportTemplateLines":["export VITE_POSTHOG_KEY=","export AGL_SUPPORT_EMAIL="],"localEnvTemplateText":"VITE_POSTHOG_KEY=\nAGL_SUPPORT_EMAIL=\n","shellExportTemplateText":"export VITE_POSTHOG_KEY=\nexport AGL_SUPPORT_EMAIL=\n","downloadFileName":"agl-owner-input-template.env","receiptStorageKey":"agl.ownerInputActionReceipt","valueValidation":{"id":"browser-local-zero-secret-owner-input-check","status":"ready","filledDownloadFileName":"agl-owner-input-filled.env","fields":[{"envName":"VITE_POSTHOG_KEY","title":"PostHog browser project key","inputId":"owner-input-vite-posthog-key","validationKind":"posthog-public-key","inputType":"text","placeholder":"phc_public_project_key","required":true,"publicValue":true,"maxLength":256},{"envName":"AGL_SUPPORT_EMAIL","title":"Production support email","inputId":"owner-input-agl-support-email","validationKind":"email-shape","inputType":"email","placeholder":"support@example.com","required":true,"publicValue":true,"maxLength":254}],"controls":{"browserLocalOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true}},"runtimeConfigPreview":{"id":"browser-local-owner-runtime-config-preview","status":"ready","downloadFileName":"owner-runtime-config.preview.json","targetPublicPath":"public/owner-runtime-config.json","defaultPosthogHost":"https://us.i.posthog.com","provider":"posthog-browser","controls":{"browserLocalOnly":true,"publicValuesOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true,"noStoreSubmission":true,"noRevenueEnablement":true}},"commands":{"combinedPreflight":"node scripts/owner-unlock-preflight.mjs --assert --print","setupWriteLocalEnvTemplate":"./ops/github/setup-production.sh --owner-input-template","syncConfiguredValues":"./ops/github/setup-production.sh","workflowDispatch":"RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"},"controls":{"zeroPaidSpend":true,"noSecretValues":true,"noSecretValuesStored":true,"localOnlyReceipt":true,"localTemplateWriteNoGithubMutation":true,"workflowDispatchRequiresRunWorkflows":true,"storeSubmissionStillBlocked":true,"revenueStillBlocked":true}}
         const readJson = (key, fallback) => {
           try {
             const raw = window.localStorage.getItem(key)
@@ -922,6 +923,7 @@
         const setFilledOwnerInputButtons = (enabled) => {
           document.getElementById('download-filled-owner-input-template')?.toggleAttribute('disabled', !enabled)
           document.getElementById('copy-filled-owner-shell-template')?.toggleAttribute('disabled', !enabled)
+          document.getElementById('download-owner-runtime-config-preview')?.toggleAttribute('disabled', !enabled)
         }
         const readOwnerInputValues = () =>
           ownerInputFields().map((field) => ({
@@ -962,7 +964,53 @@
           String.fromCharCode(39)
         const filledShellExportText = (entries) =>
           entries.map(({ field, value }) => 'export ' + field.envName + '=' + shellQuote(value)).join('\n') + '\n'
-        const writeFilledOwnerInputReceipt = (action, entries) => {
+        const ownerInputValueMap = (entries) =>
+          Object.fromEntries(entries.map(({ field, value }) => [field.envName, value]))
+        const ownerRuntimeConfigPreviewText = (entries) => {
+          const values = ownerInputValueMap(entries)
+          const posthogKey = values.VITE_POSTHOG_KEY || null
+          const supportEmail = values.AGL_SUPPORT_EMAIL || null
+          const defaultPosthogHost =
+            ownerInputActionPack?.runtimeConfigPreview?.defaultPosthogHost || 'https://us.i.posthog.com'
+          const preview = {
+            generatedAt: new Date().toISOString(),
+            id: 'owner-runtime-config-preview',
+            status: 'owner-runtime-config-preview-ready',
+            source: 'measurement-status-browser-local-preview',
+            targetPublicPath:
+              ownerInputActionPack?.runtimeConfigPreview?.targetPublicPath || 'public/owner-runtime-config.json',
+            publicInputNames: ownerInputFields().map((field) => field.envName),
+            configuredPublicInputNames: entries.map(({ field }) => field.envName),
+            defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
+            missingPublicInputNames: [],
+            invalidPublicInputNames: [],
+            analytics: {
+              provider: posthogKey ? ownerInputActionPack?.runtimeConfigPreview?.provider || 'posthog-browser' : null,
+              posthogConfigured: Boolean(posthogKey),
+              posthogKey,
+              posthogHost: defaultPosthogHost,
+            },
+            support: {
+              configured: Boolean(supportEmail),
+              email: supportEmail,
+            },
+            controls: {
+              zeroPaidSpend: true,
+              zeroSecretInputsOnly: true,
+              noSecretValues: true,
+              publicValuesOnly: true,
+              browserLocalOnly: true,
+              noGeneratedValueSerialization: true,
+              noGithubMutation: true,
+              noWorkflowDispatch: true,
+              noStoreSubmission: true,
+              noRevenueEnablement: true,
+            },
+          }
+
+          return JSON.stringify(preview, null, 2) + '\n'
+        }
+        const writeFilledOwnerInputReceipt = (action, entries, details = {}) => {
           if (!ownerInputActionPack) {
             return
           }
@@ -979,6 +1027,7 @@
             noGeneratedValueSerialization: true,
             localTemplateWriteNoGithubMutation:
               ownerInputActionPack.controls.localTemplateWriteNoGithubMutation === true,
+            ...details,
           })
         }
         const downloadFilledOwnerInputTemplate = () => {
@@ -1004,6 +1053,23 @@
             'Filled shell exports copied. Values were not stored in generated artifacts.',
           )
           writeFilledOwnerInputReceipt('copy-filled-shell-export-template', validation.entries)
+        }
+        const downloadOwnerRuntimeConfigPreview = () => {
+          const validation = validateOwnerInputValues()
+          if (!validation.valid) {
+            return
+          }
+          downloadText(
+            ownerRuntimeConfigPreviewText(validation.entries),
+            ownerInputActionPack.runtimeConfigPreview.downloadFileName,
+          )
+          writeFilledOwnerInputReceipt('download-owner-runtime-config-preview', validation.entries, {
+            runtimeConfigPreviewFileName: ownerInputActionPack.runtimeConfigPreview.downloadFileName,
+            targetPublicPath: ownerInputActionPack.runtimeConfigPreview.targetPublicPath,
+            defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
+            publicRuntimeConfigPreview: true,
+          })
+          setOwnerInputValidationStatus('Runtime config preview downloaded. Values were not stored in generated artifacts.')
         }
         const exportLocalEventDrop = () => {
           const eventsBeforeExport = readEvents()
@@ -1069,6 +1135,9 @@
         document
           .getElementById('copy-filled-owner-shell-template')
           ?.addEventListener('click', copyFilledOwnerShellTemplate)
+        document
+          .getElementById('download-owner-runtime-config-preview')
+          ?.addEventListener('click', downloadOwnerRuntimeConfigPreview)
         ownerInputFields().forEach((field) => {
           ownerInputElement(field)?.addEventListener('input', validateOwnerInputValues)
         })

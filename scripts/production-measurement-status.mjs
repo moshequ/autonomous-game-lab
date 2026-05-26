@@ -885,6 +885,24 @@ const ownerInputActionPack = combinedOwnerInputPreflight
           noWorkflowDispatch: true,
         },
       },
+      runtimeConfigPreview: {
+        id: 'browser-local-owner-runtime-config-preview',
+        status: 'ready',
+        downloadFileName: 'owner-runtime-config.preview.json',
+        targetPublicPath: 'public/owner-runtime-config.json',
+        defaultPosthogHost: 'https://us.i.posthog.com',
+        provider: 'posthog-browser',
+        controls: {
+          browserLocalOnly: true,
+          publicValuesOnly: true,
+          noGeneratedValueSerialization: true,
+          noSecretValues: true,
+          noGithubMutation: true,
+          noWorkflowDispatch: true,
+          noStoreSubmission: true,
+          noRevenueEnablement: true,
+        },
+      },
       commands: {
         combinedPreflight: combinedOwnerInputPreflight.commands?.combinedPreflight ?? null,
         setupWriteLocalEnvTemplate: combinedOwnerInputPreflight.commands?.setupWriteLocalEnvTemplate ?? null,
@@ -1554,8 +1572,9 @@ const ownerInputActionPackHtml = (pack) =>
           <button type="button" id="validate-owner-input-values">Check zero-secret values</button>
           <button type="button" id="download-filled-owner-input-template" disabled>Download filled local env</button>
           <button type="button" id="copy-filled-owner-shell-template" disabled>Copy filled shell exports</button>
+          <button type="button" id="download-owner-runtime-config-preview" disabled>Download runtime config preview</button>
         </div>
-        <p class="localExportStatus" id="owner-input-validation-status" aria-live="polite">Waiting for local values. Typed values stay in this browser session and are not serialized into generated artifacts.</p>
+        <p class="localExportStatus" id="owner-input-validation-status" aria-live="polite">Waiting for local values. Typed values stay in this browser session unless you choose a local download or copy action; generated artifacts contain only field names.</p>
         <div class="actions">
           <button type="button" id="copy-owner-input-template">Copy local env template</button>
           <button type="button" id="download-owner-input-template">Download local env template</button>
@@ -2541,6 +2560,7 @@ const html = `<!doctype html>
         const setFilledOwnerInputButtons = (enabled) => {
           document.getElementById('download-filled-owner-input-template')?.toggleAttribute('disabled', !enabled)
           document.getElementById('copy-filled-owner-shell-template')?.toggleAttribute('disabled', !enabled)
+          document.getElementById('download-owner-runtime-config-preview')?.toggleAttribute('disabled', !enabled)
         }
         const readOwnerInputValues = () =>
           ownerInputFields().map((field) => ({
@@ -2581,7 +2601,53 @@ const html = `<!doctype html>
           String.fromCharCode(39)
         const filledShellExportText = (entries) =>
           entries.map(({ field, value }) => 'export ' + field.envName + '=' + shellQuote(value)).join('\\n') + '\\n'
-        const writeFilledOwnerInputReceipt = (action, entries) => {
+        const ownerInputValueMap = (entries) =>
+          Object.fromEntries(entries.map(({ field, value }) => [field.envName, value]))
+        const ownerRuntimeConfigPreviewText = (entries) => {
+          const values = ownerInputValueMap(entries)
+          const posthogKey = values.VITE_POSTHOG_KEY || null
+          const supportEmail = values.AGL_SUPPORT_EMAIL || null
+          const defaultPosthogHost =
+            ownerInputActionPack?.runtimeConfigPreview?.defaultPosthogHost || 'https://us.i.posthog.com'
+          const preview = {
+            generatedAt: new Date().toISOString(),
+            id: 'owner-runtime-config-preview',
+            status: 'owner-runtime-config-preview-ready',
+            source: 'measurement-status-browser-local-preview',
+            targetPublicPath:
+              ownerInputActionPack?.runtimeConfigPreview?.targetPublicPath || 'public/owner-runtime-config.json',
+            publicInputNames: ownerInputFields().map((field) => field.envName),
+            configuredPublicInputNames: entries.map(({ field }) => field.envName),
+            defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
+            missingPublicInputNames: [],
+            invalidPublicInputNames: [],
+            analytics: {
+              provider: posthogKey ? ownerInputActionPack?.runtimeConfigPreview?.provider || 'posthog-browser' : null,
+              posthogConfigured: Boolean(posthogKey),
+              posthogKey,
+              posthogHost: defaultPosthogHost,
+            },
+            support: {
+              configured: Boolean(supportEmail),
+              email: supportEmail,
+            },
+            controls: {
+              zeroPaidSpend: true,
+              zeroSecretInputsOnly: true,
+              noSecretValues: true,
+              publicValuesOnly: true,
+              browserLocalOnly: true,
+              noGeneratedValueSerialization: true,
+              noGithubMutation: true,
+              noWorkflowDispatch: true,
+              noStoreSubmission: true,
+              noRevenueEnablement: true,
+            },
+          }
+
+          return JSON.stringify(preview, null, 2) + '\\n'
+        }
+        const writeFilledOwnerInputReceipt = (action, entries, details = {}) => {
           if (!ownerInputActionPack) {
             return
           }
@@ -2598,6 +2664,7 @@ const html = `<!doctype html>
             noGeneratedValueSerialization: true,
             localTemplateWriteNoGithubMutation:
               ownerInputActionPack.controls.localTemplateWriteNoGithubMutation === true,
+            ...details,
           })
         }
         const downloadFilledOwnerInputTemplate = () => {
@@ -2623,6 +2690,23 @@ const html = `<!doctype html>
             'Filled shell exports copied. Values were not stored in generated artifacts.',
           )
           writeFilledOwnerInputReceipt('copy-filled-shell-export-template', validation.entries)
+        }
+        const downloadOwnerRuntimeConfigPreview = () => {
+          const validation = validateOwnerInputValues()
+          if (!validation.valid) {
+            return
+          }
+          downloadText(
+            ownerRuntimeConfigPreviewText(validation.entries),
+            ownerInputActionPack.runtimeConfigPreview.downloadFileName,
+          )
+          writeFilledOwnerInputReceipt('download-owner-runtime-config-preview', validation.entries, {
+            runtimeConfigPreviewFileName: ownerInputActionPack.runtimeConfigPreview.downloadFileName,
+            targetPublicPath: ownerInputActionPack.runtimeConfigPreview.targetPublicPath,
+            defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
+            publicRuntimeConfigPreview: true,
+          })
+          setOwnerInputValidationStatus('Runtime config preview downloaded. Values were not stored in generated artifacts.')
         }
         const exportLocalEventDrop = () => {
           const eventsBeforeExport = readEvents()
@@ -2690,6 +2774,9 @@ const html = `<!doctype html>
         document
           .getElementById('copy-filled-owner-shell-template')
           ?.addEventListener('click', copyFilledOwnerShellTemplate)
+        document
+          .getElementById('download-owner-runtime-config-preview')
+          ?.addEventListener('click', downloadOwnerRuntimeConfigPreview)
         ownerInputFields().forEach((field) => {
           ownerInputElement(field)?.addEventListener('input', validateOwnerInputValues)
         })
