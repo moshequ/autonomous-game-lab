@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T18:15:08.840Z",
+  "generatedAt": "2026-05-26T18:25:22.700Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": false,
@@ -39,7 +39,7 @@
     "insideWorkTree": true,
     "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "currentBranch": "main",
-    "dirtyFiles": 78,
+    "dirtyFiles": 79,
     "dirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -106,6 +106,7 @@
       "reports/store-readiness-latest.md",
       "src/data/liveSiteMonitor.ts",
       "src/data/ownerZeroSecretInputSync.ts",
+      "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
@@ -120,7 +121,7 @@
       "src/data/storeListingOptimizer.ts",
       "src/data/storeReadiness.ts"
     ],
-    "generatedEvidenceDirtyFiles": 78,
+    "generatedEvidenceDirtyFiles": 79,
     "generatedEvidenceDirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -187,6 +188,7 @@
       "reports/store-readiness-latest.md",
       "src/data/liveSiteMonitor.ts",
       "src/data/ownerZeroSecretInputSync.ts",
+      "src/data/performanceBudget.ts",
       "src/data/postDeployArtifactSync.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
@@ -238,7 +240,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-a9042ac7e166",
+    "releaseCandidateId": "pwa-2d23914be1ce",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
