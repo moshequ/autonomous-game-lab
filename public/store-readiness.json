@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-26T09:14:10.314Z",
-  "sourceDataHash": "cd5c62af53f7",
+  "generatedAt": "2026-05-26T09:22:46.124Z",
+  "sourceDataHash": "6602b75ea557",
   "status": "store-readiness-prepared-external-blockers",
   "summary": {
     "launchCandidateId": "market-pulse",
@@ -75,10 +75,8 @@
         "ready": false,
         "configuredInRepository": false,
         "availableLocally": false,
-        "availableInLocalEnvFile": true,
-        "localEnvFiles": [
-          ".env.production.local"
-        ],
+        "availableInLocalEnvFile": false,
+        "localEnvFiles": [],
         "validation": {
           "kind": "email-shape",
           "status": "not-checked-missing-input",

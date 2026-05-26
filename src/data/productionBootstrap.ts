@@ -2,9 +2,9 @@ export const productionBootstrap = {
   "status": "production-bootstrap-ready",
   "mode": "can-apply-configured-actions",
   "summary": {
-    "readyGroups": 6,
+    "readyGroups": 7,
     "totalGroups": 12,
-    "externalBlockers": 15
+    "externalBlockers": 14
   }
 } as const
 
