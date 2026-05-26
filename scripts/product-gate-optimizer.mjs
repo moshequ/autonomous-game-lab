@@ -370,7 +370,7 @@ await writeFile(
   `export const productOptimization = ${JSON.stringify(payload, null, 2)} as const\n\nexport type ProductOptimization = typeof productOptimization\n`,
 )
 
-if ((generatedPlayable.games ?? []).length) {
+if ((generatedPlayable.games ?? []).length && generatedSyncChanges.length) {
   generatedPlayable.generatedAt = new Date().toISOString()
   await writeFile(generatedPlayablePath, JSON.stringify(generatedPlayable, null, 2) + '\n')
   await writeFile(
@@ -384,7 +384,7 @@ await writeFile(reportPath, report.join('\n'))
 console.log(`Wrote ${path.relative(root, balancePath)}`)
 console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
 console.log(`Wrote ${path.relative(root, outputTsPath)}`)
-if ((generatedPlayable.games ?? []).length) {
+if ((generatedPlayable.games ?? []).length && generatedSyncChanges.length) {
   console.log(`Wrote ${path.relative(root, generatedPlayablePath)}`)
   console.log(`Wrote ${path.relative(root, generatedPlayableTsPath)}`)
 }

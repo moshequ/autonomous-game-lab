@@ -1,8 +1,8 @@
 export const autonomousCadence = {
-  "status": "cadence-needs-attention",
+  "status": "cadence-ready",
   "schedulers": {
     "codexDesktop": {
-      "status": "active-declared-unverified"
+      "status": "active-confirmed"
     },
     "githubActions": {
       "status": "scheduled"
@@ -14,9 +14,9 @@ export const autonomousCadence = {
     "afterAction": "npm run autonomous:after-action"
   },
   "freshness": {
-    "status": "stale-evidence",
-    "staleArtifacts": 4,
-    "oldestAgeHours": 38.17,
+    "status": "fresh",
+    "staleArtifacts": 0,
+    "oldestAgeHours": 29.49,
     "staleAfterHours": 36
   }
 } as const

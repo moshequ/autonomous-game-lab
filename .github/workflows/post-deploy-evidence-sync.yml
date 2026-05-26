@@ -197,6 +197,16 @@ jobs:
             public/analytics-unlock.html \
             public/analytics-unlock.json \
             reports/production-measurement-status-latest.md \
+            data/product-optimization.json \
+            src/data/productOptimization.ts \
+            reports/product-optimization-latest.md \
+            data/first-move-coach.json \
+            src/data/firstMoveCoach.ts \
+            reports/first-move-coach-latest.md \
+            data/improvement-backlog.json \
+            data/improvement-backlog-summary.json \
+            data/improvement-routing.json \
+            reports/autonomous-analyst-latest.md \
             data/product-gate-recovery.json \
             src/data/productGateRecovery.ts \
             public/product-gate-recovery.html \
@@ -296,6 +306,14 @@ jobs:
             reports/production-unlock-runner-latest.md
             data/production-measurement-status.json
             reports/production-measurement-status-latest.md
+            data/product-optimization.json
+            reports/product-optimization-latest.md
+            data/first-move-coach.json
+            reports/first-move-coach-latest.md
+            data/improvement-backlog.json
+            data/improvement-backlog-summary.json
+            data/improvement-routing.json
+            reports/autonomous-analyst-latest.md
             data/product-gate-recovery.json
             reports/product-gate-recovery-latest.md
             data/player-evidence-watchdog.json

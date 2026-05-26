@@ -41,6 +41,7 @@ const [
   ownerLoop,
   autonomousOperator,
   autonomousOperatorHistory,
+  autonomousCadence,
   packageJson,
   workflow,
   verifyAutonomySource,
@@ -76,6 +77,7 @@ const [
   readJson('data/autonomous-owner-loop.json'),
   readJson('data/autonomous-operator.json'),
   readJson('data/autonomous-operator-history.json'),
+  readJson('data/autonomous-cadence.json'),
   readJson('package.json'),
   readText('.github/workflows/post-deploy-evidence-sync.yml'),
   readText('scripts/verify-autonomy.mjs'),
@@ -187,6 +189,9 @@ const requiredReadinessRefreshCommands = [
   'autonomous:gate-recovery',
   'autonomous:measurement-status',
   'node scripts/production-readiness.mjs',
+  'autonomous:analyze',
+  'autonomous:product-optimize',
+  'autonomous:first-move-coach',
   'autonomous:owner-loop',
   'autonomous:operator',
   'autonomous:objective-audit',
@@ -213,6 +218,9 @@ const finalRepoBootstrapIndex = postDeployReadinessSyncScript.lastIndexOf('auton
 const finalUnlockRunnerIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:unlock-runner')
 const finalGateRecoveryIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:gate-recovery')
 const finalMeasurementStatusIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:measurement-status')
+const finalAnalyzeIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:analyze')
+const finalProductOptimizeIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:product-optimize')
+const finalFirstMoveCoachIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:first-move-coach')
 const finalPostDeploySmokeIndex = postDeployReadinessSyncScript.lastIndexOf(
   'autonomous:post-deploy-smoke',
   finalRepoReadinessIndex,
@@ -220,6 +228,7 @@ const finalPostDeploySmokeIndex = postDeployReadinessSyncScript.lastIndexOf(
 const finalObjectiveAuditIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:objective-audit')
 const finalOwnerLoopIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:owner-loop')
 const finalOperatorIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:operator')
+const finalCadenceIndex = postDeployReadinessSyncScript.lastIndexOf('autonomous:cadence')
 const ownerLoopBeforeFinalOperatorIndex = postDeployReadinessSyncScript.lastIndexOf(
   'autonomous:owner-loop',
   finalOperatorIndex,
@@ -278,6 +287,15 @@ if (finalMeasurementStatusIndex > finalReadinessRefreshIndex) {
   fail('autonomous:post-deploy-readiness-sync must refresh production measurement status before final readiness.')
 }
 
+if (
+  finalAnalyzeIndex < deployPlanAfterFinalRepoBootstrapIndex ||
+  finalProductOptimizeIndex < finalAnalyzeIndex ||
+  finalFirstMoveCoachIndex < finalProductOptimizeIndex ||
+  finalObjectiveAuditIndex < finalFirstMoveCoachIndex
+) {
+  fail('autonomous:post-deploy-readiness-sync must refresh improvement analysis, product optimization, and first-move coaching before final objective evidence.')
+}
+
 if (ownerLoopBeforeFinalOperatorIndex < deployPlanAfterFinalRepoBootstrapIndex) {
   fail('autonomous:post-deploy-readiness-sync must refresh owner loop after final repository/deployment evidence.')
 }
@@ -304,6 +322,10 @@ if (finalReadinessRefreshIndex < finalOperatorIndex) {
 
 if (finalReadinessRefreshIndex < finalOwnerLoopIndex) {
   fail('autonomous:post-deploy-readiness-sync must refresh final production readiness after the final owner loop.')
+}
+
+if (finalCadenceIndex < finalFirstMoveCoachIndex || finalCadenceIndex > finalObjectiveAuditIndex) {
+  fail('autonomous:post-deploy-readiness-sync must refresh autonomous cadence after final product evidence and before final objective/owner evidence.')
 }
 
 if (finalDeployPlanRefreshIndex < finalReadinessRefreshIndex) {
@@ -426,6 +448,16 @@ if (
   !workflow.includes('public/measurement-status.json') ||
   !workflow.includes('public/analytics-unlock.html') ||
   !workflow.includes('public/analytics-unlock.json') ||
+  !workflow.includes('data/product-optimization.json') ||
+  !workflow.includes('src/data/productOptimization.ts') ||
+  !workflow.includes('reports/product-optimization-latest.md') ||
+  !workflow.includes('data/first-move-coach.json') ||
+  !workflow.includes('src/data/firstMoveCoach.ts') ||
+  !workflow.includes('reports/first-move-coach-latest.md') ||
+  !workflow.includes('data/improvement-backlog.json') ||
+  !workflow.includes('data/improvement-backlog-summary.json') ||
+  !workflow.includes('data/improvement-routing.json') ||
+  !workflow.includes('reports/autonomous-analyst-latest.md') ||
   !workflow.includes('public/product-gate-recovery.html') ||
   !workflow.includes('public/product-gate-recovery.json') ||
   !workflow.includes('data/product-gate-recovery.json') ||
@@ -524,6 +556,11 @@ if (
   productionReadiness.objectiveAudit?.status !== objectiveAudit.status ||
   productionReadiness.autonomousOperator?.status !== autonomousOperator.status ||
   productionReadiness.autonomousOperatorHistory?.status !== autonomousOperatorHistory.status ||
+  productionReadiness.autonomousCadence?.status !== autonomousCadence.status ||
+  autonomousCadence.status !== 'cadence-ready' ||
+  autonomousCadence.freshnessPolicy?.status !== 'fresh' ||
+  autonomousCadence.freshnessPolicy?.staleArtifactCount !== 0 ||
+  !(autonomousCadence.checks ?? []).every((item) => item.status === 'pass') ||
   objectiveAudit.status !== 'objective-in-progress' ||
   autonomousOperator.controls?.zeroPaidSpend !== true ||
   autonomousOperator.controls?.localCommandAllowlistEnforced !== true ||

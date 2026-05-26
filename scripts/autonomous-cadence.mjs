@@ -945,6 +945,9 @@ const checks = [
       postDeployReadinessSyncScript.includes('autonomous:bootstrap') &&
       postDeployReadinessSyncScript.includes('autonomous:activate-production') &&
       postDeployReadinessSyncScript.includes('node scripts/production-readiness.mjs') &&
+      postDeployReadinessSyncScript.includes('autonomous:analyze') &&
+      postDeployReadinessSyncScript.includes('autonomous:product-optimize') &&
+      postDeployReadinessSyncScript.includes('autonomous:first-move-coach') &&
       postDeployReadinessSyncScript.includes('autonomous:owner-loop') &&
       postDeployReadinessSyncScript.includes('autonomous:operator') &&
       postDeployReadinessSyncScript.includes('autonomous:objective-audit') &&
@@ -992,6 +995,16 @@ const checks = [
       postDeployEvidenceSyncWorkflow.includes('data/owner-unlock-preflight.json') &&
       postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-brief.json') &&
       postDeployEvidenceSyncWorkflow.includes('public/owner-unlock-preflight.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/product-optimization.json') &&
+      postDeployEvidenceSyncWorkflow.includes('src/data/productOptimization.ts') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/product-optimization-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('data/first-move-coach.json') &&
+      postDeployEvidenceSyncWorkflow.includes('src/data/firstMoveCoach.ts') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/first-move-coach-latest.md') &&
+      postDeployEvidenceSyncWorkflow.includes('data/improvement-backlog.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/improvement-backlog-summary.json') &&
+      postDeployEvidenceSyncWorkflow.includes('data/improvement-routing.json') &&
+      postDeployEvidenceSyncWorkflow.includes('reports/autonomous-analyst-latest.md') &&
       postDeployEvidenceSyncWorkflow.includes('public/product-gate-recovery.html') &&
       postDeployEvidenceSyncWorkflow.includes('public/product-gate-recovery.json') &&
       postDeployEvidenceSyncWorkflow.includes('data/production-readiness.json') &&
