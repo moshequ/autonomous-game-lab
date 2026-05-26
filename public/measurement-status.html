@@ -133,7 +133,7 @@
         <div class="grid" aria-label="Live release evidence">
           <div class="card">
             <span>Synced evidence candidate</span>
-            <strong>pwa-f0b5215218b9</strong>
+            <strong>pwa-be59f1ade258</strong>
           </div>
           <div class="card">
             <span>Exact live manifest</span>
@@ -323,11 +323,11 @@
           </div>
           <div class="card">
             <span>Missing variables</span>
-            <strong>5</strong>
+            <strong>3</strong>
           </div>
           <div class="card">
             <span>Missing secrets</span>
-            <strong>3</strong>
+            <strong>1</strong>
           </div>
           <div class="card">
             <span>Minimal inputs</span>
@@ -339,7 +339,7 @@
           </div>
         </div>
         <h3>Parallel Owner Unlocks</h3>
-        <ul><li><strong>production-analytics-browser</strong>: measurement - 8 missing input(s), status <a href="./measurement-status.html">/measurement-status.html</a></li><li><strong>support-contact</strong>: store-readiness - 1 missing input(s), status <a href="./store-readiness.html">/store-readiness.html</a></li></ul>
+        <ul><li><strong>production-analytics-browser</strong>: measurement - 4 missing input(s), status <a href="./measurement-status.html">/measurement-status.html</a></li><li><strong>support-contact</strong>: store-readiness - 1 missing input(s), status <a href="./store-readiness.html">/store-readiness.html</a></li></ul>
         <h3>Combined Owner Input Pack</h3>
               <div class="grid" aria-label="Combined owner input pack">
                 <div class="card">
@@ -365,9 +365,9 @@
               <h4>Commands</h4>
               <ol><li><strong>printBrief</strong> <code>node scripts/owner-unlock-brief.mjs --print</code></li><li><strong>combinedPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>analyticsPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>storeReadiness</strong> <code>npm run autonomous:store-readiness</code></li><li><strong>setupPreflight</strong> <code>./ops/github/setup-production.sh --owner-unlock-preflight</code></li><li><strong>npmWriteAnalyticsLocalEnvTemplate</strong> <code>npm run autonomous:analytics-input-template</code></li><li><strong>writeAnalyticsLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --analytics-input-template</code></li><li><strong>setupWriteAnalyticsLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --analytics-input-template</code></li><li><strong>npmWriteLocalEnvTemplate</strong> <code>npm run autonomous:owner-input-template</code></li><li><strong>writeLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --write-local-env-template</code></li><li><strong>setupWriteLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --owner-input-template</code></li><li><strong>npmWriteSupportLocalEnvTemplate</strong> <code>npm run autonomous:support-input-template</code></li><li><strong>syncConfiguredValues</strong> <code>./ops/github/setup-production.sh</code></li><li><strong>workflowDispatch</strong> <code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li></ol>
         <h3>Missing Variables</h3>
-        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
         <h3>Missing Secrets</h3>
-        <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li></ul>
         <h3>Setup Commands</h3>
         <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>./ops/github/setup-production.sh</code></li><li><code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><code>npm run autonomous:readiness</code></li></ol>
         <h3>Validation Commands</h3>
@@ -537,7 +537,7 @@
             <span>First-party event collector</span>
             <strong>needs-variables-and-secrets</strong>
             <p>zero-spend-use-existing-cloudflare-free-tier</p>
-            <p>Missing inputs: 5 variable(s), 3 secret(s)</p>
+            <p>Missing inputs: 3 variable(s), 1 secret(s)</p>
             <p>Variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL</p>
             <p>Secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN</p>
             <p>Commands: npm run autonomous:event-collector-smoke &amp;&amp; npm run autonomous:collector-deploy-plan &amp;&amp; ./ops/github/setup-production.sh &amp;&amp; RUN_WORKFLOWS=1 ./ops/github/setup-production.sh &amp;&amp; npm run autonomous:readiness</p>
@@ -575,7 +575,7 @@
           </div>
           <div class="card">
             <span>Missing secrets</span>
-            <strong>5</strong>
+            <strong>3</strong>
           </div>
         </div>
         <article class="card">
@@ -695,7 +695,7 @@
         document.getElementById('local-event-count').textContent = Array.isArray(events) ? String(events.length) : '0'
         document.getElementById('local-event-latest').textContent = latest?.createdAt ? latest.createdAt.slice(0, 19) : 'none'
         document.getElementById('local-export-latest').textContent = receipt?.exportedAt ? receipt.exportedAt.slice(0, 19) : 'never'
-        const syncedLiveCandidate = "pwa-f0b5215218b9"
+        const syncedLiveCandidate = "pwa-be59f1ade258"
         const exactLiveCandidate = document.getElementById('exact-live-candidate')
         const exactLiveMatch = document.getElementById('exact-live-match')
         const readLiveReleaseManifest = async () => {
