@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T16:47:49.852Z",
+  "generatedAt": "2026-05-26T17:03:45.705Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-a346ea5981b3",
@@ -2468,6 +2468,42 @@
     "shellExportTemplateText": "export VITE_POSTHOG_KEY=\nexport AGL_SUPPORT_EMAIL=\n",
     "downloadFileName": "agl-owner-input-template.env",
     "receiptStorageKey": "agl.ownerInputActionReceipt",
+    "valueValidation": {
+      "id": "browser-local-zero-secret-owner-input-check",
+      "status": "ready",
+      "filledDownloadFileName": "agl-owner-input-filled.env",
+      "fields": [
+        {
+          "envName": "VITE_POSTHOG_KEY",
+          "title": "PostHog browser project key",
+          "inputId": "owner-input-vite-posthog-key",
+          "validationKind": "posthog-public-key",
+          "inputType": "text",
+          "placeholder": "phc_public_project_key",
+          "required": true,
+          "publicValue": true,
+          "maxLength": 256
+        },
+        {
+          "envName": "AGL_SUPPORT_EMAIL",
+          "title": "Production support email",
+          "inputId": "owner-input-agl-support-email",
+          "validationKind": "email-shape",
+          "inputType": "email",
+          "placeholder": "support@example.com",
+          "required": true,
+          "publicValue": true,
+          "maxLength": 254
+        }
+      ],
+      "controls": {
+        "browserLocalOnly": true,
+        "noGeneratedValueSerialization": true,
+        "noSecretValues": true,
+        "noGithubMutation": true,
+        "noWorkflowDispatch": true
+      }
+    },
     "commands": {
       "combinedPreflight": "node scripts/owner-unlock-preflight.mjs --assert --print",
       "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --owner-input-template",

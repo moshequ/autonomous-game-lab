@@ -849,6 +849,42 @@ const ownerInputActionPack = combinedOwnerInputPreflight
       shellExportTemplateText: `${combinedOwnerInputPreflight.shellExportTemplateLines.join('\n')}\n`,
       downloadFileName: 'agl-owner-input-template.env',
       receiptStorageKey: 'agl.ownerInputActionReceipt',
+      valueValidation: {
+        id: 'browser-local-zero-secret-owner-input-check',
+        status: 'ready',
+        filledDownloadFileName: 'agl-owner-input-filled.env',
+        fields: [
+          {
+            envName: 'VITE_POSTHOG_KEY',
+            title: 'PostHog browser project key',
+            inputId: 'owner-input-vite-posthog-key',
+            validationKind: 'posthog-public-key',
+            inputType: 'text',
+            placeholder: 'phc_public_project_key',
+            required: true,
+            publicValue: true,
+            maxLength: 256,
+          },
+          {
+            envName: 'AGL_SUPPORT_EMAIL',
+            title: 'Production support email',
+            inputId: 'owner-input-agl-support-email',
+            validationKind: 'email-shape',
+            inputType: 'email',
+            placeholder: 'support@example.com',
+            required: true,
+            publicValue: true,
+            maxLength: 254,
+          },
+        ],
+        controls: {
+          browserLocalOnly: true,
+          noGeneratedValueSerialization: true,
+          noSecretValues: true,
+          noGithubMutation: true,
+          noWorkflowDispatch: true,
+        },
+      },
       commands: {
         combinedPreflight: combinedOwnerInputPreflight.commands?.combinedPreflight ?? null,
         setupWriteLocalEnvTemplate: combinedOwnerInputPreflight.commands?.setupWriteLocalEnvTemplate ?? null,
@@ -1503,6 +1539,23 @@ const ownerInputActionPackHtml = (pack) =>
         ${codeList(pack.shellExportTemplateLines)}
         <h3>Commands After Values Are Filled</h3>
         ${namedCommandList(pack.commands)}
+        <h3>Local Zero-Secret Value Check</h3>
+        <div class="ownerInputFields" aria-label="Local zero-secret owner value check">
+          ${pack.valueValidation.fields
+            .map(
+              (field) => `<label class="ownerInputField" for="${escapeHtml(field.inputId)}">
+            <span>${escapeHtml(field.title)}</span>
+            <input id="${escapeHtml(field.inputId)}" type="${escapeHtml(field.inputType)}" inputmode="${field.validationKind === 'email-shape' ? 'email' : 'text'}" autocomplete="off" spellcheck="false" maxlength="${field.maxLength}" placeholder="${escapeHtml(field.placeholder)}" data-owner-input="${escapeHtml(field.envName)}" data-validation-kind="${escapeHtml(field.validationKind)}" />
+          </label>`,
+            )
+            .join('\n          ')}
+        </div>
+        <div class="actions">
+          <button type="button" id="validate-owner-input-values">Check zero-secret values</button>
+          <button type="button" id="download-filled-owner-input-template" disabled>Download filled local env</button>
+          <button type="button" id="copy-filled-owner-shell-template" disabled>Copy filled shell exports</button>
+        </div>
+        <p class="localExportStatus" id="owner-input-validation-status" aria-live="polite">Waiting for local values. Typed values stay in this browser session and are not serialized into generated artifacts.</p>
         <div class="actions">
           <button type="button" id="copy-owner-input-template">Copy local env template</button>
           <button type="button" id="download-owner-input-template">Download local env template</button>
@@ -1672,6 +1725,34 @@ const analyticsUnlockHtml = `<!doctype html>
 
       li {
         margin: 6px 0;
+      }
+
+      .ownerInputFields {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        margin: 18px 0;
+      }
+
+      .ownerInputField {
+        display: grid;
+        gap: 8px;
+      }
+
+      .ownerInputField span {
+        color: #6d675c;
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .ownerInputField input {
+        border: 1px solid #d9d0bf;
+        border-radius: 8px;
+        color: #191713;
+        font: inherit;
+        min-height: 44px;
+        padding: 8px 10px;
       }
 
       .actions {
@@ -2449,6 +2530,100 @@ const html = `<!doctype html>
           writeOwnerInputReceipt('download-local-env-template')
           setOwnerInputPackStatus('Local env template downloaded. Fill it in locally, then run the preflight command.')
         }
+        const ownerInputFields = () => ownerInputActionPack?.valueValidation?.fields ?? []
+        const ownerInputElement = (field) => document.getElementById(field.inputId)
+        const setOwnerInputValidationStatus = (message) => {
+          const status = document.getElementById('owner-input-validation-status')
+          if (status) {
+            status.textContent = message
+          }
+        }
+        const setFilledOwnerInputButtons = (enabled) => {
+          document.getElementById('download-filled-owner-input-template')?.toggleAttribute('disabled', !enabled)
+          document.getElementById('copy-filled-owner-shell-template')?.toggleAttribute('disabled', !enabled)
+        }
+        const readOwnerInputValues = () =>
+          ownerInputFields().map((field) => ({
+            field,
+            value: String(ownerInputElement(field)?.value ?? '').trim(),
+          }))
+        const validateOwnerInputField = (field, value) => {
+          const checks = [
+            value ? null : field.envName + ' is missing',
+            /[\\r\\n]/.test(value) ? field.envName + ' must be a single line' : null,
+            /\\s/.test(value) ? field.envName + ' must not include whitespace' : null,
+            value.length > field.maxLength ? field.envName + ' is too long' : null,
+          ].filter(Boolean)
+
+          if (field.validationKind === 'email-shape' && value && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value)) {
+            checks.push(field.envName + ' must look like an email address')
+          }
+
+          return checks
+        }
+        const validateOwnerInputValues = () => {
+          const entries = readOwnerInputValues()
+          const problems = entries.flatMap(({ field, value }) => validateOwnerInputField(field, value))
+          const valid = entries.length > 0 && problems.length === 0
+          setFilledOwnerInputButtons(valid)
+          setOwnerInputValidationStatus(
+            valid
+              ? 'Zero-secret values passed local checks. Filled downloads are enabled.'
+              : 'Waiting for valid zero-secret values: ' + (problems.join('; ') || 'none') + '.',
+          )
+          return { valid, entries }
+        }
+        const filledLocalEnvText = (entries) =>
+          entries.map(({ field, value }) => field.envName + '=' + value).join('\\n') + '\\n'
+        const shellQuote = (value) =>
+          String.fromCharCode(39) +
+          String(value).replace(/'/g, String.fromCharCode(39, 92, 39, 39)) +
+          String.fromCharCode(39)
+        const filledShellExportText = (entries) =>
+          entries.map(({ field, value }) => 'export ' + field.envName + '=' + shellQuote(value)).join('\\n') + '\\n'
+        const writeFilledOwnerInputReceipt = (action, entries) => {
+          if (!ownerInputActionPack) {
+            return
+          }
+          writeJson(ownerInputActionPack.receiptStorageKey, {
+            action,
+            actedAt: new Date().toISOString(),
+            packId: ownerInputActionPack.id,
+            sourcePackId: ownerInputActionPack.sourcePackId,
+            localEnvFile: ownerInputActionPack.localEnvFile,
+            validatedInputNames: entries.map(({ field }) => field.envName),
+            validationStatus: 'passed',
+            noSecretValues: true,
+            noValuesStored: true,
+            noGeneratedValueSerialization: true,
+            localTemplateWriteNoGithubMutation:
+              ownerInputActionPack.controls.localTemplateWriteNoGithubMutation === true,
+          })
+        }
+        const downloadFilledOwnerInputTemplate = () => {
+          const validation = validateOwnerInputValues()
+          if (!validation.valid) {
+            return
+          }
+          downloadText(
+            filledLocalEnvText(validation.entries),
+            ownerInputActionPack.valueValidation.filledDownloadFileName,
+          )
+          writeFilledOwnerInputReceipt('download-filled-local-env-template', validation.entries)
+          setOwnerInputValidationStatus('Filled local env downloaded. Values were not stored in generated artifacts.')
+        }
+        const copyFilledOwnerShellTemplate = () => {
+          const validation = validateOwnerInputValues()
+          if (!validation.valid) {
+            return
+          }
+          copyOwnerInputText(
+            filledShellExportText(validation.entries),
+            'copy-filled-shell-export-template',
+            'Filled shell exports copied. Values were not stored in generated artifacts.',
+          )
+          writeFilledOwnerInputReceipt('copy-filled-shell-export-template', validation.entries)
+        }
         const exportLocalEventDrop = () => {
           const eventsBeforeExport = readEvents()
           const receipt = readJson(localExportReceiptKey, null)
@@ -2506,6 +2681,18 @@ const html = `<!doctype html>
               'Shell export template copied. Values stay in your shell and outside tracked files.',
             ),
           )
+        document
+          .getElementById('validate-owner-input-values')
+          ?.addEventListener('click', validateOwnerInputValues)
+        document
+          .getElementById('download-filled-owner-input-template')
+          ?.addEventListener('click', downloadFilledOwnerInputTemplate)
+        document
+          .getElementById('copy-filled-owner-shell-template')
+          ?.addEventListener('click', copyFilledOwnerShellTemplate)
+        ownerInputFields().forEach((field) => {
+          ownerInputElement(field)?.addEventListener('input', validateOwnerInputValues)
+        })
         updateLocalEvidenceStats()
         const syncedLiveCandidate = ${JSON.stringify(payload.liveRelease.syncedCandidateId)}
         const exactLiveCandidate = document.getElementById('exact-live-candidate')

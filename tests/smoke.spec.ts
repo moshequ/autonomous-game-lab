@@ -10856,6 +10856,29 @@ test('production measurement status publishes public aggregate evidence handoff'
       shellExportTemplateText: string
       downloadFileName: string
       receiptStorageKey: string
+      valueValidation: {
+        id: string
+        status: string
+        filledDownloadFileName: string
+        fields: Array<{
+          envName: string
+          title: string
+          inputId: string
+          validationKind: string
+          inputType: string
+          placeholder: string
+          required: boolean
+          publicValue: boolean
+          maxLength: number
+        }>
+        controls: {
+          browserLocalOnly: boolean
+          noGeneratedValueSerialization: boolean
+          noSecretValues: boolean
+          noGithubMutation: boolean
+          noWorkflowDispatch: boolean
+        }
+      }
       commands: {
         combinedPreflight: string | null
         setupWriteLocalEnvTemplate: string | null
@@ -12008,6 +12031,31 @@ test('production measurement status publishes public aggregate evidence handoff'
   )
   expect(ownerInputActionPack.commands.syncConfiguredValues).toBe('./ops/github/setup-production.sh')
   expect(ownerInputActionPack.commands.workflowDispatch).toBe('RUN_WORKFLOWS=1 ./ops/github/setup-production.sh')
+  expect(ownerInputActionPack.valueValidation).toMatchObject({
+    id: 'browser-local-zero-secret-owner-input-check',
+    status: 'ready',
+    filledDownloadFileName: 'agl-owner-input-filled.env',
+  })
+  expect(ownerInputActionPack.valueValidation.fields).toEqual([
+    expect.objectContaining({
+      envName: 'VITE_POSTHOG_KEY',
+      inputId: 'owner-input-vite-posthog-key',
+      validationKind: 'posthog-public-key',
+      publicValue: true,
+      maxLength: 256,
+    }),
+    expect.objectContaining({
+      envName: 'AGL_SUPPORT_EMAIL',
+      inputId: 'owner-input-agl-support-email',
+      validationKind: 'email-shape',
+      inputType: 'email',
+      publicValue: true,
+      maxLength: 254,
+    }),
+  ])
+  expect(ownerInputActionPack.valueValidation.controls.browserLocalOnly).toBe(true)
+  expect(ownerInputActionPack.valueValidation.controls.noGeneratedValueSerialization).toBe(true)
+  expect(ownerInputActionPack.valueValidation.controls.noGithubMutation).toBe(true)
   expect(ownerInputActionPack.controls.zeroPaidSpend).toBe(true)
   expect(ownerInputActionPack.controls.noSecretValues).toBe(true)
   expect(ownerInputActionPack.controls.noSecretValuesStored).toBe(true)
@@ -12187,7 +12235,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('Zero-Secret Owner Input Pack')
   expect(html).toContain('copy-owner-input-template')
   expect(html).toContain('download-owner-input-template')
+  expect(html).toContain('validate-owner-input-values')
+  expect(html).toContain('download-filled-owner-input-template')
   expect(html).toContain('agl-owner-input-template.env')
+  expect(html).toContain('agl-owner-input-filled.env')
   expect(html).toContain('.env.production.local')
   expect(html).toContain('AGL_SUPPORT_EMAIL=')
   expect(html).toContain('First-Party Collector Deployment')
@@ -12263,6 +12314,9 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('button', { name: 'Copy local env template' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Download local env template' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Copy shell exports' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Check zero-secret values' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy filled shell exports' })).toBeDisabled()
   await expect(page.getByRole('heading', { name: 'First-Party Collector Deployment' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'External Unlock Queue' })).toBeVisible()
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-next.html')
@@ -12356,6 +12410,45 @@ test('production measurement status publishes public aggregate evidence handoff'
     expect.arrayContaining(['VITE_POSTHOG_KEY', 'AGL_SUPPORT_EMAIL']),
   )
   await expect(page.getByText('Local env template downloaded.')).toBeVisible()
+
+  await page.getByLabel('PostHog browser project key').fill('phc_public_smoke_key')
+  await page.getByLabel('Production support email').fill('support@example.com')
+  await page.getByRole('button', { name: 'Check zero-secret values' }).click()
+  await expect(page.getByText('Zero-secret values passed local checks.')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeEnabled()
+  const filledTemplateDownloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download filled local env' }).click()
+  const filledTemplateDownload = await filledTemplateDownloadPromise
+  expect(filledTemplateDownload.suggestedFilename()).toBe('agl-owner-input-filled.env')
+  const filledTemplatePath = await filledTemplateDownload.path()
+  if (!filledTemplatePath) {
+    throw new Error('Expected filled owner input template download path.')
+  }
+  const filledTemplate = await readFile(filledTemplatePath, 'utf8')
+  expect(filledTemplate).toContain('VITE_POSTHOG_KEY=phc_public_smoke_key\n')
+  expect(filledTemplate).toContain('AGL_SUPPORT_EMAIL=support@example.com\n')
+  expect(filledTemplate).not.toContain('VITE_POSTHOG_HOST=')
+  const filledOwnerInputReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.ownerInputActionReceipt') ?? '{}'),
+  )
+  expect(filledOwnerInputReceipt).toMatchObject({
+    action: 'download-filled-local-env-template',
+    packId: 'zero-secret-owner-input-action-pack',
+    sourcePackId: 'combined-zero-secret-owner-input-pack',
+    localEnvFile: '.env.production.local',
+    validationStatus: 'passed',
+    noSecretValues: true,
+    noValuesStored: true,
+    noGeneratedValueSerialization: true,
+    localTemplateWriteNoGithubMutation: true,
+  })
+  expect(filledOwnerInputReceipt.validatedInputNames).toEqual([
+    'VITE_POSTHOG_KEY',
+    'AGL_SUPPORT_EMAIL',
+  ])
+  expect(JSON.stringify(filledOwnerInputReceipt)).not.toContain('phc_public_smoke_key')
+  expect(JSON.stringify(filledOwnerInputReceipt)).not.toContain('support@example.com')
+  await expect(page.getByText('Filled local env downloaded.')).toBeVisible()
 
   await page.goto('/analytics-unlock.html')
   await expect(page.getByRole('heading', { name: 'Production Analytics Unlock' })).toBeVisible()
