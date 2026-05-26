@@ -1,20 +1,16 @@
 {
-  "generatedAt": "2026-05-26T04:58:57.180Z",
+  "generatedAt": "2026-05-26T05:04:26.141Z",
   "status": "support-feedback-empty",
   "provider": "github-issues",
   "repository": "moshequ/autonomous-game-lab",
   "sourceDataHash": "2098968bee32",
   "sourceStatus": {
     "supportChannel": "support-channel-ready",
-    "inspected": false,
-    "inspector": "unavailable",
-    "fallbackUsed": true,
-    "primaryError": "error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com",
-    "error": "fetch failed",
-    "preservedLastGoodSnapshot": true,
-    "preservedSnapshotStatus": "support-feedback-empty",
-    "preservedSnapshotGeneratedAt": "2026-05-26T04:57:11.427Z",
-    "preservedSnapshotSourceDataHash": "2098968bee32"
+    "inspected": true,
+    "inspector": "gh-cli",
+    "fallbackUsed": false,
+    "primaryError": null,
+    "error": null
   },
   "summary": {
     "issuesInspected": 0,
@@ -55,9 +51,8 @@
   "aggregateEvidenceNotes": [],
   "improvementSignals": [],
   "nextActions": [
-    "GitHub issue inspection is temporarily unavailable; using the last redacted support-feedback snapshot until the next successful refresh.",
-    "GitHub issue inspection is temporarily unavailable; using the last redacted support-feedback snapshot until the next successful refresh.",
-    "GitHub issue inspection is temporarily unavailable; using the last redacted support-feedback snapshot until the next successful refresh.",
+    "Use the analytics evidence template for aggregate counts only when players or operators voluntarily summarize local exports.",
+    "Keep collecting public GitHub issue feedback until a playable game signal appears.",
     "Never paste private information, raw event rows, or raw analytics exports into public issues."
   ]
 }
