@@ -253,6 +253,7 @@
           <button type="button" id="download-filled-owner-input-template" disabled>Download filled local env</button>
           <button type="button" id="copy-filled-owner-shell-template" disabled>Copy filled shell exports</button>
           <button type="button" id="download-owner-runtime-config-preview" disabled>Download runtime config preview</button>
+          <button type="button" id="copy-production-input-watch-command" disabled>Copy input watch command</button>
         </div>
         <p class="localExportStatus" id="owner-input-validation-status" aria-live="polite">Waiting for local values. Typed values stay in this browser session unless you choose a local download or copy action; generated artifacts contain only field names.</p>
         <div class="actions">
@@ -777,7 +778,7 @@
         const localExportReceiptKey = 'agl.analytics.localExportReceipt'
         const exportSurface = "measurement-status"
         const exportSurfaceDetail = "public-measurement-status-page"
-        const ownerInputActionPack = {"id":"zero-secret-owner-input-action-pack","sourcePackId":"combined-zero-secret-owner-input-pack","status":"waiting-on-owner-values","localEnvFile":".env.production.local","unlockIds":["production-analytics-browser","support-contact"],"analyticsPathId":"posthog-browser","supportUnlockId":"support-contact","missingInputNames":["VITE_POSTHOG_KEY","AGL_SUPPORT_EMAIL"],"missingInputCount":2,"secretInputCount":0,"localEnvTemplateLines":["VITE_POSTHOG_KEY=","AGL_SUPPORT_EMAIL="],"shellExportTemplateLines":["export VITE_POSTHOG_KEY=","export AGL_SUPPORT_EMAIL="],"localEnvTemplateText":"VITE_POSTHOG_KEY=\nAGL_SUPPORT_EMAIL=\n","shellExportTemplateText":"export VITE_POSTHOG_KEY=\nexport AGL_SUPPORT_EMAIL=\n","downloadFileName":"agl-owner-input-template.env","receiptStorageKey":"agl.ownerInputActionReceipt","valueValidation":{"id":"browser-local-zero-secret-owner-input-check","status":"ready","filledDownloadFileName":"agl-owner-input-filled.env","fields":[{"envName":"VITE_POSTHOG_KEY","title":"PostHog browser project key","inputId":"owner-input-vite-posthog-key","validationKind":"posthog-public-key","inputType":"text","placeholder":"phc_public_project_key","required":true,"publicValue":true,"maxLength":256},{"envName":"AGL_SUPPORT_EMAIL","title":"Production support email","inputId":"owner-input-agl-support-email","validationKind":"email-shape","inputType":"email","placeholder":"support@example.com","required":true,"publicValue":true,"maxLength":254}],"controls":{"browserLocalOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true}},"runtimeConfigPreview":{"id":"browser-local-owner-runtime-config-preview","status":"ready","downloadFileName":"owner-runtime-config.preview.json","targetPublicPath":"public/owner-runtime-config.json","defaultPosthogHost":"https://us.i.posthog.com","provider":"posthog-browser","controls":{"browserLocalOnly":true,"publicValuesOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true,"noStoreSubmission":true,"noRevenueEnablement":true}},"commands":{"combinedPreflight":"node scripts/owner-unlock-preflight.mjs --assert --print","setupWriteLocalEnvTemplate":"./ops/github/setup-production.sh --owner-input-template","syncConfiguredValues":"./ops/github/setup-production.sh","workflowDispatch":"RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"},"controls":{"zeroPaidSpend":true,"noSecretValues":true,"noSecretValuesStored":true,"localOnlyReceipt":true,"localTemplateWriteNoGithubMutation":true,"workflowDispatchRequiresRunWorkflows":true,"storeSubmissionStillBlocked":true,"revenueStillBlocked":true}}
+        const ownerInputActionPack = {"id":"zero-secret-owner-input-action-pack","sourcePackId":"combined-zero-secret-owner-input-pack","status":"waiting-on-owner-values","localEnvFile":".env.production.local","unlockIds":["production-analytics-browser","support-contact"],"analyticsPathId":"posthog-browser","supportUnlockId":"support-contact","missingInputNames":["VITE_POSTHOG_KEY","AGL_SUPPORT_EMAIL"],"missingInputCount":2,"secretInputCount":0,"localEnvTemplateLines":["VITE_POSTHOG_KEY=","AGL_SUPPORT_EMAIL="],"shellExportTemplateLines":["export VITE_POSTHOG_KEY=","export AGL_SUPPORT_EMAIL="],"localEnvTemplateText":"VITE_POSTHOG_KEY=\nAGL_SUPPORT_EMAIL=\n","shellExportTemplateText":"export VITE_POSTHOG_KEY=\nexport AGL_SUPPORT_EMAIL=\n","downloadFileName":"agl-owner-input-template.env","receiptStorageKey":"agl.ownerInputActionReceipt","valueValidation":{"id":"browser-local-zero-secret-owner-input-check","status":"ready","filledDownloadFileName":"agl-owner-input-filled.env","fields":[{"envName":"VITE_POSTHOG_KEY","title":"PostHog browser project key","inputId":"owner-input-vite-posthog-key","validationKind":"posthog-public-key","inputType":"text","placeholder":"phc_public_project_key","required":true,"publicValue":true,"maxLength":256},{"envName":"AGL_SUPPORT_EMAIL","title":"Production support email","inputId":"owner-input-agl-support-email","validationKind":"email-shape","inputType":"email","placeholder":"support@example.com","required":true,"publicValue":true,"maxLength":254}],"controls":{"browserLocalOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true}},"runtimeConfigPreview":{"id":"browser-local-owner-runtime-config-preview","status":"ready","downloadFileName":"owner-runtime-config.preview.json","targetPublicPath":"public/owner-runtime-config.json","defaultPosthogHost":"https://us.i.posthog.com","provider":"posthog-browser","controls":{"browserLocalOnly":true,"publicValuesOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true,"noStoreSubmission":true,"noRevenueEnablement":true}},"productionInputWatchCommand":{"id":"browser-local-production-input-watch-command","status":"ready","workflowFile":"production-input-watch.yml","workflowPath":".github/workflows/production-input-watch.yml","ref":"main","requiredFlag":"publish_zero_secret_runtime_config=true","defaultPosthogHost":"https://us.i.posthog.com","controls":{"browserLocalOnly":true,"publicValuesOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatchFromPage":true,"commandRequiresOwnerRun":true,"noStoreSubmission":true,"noRevenueEnablement":true}},"commands":{"combinedPreflight":"node scripts/owner-unlock-preflight.mjs --assert --print","setupWriteLocalEnvTemplate":"./ops/github/setup-production.sh --owner-input-template","syncConfiguredValues":"./ops/github/setup-production.sh","workflowDispatch":"RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"},"controls":{"zeroPaidSpend":true,"noSecretValues":true,"noSecretValuesStored":true,"localOnlyReceipt":true,"localTemplateWriteNoGithubMutation":true,"workflowDispatchRequiresRunWorkflows":true,"storeSubmissionStillBlocked":true,"revenueStillBlocked":true}}
         const readJson = (key, fallback) => {
           try {
             const raw = window.localStorage.getItem(key)
@@ -924,6 +925,7 @@
           document.getElementById('download-filled-owner-input-template')?.toggleAttribute('disabled', !enabled)
           document.getElementById('copy-filled-owner-shell-template')?.toggleAttribute('disabled', !enabled)
           document.getElementById('download-owner-runtime-config-preview')?.toggleAttribute('disabled', !enabled)
+          document.getElementById('copy-production-input-watch-command')?.toggleAttribute('disabled', !enabled)
         }
         const readOwnerInputValues = () =>
           ownerInputFields().map((field) => ({
@@ -1010,6 +1012,27 @@
 
           return JSON.stringify(preview, null, 2) + '\n'
         }
+        const productionInputWatchCommandText = (entries) => {
+          const values = ownerInputValueMap(entries)
+          const command = ownerInputActionPack?.productionInputWatchCommand
+          const defaultPosthogHost = command?.defaultPosthogHost || 'https://us.i.posthog.com'
+          return [
+            'gh',
+            'workflow',
+            'run',
+            command?.workflowFile || 'production-input-watch.yml',
+            '--ref',
+            command?.ref || 'main',
+            '-f',
+            command?.requiredFlag || 'publish_zero_secret_runtime_config=true',
+            '-f',
+            'vite_posthog_key=' + shellQuote(values.VITE_POSTHOG_KEY),
+            '-f',
+            'vite_posthog_host=' + shellQuote(defaultPosthogHost),
+            '-f',
+            'agl_support_email=' + shellQuote(values.AGL_SUPPORT_EMAIL),
+          ].join(' ')
+        }
         const writeFilledOwnerInputReceipt = (action, entries, details = {}) => {
           if (!ownerInputActionPack) {
             return
@@ -1070,6 +1093,26 @@
             publicRuntimeConfigPreview: true,
           })
           setOwnerInputValidationStatus('Runtime config preview downloaded. Values were not stored in generated artifacts.')
+        }
+        const copyProductionInputWatchCommand = async () => {
+          const validation = validateOwnerInputValues()
+          if (!validation.valid) {
+            return
+          }
+          try {
+            await navigator.clipboard.writeText(productionInputWatchCommandText(validation.entries))
+            writeFilledOwnerInputReceipt('copy-production-input-watch-command', validation.entries, {
+              workflowFile: ownerInputActionPack.productionInputWatchCommand.workflowFile,
+              workflowPath: ownerInputActionPack.productionInputWatchCommand.workflowPath,
+              workflowRef: ownerInputActionPack.productionInputWatchCommand.ref,
+              defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
+              copiedCommandStoresPublicValuesOnly: true,
+              commandRequiresOwnerRun: true,
+            })
+            setOwnerInputValidationStatus('Production Input Watch command copied. Review it before running; no workflow was dispatched by this page.')
+          } catch {
+            setOwnerInputValidationStatus('Clipboard unavailable. Use the filled env or runtime config preview downloads instead.')
+          }
         }
         const exportLocalEventDrop = () => {
           const eventsBeforeExport = readEvents()
@@ -1138,6 +1181,9 @@
         document
           .getElementById('download-owner-runtime-config-preview')
           ?.addEventListener('click', downloadOwnerRuntimeConfigPreview)
+        document
+          .getElementById('copy-production-input-watch-command')
+          ?.addEventListener('click', copyProductionInputWatchCommand)
         ownerInputFields().forEach((field) => {
           ownerInputElement(field)?.addEventListener('input', validateOwnerInputValues)
         })

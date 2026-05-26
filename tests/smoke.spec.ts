@@ -10897,6 +10897,26 @@ test('production measurement status publishes public aggregate evidence handoff'
           noRevenueEnablement: boolean
         }
       }
+      productionInputWatchCommand: {
+        id: string
+        status: string
+        workflowFile: string
+        workflowPath: string
+        ref: string
+        requiredFlag: string
+        defaultPosthogHost: string
+        controls: {
+          browserLocalOnly: boolean
+          publicValuesOnly: boolean
+          noGeneratedValueSerialization: boolean
+          noSecretValues: boolean
+          noGithubMutation: boolean
+          noWorkflowDispatchFromPage: boolean
+          commandRequiresOwnerRun: boolean
+          noStoreSubmission: boolean
+          noRevenueEnablement: boolean
+        }
+      }
       commands: {
         combinedPreflight: string | null
         setupWriteLocalEnvTemplate: string | null
@@ -12086,6 +12106,20 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerInputActionPack.runtimeConfigPreview.controls.publicValuesOnly).toBe(true)
   expect(ownerInputActionPack.runtimeConfigPreview.controls.noGeneratedValueSerialization).toBe(true)
   expect(ownerInputActionPack.runtimeConfigPreview.controls.noWorkflowDispatch).toBe(true)
+  expect(ownerInputActionPack.productionInputWatchCommand).toMatchObject({
+    id: 'browser-local-production-input-watch-command',
+    status: 'ready',
+    workflowFile: 'production-input-watch.yml',
+    workflowPath: '.github/workflows/production-input-watch.yml',
+    ref: 'main',
+    requiredFlag: 'publish_zero_secret_runtime_config=true',
+    defaultPosthogHost: 'https://us.i.posthog.com',
+  })
+  expect(ownerInputActionPack.productionInputWatchCommand.controls.browserLocalOnly).toBe(true)
+  expect(ownerInputActionPack.productionInputWatchCommand.controls.publicValuesOnly).toBe(true)
+  expect(ownerInputActionPack.productionInputWatchCommand.controls.noGeneratedValueSerialization).toBe(true)
+  expect(ownerInputActionPack.productionInputWatchCommand.controls.noWorkflowDispatchFromPage).toBe(true)
+  expect(ownerInputActionPack.productionInputWatchCommand.controls.commandRequiresOwnerRun).toBe(true)
   expect(ownerInputActionPack.controls.zeroPaidSpend).toBe(true)
   expect(ownerInputActionPack.controls.noSecretValues).toBe(true)
   expect(ownerInputActionPack.controls.noSecretValuesStored).toBe(true)
@@ -12268,9 +12302,11 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('validate-owner-input-values')
   expect(html).toContain('download-filled-owner-input-template')
   expect(html).toContain('download-owner-runtime-config-preview')
+  expect(html).toContain('copy-production-input-watch-command')
   expect(html).toContain('agl-owner-input-template.env')
   expect(html).toContain('agl-owner-input-filled.env')
   expect(html).toContain('owner-runtime-config.preview.json')
+  expect(html).toContain('production-input-watch.yml')
   expect(html).toContain('.env.production.local')
   expect(html).toContain('AGL_SUPPORT_EMAIL=')
   expect(html).toContain('First-Party Collector Deployment')
@@ -12329,6 +12365,18 @@ test('production measurement status publishes public aggregate evidence handoff'
     expect(mission.manualReviewRequired).toBe(true)
   }
 
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: (text: string) => {
+          ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = text
+          return Promise.resolve()
+        },
+      },
+    })
+  })
+
   await page.goto('/measurement-status.html')
   await expect(page.getByRole('heading', { name: 'Production Measurement Status' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Live Release Evidence' })).toBeVisible()
@@ -12350,6 +12398,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeDisabled()
   await expect(page.getByRole('button', { name: 'Copy filled shell exports' })).toBeDisabled()
   await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeDisabled()
   await expect(page.getByRole('heading', { name: 'First-Party Collector Deployment' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'External Unlock Queue' })).toBeVisible()
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-next.html')
@@ -12450,6 +12499,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByText('Zero-secret values passed local checks.')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeEnabled()
   await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeEnabled()
+  await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeEnabled()
   const filledTemplateDownloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Download filled local env' }).click()
   const filledTemplateDownload = await filledTemplateDownloadPromise
@@ -12556,6 +12606,39 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(JSON.stringify(runtimePreviewReceipt)).not.toContain('phc_public_smoke_key')
   expect(JSON.stringify(runtimePreviewReceipt)).not.toContain('support@example.com')
   await expect(page.getByText('Runtime config preview downloaded.')).toBeVisible()
+
+  await page.getByRole('button', { name: 'Copy input watch command' }).click()
+  const inputWatchCommand = await page.evaluate(
+    () => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? '',
+  )
+  expect(inputWatchCommand).toContain('gh workflow run production-input-watch.yml --ref main')
+  expect(inputWatchCommand).toContain('-f publish_zero_secret_runtime_config=true')
+  expect(inputWatchCommand).toContain("-f vite_posthog_key='phc_public_smoke_key'")
+  expect(inputWatchCommand).toContain("-f vite_posthog_host='https://us.i.posthog.com'")
+  expect(inputWatchCommand).toContain("-f agl_support_email='support@example.com'")
+  const inputWatchCommandReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.ownerInputActionReceipt') ?? '{}'),
+  )
+  expect(inputWatchCommandReceipt).toMatchObject({
+    action: 'copy-production-input-watch-command',
+    packId: 'zero-secret-owner-input-action-pack',
+    sourcePackId: 'combined-zero-secret-owner-input-pack',
+    validationStatus: 'passed',
+    workflowFile: 'production-input-watch.yml',
+    workflowPath: '.github/workflows/production-input-watch.yml',
+    workflowRef: 'main',
+    copiedCommandStoresPublicValuesOnly: true,
+    commandRequiresOwnerRun: true,
+    noValuesStored: true,
+  })
+  expect(inputWatchCommandReceipt.validatedInputNames).toEqual([
+    'VITE_POSTHOG_KEY',
+    'AGL_SUPPORT_EMAIL',
+  ])
+  expect(inputWatchCommandReceipt.defaultedPublicInputNames).toEqual(['VITE_POSTHOG_HOST'])
+  expect(JSON.stringify(inputWatchCommandReceipt)).not.toContain('phc_public_smoke_key')
+  expect(JSON.stringify(inputWatchCommandReceipt)).not.toContain('support@example.com')
+  await expect(page.getByText('Production Input Watch command copied.')).toBeVisible()
 
   await page.goto('/analytics-unlock.html')
   await expect(page.getByRole('heading', { name: 'Production Analytics Unlock' })).toBeVisible()

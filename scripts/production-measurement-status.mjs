@@ -903,6 +903,26 @@ const ownerInputActionPack = combinedOwnerInputPreflight
           noRevenueEnablement: true,
         },
       },
+      productionInputWatchCommand: {
+        id: 'browser-local-production-input-watch-command',
+        status: 'ready',
+        workflowFile: 'production-input-watch.yml',
+        workflowPath: '.github/workflows/production-input-watch.yml',
+        ref: 'main',
+        requiredFlag: 'publish_zero_secret_runtime_config=true',
+        defaultPosthogHost: 'https://us.i.posthog.com',
+        controls: {
+          browserLocalOnly: true,
+          publicValuesOnly: true,
+          noGeneratedValueSerialization: true,
+          noSecretValues: true,
+          noGithubMutation: true,
+          noWorkflowDispatchFromPage: true,
+          commandRequiresOwnerRun: true,
+          noStoreSubmission: true,
+          noRevenueEnablement: true,
+        },
+      },
       commands: {
         combinedPreflight: combinedOwnerInputPreflight.commands?.combinedPreflight ?? null,
         setupWriteLocalEnvTemplate: combinedOwnerInputPreflight.commands?.setupWriteLocalEnvTemplate ?? null,
@@ -1573,6 +1593,7 @@ const ownerInputActionPackHtml = (pack) =>
           <button type="button" id="download-filled-owner-input-template" disabled>Download filled local env</button>
           <button type="button" id="copy-filled-owner-shell-template" disabled>Copy filled shell exports</button>
           <button type="button" id="download-owner-runtime-config-preview" disabled>Download runtime config preview</button>
+          <button type="button" id="copy-production-input-watch-command" disabled>Copy input watch command</button>
         </div>
         <p class="localExportStatus" id="owner-input-validation-status" aria-live="polite">Waiting for local values. Typed values stay in this browser session unless you choose a local download or copy action; generated artifacts contain only field names.</p>
         <div class="actions">
@@ -2561,6 +2582,7 @@ const html = `<!doctype html>
           document.getElementById('download-filled-owner-input-template')?.toggleAttribute('disabled', !enabled)
           document.getElementById('copy-filled-owner-shell-template')?.toggleAttribute('disabled', !enabled)
           document.getElementById('download-owner-runtime-config-preview')?.toggleAttribute('disabled', !enabled)
+          document.getElementById('copy-production-input-watch-command')?.toggleAttribute('disabled', !enabled)
         }
         const readOwnerInputValues = () =>
           ownerInputFields().map((field) => ({
@@ -2647,6 +2669,27 @@ const html = `<!doctype html>
 
           return JSON.stringify(preview, null, 2) + '\\n'
         }
+        const productionInputWatchCommandText = (entries) => {
+          const values = ownerInputValueMap(entries)
+          const command = ownerInputActionPack?.productionInputWatchCommand
+          const defaultPosthogHost = command?.defaultPosthogHost || 'https://us.i.posthog.com'
+          return [
+            'gh',
+            'workflow',
+            'run',
+            command?.workflowFile || 'production-input-watch.yml',
+            '--ref',
+            command?.ref || 'main',
+            '-f',
+            command?.requiredFlag || 'publish_zero_secret_runtime_config=true',
+            '-f',
+            'vite_posthog_key=' + shellQuote(values.VITE_POSTHOG_KEY),
+            '-f',
+            'vite_posthog_host=' + shellQuote(defaultPosthogHost),
+            '-f',
+            'agl_support_email=' + shellQuote(values.AGL_SUPPORT_EMAIL),
+          ].join(' ')
+        }
         const writeFilledOwnerInputReceipt = (action, entries, details = {}) => {
           if (!ownerInputActionPack) {
             return
@@ -2707,6 +2750,26 @@ const html = `<!doctype html>
             publicRuntimeConfigPreview: true,
           })
           setOwnerInputValidationStatus('Runtime config preview downloaded. Values were not stored in generated artifacts.')
+        }
+        const copyProductionInputWatchCommand = async () => {
+          const validation = validateOwnerInputValues()
+          if (!validation.valid) {
+            return
+          }
+          try {
+            await navigator.clipboard.writeText(productionInputWatchCommandText(validation.entries))
+            writeFilledOwnerInputReceipt('copy-production-input-watch-command', validation.entries, {
+              workflowFile: ownerInputActionPack.productionInputWatchCommand.workflowFile,
+              workflowPath: ownerInputActionPack.productionInputWatchCommand.workflowPath,
+              workflowRef: ownerInputActionPack.productionInputWatchCommand.ref,
+              defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
+              copiedCommandStoresPublicValuesOnly: true,
+              commandRequiresOwnerRun: true,
+            })
+            setOwnerInputValidationStatus('Production Input Watch command copied. Review it before running; no workflow was dispatched by this page.')
+          } catch {
+            setOwnerInputValidationStatus('Clipboard unavailable. Use the filled env or runtime config preview downloads instead.')
+          }
         }
         const exportLocalEventDrop = () => {
           const eventsBeforeExport = readEvents()
@@ -2777,6 +2840,9 @@ const html = `<!doctype html>
         document
           .getElementById('download-owner-runtime-config-preview')
           ?.addEventListener('click', downloadOwnerRuntimeConfigPreview)
+        document
+          .getElementById('copy-production-input-watch-command')
+          ?.addEventListener('click', copyProductionInputWatchCommand)
         ownerInputFields().forEach((field) => {
           ownerInputElement(field)?.addEventListener('input', validateOwnerInputValues)
         })

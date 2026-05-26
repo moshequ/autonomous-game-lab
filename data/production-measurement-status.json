@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T17:15:40.013Z",
+  "generatedAt": "2026-05-26T17:20:41.778Z",
   "sourceDataHash": "aaa0582468e3",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
@@ -2458,6 +2458,26 @@
         "noSecretValues": true,
         "noGithubMutation": true,
         "noWorkflowDispatch": true,
+        "noStoreSubmission": true,
+        "noRevenueEnablement": true
+      }
+    },
+    "productionInputWatchCommand": {
+      "id": "browser-local-production-input-watch-command",
+      "status": "ready",
+      "workflowFile": "production-input-watch.yml",
+      "workflowPath": ".github/workflows/production-input-watch.yml",
+      "ref": "main",
+      "requiredFlag": "publish_zero_secret_runtime_config=true",
+      "defaultPosthogHost": "https://us.i.posthog.com",
+      "controls": {
+        "browserLocalOnly": true,
+        "publicValuesOnly": true,
+        "noGeneratedValueSerialization": true,
+        "noSecretValues": true,
+        "noGithubMutation": true,
+        "noWorkflowDispatchFromPage": true,
+        "commandRequiresOwnerRun": true,
         "noStoreSubmission": true,
         "noRevenueEnablement": true
       }
