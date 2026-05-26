@@ -10901,6 +10901,26 @@ test('production measurement status publishes public aggregate evidence handoff'
       supportUnlockId: string | null
       missingInputNames: string[]
       missingInputCount: number
+      runtimeConfigMinimum: {
+        id: string
+        status: string
+        unlockId: string
+        pathId: string
+        minimumPublicInputNames: string[]
+        optionalPublicInputNames: string[]
+        missingMinimumPublicInputNames: string[]
+        missingOptionalPublicInputNames: string[]
+        missingMinimumInputCount: number
+        missingOptionalInputCount: number
+        analyticsOnlyAllowed: boolean
+        controls: {
+          publicValuesOnly: boolean
+          noSecretValues: boolean
+          noWorkflowDispatchFromPage: boolean
+          noStoreSubmission: boolean
+          noRevenueEnablement: boolean
+        }
+      }
       secretInputCount: number
       localEnvTemplateLines: string[]
       shellExportTemplateLines: string[]
@@ -12168,6 +12188,24 @@ test('production measurement status publishes public aggregate evidence handoff'
     expect.arrayContaining(['VITE_POSTHOG_KEY', 'AGL_SUPPORT_EMAIL']),
   )
   expect(ownerInputActionPack.missingInputNames).not.toContain('VITE_POSTHOG_HOST')
+  expect(ownerInputActionPack.runtimeConfigMinimum).toMatchObject({
+    id: 'posthog-browser-runtime-config-minimum',
+    status: 'waiting-on-runtime-minimum-input',
+    unlockId: 'production-analytics-browser',
+    pathId: 'posthog-browser',
+    minimumPublicInputNames: ['VITE_POSTHOG_KEY'],
+    optionalPublicInputNames: ['AGL_SUPPORT_EMAIL'],
+    missingMinimumPublicInputNames: ['VITE_POSTHOG_KEY'],
+    missingOptionalPublicInputNames: ['AGL_SUPPORT_EMAIL'],
+    missingMinimumInputCount: 1,
+    missingOptionalInputCount: 1,
+    analyticsOnlyAllowed: true,
+  })
+  expect(ownerInputActionPack.runtimeConfigMinimum.controls.publicValuesOnly).toBe(true)
+  expect(ownerInputActionPack.runtimeConfigMinimum.controls.noSecretValues).toBe(true)
+  expect(ownerInputActionPack.runtimeConfigMinimum.controls.noWorkflowDispatchFromPage).toBe(true)
+  expect(ownerInputActionPack.runtimeConfigMinimum.controls.noStoreSubmission).toBe(true)
+  expect(ownerInputActionPack.runtimeConfigMinimum.controls.noRevenueEnablement).toBe(true)
   expect(ownerInputActionPack.localEnvTemplateLines).toEqual(
     expect.arrayContaining(['VITE_POSTHOG_KEY=', 'AGL_SUPPORT_EMAIL=']),
   )
@@ -12430,6 +12468,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('Combined Owner Input Pack')
   expect(html).toContain('Combined Owner Input Preflight')
   expect(html).toContain('Zero-Secret Owner Input Pack')
+  expect(html).toContain('Runtime minimum')
+  expect(html).toContain('Minimum public input')
+  expect(html).toContain('Optional runtime input')
+  expect(html).toContain('posthog-browser-runtime-config-minimum')
   expect(html).toContain('copy-owner-input-template')
   expect(html).toContain('download-owner-input-template')
   expect(html).toContain('validate-owner-input-values')
@@ -12565,6 +12607,9 @@ test('production measurement status publishes public aggregate evidence handoff'
   const ownerInputRegion = page.getByRole('region', { name: 'Zero-secret owner input pack' })
   await expect(ownerInputRegion).toContainText('VITE_POSTHOG_KEY=')
   await expect(ownerInputRegion).toContainText('AGL_SUPPORT_EMAIL=')
+  await expect(ownerInputRegion).toContainText('Runtime minimum')
+  await expect(ownerInputRegion).toContainText('Minimum public input')
+  await expect(ownerInputRegion).toContainText('Optional runtime input')
   await expect(ownerInputRegion).toContainText('RUN_WORKFLOWS=1 required')
   await expect(page.getByRole('button', { name: 'Copy local env template' })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Download local env template' })).toBeVisible()

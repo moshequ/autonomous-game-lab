@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-26T18:25:25.628Z",
+  "generatedAt": "2026-05-26T18:28:10.439Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-bbd3d371efe3",
@@ -118,6 +118,34 @@ export const productionMeasurementStatus = {
       "AGL_SUPPORT_EMAIL"
     ],
     "missingInputCount": 2,
+    "runtimeConfigMinimum": {
+      "id": "posthog-browser-runtime-config-minimum",
+      "status": "waiting-on-runtime-minimum-input",
+      "unlockId": "production-analytics-browser",
+      "pathId": "posthog-browser",
+      "minimumPublicInputNames": [
+        "VITE_POSTHOG_KEY"
+      ],
+      "optionalPublicInputNames": [
+        "AGL_SUPPORT_EMAIL"
+      ],
+      "missingMinimumPublicInputNames": [
+        "VITE_POSTHOG_KEY"
+      ],
+      "missingOptionalPublicInputNames": [
+        "AGL_SUPPORT_EMAIL"
+      ],
+      "missingMinimumInputCount": 1,
+      "missingOptionalInputCount": 1,
+      "analyticsOnlyAllowed": true,
+      "controls": {
+        "publicValuesOnly": true,
+        "noSecretValues": true,
+        "noWorkflowDispatchFromPage": true,
+        "noStoreSubmission": true,
+        "noRevenueEnablement": true
+      }
+    },
     "secretInputCount": 0,
     "localEnvTemplateLines": [
       "VITE_POSTHOG_KEY=",

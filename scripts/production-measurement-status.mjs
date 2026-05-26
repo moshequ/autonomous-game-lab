@@ -845,6 +845,15 @@ const sourceDataHash = hashSourceData({
 const combinedOwnerInputPreflight = sanitizeCombinedOwnerInputPreflight(
   ownerUnlockPreflight.combinedOwnerInputPreflight,
 )
+const runtimeConfigMinimumPublicInputNames = ['VITE_POSTHOG_KEY']
+const runtimeConfigOptionalPublicInputNames = ['AGL_SUPPORT_EMAIL']
+const combinedMissingInputNames = arrayOrEmpty(combinedOwnerInputPreflight?.missingInputNames)
+const missingRuntimeConfigMinimumInputNames = runtimeConfigMinimumPublicInputNames.filter((name) =>
+  combinedMissingInputNames.includes(name),
+)
+const missingRuntimeConfigOptionalInputNames = runtimeConfigOptionalPublicInputNames.filter((name) =>
+  combinedMissingInputNames.includes(name),
+)
 const ownerInputActionPack = combinedOwnerInputPreflight
   ? {
       id: 'zero-secret-owner-input-action-pack',
@@ -858,6 +867,28 @@ const ownerInputActionPack = combinedOwnerInputPreflight
       supportUnlockId: combinedOwnerInputPreflight.supportUnlockId,
       missingInputNames: combinedOwnerInputPreflight.missingInputNames,
       missingInputCount: combinedOwnerInputPreflight.summary?.missingInputs ?? 0,
+      runtimeConfigMinimum: {
+        id: 'posthog-browser-runtime-config-minimum',
+        status: missingRuntimeConfigMinimumInputNames.length
+          ? 'waiting-on-runtime-minimum-input'
+          : 'runtime-minimum-ready',
+        unlockId: 'production-analytics-browser',
+        pathId: 'posthog-browser',
+        minimumPublicInputNames: runtimeConfigMinimumPublicInputNames,
+        optionalPublicInputNames: runtimeConfigOptionalPublicInputNames,
+        missingMinimumPublicInputNames: missingRuntimeConfigMinimumInputNames,
+        missingOptionalPublicInputNames: missingRuntimeConfigOptionalInputNames,
+        missingMinimumInputCount: missingRuntimeConfigMinimumInputNames.length,
+        missingOptionalInputCount: missingRuntimeConfigOptionalInputNames.length,
+        analyticsOnlyAllowed: true,
+        controls: {
+          publicValuesOnly: true,
+          noSecretValues: true,
+          noWorkflowDispatchFromPage: true,
+          noStoreSubmission: true,
+          noRevenueEnablement: true,
+        },
+      },
       secretInputCount: combinedOwnerInputPreflight.summary?.secretInputs ?? 0,
       localEnvTemplateLines: combinedOwnerInputPreflight.localEnvTemplateLines,
       shellExportTemplateLines: combinedOwnerInputPreflight.shellExportTemplateLines,
@@ -910,8 +941,8 @@ const ownerInputActionPack = combinedOwnerInputPreflight
         targetPublicPath: 'public/owner-runtime-config.json',
         defaultPosthogHost: 'https://us.i.posthog.com',
         provider: 'posthog-browser',
-        minimumPublicInputNames: ['VITE_POSTHOG_KEY'],
-        optionalPublicInputNames: ['AGL_SUPPORT_EMAIL'],
+        minimumPublicInputNames: runtimeConfigMinimumPublicInputNames,
+        optionalPublicInputNames: runtimeConfigOptionalPublicInputNames,
         analyticsOnlyAllowed: true,
         controls: {
           browserLocalOnly: true,
@@ -932,8 +963,8 @@ const ownerInputActionPack = combinedOwnerInputPreflight
         ref: 'main',
         requiredFlag: 'publish_zero_secret_runtime_config=true',
         defaultPosthogHost: 'https://us.i.posthog.com',
-        minimumPublicInputNames: ['VITE_POSTHOG_KEY'],
-        optionalPublicInputNames: ['AGL_SUPPORT_EMAIL'],
+        minimumPublicInputNames: runtimeConfigMinimumPublicInputNames,
+        optionalPublicInputNames: runtimeConfigOptionalPublicInputNames,
         analyticsOnlyAllowed: true,
         controls: {
           browserLocalOnly: true,
@@ -1626,6 +1657,18 @@ const ownerInputActionPackHtml = (pack) =>
           <div class="card">
             <span>Missing inputs</span>
             <strong>${pack.missingInputCount}</strong>
+          </div>
+          <div class="card">
+            <span>Runtime minimum</span>
+            <strong>${pack.runtimeConfigMinimum.missingMinimumInputCount ? `${pack.runtimeConfigMinimum.missingMinimumInputCount} missing` : 'ready'}</strong>
+          </div>
+          <div class="card">
+            <span>Minimum public input</span>
+            <strong>${escapeHtml(pack.runtimeConfigMinimum.minimumPublicInputNames.join(', '))}</strong>
+          </div>
+          <div class="card">
+            <span>Optional runtime input</span>
+            <strong>${escapeHtml(pack.runtimeConfigMinimum.optionalPublicInputNames.join(', ') || 'none')}</strong>
           </div>
           <div class="card">
             <span>Secret inputs</span>
