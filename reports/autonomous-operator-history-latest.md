@@ -1,11 +1,11 @@
 # Autonomous Operator History
 
-Generated: 2026-05-26T05:59:53.110Z
+Generated: 2026-05-26T06:21:50.090Z
 Status: operator-history-ready
 Records: 40
 Executed records: 5
 Failed records: 0
-Latest run appended: false
+Latest run appended: true
 Compacted duplicate dry-runs: 0
 
 ## Controls
@@ -17,9 +17,6 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-26T05:35:12.847Z: run-production-unlock-runner; not-requested; appended fingerprint 6d8eab8314df1e30
-- 2026-05-26T05:36:41.059Z: refresh-objective-audit; not-requested; appended fingerprint 3c10978097fd8ba6
-- 2026-05-26T05:38:26.282Z: refresh-objective-audit; not-requested; appended fingerprint 61079a5e0f1fe710
 - 2026-05-26T05:38:27.058Z: seed-portfolio-traffic; not-requested; appended fingerprint 48cb338b5a1708b9
 - 2026-05-26T05:41:43.840Z: seed-portfolio-traffic; not-requested; appended fingerprint a19398351f695891
 - 2026-05-26T05:41:44.401Z: seed-portfolio-traffic; not-requested; appended fingerprint 48cb338b5a1708b9
@@ -27,3 +24,6 @@ Compacted duplicate dry-runs: 0
 - 2026-05-26T05:44:57.224Z: collect-gate-sample-local-drops; not-requested; appended fingerprint 01b6f8adb4f416e1
 - 2026-05-26T05:44:57.994Z: collect-gate-sample-local-drops; not-requested; appended fingerprint e352b2096e4aaf9c
 - 2026-05-26T05:46:50.381Z: refresh-objective-audit; not-requested; appended fingerprint 290850bb2c1f5d24
+- 2026-05-26T06:19:14.296Z: refresh-live-site-monitor; not-requested; appended fingerprint 882484722b0a95b2
+- 2026-05-26T06:19:15.086Z: refresh-live-site-monitor; not-requested; appended fingerprint 2a967f64a64dcb31
+- 2026-05-26T06:21:50.090Z: refresh-live-site-monitor; not-requested; appended fingerprint 6d796da0486a8463

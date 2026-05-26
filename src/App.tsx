@@ -462,6 +462,10 @@ const eventDropFileName = (exportSurface: string, timestamp: string) =>
   `player-events-${timestamp.replace(/[:.]/g, '-')}-${exportSurface}.json`
 
 type ProductGateSampleMission = (typeof productGateSamplePlan.missions)[number]
+type ProductGateSampleReturnHandoff = NonNullable<ProductGateSampleMission['returnHandoff']>
+type ProductGateSampleMissionWithReturnHandoff = ProductGateSampleMission & {
+  returnHandoff: ProductGateSampleReturnHandoff
+}
 type TrafficCampaign = (typeof trafficSeeding.campaigns)[number]
 type LocalRouterRecommendation = {
   id: string
@@ -484,6 +488,10 @@ type LocalRouterRecommendation = {
   sampleStatus: string
   priority: number
 }
+
+const hasProductGateSampleReturnHandoff = (
+  mission: ProductGateSampleMission,
+): mission is ProductGateSampleMissionWithReturnHandoff => Boolean(mission.returnHandoff)
 
 const matchesGateSampleCampaign = (event: AnalyticsEvent, campaignId: string) =>
   event.properties.acquisitionCampaign === campaignId || event.properties.campaignId === campaignId
@@ -1056,13 +1064,15 @@ function App() {
       (gate) => gate.id === productGateRecovery.summary.primaryBottleneck,
     ) ?? productGateRecovery.gates[0]
   const productGateSampleDefaultMission = getAutonomousDefaultGateSampleMission()
-  const productGateSamplePrimary = productGateSamplePlan.missions[0]
+  const productGateSamplePrimary: ProductGateSampleMission | undefined = productGateSamplePlan.missions[0]
   const productGateSampleFastest =
     productGateSamplePlan.missions.find(
       (mission) => mission.gateId === productGateSamplePlan.summary.fastestGateId,
     ) ?? productGateSamplePrimary
   const productGateSampleFastestDistinct =
     productGateSampleFastest?.campaignId !== productGateSamplePrimary?.campaignId ? productGateSampleFastest : null
+  const productGateSampleReturnHandoffMission =
+    productGateSamplePlan.missions.find(hasProductGateSampleReturnHandoff) ?? null
   const activeGateSampleMission =
     productGateSamplePlan.missions.find(
       (mission) => mission.campaignId === activeGateSampleCampaignId && mission.gameId === selectedGameId,
@@ -1924,6 +1934,66 @@ function App() {
         intentDate: policy.intentDate,
         surface: policy.surface,
         telemetryName: policy.telemetry.downloaded,
+      })
+    })
+  }
+  const copyGateSampleReturnLink = (mission: ProductGateSampleMission) => {
+    const handoff = mission.returnHandoff
+
+    if (!handoff) {
+      return
+    }
+
+    void import('./lib/returnLink').then(({ copyDailyReturnLinkToClipboard }) =>
+      copyDailyReturnLinkToClipboard({
+        origin: window.location.origin,
+        basePath: resolveRuntimePathname('/'),
+        gameId: mission.gameId,
+        campaignId: handoff.campaignId,
+        queryParam: handoff.queryParam,
+        intentDate: handoff.intentDate,
+        writeText: navigator.clipboard?.writeText?.bind(navigator.clipboard),
+      }).then(({ method, succeeded }) => {
+        trackEvent(handoff.telemetry.copied, {
+          gameId: mission.gameId,
+          gateId: mission.gateId,
+          challengeDate: handoff.challengeDate ?? retentionLoop.dailyChallenge.date,
+          intentDate: handoff.intentDate,
+          campaignId: mission.campaignId,
+          surface: handoff.surface,
+          method,
+          succeeded,
+          zeroPaidSpend: true,
+          playerInitiatedOnly: true,
+          noNotificationPermissionRequest: true,
+          noPushNotifications: true,
+          noAccountRequired: true,
+          noExternalUpload: true,
+          noSyntheticEvents: handoff.controls.noSyntheticEvents,
+          noRevenueEnablement: handoff.controls.noRevenueEnablement,
+        })
+      }),
+    )
+  }
+  const downloadGateSampleReturnCalendar = (mission: ProductGateSampleMission) => {
+    const handoff = mission.returnHandoff
+
+    if (!handoff) {
+      return
+    }
+
+    void import('./lib/calendarReminder').then(({ downloadDailyReturnCalendarFile }) => {
+      downloadDailyReturnCalendarFile({
+        origin: window.location.origin,
+        basePath: resolveRuntimePathname('/'),
+        gameId: mission.gameId,
+        gameTitle: mission.title,
+        challengeDate: handoff.challengeDate ?? retentionLoop.dailyChallenge.date,
+        campaignId: handoff.campaignId,
+        queryParam: handoff.queryParam,
+        intentDate: handoff.intentDate,
+        surface: handoff.surface,
+        telemetryName: handoff.telemetry.calendarDownloaded,
       })
     })
   }
@@ -4596,6 +4666,26 @@ function App() {
                         >
                           <Share2 size={14} aria-hidden="true" />
                           Share fastest sample for {productGateSampleFastestDistinct.title}
+                        </button>
+                      </>
+                    ) : null}
+                    {productGateSampleReturnHandoffMission ? (
+                      <>
+                        <button
+                          className="tinyButton"
+                          type="button"
+                          onClick={() => copyGateSampleReturnLink(productGateSampleReturnHandoffMission)}
+                        >
+                          <Share2 size={14} aria-hidden="true" />
+                          {productGateSampleReturnHandoffMission.returnHandoff.copyCta}
+                        </button>
+                        <button
+                          className="tinyButton"
+                          type="button"
+                          onClick={() => downloadGateSampleReturnCalendar(productGateSampleReturnHandoffMission)}
+                        >
+                          <Download size={14} aria-hidden="true" />
+                          {productGateSampleReturnHandoffMission.returnHandoff.calendarCta}
                         </button>
                       </>
                     ) : null}

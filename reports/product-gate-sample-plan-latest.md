@@ -1,6 +1,6 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-26T05:53:00.024Z
+Generated: 2026-05-26T06:20:40.075Z
 Status: product-gate-sample-plan-ready
 Source hash: 3d1e8058ac84
 Analytics source: fixture-sample
@@ -11,6 +11,7 @@ Observed successes needed: 139
 Imported gate-sample events: 0
 Inbox gate-sample events: 0
 Supporting aggregate evidence notes: 0
+Return handoff missions: 1
 Downloads scan: no-evidence-found; cooling down false
 Next recommended Downloads scan: 2026-05-22T17:53:13.086Z
 Public sample page: /gate-sample.html

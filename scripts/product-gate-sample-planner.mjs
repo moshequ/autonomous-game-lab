@@ -43,6 +43,18 @@ const routeFor = ({ gameId, gateId }) => {
   }
 }
 
+const appendQueryParams = (pathname, params) => {
+  const url = new URL(pathname ?? '/', 'https://runtime.invalid')
+
+  for (const [key, value] of Object.entries(params)) {
+    if (value !== null && value !== undefined && value !== '') {
+      url.searchParams.set(key, String(value))
+    }
+  }
+
+  return `${url.pathname}${url.search}`
+}
+
 const sampleLatencyDaysForGate = (gateId) => (gateId === 'd1Retention' ? 1 : 0)
 
 const [
@@ -120,10 +132,59 @@ const gameTargetForGate = (gate) => {
 
 const firstCandidateGameId = () => primaryCandidate?.gameId ?? 'harbor-rings'
 
+const returnHandoffForMission = ({ gate, route, target }) => {
+  const queryParam = retentionLoop.returnLinkPolicy?.queryParam
+  const intentDate =
+    retentionLoop.returnLinkPolicy?.intentDate ??
+    retentionLoop.returnCalendarPolicy?.intentDate ??
+    retentionLoop.promptPolicy?.nextChallengeDate
+
+  if (
+    gate.id !== 'd1Retention' ||
+    retentionLoop.returnLinkPolicy?.status !== 'armed' ||
+    retentionLoop.returnCalendarPolicy?.status !== 'armed' ||
+    typeof queryParam !== 'string' ||
+    typeof intentDate !== 'string'
+  ) {
+    return null
+  }
+
+  return {
+    status: 'armed',
+    gateId: gate.id,
+    gameId: target.gameId,
+    title: target.title,
+    campaignId: route.campaignId,
+    challengeDate: retentionLoop.dailyChallenge?.date ?? null,
+    intentDate,
+    queryParam,
+    returnPath: appendQueryParams(route.playPath, { [queryParam]: intentDate }),
+    copyCta: retentionLoop.returnLinkPolicy.ctaLabel ?? 'Copy return link',
+    calendarCta: retentionLoop.returnCalendarPolicy.ctaLabel ?? 'Save reminder',
+    calendarFileExtension: retentionLoop.returnCalendarPolicy.fileExtension ?? '.ics',
+    surface: 'product-gate-sample-return-handoff',
+    telemetry: {
+      copied: retentionLoop.returnLinkPolicy.telemetry?.copied ?? 'daily_return_link_copied',
+      calendarDownloaded: retentionLoop.returnCalendarPolicy.telemetry?.downloaded ?? 'daily_return_calendar_downloaded',
+    },
+    controls: {
+      zeroPaidSpend: true,
+      playerInitiatedOnly: true,
+      noNotificationPermissionRequest: true,
+      noPushNotifications: true,
+      noAccountRequired: true,
+      noExternalUpload: true,
+      noRevenueEnablement: true,
+      noSyntheticEvents: true,
+    },
+  }
+}
+
 const missionForGate = (gate, index) => {
   const target = gameTargetForGate(gate)
   const trafficCampaign = trafficCampaignByGame.get(target.gameId)
   const route = routeFor({ gameId: target.gameId, gateId: gate.id })
+  const returnHandoff = returnHandoffForMission({ gate, route, target })
   const priority = priorityByGateId.get(gate.id)
   const collectionEvents = [
     ...(gate.viewTelemetry ?? []),
@@ -149,6 +210,7 @@ const missionForGate = (gate, index) => {
     surface: target.surface,
     campaignId: route.campaignId,
     playPath: route.playPath,
+    returnHandoff,
     organicSeedCampaignId: trafficCampaign?.id ?? null,
     current: {
       actual: gate.actual,
@@ -193,6 +255,9 @@ const missionForGate = (gate, index) => {
     sampleTiming: {
       latencyDays: sampleLatencyDaysForGate(gate.id),
       sameSessionPlayable: sampleLatencyDaysForGate(gate.id) === 0,
+      returnHandoffRequired: gate.id === 'd1Retention',
+      returnIntentDate: returnHandoff?.intentDate ?? null,
+      returnPath: returnHandoff?.returnPath ?? null,
       reason:
         gate.id === 'd1Retention'
           ? 'D1 retention needs a return session, so it is not the best default route for immediate sample collection.'
@@ -370,6 +435,7 @@ const supportingAggregateEvidenceNotes = missionsWithEvidence.reduce(
   (sum, mission) => sum + mission.supportingAggregateEvidence.noteCount,
   0,
 )
+const returnHandoffMissions = missionsWithEvidence.filter((mission) => mission.returnHandoff)
 const collectSampleDownloadsCommand = 'npm run autonomous:collect-sample-downloads'
 const collectLocalEventDropsCommand = 'npm run autonomous:collect-local-event-drops'
 const aggregateEvidenceRepository =
@@ -436,6 +502,7 @@ const payload = {
     evidenceReadyCount,
     inboxReadyCount,
     supportingAggregateEvidenceNotes,
+    returnHandoffMissionCount: returnHandoffMissions.length,
     downloadsScanStatus: downloadsScanPolicy.lastScanStatus ?? 'not-scanned',
     downloadsScanCoolingDown: downloadsScanPolicy.coolingDown,
     downloadsScanNextRecommendedAt: downloadsScanPolicy.nextRecommendedScanAt,
@@ -453,6 +520,7 @@ const payload = {
     playerInitiatedExportEnabled: true,
     playerInitiatedFolderDropEnabled: true,
     playerInitiatedShareEnabled: true,
+    playerInitiatedReturnHandoffEnabled: returnHandoffMissions.length > 0,
     playerInitiatedAggregateEvidenceEnabled: Boolean(aggregateEvidenceRepository),
     aggregateEvidenceIssueTemplate: 'analytics-evidence.yml',
     aggregateEvidenceRepository,
@@ -585,6 +653,23 @@ const payload = {
         noRevenueEnablement: true,
       },
     },
+    returnHandoffPolicy: {
+      status: returnHandoffMissions.length ? 'active' : 'inactive',
+      appliesTo: 'd1-retention-gate-sample-missions',
+      eventPolicy: 'player-initiated-return-link-or-calendar-only',
+      surfaces: [...new Set(returnHandoffMissions.map((mission) => mission.returnHandoff.surface))],
+      telemetry: [...new Set(returnHandoffMissions.flatMap((mission) => Object.values(mission.returnHandoff.telemetry)))],
+      controls: {
+        zeroPaidSpend: true,
+        playerInitiatedOnly: true,
+        noNotificationPermissionRequest: true,
+        noPushNotifications: true,
+        noAccountRequired: true,
+        noExternalUpload: true,
+        noSyntheticEvents: true,
+        noRevenueEnablement: true,
+      },
+    },
     controls: {
       zeroPaidSpend: true,
       localOnlyUntilCollectorConfigured: true,
@@ -664,6 +749,7 @@ const appPayload = {
     surface: mission.surface,
     campaignId: mission.campaignId,
     playPath: mission.playPath,
+    returnHandoff: mission.returnHandoff,
     needed: {
       promptViews: mission.needed.promptViews,
       successes: mission.needed.successes,
@@ -696,6 +782,7 @@ const report = [
   `Imported gate-sample events: ${payload.summary.importedGateSampleEvents}`,
   `Inbox gate-sample events: ${payload.summary.inboxGateSampleEvents}`,
   `Supporting aggregate evidence notes: ${payload.summary.supportingAggregateEvidenceNotes}`,
+  `Return handoff missions: ${payload.summary.returnHandoffMissionCount}`,
   `Downloads scan: ${payload.summary.downloadsScanStatus}; cooling down ${payload.summary.downloadsScanCoolingDown}`,
   `Next recommended Downloads scan: ${payload.summary.downloadsScanNextRecommendedAt}`,
   `Public sample page: ${payload.publicSamplePage.path}`,
@@ -765,11 +852,12 @@ const missionCards = payload.missions
           <a class="play" href="${escapeHtml(runtimeHref(mission.playPath))}">Start mission</a>
           <button class="share" type="button" data-share-campaign="${escapeHtml(mission.campaignId)}">Share mission</button>
           <button class="export" type="button" data-export-campaign="${escapeHtml(mission.campaignId)}">Export evidence</button>
-          ${
-            aggregateEvidenceRepository
-              ? `<button class="evidence" type="button" data-evidence-campaign="${escapeHtml(mission.campaignId)}">Share evidence</button>`
-              : ''
-          }
+${mission.returnHandoff
+  ? `          <button class="returnLink" type="button" data-copy-return-campaign="${escapeHtml(mission.campaignId)}">${escapeHtml(mission.returnHandoff.copyCta)}</button>
+          <button class="calendar" type="button" data-calendar-return-campaign="${escapeHtml(mission.campaignId)}">${escapeHtml(mission.returnHandoff.calendarCta)}</button>`
+  : ''}${mission.returnHandoff && aggregateEvidenceRepository ? '\n' : ''}${aggregateEvidenceRepository
+    ? `          <button class="evidence" type="button" data-evidence-campaign="${escapeHtml(mission.campaignId)}">Share evidence</button>`
+    : ''}
         </div>
       </article>`,
   )
@@ -782,6 +870,7 @@ const publicMissionEvidence = payload.missions.map((mission) => ({
   title: mission.title,
   campaignId: mission.campaignId,
   playPath: mission.playPath,
+  returnHandoff: mission.returnHandoff,
   needed: {
     promptViews: mission.needed.promptViews,
     successes: mission.needed.successes,
@@ -956,6 +1045,8 @@ const gateSamplePage = `<!doctype html>
       .share,
       .export,
       .evidence,
+      .returnLink,
+      .calendar,
       .folder {
         display: inline-flex;
         align-items: center;
@@ -981,6 +1072,16 @@ const gateSamplePage = `<!doctype html>
         cursor: pointer;
       }
 
+      .returnLink {
+        background: #275b55;
+        cursor: pointer;
+      }
+
+      .calendar {
+        background: #b87b16;
+        cursor: pointer;
+      }
+
       .evidence {
         background: #343f3b;
         cursor: pointer;
@@ -995,6 +1096,8 @@ const gateSamplePage = `<!doctype html>
       .share:focus-visible,
       .export:focus-visible,
       .evidence:focus-visible,
+      .returnLink:focus-visible,
+      .calendar:focus-visible,
       .folder:focus-visible {
         outline: 3px solid #b87b16;
         outline-offset: 2px;
@@ -1081,7 +1184,11 @@ const gateSamplePage = `<!doctype html>
         }
 
         const writeEvents = (events) => {
-          window.localStorage.setItem(bufferKey, JSON.stringify(events.slice(-300)))
+          try {
+            window.localStorage?.setItem(bufferKey, JSON.stringify(events.slice(-300)))
+          } catch {
+            // Some embedded browsers disable localStorage; player actions should still complete.
+          }
         }
 
         const readLocalExportReceipt = () => {
@@ -1246,6 +1353,29 @@ const gateSamplePage = `<!doctype html>
           exportSurface +
           '.json'
 
+        const missionReturnUrl = (mission) =>
+          mission.returnHandoff?.returnPath
+            ? new URL(mission.returnHandoff.returnPath, window.location.href).toString()
+            : null
+
+        const formatCalendarDate = (isoDate) => String(isoDate || '').replaceAll('-', '')
+        const nextIsoDate = (isoDate) => {
+          const date = new Date(\`\${isoDate}T00:00:00.000Z\`)
+          date.setUTCDate(date.getUTCDate() + 1)
+          return date.toISOString().slice(0, 10)
+        }
+        const formatCalendarTimestamp = () =>
+          new Date()
+            .toISOString()
+            .replace(/[-:]/g, '')
+            .replace(/\\.\\d{3}Z$/, 'Z')
+        const escapeCalendarText = (value) =>
+          String(value || '')
+            .replaceAll('\\\\', '\\\\\\\\')
+            .replaceAll('\\n', '\\\\n')
+            .replaceAll(';', '\\\\;')
+            .replaceAll(',', '\\\\,')
+
         const ensureDropFolderPermission = async (handle) => {
           const descriptor = { mode: 'readwrite' }
           const current = handle.queryPermission ? await handle.queryPermission(descriptor) : 'granted'
@@ -1400,6 +1530,132 @@ const gateSamplePage = `<!doctype html>
           }
 
           writeEvents([...events, shareEvent])
+          renderProgress()
+        }
+
+        const copyMissionReturnLink = async (mission) => {
+          const handoff = mission.returnHandoff
+          const returnUrl = missionReturnUrl(mission)
+
+          if (!handoff || !returnUrl) {
+            return
+          }
+
+          let method = 'unsupported'
+          let succeeded = false
+
+          if (navigator.clipboard?.writeText) {
+            method = 'clipboard'
+
+            try {
+              await navigator.clipboard.writeText(returnUrl)
+              succeeded = true
+            } catch {
+              method = 'clipboard_unavailable'
+            }
+          }
+
+          const events = readEvents()
+          const returnEvent = {
+            id: createId(),
+            name: handoff.telemetry?.copied || 'daily_return_link_copied',
+            properties: {
+              surface: handoff.surface,
+              channel: 'product-gate-sample',
+              campaignId: mission.campaignId,
+              gateId: mission.gateId,
+              gameId: mission.gameId,
+              acquisitionCampaign: mission.campaignId,
+              acquisitionSource: 'gate_sample',
+              acquisitionChannel: 'product-gate-sample',
+              challengeDate: handoff.challengeDate,
+              intentDate: handoff.intentDate,
+              returnUrl,
+              method,
+              succeeded,
+              zeroPaidSpend: true,
+              playerInitiatedOnly: true,
+              noNotificationPermissionRequest: true,
+              noPushNotifications: true,
+              noAccountRequired: true,
+              noExternalUpload: true,
+              noSyntheticEvents: mission.controls.noSyntheticEvents,
+              noRevenueEnablement: mission.controls.noRevenueEnablement,
+            },
+            createdAt: new Date().toISOString(),
+          }
+
+          writeEvents([...events, returnEvent])
+          renderProgress()
+        }
+
+        const downloadMissionReturnCalendar = (mission) => {
+          const handoff = mission.returnHandoff
+          const returnUrl = missionReturnUrl(mission)
+
+          if (!handoff || !returnUrl) {
+            return
+          }
+
+          const startDate = formatCalendarDate(handoff.intentDate)
+          const endDate = formatCalendarDate(nextIsoDate(handoff.intentDate))
+          const calendar = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Autonomous Game Lab//Gate Sample Return//EN',
+            'CALSCALE:GREGORIAN',
+            'BEGIN:VEVENT',
+            \`UID:agl-gate-sample-return-\${handoff.intentDate}-\${mission.gameId}@autonomous-game-lab\`,
+            \`DTSTAMP:\${formatCalendarTimestamp()}\`,
+            \`DTSTART;VALUE=DATE:\${startDate}\`,
+            \`DTEND;VALUE=DATE:\${endDate}\`,
+            \`SUMMARY:\${escapeCalendarText(\`Play \${mission.title}\`)}\`,
+            \`DESCRIPTION:\${escapeCalendarText(\`Open the measured return route: \${returnUrl}\`)}\`,
+            \`URL:\${returnUrl}\`,
+            'END:VEVENT',
+            'END:VCALENDAR',
+            '',
+          ].join('\\r\\n')
+          const calendarObjectUrl = URL.createObjectURL(new Blob([calendar], { type: 'text/calendar;charset=utf-8' }))
+          const anchor = document.createElement('a')
+          anchor.href = calendarObjectUrl
+          anchor.download = \`agl-return-\${handoff.intentDate}.ics\`
+          document.body.append(anchor)
+          anchor.click()
+          anchor.remove()
+          window.setTimeout(() => URL.revokeObjectURL(calendarObjectUrl), 0)
+
+          const events = readEvents()
+          const returnEvent = {
+            id: createId(),
+            name: handoff.telemetry?.calendarDownloaded || 'daily_return_calendar_downloaded',
+            properties: {
+              surface: handoff.surface,
+              channel: 'product-gate-sample',
+              campaignId: mission.campaignId,
+              gateId: mission.gateId,
+              gameId: mission.gameId,
+              acquisitionCampaign: mission.campaignId,
+              acquisitionSource: 'gate_sample',
+              acquisitionChannel: 'product-gate-sample',
+              challengeDate: handoff.challengeDate,
+              intentDate: handoff.intentDate,
+              returnUrl,
+              method: 'calendar-download',
+              fileExtension: handoff.calendarFileExtension || '.ics',
+              zeroPaidSpend: true,
+              playerInitiatedOnly: true,
+              noNotificationPermissionRequest: true,
+              noPushNotifications: true,
+              noAccountRequired: true,
+              noExternalUpload: true,
+              noSyntheticEvents: mission.controls.noSyntheticEvents,
+              noRevenueEnablement: mission.controls.noRevenueEnablement,
+            },
+            createdAt: new Date().toISOString(),
+          }
+
+          writeEvents([...events, returnEvent])
           renderProgress()
         }
 
@@ -1592,6 +1848,28 @@ const gateSamplePage = `<!doctype html>
 
             if (mission) {
               void shareMission(mission)
+            }
+          })
+        })
+
+        document.querySelectorAll('[data-copy-return-campaign]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const mission = missions.find((item) => item.campaignId === button.getAttribute('data-copy-return-campaign'))
+
+            if (mission) {
+              void copyMissionReturnLink(mission)
+            }
+          })
+        })
+
+        document.querySelectorAll('[data-calendar-return-campaign]').forEach((button) => {
+          button.addEventListener('click', () => {
+            const mission = missions.find(
+              (item) => item.campaignId === button.getAttribute('data-calendar-return-campaign'),
+            )
+
+            if (mission) {
+              downloadMissionReturnCalendar(mission)
             }
           })
         })

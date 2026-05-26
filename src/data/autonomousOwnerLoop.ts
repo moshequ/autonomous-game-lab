@@ -2,22 +2,23 @@ export const autonomousOwnerLoop = {
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "percent": 98
+    "percent": 93
   },
   "controls": {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "hold-for-external-input"
+    "nextBestActionId": "refresh-live-site-monitor"
   },
   "executionBackoff": {
-    "status": "cooling-down",
-    "heldActionCount": 1,
-    "executableWithoutRepeatCount": 0,
-    "nextResumeAt": "2026-05-26T23:43:28.218Z",
-    "nextResumeInHours": 17.726,
+    "status": "ready",
+    "heldActionCount": 2,
+    "executableWithoutRepeatCount": 2,
+    "nextResumeAt": "2026-05-26T23:17:16.011Z",
+    "nextResumeInHours": 16.925,
     "heldActionIds": [
-      "seed-portfolio-traffic"
+      "seed-portfolio-traffic",
+      "bootstrap-production-setup"
     ]
   },
   "externalInputHandoff": {

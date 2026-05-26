@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T05:53:00.024Z",
+  "generatedAt": "2026-05-26T06:20:40.075Z",
   "sourceDataHash": "3d1e8058ac84",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
@@ -26,6 +26,7 @@
     "evidenceReadyCount": 0,
     "inboxReadyCount": 0,
     "supportingAggregateEvidenceNotes": 0,
+    "returnHandoffMissionCount": 1,
     "downloadsScanStatus": "no-evidence-found",
     "downloadsScanCoolingDown": false,
     "downloadsScanNextRecommendedAt": "2026-05-22T17:53:13.086Z",
@@ -38,7 +39,7 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T13:53:13.086Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 88,
+    "scanAgeHours": 88.46,
     "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
   },
@@ -53,6 +54,7 @@
     "playerInitiatedExportEnabled": true,
     "playerInitiatedFolderDropEnabled": true,
     "playerInitiatedShareEnabled": true,
+    "playerInitiatedReturnHandoffEnabled": true,
     "playerInitiatedAggregateEvidenceEnabled": true,
     "aggregateEvidenceIssueTemplate": "analytics-evidence.yml",
     "aggregateEvidenceRepository": "moshequ/autonomous-game-lab",
@@ -188,6 +190,28 @@
         "noRevenueEnablement": true
       }
     },
+    "returnHandoffPolicy": {
+      "status": "active",
+      "appliesTo": "d1-retention-gate-sample-missions",
+      "eventPolicy": "player-initiated-return-link-or-calendar-only",
+      "surfaces": [
+        "product-gate-sample-return-handoff"
+      ],
+      "telemetry": [
+        "daily_return_link_copied",
+        "daily_return_calendar_downloaded"
+      ],
+      "controls": {
+        "zeroPaidSpend": true,
+        "playerInitiatedOnly": true,
+        "noNotificationPermissionRequest": true,
+        "noPushNotifications": true,
+        "noAccountRequired": true,
+        "noExternalUpload": true,
+        "noSyntheticEvents": true,
+        "noRevenueEnablement": true
+      }
+    },
     "controls": {
       "zeroPaidSpend": true,
       "localOnlyUntilCollectorConfigured": true,
@@ -212,6 +236,7 @@
       "surface": "autonomy-cockpit-completion-card",
       "campaignId": "gate-sample-20260526-firstGameCompletion",
       "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-firstGameCompletion",
+      "returnHandoff": null,
       "organicSeedCampaignId": null,
       "current": {
         "actual": 0.397,
@@ -272,6 +297,9 @@
       "sampleTiming": {
         "latencyDays": 0,
         "sameSessionPlayable": true,
+        "returnHandoffRequired": false,
+        "returnIntentDate": null,
+        "returnPath": null,
         "reason": "Completion and replay prompts can collect same-session evidence from the next player visit."
       },
       "sampleRole": "primary-bottleneck",
@@ -313,6 +341,7 @@
       "surface": "autonomy-cockpit-replay-card",
       "campaignId": "gate-sample-20260526-replayRate",
       "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-replayRate",
+      "returnHandoff": null,
       "organicSeedCampaignId": null,
       "current": {
         "actual": 0.309,
@@ -365,6 +394,9 @@
       "sampleTiming": {
         "latencyDays": 0,
         "sameSessionPlayable": true,
+        "returnHandoffRequired": false,
+        "returnIntentDate": null,
+        "returnPath": null,
         "reason": "Completion and replay prompts can collect same-session evidence from the next player visit."
       },
       "sampleRole": "supporting-sample",
@@ -406,6 +438,35 @@
       "surface": "autonomy-cockpit-return-intent-card",
       "campaignId": "gate-sample-20260526-d1Retention",
       "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention",
+      "returnHandoff": {
+        "status": "armed",
+        "gateId": "d1Retention",
+        "gameId": "market-pulse",
+        "title": "Market Pulse",
+        "campaignId": "gate-sample-20260526-d1Retention",
+        "challengeDate": "2026-05-26",
+        "intentDate": "2026-05-27",
+        "queryParam": "return_intent",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention&return_intent=2026-05-27",
+        "copyCta": "Copy return link",
+        "calendarCta": "Save reminder",
+        "calendarFileExtension": ".ics",
+        "surface": "product-gate-sample-return-handoff",
+        "telemetry": {
+          "copied": "daily_return_link_copied",
+          "calendarDownloaded": "daily_return_calendar_downloaded"
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "playerInitiatedOnly": true,
+          "noNotificationPermissionRequest": true,
+          "noPushNotifications": true,
+          "noAccountRequired": true,
+          "noExternalUpload": true,
+          "noRevenueEnablement": true,
+          "noSyntheticEvents": true
+        }
+      },
       "organicSeedCampaignId": "seed-20260526-market-pulse",
       "current": {
         "actual": 0.167,
@@ -467,6 +528,9 @@
       "sampleTiming": {
         "latencyDays": 1,
         "sameSessionPlayable": false,
+        "returnHandoffRequired": true,
+        "returnIntentDate": "2026-05-27",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention&return_intent=2026-05-27",
         "reason": "D1 retention needs a return session, so it is not the best default route for immediate sample collection."
       },
       "sampleRole": "fastest-validation",

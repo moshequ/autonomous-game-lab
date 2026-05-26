@@ -1,5 +1,5 @@
 export const trafficSeeding = {
-  "generatedAt": "2026-05-26T05:43:27.733Z",
+  "generatedAt": "2026-05-26T06:20:35.747Z",
   "status": "traffic-seeding-ready",
   "sourceDataHash": "d4fe68f793e4",
   "analyticsSource": "fixture-sample",

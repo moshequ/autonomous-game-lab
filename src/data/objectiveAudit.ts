@@ -2,16 +2,16 @@ export const objectiveAudit = {
   "status": "objective-in-progress",
   "summary": {
     "requirements": 8,
-    "met": 6,
+    "met": 4,
     "prepared": 2,
-    "incomplete": 0,
+    "incomplete": 2,
     "externalBlockers": 15,
     "productBlockers": 7
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "hold-for-external-input"
+    "nextBestAction": "refresh-live-site-monitor"
   }
 } as const
 

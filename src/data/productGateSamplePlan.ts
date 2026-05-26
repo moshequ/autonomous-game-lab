@@ -26,6 +26,7 @@ export const productGateSamplePlan = {
       "surface": "autonomy-cockpit-completion-card",
       "campaignId": "gate-sample-20260526-firstGameCompletion",
       "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-firstGameCompletion",
+      "returnHandoff": null,
       "needed": {
         "promptViews": 30,
         "successes": 128,
@@ -79,6 +80,7 @@ export const productGateSamplePlan = {
       "surface": "autonomy-cockpit-replay-card",
       "campaignId": "gate-sample-20260526-replayRate",
       "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-replayRate",
+      "returnHandoff": null,
       "needed": {
         "promptViews": 30,
         "successes": 10,
@@ -124,6 +126,35 @@ export const productGateSamplePlan = {
       "surface": "autonomy-cockpit-return-intent-card",
       "campaignId": "gate-sample-20260526-d1Retention",
       "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention",
+      "returnHandoff": {
+        "status": "armed",
+        "gateId": "d1Retention",
+        "gameId": "market-pulse",
+        "title": "Market Pulse",
+        "campaignId": "gate-sample-20260526-d1Retention",
+        "challengeDate": "2026-05-26",
+        "intentDate": "2026-05-27",
+        "queryParam": "return_intent",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention&return_intent=2026-05-27",
+        "copyCta": "Copy return link",
+        "calendarCta": "Save reminder",
+        "calendarFileExtension": ".ics",
+        "surface": "product-gate-sample-return-handoff",
+        "telemetry": {
+          "copied": "daily_return_link_copied",
+          "calendarDownloaded": "daily_return_calendar_downloaded"
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "playerInitiatedOnly": true,
+          "noNotificationPermissionRequest": true,
+          "noPushNotifications": true,
+          "noAccountRequired": true,
+          "noExternalUpload": true,
+          "noRevenueEnablement": true,
+          "noSyntheticEvents": true
+        }
+      },
       "needed": {
         "promptViews": 10,
         "successes": 1,

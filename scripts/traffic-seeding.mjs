@@ -1054,7 +1054,12 @@ const seedNextHtml = `<!doctype html>
             },
             createdAt: new Date().toISOString(),
           }
-          window.localStorage.setItem(analyticsKey, JSON.stringify([...readEvents(), event].slice(-300)))
+
+          try {
+            window.localStorage?.setItem(analyticsKey, JSON.stringify([...readEvents(), event].slice(-300)))
+          } catch {
+            // Some embedded browsers disable localStorage; routing and handoff actions should still complete.
+          }
         }
 
         track('seed_next_viewed', { targetPath, previewOnly })
