@@ -5,7 +5,7 @@ export const objectiveAudit = {
     "met": 6,
     "prepared": 2,
     "incomplete": 0,
-    "externalBlockers": 16,
+    "externalBlockers": 15,
     "productBlockers": 7
   },
   "completion": {
