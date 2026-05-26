@@ -80,6 +80,22 @@ const postDeployArtifactSync = await readOptionalJson(path.join(dataDir, 'post-d
   status: 'missing',
   live: {},
 })
+const publicOwnerRuntimeConfig = await readOptionalJson(path.join(publicDir, 'owner-runtime-config.json'), {
+  id: 'owner-runtime-config',
+  status: 'missing',
+  configuredPublicInputNames: [],
+  defaultedPublicInputNames: [],
+  missingPublicInputNames: [],
+  invalidPublicInputNames: [],
+  analytics: {
+    provider: null,
+    posthogConfigured: false,
+  },
+  support: {
+    configured: false,
+  },
+  controls: {},
+})
 
 const browserPosthogConfigured = productionEnvironment.analytics?.browserPosthogConfigured === true
 const browserCollectorConfigured = productionEnvironment.analytics?.eventCollector?.browserConfigured === true
@@ -965,6 +981,29 @@ const payload = {
       zeroPaidSpend: true,
     },
   },
+  ownerRuntimeConfig: {
+    publicRoute: '/owner-runtime-config.json',
+    runtimeConfigCheck: 'read-only-browser-fetch',
+    syncedStatus: publicOwnerRuntimeConfig.status ?? 'missing',
+    syncedConfiguredPublicInputNames: arrayOrEmpty(publicOwnerRuntimeConfig.configuredPublicInputNames),
+    syncedDefaultedPublicInputNames: arrayOrEmpty(publicOwnerRuntimeConfig.defaultedPublicInputNames),
+    syncedMissingPublicInputNames: arrayOrEmpty(publicOwnerRuntimeConfig.missingPublicInputNames),
+    syncedInvalidPublicInputNames: arrayOrEmpty(publicOwnerRuntimeConfig.invalidPublicInputNames),
+    syncedPosthogConfigured: publicOwnerRuntimeConfig.analytics?.posthogConfigured === true,
+    syncedProvider: publicOwnerRuntimeConfig.analytics?.provider ?? null,
+    syncedSupportConfigured: publicOwnerRuntimeConfig.support?.configured === true,
+    requiredForProductionAnalytics: ['VITE_POSTHOG_KEY'],
+    requiredForSupportContact: ['AGL_SUPPORT_EMAIL'],
+    defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
+    controls: {
+      readOnlyConfigFetch: true,
+      statusOnlyNoValuesDisplayed: true,
+      noSecretValues: true,
+      noWorkflowDispatch: true,
+      noGithubMutation: true,
+      zeroPaidSpend: true,
+    },
+  },
   analytics: {
     activeRollupSource: analytics.sourceStatus?.activeSource ?? 'unknown',
     retentionSource: analytics.retention?.source ?? analytics.sourceStatus?.retention?.source ?? 'unknown',
@@ -1048,6 +1087,7 @@ const payload = {
     statusJson: '/measurement-status.json',
     analyticsUnlock: '/analytics-unlock.html',
     analyticsUnlockJson: '/analytics-unlock.json',
+    ownerRuntimeConfig: '/owner-runtime-config.json',
     ownerUnlockPreflightJson: '/owner-unlock-preflight.json',
     productGateRecovery: productGateRecovery.publicRoutes?.productGateRecovery ?? '/product-gate-recovery.html',
     productGateRecoveryJson:
@@ -1258,6 +1298,7 @@ const publicPayload = {
   activePath: payload.activePath,
   liveCandidate: payload.liveCandidate,
   liveRelease: payload.liveRelease,
+  ownerRuntimeConfig: payload.ownerRuntimeConfig,
   analytics: payload.analytics,
   productGateEvidence: payload.productGateEvidence,
   productGateRecovery: {
@@ -2133,6 +2174,36 @@ const html = `<!doctype html>
       </section>
 
       <section>
+        <h2>Owner Runtime Config</h2>
+        <p>This read-only check fetches the deployed owner runtime config from this site and reports readiness statuses only. It does not display public input values, dispatch workflows, mutate GitHub, enable revenue, or submit stores.</p>
+        <div class="grid" aria-label="Owner runtime config">
+          <div class="card">
+            <span>Synced config status</span>
+            <strong>${escapeHtml(payload.ownerRuntimeConfig.syncedStatus)}</strong>
+          </div>
+          <div class="card">
+            <span>Live config status</span>
+            <strong id="owner-runtime-config-live-status">checking</strong>
+          </div>
+          <div class="card">
+            <span>PostHog browser</span>
+            <strong id="owner-runtime-posthog-status">checking</strong>
+          </div>
+          <div class="card">
+            <span>Support contact</span>
+            <strong id="owner-runtime-support-status">checking</strong>
+          </div>
+          <div class="card">
+            <span>Configured public inputs</span>
+            <strong id="owner-runtime-config-inputs">checking</strong>
+          </div>
+        </div>
+        <div class="actions">
+          <a href="${escapeHtml(publicRouteHref(payload.publicRoutes.ownerRuntimeConfig))}">Open runtime config</a>
+        </div>
+      </section>
+
+      <section>
         <h2>Local Browser Evidence</h2>
         <div class="grid" aria-label="Local browser evidence">
           <div class="card">
@@ -2850,6 +2921,10 @@ const html = `<!doctype html>
         const syncedLiveCandidate = ${JSON.stringify(payload.liveRelease.syncedCandidateId)}
         const exactLiveCandidate = document.getElementById('exact-live-candidate')
         const exactLiveMatch = document.getElementById('exact-live-match')
+        const ownerRuntimeConfigLiveStatus = document.getElementById('owner-runtime-config-live-status')
+        const ownerRuntimePosthogStatus = document.getElementById('owner-runtime-posthog-status')
+        const ownerRuntimeSupportStatus = document.getElementById('owner-runtime-support-status')
+        const ownerRuntimeConfigInputs = document.getElementById('owner-runtime-config-inputs')
         const readLiveReleaseManifest = async () => {
           try {
             const response = await fetch('./release-candidate.json', { cache: 'no-store' })
@@ -2870,7 +2945,46 @@ const html = `<!doctype html>
             exactLiveMatch.textContent = 'manifest unavailable'
           }
         }
+        const readLiveOwnerRuntimeConfig = async () => {
+          try {
+            const response = await fetch('./owner-runtime-config.json', { cache: 'no-store' })
+            if (!response.ok) {
+              throw new Error(String(response.status))
+            }
+            const config = await response.json()
+            const configuredInputNames = Array.isArray(config?.configuredPublicInputNames)
+              ? config.configuredPublicInputNames.filter((name) => typeof name === 'string')
+              : []
+            const invalidInputNames = Array.isArray(config?.invalidPublicInputNames)
+              ? config.invalidPublicInputNames.filter((name) => typeof name === 'string')
+              : []
+            const posthogReady =
+              config?.analytics?.posthogConfigured === true && configuredInputNames.includes('VITE_POSTHOG_KEY')
+            const supportReady =
+              config?.support?.configured === true && configuredInputNames.includes('AGL_SUPPORT_EMAIL')
+            ownerRuntimeConfigLiveStatus.textContent = config?.status || 'missing'
+            ownerRuntimePosthogStatus.textContent = posthogReady
+              ? 'posthog-browser ready'
+              : invalidInputNames.includes('VITE_POSTHOG_KEY')
+                ? 'fix VITE_POSTHOG_KEY'
+                : 'waiting for VITE_POSTHOG_KEY'
+            ownerRuntimeSupportStatus.textContent = supportReady
+              ? 'support contact ready'
+              : invalidInputNames.includes('AGL_SUPPORT_EMAIL')
+                ? 'fix AGL_SUPPORT_EMAIL'
+                : 'waiting for AGL_SUPPORT_EMAIL'
+            ownerRuntimeConfigInputs.textContent = configuredInputNames.length
+              ? configuredInputNames.join(', ')
+              : 'none'
+          } catch {
+            ownerRuntimeConfigLiveStatus.textContent = 'unavailable'
+            ownerRuntimePosthogStatus.textContent = 'runtime config unavailable'
+            ownerRuntimeSupportStatus.textContent = 'runtime config unavailable'
+            ownerRuntimeConfigInputs.textContent = 'unavailable'
+          }
+        }
         readLiveReleaseManifest()
+        readLiveOwnerRuntimeConfig()
       })()
     </script>
   </body>

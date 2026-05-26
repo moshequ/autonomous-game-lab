@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T17:24:15.737Z",
+  "generatedAt": "2026-05-26T17:32:21.470Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-4d23db255499",
@@ -14,6 +14,40 @@
       "readOnlyManifestFetch": true,
       "noWorkflowDispatch": true,
       "noDeployLoop": true,
+      "zeroPaidSpend": true
+    }
+  },
+  "ownerRuntimeConfig": {
+    "publicRoute": "/owner-runtime-config.json",
+    "runtimeConfigCheck": "read-only-browser-fetch",
+    "syncedStatus": "owner-runtime-config-waiting-on-input",
+    "syncedConfiguredPublicInputNames": [],
+    "syncedDefaultedPublicInputNames": [
+      "VITE_POSTHOG_HOST"
+    ],
+    "syncedMissingPublicInputNames": [
+      "VITE_POSTHOG_KEY",
+      "AGL_SUPPORT_EMAIL"
+    ],
+    "syncedInvalidPublicInputNames": [],
+    "syncedPosthogConfigured": false,
+    "syncedProvider": null,
+    "syncedSupportConfigured": false,
+    "requiredForProductionAnalytics": [
+      "VITE_POSTHOG_KEY"
+    ],
+    "requiredForSupportContact": [
+      "AGL_SUPPORT_EMAIL"
+    ],
+    "defaultedPublicInputNames": [
+      "VITE_POSTHOG_HOST"
+    ],
+    "controls": {
+      "readOnlyConfigFetch": true,
+      "statusOnlyNoValuesDisplayed": true,
+      "noSecretValues": true,
+      "noWorkflowDispatch": true,
+      "noGithubMutation": true,
       "zeroPaidSpend": true
     }
   },
@@ -2564,6 +2598,7 @@
     "statusJson": "/measurement-status.json",
     "analyticsUnlock": "/analytics-unlock.html",
     "analyticsUnlockJson": "/analytics-unlock.json",
+    "ownerRuntimeConfig": "/owner-runtime-config.json",
     "ownerUnlockPreflightJson": "/owner-unlock-preflight.json",
     "productGateRecovery": "/product-gate-recovery.html",
     "productGateRecoveryJson": "/product-gate-recovery.json",

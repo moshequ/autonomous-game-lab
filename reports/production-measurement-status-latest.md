@@ -1,6 +1,6 @@
 # Production Measurement Status
 
-Generated: 2026-05-26T17:24:15.737Z
+Generated: 2026-05-26T17:32:21.470Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
 Live candidate: pwa-4d23db255499
@@ -34,6 +34,7 @@ Source hash: 6d07ef676cb2
 - statusJson: /measurement-status.json
 - analyticsUnlock: /analytics-unlock.html
 - analyticsUnlockJson: /analytics-unlock.json
+- ownerRuntimeConfig: /owner-runtime-config.json
 - ownerUnlockPreflightJson: /owner-unlock-preflight.json
 - productGateRecovery: /product-gate-recovery.html
 - productGateRecoveryJson: /product-gate-recovery.json

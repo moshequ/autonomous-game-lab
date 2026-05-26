@@ -10432,6 +10432,15 @@ test('production measurement status publishes public aggregate evidence handoff'
     live?: { candidateId?: string }
     artifact?: { target?: { candidateId?: string } }
   }
+  const ownerRuntimeConfig = JSON.parse(await readFile('public/owner-runtime-config.json', 'utf8')) as {
+    status: string
+    configuredPublicInputNames: string[]
+    defaultedPublicInputNames: string[]
+    missingPublicInputNames: string[]
+    invalidPublicInputNames: string[]
+    analytics: { provider: string | null; posthogConfigured: boolean }
+    support: { configured: boolean }
+  }
   const eventCollectorDeployment = JSON.parse(await readFile('data/event-collector-deployment.json', 'utf8')) as {
     status: string
     provider: string
@@ -10631,6 +10640,29 @@ test('production measurement status publishes public aggregate evidence handoff'
         readOnlyManifestFetch: boolean
         noWorkflowDispatch: boolean
         noDeployLoop: boolean
+        zeroPaidSpend: boolean
+      }
+    }
+    ownerRuntimeConfig: {
+      publicRoute: string
+      runtimeConfigCheck: string
+      syncedStatus: string
+      syncedConfiguredPublicInputNames: string[]
+      syncedDefaultedPublicInputNames: string[]
+      syncedMissingPublicInputNames: string[]
+      syncedInvalidPublicInputNames: string[]
+      syncedPosthogConfigured: boolean
+      syncedProvider: string | null
+      syncedSupportConfigured: boolean
+      requiredForProductionAnalytics: string[]
+      requiredForSupportContact: string[]
+      defaultedPublicInputNames: string[]
+      controls: {
+        readOnlyConfigFetch: boolean
+        statusOnlyNoValuesDisplayed: boolean
+        noSecretValues: boolean
+        noWorkflowDispatch: boolean
+        noGithubMutation: boolean
         zeroPaidSpend: boolean
       }
     }
@@ -11049,6 +11081,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       statusJson: string
       analyticsUnlock: string
       analyticsUnlockJson: string
+      ownerRuntimeConfig: string
       ownerUnlockPreflightJson: string
       productGateRecovery: string
       productGateRecoveryJson: string
@@ -11395,6 +11428,36 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.liveRelease.controls.noDeployLoop).toBe(true)
   expect(measurement.liveRelease.controls.zeroPaidSpend).toBe(true)
   expect(publicMeasurement.liveRelease).toEqual(measurement.liveRelease)
+  expect(measurement.ownerRuntimeConfig.publicRoute).toBe('/owner-runtime-config.json')
+  expect(measurement.ownerRuntimeConfig.runtimeConfigCheck).toBe('read-only-browser-fetch')
+  expect(measurement.ownerRuntimeConfig.syncedStatus).toBe(ownerRuntimeConfig.status)
+  expect(measurement.ownerRuntimeConfig.syncedConfiguredPublicInputNames).toEqual(
+    ownerRuntimeConfig.configuredPublicInputNames,
+  )
+  expect(measurement.ownerRuntimeConfig.syncedDefaultedPublicInputNames).toEqual(
+    ownerRuntimeConfig.defaultedPublicInputNames,
+  )
+  expect(measurement.ownerRuntimeConfig.syncedMissingPublicInputNames).toEqual(
+    ownerRuntimeConfig.missingPublicInputNames,
+  )
+  expect(measurement.ownerRuntimeConfig.syncedInvalidPublicInputNames).toEqual(
+    ownerRuntimeConfig.invalidPublicInputNames,
+  )
+  expect(measurement.ownerRuntimeConfig.syncedPosthogConfigured).toBe(
+    ownerRuntimeConfig.analytics.posthogConfigured,
+  )
+  expect(measurement.ownerRuntimeConfig.syncedProvider).toBe(ownerRuntimeConfig.analytics.provider)
+  expect(measurement.ownerRuntimeConfig.syncedSupportConfigured).toBe(ownerRuntimeConfig.support.configured)
+  expect(measurement.ownerRuntimeConfig.requiredForProductionAnalytics).toEqual(['VITE_POSTHOG_KEY'])
+  expect(measurement.ownerRuntimeConfig.requiredForSupportContact).toEqual(['AGL_SUPPORT_EMAIL'])
+  expect(measurement.ownerRuntimeConfig.defaultedPublicInputNames).toEqual(['VITE_POSTHOG_HOST'])
+  expect(measurement.ownerRuntimeConfig.controls.readOnlyConfigFetch).toBe(true)
+  expect(measurement.ownerRuntimeConfig.controls.statusOnlyNoValuesDisplayed).toBe(true)
+  expect(measurement.ownerRuntimeConfig.controls.noSecretValues).toBe(true)
+  expect(measurement.ownerRuntimeConfig.controls.noWorkflowDispatch).toBe(true)
+  expect(measurement.ownerRuntimeConfig.controls.noGithubMutation).toBe(true)
+  expect(measurement.ownerRuntimeConfig.controls.zeroPaidSpend).toBe(true)
+  expect(publicMeasurement.ownerRuntimeConfig).toEqual(measurement.ownerRuntimeConfig)
   expect(measurement.publicEvidenceHandoff.source).toBe('support-feedback-public-issues')
   expect(measurement.publicEvidenceHandoff.supportFeedbackStatus).toBe(supportFeedback.status)
   expect(measurement.publicEvidenceHandoff.aggregateEvidence.notes).toBe(supportFeedback.summary.aggregateEvidenceNotes)
@@ -11475,6 +11538,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   })
   expect(measurement.publicRoutes.analyticsUnlock).toBe('/analytics-unlock.html')
   expect(measurement.publicRoutes.analyticsUnlockJson).toBe('/analytics-unlock.json')
+  expect(measurement.publicRoutes.ownerRuntimeConfig).toBe('/owner-runtime-config.json')
   expect(measurement.publicRoutes.ownerUnlockPreflightJson).toBe('/owner-unlock-preflight.json')
   expect(measurement.publicRoutes.productGateRecovery).toBe('/product-gate-recovery.html')
   expect(measurement.publicRoutes.productGateRecoveryJson).toBe('/product-gate-recovery.json')
@@ -12282,6 +12346,12 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(html).toContain('release-candidate.json')
   expect(html).toContain('sync commit can lag deploy')
   expect(html).toContain(measurement.liveRelease.syncedCandidateId ?? 'missing')
+  expect(html).toContain('Owner Runtime Config')
+  expect(html).toContain('owner-runtime-config-live-status')
+  expect(html).toContain('owner-runtime-posthog-status')
+  expect(html).toContain('owner-runtime-support-status')
+  expect(html).toContain('owner-runtime-config-inputs')
+  expect(html).toContain('Open runtime config')
   expect(html).toContain('Start current sample')
   expect(html).toContain('sample-next.html')
   expect(html).toContain('Start fastest sample')
@@ -12333,6 +12403,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(script).toContain('Combined Owner Input Pack')
   expect(script).toContain('Combined Owner Input Preflight')
   expect(script).toContain('readLiveReleaseManifest')
+  expect(script).toContain('readLiveOwnerRuntimeConfig')
+  expect(script).toContain('./owner-runtime-config.json')
   expect(script).toContain('trafficSeeding')
   expect(script).toContain('productGateRecovery')
   expect(script).toContain('publicRouteHref')
@@ -12380,6 +12452,34 @@ test('production measurement status publishes public aggregate evidence handoff'
   await page.goto('/measurement-status.html')
   await expect(page.getByRole('heading', { name: 'Production Measurement Status' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Live Release Evidence' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Owner Runtime Config' })).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Open runtime config' })).toHaveAttribute(
+    'href',
+    './owner-runtime-config.json',
+  )
+  await expect(page.getByLabel('Owner runtime config')).toContainText('Synced config status')
+  await expect(page.locator('#owner-runtime-config-live-status')).not.toContainText('checking')
+  await expect(page.locator('#owner-runtime-config-live-status')).toContainText(ownerRuntimeConfig.status)
+  const expectedRuntimeInputs = ownerRuntimeConfig.configuredPublicInputNames.length
+    ? ownerRuntimeConfig.configuredPublicInputNames.join(', ')
+    : 'none'
+  const expectedPosthogStatus =
+    ownerRuntimeConfig.analytics.posthogConfigured &&
+    ownerRuntimeConfig.configuredPublicInputNames.includes('VITE_POSTHOG_KEY')
+      ? 'posthog-browser ready'
+      : ownerRuntimeConfig.invalidPublicInputNames.includes('VITE_POSTHOG_KEY')
+        ? 'fix VITE_POSTHOG_KEY'
+        : 'waiting for VITE_POSTHOG_KEY'
+  const expectedSupportStatus =
+    ownerRuntimeConfig.support.configured &&
+    ownerRuntimeConfig.configuredPublicInputNames.includes('AGL_SUPPORT_EMAIL')
+      ? 'support contact ready'
+      : ownerRuntimeConfig.invalidPublicInputNames.includes('AGL_SUPPORT_EMAIL')
+        ? 'fix AGL_SUPPORT_EMAIL'
+        : 'waiting for AGL_SUPPORT_EMAIL'
+  await expect(page.locator('#owner-runtime-config-inputs')).toContainText(expectedRuntimeInputs)
+  await expect(page.locator('#owner-runtime-posthog-status')).toContainText(expectedPosthogStatus)
+  await expect(page.locator('#owner-runtime-support-status')).toContainText(expectedSupportStatus)
   await expect(page.getByRole('heading', { name: 'Public Aggregate Evidence' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Player Evidence Invite Pack' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Zero-Spend Analytics Unlock' })).toBeVisible()
