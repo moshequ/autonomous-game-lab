@@ -621,15 +621,17 @@ const storeOwnerNextUnlock =
   storeOwnerUnlocks.find((unlock) => unlock.id === storeOwnerUnlockSummary?.nextUnlockId) ??
   storeOwnerUnlocks.find((unlock) => unlock.ownerInputRequired && unlock.canApplyBeforeProductGates) ??
   null
-const summarizeAnalyticsParallelUnlock = (ownerAction, unlockKit, recommendedPath, lowestInputPath) =>
-  unlockKit && recommendedPath
+const summarizeAnalyticsParallelUnlock = (ownerAction, unlockKit, recommendedPath, lowestInputPath) => {
+  const activePath = lowestInputPath ?? recommendedPath
+
+  return unlockKit && recommendedPath && activePath
     ? {
         id: ownerAction?.id ?? unlockKit.id,
         title: ownerAction?.title ?? unlockKit.title,
         category: 'measurement',
         status: ownerAction?.ownerInputRequired ? 'waiting-on-owner-input' : 'ready-to-validate',
-        costMode: recommendedPath.costMode,
-        ownerInputRequired: recommendedPath.ownerInputRequired === true,
+        costMode: activePath.costMode,
+        ownerInputRequired: activePath.ownerInputRequired === true,
         canApplyBeforeProductGates: true,
         storeSubmissionStillBlocked: true,
         publicStatusPage: '/measurement-status.html',
@@ -637,17 +639,20 @@ const summarizeAnalyticsParallelUnlock = (ownerAction, unlockKit, recommendedPat
         recommendedPathId: recommendedPath.id,
         lowestInputPathId: lowestInputPath?.id ?? null,
         lowestInputUnlockId: null,
-        missingVariableCount: recommendedPath.missingVariableCount,
-        missingSecretCount: recommendedPath.missingSecretCount,
-        missingInputCount: recommendedPath.missingInputCount,
+        activePathId: activePath.id,
+        recommendedMissingInputCount: recommendedPath.missingInputCount,
+        recommendedMissingSecretCount: recommendedPath.missingSecretCount,
+        missingVariableCount: activePath.missingVariableCount,
+        missingSecretCount: activePath.missingSecretCount,
+        missingInputCount: activePath.missingInputCount,
         lowestInputMissingInputCount: lowestInputPath?.missingInputCount ?? 0,
         lowestInputMissingSecretCount: lowestInputPath?.missingSecretCount ?? 0,
-        missingVariables: summarizeConfigInputs(recommendedPath.requiredVariables).filter((item) => !item.configured),
-        missingSecrets: summarizeConfigInputs(recommendedPath.requiredSecrets).filter((item) => !item.configured),
-        configuredVariables: summarizeConfigInputs(recommendedPath.requiredVariables).filter((item) => item.configured),
-        configuredSecrets: summarizeConfigInputs(recommendedPath.requiredSecrets).filter((item) => item.configured),
-        setupCommands: recommendedPath.commandSequence ?? [],
-        validationCommands: recommendedPath.validationCommands ?? [],
+        missingVariables: summarizeConfigInputs(activePath.requiredVariables).filter((item) => !item.configured),
+        missingSecrets: summarizeConfigInputs(activePath.requiredSecrets).filter((item) => !item.configured),
+        configuredVariables: summarizeConfigInputs(activePath.requiredVariables).filter((item) => item.configured),
+        configuredSecrets: summarizeConfigInputs(activePath.requiredSecrets).filter((item) => item.configured),
+        setupCommands: activePath.commandSequence ?? [],
+        validationCommands: activePath.validationCommands ?? [],
         controls: {
           zeroPaidSpend: true,
           noSecretValues: true,
@@ -661,6 +666,7 @@ const summarizeAnalyticsParallelUnlock = (ownerAction, unlockKit, recommendedPat
         },
       }
     : null
+}
 const summarizeStoreParallelUnlock = (unlock, summary) =>
   unlock
     ? {
@@ -1310,7 +1316,7 @@ const ownerUnlockPageHtml = (briefPayload) => {
               (unlock) => `<div class="card">
             <span>${escapeHtml(unlock.category)}</span>
             <strong>${escapeHtml(unlock.id)}</strong>
-            <p>${escapeHtml(unlock.title)} needs ${escapeHtml(unlock.missingInputCount)} input(s) and ${escapeHtml(unlock.missingSecretCount)} secret(s).</p>
+            <p>${escapeHtml(unlock.title)} lowest-input path needs ${escapeHtml(unlock.lowestInputMissingInputCount ?? unlock.missingInputCount)} input(s) and ${escapeHtml(unlock.lowestInputMissingSecretCount ?? unlock.missingSecretCount)} secret(s).</p>
           </div>`,
             )
             .join('\n')}
@@ -1318,9 +1324,9 @@ const ownerUnlockPageHtml = (briefPayload) => {
       </section>
 
       <section>
-        <h2>Validation</h2>
+        <h2>Lowest-Input Validation</h2>
         <ul>
-          ${commandItemsHtml(currentBrief?.validationCommands)}
+          ${commandItemsHtml(lowestPath?.validationCommands ?? currentBrief?.validationCommands)}
         </ul>
         <div class="actions">
           <a href="./owner-unlock-brief.json">owner-unlock-brief.json</a>

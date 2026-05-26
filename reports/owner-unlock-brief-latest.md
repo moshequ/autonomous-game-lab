@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-26T15:11:40.046Z
+Generated: 2026-05-26T15:19:54.781Z
 Status: waiting-on-owner-input
-Source hash: ef1c7c2c5b28
+Source hash: 470359f9156a
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
@@ -128,23 +128,21 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - status: waiting-on-owner-input
 - public status: /measurement-status.html
 - public json: /measurement-status.json
-- missing inputs: 4
-- missing variables: CLOUDFLARE_ACCOUNT_ID, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
-- missing secrets: CLOUDFLARE_API_TOKEN
+- missing inputs: 1
+- missing variables: VITE_POSTHOG_KEY
+- missing secrets: none
 - lowest-input missing: 1
 - can apply before product gates: true
 - store submission still blocked: true
 
 Setup commands:
-- npm run autonomous:event-collector-smoke
-- npm run autonomous:collector-deploy-plan
+- ./ops/github/setup-production.sh --analytics-input-template
 - ./ops/github/setup-production.sh
 - RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
+- AGL_PRODUCTION_EVENT_EXPORT_FILES=/absolute/path/to/export.json npm run autonomous:collect-production-export
 - npm run autonomous:readiness
 
 Validation commands:
-- npm run autonomous:event-collector-smoke
-- npm run autonomous:collector-deploy-plan
 - npm run autonomous:readiness
 - npm run test:e2e
 
