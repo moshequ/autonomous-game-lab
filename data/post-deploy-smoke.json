@@ -1,38 +1,10 @@
 {
-  "generatedAt": "2026-05-26T22:30:43.248Z",
+  "generatedAt": "2026-05-26T22:34:11.771Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": ".env.production.local",
-        "keys": [
-          "VITE_POSTHOG_KEY",
-          "VITE_POSTHOG_HOST",
-          "AGL_SUPPORT_EMAIL"
-        ]
-      },
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "VITE_POSTHOG_KEY",
-      "VITE_POSTHOG_HOST",
-      "AGL_SUPPORT_EMAIL",
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -66,14 +38,14 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-0bf853af5ec0",
-    "aggregateHash": "0bf853af5ec0d2d40971d133fd3a93c3ae7363441325cd7a651c5f91fbf80184",
+    "candidateId": "pwa-6d34a352360a",
+    "aggregateHash": "6d34a352360aa5273a2416a768e871f3760f07bfd520fd23b2aa53ec8bfcd083",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-a51013f83c43",
-    "aggregateHash": "a51013f83c43cd3536c6c39037ef676c4097ef9e17ed3ec658b99f2701ea4fff",
+    "candidateId": "pwa-73c459570488",
+    "aggregateHash": "73c45957048848b52dd8009e64e8da5da500f7ec47708d08e7d04b15baf3a6cb",
     "localCandidateMatches": false,
     "strictManifestComparison": false,
     "postDeploySmokeUrls": 33,
@@ -171,7 +143,7 @@
         "file": "dist/measurement-status.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 113469,
+        "bytes": 113016,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -201,7 +173,7 @@
         "file": "dist/owner-unlock-preflight.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 36009,
+        "bytes": 34890,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -231,7 +203,7 @@
         "file": "dist/analytics-unlock.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 81487,
+        "bytes": 81034,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -301,7 +273,7 @@
         "file": "dist/store-readiness.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 17643,
+        "bytes": 17601,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -441,11 +413,11 @@
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 39581,
+        "bytes": 39579,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-0bf853af5ec0",
-        "localAggregateHash": "0bf853af5ec0d2d40971d133fd3a93c3ae7363441325cd7a651c5f91fbf80184",
+        "localCandidateId": "pwa-6d34a352360a",
+        "localAggregateHash": "6d34a352360aa5273a2416a768e871f3760f07bfd520fd23b2aa53ec8bfcd083",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -557,7 +529,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 112952,
+      "bytes": 113016,
       "textMatched": true
     },
     {
@@ -669,7 +641,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 9441,
+      "bytes": 9515,
       "textMatched": true
     },
     {
@@ -781,7 +753,7 @@
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
       "contentType": "text/html; charset=utf-8",
-      "bytes": 50894,
+      "bytes": 50960,
       "textMatched": true
     },
     {
@@ -929,7 +901,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-0bf853af5ec0",
+      "requiredText": "pwa-6d34a352360a",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
@@ -941,8 +913,8 @@
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-a51013f83c43",
-      "deployedAggregateHash": "a51013f83c43cd3536c6c39037ef676c4097ef9e17ed3ec658b99f2701ea4fff",
+      "deployedCandidateId": "pwa-73c459570488",
+      "deployedAggregateHash": "73c45957048848b52dd8009e64e8da5da500f7ec47708d08e7d04b15baf3a6cb",
       "deployedPostDeploySmoke": [
         {
           "id": "app-shell",
@@ -1180,7 +1152,7 @@
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-a51013f83c43; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-73c459570488; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 }
