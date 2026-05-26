@@ -678,6 +678,12 @@
   margin-top: auto;
 }
 
+.gameCardActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .tag {
   padding: 3px 7px;
   border-radius: 999px;

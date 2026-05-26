@@ -242,6 +242,23 @@ const exportedEvents = [
     createdAt: '2026-05-17T09:00:50.000Z',
   },
   {
+    id: 'collector-game-card-play',
+    name: 'game_card_play_clicked',
+    properties: {
+      gameId: smokeGameId,
+      title: smokeGameTitle,
+      status: 'live',
+      surface: 'release_pipeline',
+      thumbnailVariantId: 'board-state',
+      releasePipelineCreatesFreshRun: true,
+      anonymousId: 'anon-collector',
+      sessionId: 'session-collector-a',
+      sessionDate: '2026-05-17',
+      zeroPaidSpend: true,
+    },
+    createdAt: '2026-05-17T09:00:55.000Z',
+  },
+  {
     id: 'collector-start',
     name: 'game_started',
     properties: {
@@ -455,6 +472,7 @@ if (
   summaryPayload.controls?.rawEventsReturned !== false ||
   summaryPayload.events?.total !== expectedCollectorEvents ||
   summaryPayload.events?.byName?.game_started !== 1 ||
+  summaryPayload.events?.byName?.game_card_play_clicked !== 1 ||
   summaryPayload.events?.byName?.level_completed !== 1 ||
   summaryPayload.events?.byName?.owner_unlock_pack_copied !== ownerUnlockEventsWithoutGame ||
   summaryPayload.events?.byGame?.[smokeGameId] !== expectedCollectorEvents - ownerUnlockEventsWithoutGame ||
@@ -515,6 +533,7 @@ try {
     analytics.retention.source !== 'local-event-drops' ||
     analytics.retention.d1Retention !== 1 ||
     game?.counts.game_started !== 1 ||
+    game?.counts.game_card_play_clicked !== 1 ||
     game?.counts.gate_sample_mission_clicked !== 1 ||
     game?.counts.sample_next_viewed !== 1 ||
     game?.counts.sample_next_routed !== 1 ||
@@ -568,6 +587,7 @@ try {
       d1Retention: analytics.retention.d1Retention,
       counts: {
         game_viewed: game.counts.game_viewed,
+        game_card_play_clicked: game.counts.game_card_play_clicked,
         game_started: game.counts.game_started,
         gate_sample_mission_clicked: game.counts.gate_sample_mission_clicked,
         sample_next_viewed: game.counts.sample_next_viewed,

@@ -1793,6 +1793,51 @@ function App() {
       noRevenueEnablement: mission.controls.noRevenueEnablement,
     })
   }
+  const startReleasePipelineGame = (game: (typeof games)[number]) => {
+    if (!isPlayableGameId(game.id)) {
+      return
+    }
+
+    const nextRunSeed = crypto.randomUUID()
+    const nextRunId = `${game.id}-${nextRunSeed}`
+    const sameGameRestart = selectedGameId === game.id
+
+    setRunSeed(nextRunSeed)
+    setSelectedGameId(game.id)
+    setActiveGateSampleCampaignId('')
+    setAcquisitionAttribution({
+      source: 'release_pipeline',
+      campaign: game.id,
+      gameId: game.id,
+      channel: 'release-card',
+    })
+    replaceHistoryWithCampaignUrl(
+      `/?game=${encodeURIComponent(game.id)}&utm_source=release_pipeline&utm_campaign=${encodeURIComponent(
+        game.id,
+      )}`,
+    )
+
+    trackEvent('game_card_play_clicked', {
+      gameId: game.id,
+      title: game.title,
+      status: game.status,
+      mechanic: game.mechanic,
+      surface: 'release_pipeline',
+      thumbnailVariantId: thumbnailVariant.id,
+      runId: nextRunId,
+      releasePipelineCreatesFreshRun: true,
+      sameGameRestart,
+      previousGameId: selectedGameId,
+      previousRunCompleted: snapshot.completed,
+      previousRunMoves: snapshot.moves,
+      previousRunResult: snapshot.result,
+      zeroPaidSpend: true,
+    })
+
+    window.requestAnimationFrame(() => {
+      document.querySelector('.heroBand')?.scrollIntoView({ block: 'start' })
+    })
+  }
   const shareGateSampleMission = async (mission: (typeof productGateSamplePlan.missions)[number]) => {
     const shareUrl = resolveRuntimeCampaignUrl(mission.playPath)
     const shareData = {
@@ -3688,6 +3733,7 @@ function App() {
                 {[
                   'game_viewed',
                   'gate_sample_mission_clicked',
+                  'game_card_play_clicked',
                   'game_started',
                   'tutorial_completed',
                   'turn_taken',
@@ -3733,32 +3779,47 @@ function App() {
             </button>
           </div>
           <div className="gameGrid">
-            {games.map((game) => (
-              <article
-                className={`gameCard ${thumbnailVariant.id === 'board-state' ? 'gameCardBoardState' : ''}`}
-                data-thumbnail-variant={thumbnailVariant.id}
-                key={game.id}
-              >
-                <div
-                  className={`gameArt ${thumbnailVariant.id === 'board-state' ? 'gameArtBoardState' : ''}`}
-                  aria-hidden="true"
+            {games.map((game) => {
+              const playable = isPlayableGameId(game.id)
+
+              return (
+                <article
+                  className={`gameCard ${thumbnailVariant.id === 'board-state' ? 'gameCardBoardState' : ''}`}
+                  data-thumbnail-variant={thumbnailVariant.id}
+                  key={game.id}
                 >
-                  {Array.from({ length: 15 }, (_, index) => (
-                    <span key={index} />
-                  ))}
-                </div>
-                <div>
-                  <h3>{game.title}</h3>
-                  <p>{game.pitch}</p>
-                </div>
-                <div className="tagRow">
-                  <span className="tag">{game.status}</span>
-                  <span className="tag">{game.mechanic}</span>
-                  <span className="tag">R {game.retentionSignal}</span>
-                  <span className="tag">$ {game.monetizationSignal}</span>
-                </div>
-              </article>
-            ))}
+                  <div
+                    className={`gameArt ${thumbnailVariant.id === 'board-state' ? 'gameArtBoardState' : ''}`}
+                    aria-hidden="true"
+                  >
+                    {Array.from({ length: 15 }, (_, index) => (
+                      <span key={index} />
+                    ))}
+                  </div>
+                  <div>
+                    <h3>{game.title}</h3>
+                    <p>{game.pitch}</p>
+                  </div>
+                  <div className="tagRow">
+                    <span className="tag">{game.status}</span>
+                    <span className="tag">{game.mechanic}</span>
+                    <span className="tag">R {game.retentionSignal}</span>
+                    <span className="tag">$ {game.monetizationSignal}</span>
+                  </div>
+                  <div className="gameCardActions">
+                    <button
+                      className="tinyButton"
+                      type="button"
+                      disabled={!playable}
+                      onClick={() => startReleasePipelineGame(game)}
+                    >
+                      <Play size={14} aria-hidden="true" />
+                      {playable ? `Play ${game.title}` : 'Queued'}
+                    </button>
+                  </div>
+                </article>
+              )
+            })}
           </div>
         </div>
       </section>

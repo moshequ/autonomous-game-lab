@@ -18,6 +18,7 @@ export type AnalyticsEventName =
   | 'analytics_exported'
   | 'analytics_evidence_issue_opened'
   | 'improvement_requested'
+  | 'game_card_play_clicked'
   | 'prototype_card_viewed'
   | 'prototype_started'
   | 'privacy_choice_updated'

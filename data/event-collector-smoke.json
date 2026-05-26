@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T13:18:41.142Z",
+  "generatedAt": "2026-05-26T18:53:13.065Z",
   "status": "pass",
   "fixture": {
     "sourceFile": "data/generated-playable-games.json",
@@ -9,11 +9,11 @@
   "collector": {
     "postStatus": "accepted",
     "beaconStatus": "accepted",
-    "storedEvents": 20,
-    "exportedEvents": 20,
+    "storedEvents": 21,
+    "exportedEvents": 21,
     "files": 2,
     "summaryStatus": 200,
-    "summaryEvents": 20,
+    "summaryEvents": 21,
     "summaryFilesIncluded": 2,
     "ownerUnlockPackCopied": 1,
     "summaryAggregateOnly": true,
@@ -24,7 +24,7 @@
   },
   "ingest": {
     "status": "imported",
-    "importedEvents": 20,
+    "importedEvents": 21,
     "remoteCollectorStatus": "available"
   },
   "analytics": {
@@ -33,6 +33,7 @@
     "d1Retention": 1,
     "counts": {
       "game_viewed": 2,
+      "game_card_play_clicked": 1,
       "game_started": 1,
       "gate_sample_mission_clicked": 1,
       "sample_next_viewed": 1,

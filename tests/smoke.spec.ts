@@ -604,6 +604,10 @@ test('thumbnail board-state experiment reaches cards and start telemetry', async
   await expect(page.locator('.gameCard[data-thumbnail-variant="board-state"]').first()).toBeVisible()
   await expect(page.locator('.gameArtBoardState').first()).toBeVisible()
   await expect(page.locator('canvas').first()).toBeVisible()
+  const harborReleaseCard = page.locator('.gameCard[data-thumbnail-variant="board-state"]').filter({
+    hasText: 'Harbor Rings',
+  })
+  await expect(harborReleaseCard.getByRole('button', { name: 'Play Harbor Rings' })).toBeVisible()
 
   await expect
     .poll(() =>
@@ -634,6 +638,29 @@ test('thumbnail board-state experiment reaches cards and start telemetry', async
       }),
     )
     .toBe('board-state')
+
+  await harborReleaseCard.getByRole('button', { name: 'Play Harbor Rings' }).click()
+  await expect(page).toHaveURL(/utm_source=release_pipeline/)
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const raw = window.localStorage.getItem('agl.analytics.events')
+        const events = raw ? JSON.parse(raw) : []
+        return events.findLast(
+          (event: { name: string; properties: { gameId?: string; thumbnailVariantId?: string } }) =>
+            event.name === 'game_card_play_clicked' && event.properties.gameId === 'harbor-rings',
+        )
+      }),
+    )
+    .toMatchObject({
+      properties: {
+        gameId: 'harbor-rings',
+        thumbnailVariantId: 'board-state',
+        surface: 'release_pipeline',
+        releasePipelineCreatesFreshRun: true,
+        zeroPaidSpend: true,
+      },
+    })
 })
 
 test('local learning router routes players to the next zero-spend evidence action', async ({ page }) => {
