@@ -24,6 +24,9 @@ const writeLocalEnvTemplateCommand = 'node scripts/owner-unlock-preflight.mjs --
 const setupWriteLocalEnvTemplateCommand = './ops/github/setup-production.sh --owner-input-template'
 const writeAnalyticsLocalEnvTemplateCommand = 'node scripts/owner-unlock-preflight.mjs --analytics-input-template'
 const setupWriteAnalyticsLocalEnvTemplateCommand = './ops/github/setup-production.sh --analytics-input-template'
+const npmWriteLocalEnvTemplateCommand = 'npm run autonomous:owner-input-template'
+const npmWriteAnalyticsLocalEnvTemplateCommand = 'npm run autonomous:analytics-input-template'
+const npmWriteSupportLocalEnvTemplateCommand = 'npm run autonomous:support-input-template'
 
 const outputJsonPath = path.join(root, 'data', 'owner-unlock-preflight.json')
 const publicJsonPath = path.join(root, 'public', 'owner-unlock-preflight.json')
@@ -481,8 +484,10 @@ const buildOwnerInputPack = (pathPreflight) =>
         })),
           commands: {
             preflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
+            npmWriteLocalEnvTemplate: npmWriteAnalyticsLocalEnvTemplateCommand,
             writeLocalEnvTemplate: writeAnalyticsLocalEnvTemplateCommand,
             setupWriteLocalEnvTemplate: setupWriteAnalyticsLocalEnvTemplateCommand,
+            npmWriteCombinedLocalEnvTemplate: npmWriteLocalEnvTemplateCommand,
             writeCombinedLocalEnvTemplate: writeLocalEnvTemplateCommand,
             setupWriteCombinedLocalEnvTemplate: setupWriteLocalEnvTemplateCommand,
             syncConfiguredValues: './ops/github/setup-production.sh',
@@ -680,10 +685,13 @@ const payload = {
       printBrief: 'node scripts/owner-unlock-brief.mjs --print',
       preflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
       setupPreflight: './ops/github/setup-production.sh --owner-unlock-preflight',
+      npmWriteLocalEnvTemplate: npmWriteLocalEnvTemplateCommand,
       writeLocalEnvTemplate: writeLocalEnvTemplateCommand,
       setupWriteLocalEnvTemplate: setupWriteLocalEnvTemplateCommand,
+      npmWriteAnalyticsLocalEnvTemplate: npmWriteAnalyticsLocalEnvTemplateCommand,
       writeAnalyticsLocalEnvTemplate: writeAnalyticsLocalEnvTemplateCommand,
       setupWriteAnalyticsLocalEnvTemplate: setupWriteAnalyticsLocalEnvTemplateCommand,
+      npmWriteSupportLocalEnvTemplate: npmWriteSupportLocalEnvTemplateCommand,
       lowestInputPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
       combinedInputPreflight: 'node scripts/owner-unlock-preflight.mjs --assert --print',
       packagePreflight: 'npm run autonomous:owner-unlock-preflight',
@@ -798,10 +806,13 @@ const report = [
   `- print brief: ${payload.commands.printBrief}`,
   `- preflight: ${payload.commands.preflight}`,
   `- setup preflight: ${payload.commands.setupPreflight}`,
+  `- npm write local env template: ${payload.commands.npmWriteLocalEnvTemplate}`,
   `- write local env template: ${payload.commands.writeLocalEnvTemplate}`,
   `- setup write local env template: ${payload.commands.setupWriteLocalEnvTemplate}`,
+  `- npm write analytics local env template: ${payload.commands.npmWriteAnalyticsLocalEnvTemplate}`,
   `- write analytics local env template: ${payload.commands.writeAnalyticsLocalEnvTemplate}`,
   `- setup write analytics local env template: ${payload.commands.setupWriteAnalyticsLocalEnvTemplate}`,
+  `- npm write support local env template: ${payload.commands.npmWriteSupportLocalEnvTemplate}`,
   `- combined input preflight: ${payload.commands.combinedInputPreflight}`,
   `- package preflight: ${payload.commands.packagePreflight}`,
   `- sync configured values: ${payload.commands.syncConfiguredValues}`,
@@ -912,10 +923,13 @@ if (jsonMode) {
     'Commands:',
     `  - Print brief: ${payload.commands.printBrief}`,
     `  - Preflight: ${payload.commands.preflight}`,
+    `  - NPM write local env template: ${payload.commands.npmWriteLocalEnvTemplate}`,
     `  - Write local env template: ${payload.commands.writeLocalEnvTemplate}`,
     `  - Setup write local env template: ${payload.commands.setupWriteLocalEnvTemplate}`,
+    `  - NPM write analytics local env template: ${payload.commands.npmWriteAnalyticsLocalEnvTemplate}`,
     `  - Write analytics local env template: ${payload.commands.writeAnalyticsLocalEnvTemplate}`,
     `  - Setup write analytics local env template: ${payload.commands.setupWriteAnalyticsLocalEnvTemplate}`,
+    `  - NPM write support local env template: ${payload.commands.npmWriteSupportLocalEnvTemplate}`,
     `  - Combined input preflight: ${payload.commands.combinedInputPreflight}`,
     `  - Setup preflight: ${payload.commands.setupPreflight}`,
     `  - Sync configured values: ${payload.commands.syncConfiguredValues}`,

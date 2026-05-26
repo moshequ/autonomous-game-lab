@@ -1,6 +1,6 @@
 export const storeReadiness = {
-  "generatedAt": "2026-05-26T05:20:41.601Z",
-  "sourceDataHash": "e5fd1b480317",
+  "generatedAt": "2026-05-26T05:37:51.804Z",
+  "sourceDataHash": "10fbc2e68134",
   "status": "store-readiness-prepared-external-blockers",
   "sourceStatus": {
     "storePackage": "store-package-ready",
@@ -87,8 +87,10 @@ export const storeReadiness = {
         "ready": false,
         "configuredInRepository": false,
         "availableLocally": false,
-        "availableInLocalEnvFile": false,
-        "localEnvFiles": [],
+        "availableInLocalEnvFile": true,
+        "localEnvFiles": [
+          ".env.production.local"
+        ],
         "validation": {
           "kind": "email-shape",
           "status": "not-checked-missing-input",
@@ -110,6 +112,7 @@ export const storeReadiness = {
       }
     ],
     "commands": {
+      "npmWriteLocalEnvTemplate": "npm run autonomous:support-input-template",
       "writeLocalEnvTemplate": "node scripts/store-readiness-page.mjs --write-local-env-template",
       "setupWriteLocalEnvTemplate": "./ops/github/setup-production.sh --support-input-template",
       "validate": "npm run autonomous:store-readiness",

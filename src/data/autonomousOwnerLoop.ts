@@ -8,18 +8,15 @@ export const autonomousOwnerLoop = {
     "externalAccountInterventionRequired": true
   },
   "ownerDecision": {
-    "nextBestActionId": "hold-for-external-input"
+    "nextBestActionId": "seed-portfolio-traffic"
   },
   "executionBackoff": {
-    "status": "cooling-down",
-    "heldActionCount": 2,
-    "executableWithoutRepeatCount": 0,
-    "nextResumeAt": "2026-05-26T17:32:19.733Z",
-    "nextResumeInHours": 12.187,
-    "heldActionIds": [
-      "seed-portfolio-traffic",
-      "refresh-organic-seed-loop"
-    ]
+    "status": "ready",
+    "heldActionCount": 0,
+    "executableWithoutRepeatCount": 2,
+    "nextResumeAt": null,
+    "nextResumeInHours": null,
+    "heldActionIds": []
   },
   "externalInputHandoff": {
     "nextUnlockId": "production-analytics-browser",

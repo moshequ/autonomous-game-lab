@@ -15,6 +15,7 @@ const writeLocalEnvTemplateMode =
 const templateOnlyMode = writeLocalEnvTemplateMode && args.has('--template-only')
 const supportLocalEnvTemplateCommand = 'node scripts/store-readiness-page.mjs --write-local-env-template'
 const setupSupportLocalEnvTemplateCommand = './ops/github/setup-production.sh --support-input-template'
+const npmSupportLocalEnvTemplateCommand = 'npm run autonomous:support-input-template'
 const dataDir = path.join(root, 'data')
 const publicDir = path.join(root, 'public')
 const reportsDir = path.join(root, 'reports')
@@ -454,6 +455,7 @@ const buildSupportOwnerInputPack = (unlock) => {
       },
     ],
     commands: {
+      npmWriteLocalEnvTemplate: npmSupportLocalEnvTemplateCommand,
       writeLocalEnvTemplate: supportLocalEnvTemplateCommand,
       setupWriteLocalEnvTemplate: setupSupportLocalEnvTemplateCommand,
       validate: 'npm run autonomous:store-readiness',
@@ -928,6 +930,7 @@ const html = `<!doctype html>
         <div class="row"><span>Next unlock</span><strong>${escapeHtml(storeOwnerUnlockSummary.nextUnlockId ?? 'none')}</strong></div>
         <div class="row"><span>Lowest input</span><strong>${escapeHtml(storeOwnerUnlockSummary.lowestInputReason)}</strong></div>
         <div class="row"><span>Support input pack</span><strong>${escapeHtml(supportOwnerInputPack.localEnvFile)}</strong></div>
+        <div class="row"><span>NPM template</span><strong><code>${escapeHtml(supportOwnerInputPack.commands.npmWriteLocalEnvTemplate)}</code></strong></div>
         <div class="row"><span>Template helper</span><strong><code>${escapeHtml(supportOwnerInputPack.commands.setupWriteLocalEnvTemplate)}</code></strong></div>
         <div class="row"><span>Direct template</span><strong><code>${escapeHtml(supportOwnerInputPack.commands.writeLocalEnvTemplate)}</code></strong></div>
         <div class="row"><span>Support pack missing</span><strong>${supportOwnerInputPack.missingInputCount} input(s), ${supportOwnerInputPack.secretInputCount} secret(s)</strong></div>
@@ -1029,6 +1032,7 @@ const report = [
   `- unlock: ${supportOwnerInputPack.unlockId}`,
   `- status: ${supportOwnerInputPack.status}`,
   `- local env file: ${supportOwnerInputPack.localEnvFile}`,
+  `- npm template: ${supportOwnerInputPack.commands.npmWriteLocalEnvTemplate}`,
   `- write local env template: ${supportOwnerInputPack.commands.writeLocalEnvTemplate}`,
   `- setup write local env template: ${supportOwnerInputPack.commands.setupWriteLocalEnvTemplate}`,
   `- missing inputs: ${supportOwnerInputPack.missingInputNames.join(', ') || 'none'}`,
@@ -1114,6 +1118,7 @@ if (jsonMode) {
     `Missing inputs: ${supportOwnerInputPack.missingInputNames.join(', ') || 'none'}`,
     '',
     'Commands:',
+    `  - NPM template: ${supportOwnerInputPack.commands.npmWriteLocalEnvTemplate}`,
     `  - Write local env template: ${supportOwnerInputPack.commands.writeLocalEnvTemplate}`,
     `  - Setup write local env template: ${supportOwnerInputPack.commands.setupWriteLocalEnvTemplate}`,
     `  - Sync configured values: ${supportOwnerInputPack.commands.syncConfiguredValues}`,
