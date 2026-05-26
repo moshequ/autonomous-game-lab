@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-26T16:33:21.011Z",
+  "generatedAt": "2026-05-26T16:47:46.301Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
     "loaded": false,
@@ -38,14 +38,14 @@ export const postDeploySmoke = {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-238f02b84ba6",
-    "aggregateHash": "238f02b84ba6fce86a5de36460c53356064ca05e73641761e0f704ab10343921",
+    "candidateId": "pwa-f2b9998c2649",
+    "aggregateHash": "f2b9998c26494e95206a4e35f92ba24883271f181497850552c8b6c32c41574c",
     "strictManifestComparison": false
   },
   "liveRelease": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-4b917ebba390",
-    "aggregateHash": "4b917ebba390ddcf84f4050a9e7dc5517245e0dadc3472323e3413c257ac2363",
+    "candidateId": "pwa-a346ea5981b3",
+    "aggregateHash": "a346ea5981b36b50abed16f3fea621ec172cd97d3868575786f685c33c46d04d",
     "localCandidateMatches": false,
     "strictManifestComparison": false,
     "postDeploySmokeUrls": 33,
@@ -133,7 +133,7 @@ export const postDeploySmoke = {
         "file": "dist/measurement-status.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 41476,
+        "bytes": 49462,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -143,7 +143,7 @@ export const postDeploySmoke = {
         "file": "dist/measurement-status.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 104690,
+        "bytes": 106384,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -203,7 +203,7 @@ export const postDeploySmoke = {
         "file": "dist/analytics-unlock.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 75918,
+        "bytes": 77612,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -416,8 +416,8 @@ export const postDeploySmoke = {
         "bytes": 39579,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-238f02b84ba6",
-        "localAggregateHash": "238f02b84ba6fce86a5de36460c53356064ca05e73641761e0f704ab10343921",
+        "localCandidateId": "pwa-f2b9998c2649",
+        "localAggregateHash": "f2b9998c26494e95206a4e35f92ba24883271f181497850552c8b6c32c41574c",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -515,7 +515,7 @@ export const postDeploySmoke = {
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
       "contentType": "text/html; charset=utf-8",
-      "bytes": 41476,
+      "bytes": 49462,
       "textMatched": true
     },
     {
@@ -529,7 +529,7 @@ export const postDeploySmoke = {
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 104690,
+      "bytes": 106384,
       "textMatched": true
     },
     {
@@ -613,7 +613,7 @@ export const postDeploySmoke = {
       "actualStatus": 200,
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json",
       "contentType": "application/json; charset=utf-8",
-      "bytes": 75918,
+      "bytes": 77612,
       "textMatched": true
     },
     {
@@ -901,7 +901,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-238f02b84ba6",
+      "requiredText": "pwa-f2b9998c2649",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,
@@ -913,8 +913,8 @@ export const postDeploySmoke = {
       "localCandidateMatches": false,
       "strictManifestComparison": false,
       "deployedReleaseStatus": "release-candidate-ready",
-      "deployedCandidateId": "pwa-4b917ebba390",
-      "deployedAggregateHash": "4b917ebba390ddcf84f4050a9e7dc5517245e0dadc3472323e3413c257ac2363",
+      "deployedCandidateId": "pwa-a346ea5981b3",
+      "deployedAggregateHash": "a346ea5981b36b50abed16f3fea621ec172cd97d3868575786f685c33c46d04d",
       "deployedPostDeploySmoke": [
         {
           "id": "app-shell",
@@ -1152,7 +1152,7 @@ export const postDeploySmoke = {
     }
   ],
   "nextActions": [
-    "Live Pages is reachable and serving pwa-4b917ebba390; run the deploy workflow for strict proof of the current local candidate if needed.",
+    "Live Pages is reachable and serving pwa-a346ea5981b3; run the deploy workflow for strict proof of the current local candidate if needed.",
     "Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass."
   ]
 } as const
