@@ -1,32 +1,105 @@
 {
-  "generatedAt": "2026-05-26T06:21:50.090Z",
-  "status": "operator-plan-ready",
+  "generatedAt": "2026-05-26T06:25:14.191Z",
+  "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-live-site-monitor",
-    "command": "npm run autonomous:live-monitor",
-    "locallyExecutable": true,
-    "rejectionReason": null
+    "actionId": "hold-for-external-input",
+    "command": "No local command is available until external inputs, configured credentials, or new player evidence arrive.",
+    "locallyExecutable": false,
+    "rejectionReason": "status-monitor"
   },
-  "externalInputHandoff": null,
-  "requestedActionId": null,
-  "selectedAction": {
-    "id": "refresh-live-site-monitor",
-    "status": "armed",
-    "command": "npm run autonomous:live-monitor",
-    "targets": [
-      "https://moshequ.github.io/autonomous-game-lab"
+  "externalInputHandoff": {
+    "status": "handoff-waiting-on-owner-inputs",
+    "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
+    "nextUnlockId": "production-analytics-browser",
+    "title": "Browser production analytics unlock kit",
+    "recommendedPathId": "first-party-collector",
+    "recommendedPathStatus": "needs-variables-and-secrets",
+    "lowestInputPathId": "posthog-browser",
+    "lowestInputPathStatus": "needs-public-project-key",
+    "lowestInputMissingVariableCount": 2,
+    "lowestInputMissingSecretCount": 0,
+    "lowestInputMissingInputCount": 2,
+    "lowestInputReason": "PostHog browser capture currently needs 2 missing input(s), compared with 4 for the recommended path.",
+    "publicStatusPage": "/measurement-status.html",
+    "publicStatusJson": "/measurement-status.json",
+    "setupScript": "ops/github/setup-production.sh",
+    "envTemplate": "ops/production.env.example",
+    "missingVariableCount": 5,
+    "missingSecretCount": 1,
+    "commandCount": 7,
+    "validationCommandCount": 4,
+    "requiredVariables": [
+      {
+        "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
+        "envName": "CLOUDFLARE_ACCOUNT_ID",
+        "configured": false
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+        "configured": true
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+        "configured": true
+      },
+      {
+        "repositoryName": "VITE_EVENT_COLLECTOR_URL",
+        "envName": "VITE_EVENT_COLLECTOR_URL",
+        "configured": false
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+        "envName": "AGL_EVENT_COLLECTOR_EXPORT_URL",
+        "configured": false
+      }
     ],
-    "reason": "Runs read-only live checks between deploys so public PWA drift is caught without waiting for a new release.",
-    "costUsd": 0
+    "requiredSecrets": [
+      {
+        "repositoryName": "CLOUDFLARE_API_TOKEN",
+        "envName": "CLOUDFLARE_API_TOKEN",
+        "configured": false
+      },
+      {
+        "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+        "configured": true
+      },
+      {
+        "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
+        "configured": true
+      }
+    ],
+    "commandSequence": [
+      "npm run autonomous:event-collector-smoke",
+      "npm run autonomous:collector-deploy-plan",
+      "./ops/github/setup-production.sh",
+      "RUN_WORKFLOWS=1 ./ops/github/setup-production.sh",
+      "npm run autonomous:readiness"
+    ],
+    "validationCommands": [
+      "npm run autonomous:event-collector-smoke",
+      "npm run autonomous:collector-deploy-plan",
+      "npm run autonomous:readiness",
+      "npm run test:e2e"
+    ],
+    "controls": {
+      "zeroPaidSpend": true,
+      "noSecretValues": true,
+      "noSecretValuesStored": true,
+      "noAccountCreation": true,
+      "noStoreSubmission": true,
+      "noRevenueEnablement": true,
+      "operatorWillNotRunExternalWorkflow": true
+    }
   },
+  "requestedActionId": null,
+  "selectedAction": null,
   "selectedRejection": null,
-  "eligibleActionIds": [
-    "seed-portfolio-traffic",
-    "prepare-release-candidate",
-    "refresh-live-site-monitor",
-    "bootstrap-production-setup"
-  ],
+  "eligibleActionIds": [],
   "blockedActions": [
     {
       "id": "run-daily-owner-loop",
@@ -56,7 +129,7 @@
       "id": "seed-portfolio-traffic",
       "status": "armed",
       "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
+      "reason": "owner-decision-held"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -90,9 +163,9 @@
     },
     {
       "id": "prepare-release-candidate",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "run-post-deploy-smoke",
@@ -104,6 +177,12 @@
       "id": "sync-post-deploy-artifact",
       "status": "monitor",
       "command": "npm run autonomous:post-deploy-artifact-sync",
+      "reason": "status-monitor"
+    },
+    {
+      "id": "refresh-live-site-monitor",
+      "status": "monitor",
+      "command": "npm run autonomous:live-monitor",
       "reason": "status-monitor"
     },
     {
@@ -168,9 +247,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "activate-production-when-configured",
@@ -239,12 +318,7 @@
       "reason": "status-monitor"
     }
   ],
-  "commandPlan": [
-    {
-      "segment": "npm run autonomous:live-monitor",
-      "script": "autonomous:live-monitor"
-    }
-  ],
+  "commandPlan": [],
   "execution": {
     "requested": false,
     "status": "not-requested",
@@ -319,7 +393,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-live-site-monitor to execute exactly one allowed local action.",
+    "Resolve production-analytics-browser through /measurement-status.html, then rerun npm run autonomous:readiness.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

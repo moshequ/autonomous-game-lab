@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T06:21:19.074Z",
+  "generatedAt": "2026-05-26T06:25:14.554Z",
   "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
@@ -10,7 +10,7 @@
   "repositoryChannel": {
     "status": "repository-channel-ready",
     "repository": "moshequ/autonomous-game-lab",
-    "source": "origin-remote",
+    "source": "environment",
     "insideWorkTree": true,
     "ghCliAvailable": true,
     "workflowDispatchReady": true,
@@ -50,11 +50,11 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-8591ee1ef320",
+    "candidateId": "pwa-241a40a61e97",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "8591ee1ef3202c9981a58743bbc6d49fc27126fe1c9780d3135485100b95b6a2",
+    "aggregateHash": "241a40a61e97d80190966a56cca262c3f86088dbfe716a0e5f65faa653654f4a",
     "totalFiles": 91,
-    "totalKb": 4074.6,
+    "totalKb": 4073.2,
     "postDeploySmokeUrls": 31
   },
   "compliance": {
@@ -83,7 +83,7 @@
     {
       "id": "web-readiness",
       "status": "pass",
-      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains blocked."
+      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build."
     },
     {
       "id": "release-health",
@@ -123,7 +123,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-8591ee1ef320."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-241a40a61e97."
     },
     {
       "id": "deploy-workflow",
