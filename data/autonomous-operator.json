@@ -1,33 +1,30 @@
 {
-  "generatedAt": "2026-05-26T14:47:29.182Z",
+  "generatedAt": "2026-05-26T14:53:35.074Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "seed-portfolio-traffic",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "actionId": "refresh-replay-loop",
+    "command": "npm run autonomous:replay-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "refresh-replay-loop",
     "status": "armed",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:replay-loop",
     "targets": [
-      "market-pulse",
-      "guild-garden",
-      "canopy-bloom",
-      "metro-loom"
+      "harbor-rings"
     ],
-    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
+    "reason": "Refreshes the optional completed-run replay prompt from product-gate and replay telemetry evidence.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "seed-portfolio-traffic",
-    "refresh-organic-seed-loop",
     "refresh-replay-loop",
+    "refresh-objective-audit",
     "apply-safe-improvements"
   ],
   "blockedActions": [
@@ -56,10 +53,16 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-organic-seed-loop",
+      "id": "seed-portfolio-traffic",
       "status": "armed",
-      "command": "npm run autonomous:organic-seed-loop",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "reason": "not-selected-this-run"
+    },
+    {
+      "id": "refresh-organic-seed-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:organic-seed-loop",
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-support-feedback",
@@ -158,12 +161,6 @@
       "reason": "status-monitor"
     },
     {
-      "id": "refresh-replay-loop",
-      "status": "armed",
-      "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
-    },
-    {
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
@@ -207,9 +204,9 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:objective-audit",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-store-listing",
@@ -244,24 +241,8 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:growth",
-      "script": "autonomous:growth"
-    },
-    {
-      "segment": "npm run autonomous:portfolio",
-      "script": "autonomous:portfolio"
-    },
-    {
-      "segment": "npm run autonomous:traffic",
-      "script": "autonomous:traffic"
-    },
-    {
-      "segment": "npm run autonomous:acquisition",
-      "script": "autonomous:acquisition"
-    },
-    {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:replay-loop",
+      "script": "autonomous:replay-loop"
     }
   ],
   "execution": {
@@ -338,7 +319,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=refresh-replay-loop to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

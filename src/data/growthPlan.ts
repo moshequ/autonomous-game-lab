@@ -1,5 +1,5 @@
 export const growthPlan = {
-  "generatedAt": "2026-05-26T05:43:27.245Z",
+  "generatedAt": "2026-05-26T14:51:04.317Z",
   "siteUrl": "https://moshequ.github.io/autonomous-game-lab",
   "publicUrlMode": "absolute-origin",
   "publicOrigin": {
