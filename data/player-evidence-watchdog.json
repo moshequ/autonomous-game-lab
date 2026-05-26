@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-26T22:34:16.037Z",
-  "sourceDataHash": "1a1a7e0778b2",
+  "generatedAt": "2026-05-26T22:44:17.919Z",
+  "sourceDataHash": "04bf0bdba442",
   "status": "watchdog-ready-for-explicit-scan",
   "mode": "zero-spend-player-evidence-watchdog",
   "evidenceState": {
@@ -52,6 +52,32 @@
     "safeEvidenceRefresh": "npm run autonomous:collect-local-event-drops",
     "explicitDownloadsRefresh": "npm run autonomous:collect-sample-downloads && npm run autonomous:player-evidence-watchdog",
     "productionMeasurementRefresh": "npm run autonomous:measurement-status && npm run autonomous:player-evidence-watchdog"
+  },
+  "commandHandoff": {
+    "safeLocalDropRefresh": {
+      "id": "safe-local-drop-refresh",
+      "label": "Safe local drop refresh",
+      "command": "npm run autonomous:collect-local-event-drops",
+      "preferred": true,
+      "requiresExplicitOwnerOptIn": false,
+      "scansDownloads": false,
+      "localDropFirst": true,
+      "noExternalUpload": true,
+      "noSyntheticEvents": true
+    },
+    "explicitDownloadsRefresh": {
+      "id": "explicit-downloads-refresh",
+      "label": "Explicit Downloads refresh",
+      "command": "npm run autonomous:collect-sample-downloads && npm run autonomous:player-evidence-watchdog",
+      "preferred": false,
+      "requiresExplicitOwnerOptIn": true,
+      "scansDownloads": true,
+      "readyForExplicitScan": true,
+      "coolingDown": false,
+      "cooldownRemainingHours": 0,
+      "noExternalUpload": true,
+      "noSyntheticEvents": true
+    }
   },
   "controls": {
     "zeroPaidSpend": true,

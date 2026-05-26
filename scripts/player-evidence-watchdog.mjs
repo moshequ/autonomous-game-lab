@@ -79,6 +79,12 @@ const explicitScanReady =
   !inboxReady &&
   !localEventsAvailable &&
   !explicitScanCoolingDown
+const refreshWatchdogCommand = 'npm run autonomous:player-evidence-watchdog'
+const safeLocalDropRefreshCommand = 'npm run autonomous:collect-local-event-drops'
+const explicitDownloadsRefreshCommand =
+  'npm run autonomous:collect-sample-downloads && npm run autonomous:player-evidence-watchdog'
+const productionMeasurementRefreshCommand =
+  'npm run autonomous:measurement-status && npm run autonomous:player-evidence-watchdog'
 const publicRepoSafe =
   publicRepoSecurityAudit.status === 'public-repo-security-ready' &&
   publicRepoSecurityAudit.summary?.highConfidenceSecretFindings === 0 &&
@@ -104,14 +110,14 @@ const nextActionByStatus = {
   'watchdog-security-blocked':
     'Run npm run autonomous:security-audit and do not publish or ingest new evidence until public repository controls pass.',
   'watchdog-ready-to-ingest':
-    'Run npm run autonomous:collect-local-event-drops to import the waiting inbox or configured drop-folder evidence without scanning Downloads.',
+    `Run ${safeLocalDropRefreshCommand} to import the waiting inbox or configured drop-folder evidence without scanning Downloads.`,
   'watchdog-local-events-active':
     'Refresh analytics, product gates, sample plan, and watchdog from imported local events before changing product behavior.',
   'watchdog-aggregate-review-ready':
     'Review public aggregate evidence as supporting diagnosis only; collect event drops or configured production analytics before product-gate decisions.',
   'watchdog-cooling-down': `Hold explicit Downloads scanning until ${nextRecommendedScanAt ?? 'the next recommended scan time'} and keep player-initiated export/share routes active.`,
   'watchdog-ready-for-explicit-scan':
-    'Keep the browser-selected drop-folder and inbox route active; use npm run autonomous:collect-sample-downloads only after explicit owner opt-in.',
+    `Keep the browser-selected drop-folder and inbox route active; use ${downloadsScan.command ?? 'npm run autonomous:collect-sample-downloads'} only after explicit owner opt-in.`,
   'watchdog-awaiting-player-export':
     'Keep the gate sample route active and wait for player-initiated local export, folder drop, or public aggregate note.',
 }
@@ -174,12 +180,37 @@ const payload = {
     publicWorkflowRisks: numberOrZero(publicRepoSecurityAudit.summary?.publicWorkflowRisks),
   },
   commandPlan: {
-    refreshWatchdog: 'npm run autonomous:player-evidence-watchdog',
-    localDropRefresh: 'npm run autonomous:collect-local-event-drops',
-    safeEvidenceRefresh: 'npm run autonomous:collect-local-event-drops',
-    explicitDownloadsRefresh:
-      'npm run autonomous:collect-sample-downloads && npm run autonomous:player-evidence-watchdog',
-    productionMeasurementRefresh: 'npm run autonomous:measurement-status && npm run autonomous:player-evidence-watchdog',
+    refreshWatchdog: refreshWatchdogCommand,
+    localDropRefresh: safeLocalDropRefreshCommand,
+    safeEvidenceRefresh: safeLocalDropRefreshCommand,
+    explicitDownloadsRefresh: explicitDownloadsRefreshCommand,
+    productionMeasurementRefresh: productionMeasurementRefreshCommand,
+  },
+  commandHandoff: {
+    safeLocalDropRefresh: {
+      id: 'safe-local-drop-refresh',
+      label: 'Safe local drop refresh',
+      command: safeLocalDropRefreshCommand,
+      preferred: true,
+      requiresExplicitOwnerOptIn: false,
+      scansDownloads: false,
+      localDropFirst: true,
+      noExternalUpload: localEventBridge.controls?.noExternalUpload === true,
+      noSyntheticEvents: true,
+    },
+    explicitDownloadsRefresh: {
+      id: 'explicit-downloads-refresh',
+      label: 'Explicit Downloads refresh',
+      command: explicitDownloadsRefreshCommand,
+      preferred: false,
+      requiresExplicitOwnerOptIn: true,
+      scansDownloads: true,
+      readyForExplicitScan: explicitScanReady,
+      coolingDown: explicitScanCoolingDown,
+      cooldownRemainingHours,
+      noExternalUpload: localEventBridge.controls?.noExternalUpload === true,
+      noSyntheticEvents: true,
+    },
   },
   controls: {
     zeroPaidSpend: unitEconomics.controls?.maxDailySpendUsd === 0,
@@ -224,6 +255,9 @@ const report = [
   `- Refresh watchdog: ${payload.commandPlan.refreshWatchdog}`,
   `- Safe evidence refresh: ${payload.commandPlan.safeEvidenceRefresh}`,
   `- Explicit Downloads refresh: ${payload.commandPlan.explicitDownloadsRefresh}`,
+  `- App handoff safe command: ${payload.commandHandoff.safeLocalDropRefresh.command}`,
+  `- App handoff explicit command: ${payload.commandHandoff.explicitDownloadsRefresh.command}`,
+  `- Explicit command ready: ${payload.commandHandoff.explicitDownloadsRefresh.readyForExplicitScan}`,
   '',
   '## Controls',
   '',
@@ -247,6 +281,25 @@ const appPayload = {
   scanCooling: payload.downloadsScan.coolingDown,
   publicSafe: payload.publicRepoSecurity.safeForPublicAutomation,
   rawPrivate: payload.controls.noRawPlayerEventsInPublicRepo,
+  commandHandoff: {
+    safeLocalDropRefresh: {
+      copyType: payload.commandHandoff.safeLocalDropRefresh.id,
+      label: payload.commandHandoff.safeLocalDropRefresh.label,
+      command: payload.commandHandoff.safeLocalDropRefresh.command,
+      preferred: payload.commandHandoff.safeLocalDropRefresh.preferred,
+      localDropFirst: payload.commandHandoff.safeLocalDropRefresh.localDropFirst,
+      noExternalUpload: payload.commandHandoff.safeLocalDropRefresh.noExternalUpload,
+    },
+    explicitDownloadsRefresh: {
+      copyType: payload.commandHandoff.explicitDownloadsRefresh.id,
+      label: payload.commandHandoff.explicitDownloadsRefresh.label,
+      command: payload.commandHandoff.explicitDownloadsRefresh.command,
+      readyForExplicitScan: payload.commandHandoff.explicitDownloadsRefresh.readyForExplicitScan,
+      coolingDown: payload.commandHandoff.explicitDownloadsRefresh.coolingDown,
+      requiresExplicitOwnerOptIn:
+        payload.commandHandoff.explicitDownloadsRefresh.requiresExplicitOwnerOptIn,
+    },
+  },
 }
 await writeFile(outputJsonPath, JSON.stringify(payload, null, 2) + '\n')
 await writeFile(

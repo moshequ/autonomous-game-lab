@@ -5073,6 +5073,22 @@ test('player evidence watchdog protects public repo privacy while guiding sample
       safeEvidenceRefresh: string
       explicitDownloadsRefresh: string
     }
+    commandHandoff: {
+      safeLocalDropRefresh: {
+        id: string
+        command: string
+        requiresExplicitOwnerOptIn: boolean
+        scansDownloads: boolean
+        localDropFirst: boolean
+      }
+      explicitDownloadsRefresh: {
+        id: string
+        command: string
+        requiresExplicitOwnerOptIn: boolean
+        scansDownloads: boolean
+        readyForExplicitScan: boolean
+      }
+    }
     controls: {
       zeroPaidSpend: boolean
       noSyntheticEvents: boolean
@@ -5107,6 +5123,20 @@ test('player evidence watchdog protects public repo privacy while guiding sample
   expect(watchdog.commandPlan.localDropRefresh).toBe('npm run autonomous:collect-local-event-drops')
   expect(watchdog.commandPlan.safeEvidenceRefresh).toBe('npm run autonomous:collect-local-event-drops')
   expect(watchdog.commandPlan.explicitDownloadsRefresh).toContain('autonomous:collect-sample-downloads')
+  expect(watchdog.commandHandoff.safeLocalDropRefresh.id).toBe('safe-local-drop-refresh')
+  expect(watchdog.commandHandoff.safeLocalDropRefresh.command).toBe(
+    'npm run autonomous:collect-local-event-drops',
+  )
+  expect(watchdog.commandHandoff.safeLocalDropRefresh.requiresExplicitOwnerOptIn).toBe(false)
+  expect(watchdog.commandHandoff.safeLocalDropRefresh.scansDownloads).toBe(false)
+  expect(watchdog.commandHandoff.safeLocalDropRefresh.localDropFirst).toBe(true)
+  expect(watchdog.commandHandoff.explicitDownloadsRefresh.id).toBe('explicit-downloads-refresh')
+  expect(watchdog.commandHandoff.explicitDownloadsRefresh.command).toContain(
+    'autonomous:collect-sample-downloads',
+  )
+  expect(watchdog.commandHandoff.explicitDownloadsRefresh.requiresExplicitOwnerOptIn).toBe(true)
+  expect(watchdog.commandHandoff.explicitDownloadsRefresh.scansDownloads).toBe(true)
+  expect(typeof watchdog.commandHandoff.explicitDownloadsRefresh.readyForExplicitScan).toBe('boolean')
   expect(watchdog.controls.zeroPaidSpend).toBe(true)
   expect(watchdog.controls.noSyntheticEvents).toBe(true)
   expect(watchdog.controls.noAutomaticDownloadsScan).toBe(true)
@@ -5126,6 +5156,9 @@ test('player evidence watchdog protects public repo privacy while guiding sample
   await page.goto('/')
   await expect(page.getByLabel('Player Evidence Watchdog')).toContainText(watchdog.status)
   await expect(page.getByLabel('Player Evidence Watchdog')).toContainText('Public repo')
+  await expect(page.getByLabel('Player Evidence Watchdog')).toContainText('Safe handoff')
+  await expect(page.getByRole('button', { name: 'Copy safe import' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Copy explicit scan' })).toBeVisible()
 })
 
 test('autonomous operator history keeps a capped audit trail', async ({ page }) => {

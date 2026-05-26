@@ -3331,6 +3331,47 @@ function App() {
       textLength: text.length,
     })
   }
+  const copyPlayerEvidenceCommand = async (copyType: string, command: string) => {
+    let method = 'clipboard'
+    let succeeded = false
+
+    if (navigator.clipboard?.writeText && command) {
+      try {
+        await navigator.clipboard.writeText(command)
+        succeeded = true
+      } catch {
+        method = 'clipboard_unavailable'
+      }
+    } else {
+      method = 'unsupported'
+    }
+
+    trackEvent('player_evidence_command_copied', {
+      copyType,
+      method,
+      succeeded,
+      commandLength: command.length,
+      watchdogStatus: lateOpsData?.playerEvidenceWatchdog.status ?? null,
+      inboxEvents: lateOpsData?.playerEvidenceWatchdog.inbox ?? null,
+      importedEvents: lateOpsData?.playerEvidenceWatchdog.imported ?? null,
+      aggregateEvidenceNotes: lateOpsData?.playerEvidenceWatchdog.notes ?? null,
+      scanReady: lateOpsData?.playerEvidenceWatchdog.scanReady ?? null,
+      scanCooling: lateOpsData?.playerEvidenceWatchdog.scanCooling ?? null,
+      publicRepoSafe: lateOpsData?.playerEvidenceWatchdog.publicSafe ?? null,
+      rawEventsPrivate: lateOpsData?.playerEvidenceWatchdog.rawPrivate ?? null,
+      zeroPaidSpend: true,
+      noSyntheticEvents: true,
+      noAutomaticDownloadsScan: true,
+      explicitDownloadsScanRequiresOwnerOptIn: true,
+      localDropImportBeforeDownloads: true,
+      noExternalUpload: true,
+      noRevenueEnablement: true,
+    })
+  }
+  const playerEvidenceWatchdogData = lateOpsData?.playerEvidenceWatchdog
+  const playerEvidenceSafeCommand = playerEvidenceWatchdogData?.commandHandoff.safeLocalDropRefresh
+  const playerEvidenceExplicitCommand =
+    playerEvidenceWatchdogData?.commandHandoff.explicitDownloadsRefresh
 
   return (
     <main className="appShell">
@@ -4768,6 +4809,55 @@ function App() {
                   <strong>
                     {lateOpsData?.playerEvidenceWatchdog.rawPrivate ? 'private' : 'review'}
                   </strong>
+                </div>
+                <div>
+                  <span>Safe handoff</span>
+                  <strong>{playerEvidenceSafeCommand?.localDropFirst ? 'local drop first' : 'loading'}</strong>
+                </div>
+                <div>
+                  <span>Explicit opt-in</span>
+                  <strong>
+                    {playerEvidenceExplicitCommand?.requiresExplicitOwnerOptIn
+                      ? playerEvidenceExplicitCommand.readyForExplicitScan
+                        ? 'ready'
+                        : playerEvidenceExplicitCommand.coolingDown
+                          ? 'cooling down'
+                          : 'waiting'
+                      : 'loading'}
+                  </strong>
+                </div>
+                <div className="eventDropActions">
+                  <button
+                    className="tinyButton"
+                    type="button"
+                    onClick={() =>
+                      copyPlayerEvidenceCommand(
+                        playerEvidenceSafeCommand?.copyType ?? 'safe-local-drop-refresh',
+                        playerEvidenceSafeCommand?.command ?? '',
+                      )
+                    }
+                    disabled={!playerEvidenceSafeCommand?.command}
+                  >
+                    <Copy size={14} aria-hidden="true" />
+                    Copy safe import
+                  </button>
+                  <button
+                    className="tinyButton"
+                    type="button"
+                    onClick={() =>
+                      copyPlayerEvidenceCommand(
+                        playerEvidenceExplicitCommand?.copyType ?? 'explicit-downloads-refresh',
+                        playerEvidenceExplicitCommand?.command ?? '',
+                      )
+                    }
+                    disabled={
+                      !playerEvidenceExplicitCommand?.command ||
+                      !playerEvidenceExplicitCommand.readyForExplicitScan
+                    }
+                  >
+                    <Copy size={14} aria-hidden="true" />
+                    Copy explicit scan
+                  </button>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Operator History">

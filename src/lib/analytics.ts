@@ -81,6 +81,7 @@ export type AnalyticsEventName =
   | 'local_router_share_clicked'
   | 'local_router_choice_dismissed'
   | 'owner_unlock_pack_copied'
+  | 'player_evidence_command_copied'
   | 'local_event_drop_folder_connected'
   | 'local_event_drop_folder_exported'
   | 'local_event_drop_folder_failed'

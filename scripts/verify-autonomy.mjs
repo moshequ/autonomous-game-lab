@@ -712,6 +712,7 @@ const expectedPlayerEvidenceWatchdogSourceHash = hashSourceData({
   unitEconomics,
 })
 const playerEvidenceWatchdogControls = playerEvidenceWatchdog.controls ?? {}
+const playerEvidenceWatchdogCommandHandoff = playerEvidenceWatchdog.commandHandoff ?? {}
 const playerEvidenceWatchdogScriptName = packageJson.scripts?.['autonomous:player-evidence-watchdog'] ?? ''
 
 if (
@@ -724,6 +725,20 @@ if (
   typeof playerEvidenceWatchdog.downloadsScan?.readyForExplicitScan !== 'boolean' ||
   playerEvidenceWatchdog.downloadsScan?.explicitOptInRequired !== true ||
   playerEvidenceWatchdog.downloadsScan?.command !== 'npm run autonomous:collect-sample-downloads' ||
+  playerEvidenceWatchdogCommandHandoff.safeLocalDropRefresh?.id !== 'safe-local-drop-refresh' ||
+  playerEvidenceWatchdogCommandHandoff.safeLocalDropRefresh?.command !==
+    'npm run autonomous:collect-local-event-drops' ||
+  playerEvidenceWatchdogCommandHandoff.safeLocalDropRefresh?.requiresExplicitOwnerOptIn !== false ||
+  playerEvidenceWatchdogCommandHandoff.safeLocalDropRefresh?.scansDownloads !== false ||
+  playerEvidenceWatchdogCommandHandoff.safeLocalDropRefresh?.localDropFirst !== true ||
+  playerEvidenceWatchdogCommandHandoff.explicitDownloadsRefresh?.id !== 'explicit-downloads-refresh' ||
+  !playerEvidenceWatchdogCommandHandoff.explicitDownloadsRefresh?.command?.includes(
+    'autonomous:collect-sample-downloads',
+  ) ||
+  playerEvidenceWatchdogCommandHandoff.explicitDownloadsRefresh?.requiresExplicitOwnerOptIn !== true ||
+  playerEvidenceWatchdogCommandHandoff.explicitDownloadsRefresh?.scansDownloads !== true ||
+  typeof playerEvidenceWatchdogCommandHandoff.explicitDownloadsRefresh?.readyForExplicitScan !==
+    'boolean' ||
   playerEvidenceWatchdog.publicRepoSecurity?.safeForPublicAutomation !== true ||
   playerEvidenceWatchdogControls.zeroPaidSpend !== true ||
   playerEvidenceWatchdogControls.noSyntheticEvents !== true ||
@@ -756,8 +771,13 @@ if (
   !playerEvidenceWatchdogSource.includes('downloadsScanRequiresExplicitOptIn') ||
   !playerEvidenceWatchdogSource.includes('noRawPlayerEventsInPublicRepo') ||
   !playerEvidenceWatchdogSource.includes('publicAggregateEvidenceIsSupportingOnly') ||
+  !playerEvidenceWatchdogSource.includes('safe-local-drop-refresh') ||
+  !playerEvidenceWatchdogSource.includes('explicit-downloads-refresh') ||
   !appSource.includes('Player Evidence Watchdog') ||
-  !appSource.includes('Raw events')
+  !appSource.includes('Raw events') ||
+  !appSource.includes('player_evidence_command_copied') ||
+  !appSource.includes('Copy safe import') ||
+  !appSource.includes('Copy explicit scan')
 ) {
   fail('Player evidence watchdog must preserve public-repo privacy while guiding zero-spend, explicit-opt-in player evidence collection.')
 }

@@ -1,8 +1,8 @@
 # Player Evidence Watchdog
 
-Generated: 2026-05-26T22:34:16.037Z
+Generated: 2026-05-26T22:44:17.919Z
 Status: watchdog-ready-for-explicit-scan
-Source hash: 1a1a7e0778b2
+Source hash: 04bf0bdba442
 Public repo safe: true
 Inbox events: 0
 Imported events: 0
@@ -17,6 +17,9 @@ Next recommended Downloads scan: 2026-05-22T17:53:13.086Z
 - Refresh watchdog: npm run autonomous:player-evidence-watchdog
 - Safe evidence refresh: npm run autonomous:collect-local-event-drops
 - Explicit Downloads refresh: npm run autonomous:collect-sample-downloads && npm run autonomous:player-evidence-watchdog
+- App handoff safe command: npm run autonomous:collect-local-event-drops
+- App handoff explicit command: npm run autonomous:collect-sample-downloads && npm run autonomous:player-evidence-watchdog
+- Explicit command ready: true
 
 ## Controls
 

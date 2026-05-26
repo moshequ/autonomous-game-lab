@@ -610,6 +610,10 @@ if (
   playerEvidenceWatchdog.controls?.noAutomaticDownloadsScan !== true ||
   playerEvidenceWatchdog.controls?.downloadsScanRequiresExplicitOptIn !== true ||
   playerEvidenceWatchdog.controls?.noRawPlayerEventsInPublicRepo !== true ||
+  playerEvidenceWatchdog.commandHandoff?.safeLocalDropRefresh?.command !==
+    'npm run autonomous:collect-local-event-drops' ||
+  playerEvidenceWatchdog.commandHandoff?.safeLocalDropRefresh?.scansDownloads !== false ||
+  playerEvidenceWatchdog.commandHandoff?.explicitDownloadsRefresh?.requiresExplicitOwnerOptIn !== true ||
   playerEvidenceWatchdog.publicRepoSecurity?.safeForPublicAutomation !== true ||
   productionMeasurementStatus.liveCandidate !== sync.live?.candidateId ||
   publicMeasurementStatus.liveCandidate !== sync.live?.candidateId ||
