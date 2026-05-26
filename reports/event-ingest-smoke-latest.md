@@ -1,6 +1,6 @@
 # Event Ingest Smoke
 
-Generated: 2026-05-26T07:03:53.517Z
+Generated: 2026-05-26T08:16:23.221Z
 Status: pass
 
 ## Ingest
@@ -10,10 +10,10 @@ Status: pass
 - Bridge copied files: 1
 - Bridge sensitive properties stripped: 2
 - Status: imported
-- Imported events: 7
+- Imported events: 9
 - Imported files: 1
 - Incremental imported events: 1
-- Incremental duplicate events skipped: 14
+- Incremental duplicate events skipped: 18
 - Downloads opt-in copied files: 1
 - Downloads explicit scan: evidence-found
 - Downloads sensitive properties stripped: 1
@@ -27,7 +27,9 @@ Status: pass
 ## Analytics
 
 - Active source: local-event-drops
-- Local events: 8
+- Local events: 10
 - D1 retention: 1
 - Market Pulse starts: 2
 - Market Pulse completions: 1
+- Drop folder connected: 1
+- Drop folder exports: 1

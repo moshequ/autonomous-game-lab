@@ -163,6 +163,33 @@ try {
       createdAt: '2026-05-17T10:07:00.000Z',
     },
     {
+      id: 'smoke-drop-folder-connected',
+      name: 'local_event_drop_folder_connected',
+      properties: {
+        gameId: smokeGameId,
+        surface: 'local-event-drop-folder',
+        persistentHandleRequested: true,
+        noExternalUpload: true,
+        noPiiRequired: true,
+      },
+      createdAt: '2026-05-17T10:08:00.000Z',
+    },
+    {
+      id: 'smoke-drop-folder-exported',
+      name: 'local_event_drop_folder_exported',
+      properties: {
+        gameId: smokeGameId,
+        surface: 'local-event-drop-folder',
+        destination: 'local_folder',
+        exportSurface: 'manual-smoke',
+        eventDropFileName: 'player-events-smoke.json',
+        eventCountAtExport: 7,
+        noExternalUpload: true,
+        noPiiRequired: true,
+      },
+      createdAt: '2026-05-17T10:09:00.000Z',
+    },
+    {
       id: 'smoke-return',
       name: 'game_viewed',
       properties: {
@@ -213,7 +240,7 @@ try {
   if (
     bridge.status !== 'bridge-ready-for-ingest' ||
     bridge.copiedFiles.length !== 1 ||
-    bridge.inbox.validEvents !== 7 ||
+    bridge.inbox.validEvents !== 9 ||
     bridge.controls.noSyntheticEvents !== true ||
     bridge.controls.noExternalUpload !== true ||
     bridge.controls.piiStrippingEnabled !== true ||
@@ -238,8 +265,8 @@ try {
 
   const ingest = JSON.parse(await readFile(ingestOutput, 'utf8'))
 
-  if (ingest.status !== 'imported' || ingest.importedEvents !== 7 || ingest.importedFiles.length !== 1) {
-    fail(`Expected one deduped import with 7 events, got ${JSON.stringify(ingest)}`)
+  if (ingest.status !== 'imported' || ingest.importedEvents !== 9 || ingest.importedFiles.length !== 1) {
+    fail(`Expected one deduped import with 9 events, got ${JSON.stringify(ingest)}`)
   }
 
   await run(process.execPath, ['scripts/analytics-rollup.mjs'], {
@@ -311,9 +338,9 @@ try {
   if (
     incrementalIngest.status !== 'imported' ||
     incrementalIngest.importedEvents !== 1 ||
-    incrementalIngest.duplicateEvents < 14 ||
+    incrementalIngest.duplicateEvents < 18 ||
     incrementalIngest.importedFiles.length !== 1 ||
-    incrementalIngest.importedFiles[0]?.duplicateEvents !== 7
+    incrementalIngest.importedFiles[0]?.duplicateEvents !== 9
   ) {
     fail(`Expected incremental ingest to persist only 1 new event, got ${JSON.stringify(incrementalIngest)}`)
   }
@@ -328,12 +355,14 @@ try {
   const incrementalGame = incrementalAnalytics.games.find((row) => row.gameId === smokeGameId)
 
   if (
-    incrementalAnalytics.sourceStatus.localEventDrops.events !== 8 ||
+    incrementalAnalytics.sourceStatus.localEventDrops.events !== 10 ||
     incrementalAnalytics.sourceStatus.localEventDrops.duplicateEvents !== 0 ||
     incrementalGame?.counts.game_viewed !== 3 ||
     incrementalGame?.counts.game_started !== 2 ||
     incrementalGame?.counts.level_completed !== 1 ||
-    incrementalGame?.counts.local_router_share_clicked !== 1
+    incrementalGame?.counts.local_router_share_clicked !== 1 ||
+    incrementalGame?.counts.local_event_drop_folder_connected !== 1 ||
+    incrementalGame?.counts.local_event_drop_folder_exported !== 1
   ) {
     fail(`Expected event-level deduped analytics after incremental import, got ${JSON.stringify(incrementalAnalytics)}`)
   }
@@ -555,7 +584,7 @@ try {
     fixture: {
       sourceFile: 'player-events-smoke.json',
       exportedEvents: exportedEvents.length,
-      uniqueEvents: 7,
+      uniqueEvents: 9,
       gameId: smokeGameId,
       title: smokeGameTitle,
       gameSourceFile: 'data/generated-playable-games.json',
@@ -630,6 +659,8 @@ try {
         tutorial_completed: incrementalGame.counts.tutorial_completed,
         level_completed: incrementalGame.counts.level_completed,
         local_router_share_clicked: incrementalGame.counts.local_router_share_clicked,
+        local_event_drop_folder_connected: incrementalGame.counts.local_event_drop_folder_connected,
+        local_event_drop_folder_exported: incrementalGame.counts.local_event_drop_folder_exported,
       },
       metrics: {
         startRate: incrementalGame.metrics.startRate,
@@ -673,6 +704,8 @@ try {
     `- D1 retention: ${smoke.analytics.d1Retention}`,
     `- ${smoke.fixture.title} starts: ${smoke.analytics.counts.game_started}`,
     `- ${smoke.fixture.title} completions: ${smoke.analytics.counts.level_completed}`,
+    `- Drop folder connected: ${smoke.analytics.counts.local_event_drop_folder_connected}`,
+    `- Drop folder exports: ${smoke.analytics.counts.local_event_drop_folder_exported}`,
     '',
   ]
 

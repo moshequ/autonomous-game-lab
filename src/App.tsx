@@ -2751,6 +2751,8 @@ function App() {
       if (!granted) {
         setLocalEventDropFolderStatus('permission-needed')
         trackEvent('local_event_drop_folder_failed', {
+          gameId: selectedGameId,
+          surface: 'local-event-drop-folder',
           reason: 'permission-denied',
           noExternalUpload: true,
           noPiiRequired: true,
@@ -2762,6 +2764,8 @@ function App() {
       setLocalEventDropFolderStatus('connected')
       void storeEventDropDirectoryHandle(handle)
       trackEvent('local_event_drop_folder_connected', {
+        gameId: selectedGameId,
+        surface: 'local-event-drop-folder',
         persistentHandleRequested: true,
         noExternalUpload: true,
         noPiiRequired: true,
@@ -2770,6 +2774,8 @@ function App() {
       const reason = error instanceof DOMException && error.name === 'AbortError' ? 'cancelled' : 'connect-failed'
       setLocalEventDropFolderStatus(reason === 'cancelled' ? 'not-connected' : 'failed')
       trackEvent('local_event_drop_folder_failed', {
+        gameId: selectedGameId,
+        surface: 'local-event-drop-folder',
         reason,
         noExternalUpload: true,
         noPiiRequired: true,
@@ -2816,12 +2822,24 @@ function App() {
           setLocalEventDropFolderStatus('saved')
         } else {
           setLocalEventDropFolderStatus('permission-needed')
+          trackEvent('local_event_drop_folder_failed', {
+            gameId: selectedGameId,
+            surface: 'local-event-drop-folder',
+            reason: 'permission-denied-during-export',
+            exportSurface,
+            eventDropFileName: folderFileName,
+            noExternalUpload: true,
+            noPiiRequired: true,
+          })
         }
       } catch {
         setLocalEventDropFolderStatus('failed')
         trackEvent('local_event_drop_folder_failed', {
+          gameId: selectedGameId,
+          surface: 'local-event-drop-folder',
           reason: 'write-failed',
           exportSurface,
+          eventDropFileName: folderFileName,
           noExternalUpload: true,
           noPiiRequired: true,
         })
@@ -2831,6 +2849,17 @@ function App() {
     if (wroteToLocalFolder) {
       markLocalAnalyticsExported(exportedEvents, exportSurface)
       setEvents(exportedEvents)
+      trackEvent('local_event_drop_folder_exported', {
+        gameId: selectedGameId,
+        surface: 'local-event-drop-folder',
+        destination: 'local_folder',
+        exportSurface,
+        eventDropFileName: folderFileName,
+        eventCountAtExport: exportedEvents.length,
+        fallbackDownloadEnabled: fallbackToDownload,
+        noExternalUpload: true,
+        noPiiRequired: true,
+      })
       return true
     }
 
@@ -2848,7 +2877,7 @@ function App() {
     markLocalAnalyticsExported(exportedEvents, exportSurface)
     setEvents(exportedEvents)
     return true
-  }, [localEventDropFolderStatus])
+  }, [localEventDropFolderStatus, selectedGameId])
 
   const openAggregateEvidenceIssue = async (surfaceOverride?: string) => {
     const { buildAggregateEvidenceIssue } = await import('./lib/aggregateEvidenceIssue')

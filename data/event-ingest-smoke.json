@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-26T07:03:53.517Z",
+  "generatedAt": "2026-05-26T08:16:23.221Z",
   "status": "pass",
   "fixture": {
     "sourceFile": "player-events-smoke.json",
-    "exportedEvents": 8,
-    "uniqueEvents": 7,
+    "exportedEvents": 10,
+    "uniqueEvents": 9,
     "gameId": "market-pulse",
     "title": "Market Pulse",
     "gameSourceFile": "data/generated-playable-games.json"
@@ -12,7 +12,7 @@
   "bridge": {
     "status": "bridge-ready-for-ingest",
     "copiedFiles": 1,
-    "inboxValidEvents": 7,
+    "inboxValidEvents": 9,
     "noSyntheticEvents": true,
     "noExternalUpload": true,
     "downloadsOptInCommand": "AGL_LOCAL_EVENT_IMPORT_DOWNLOADS=true npm run autonomous:local-event-bridge",
@@ -36,13 +36,13 @@
     "downloadsImportEnabled": false,
     "explicitScanStatus": "evidence-found",
     "explicitScanEvidenceFound": true,
-    "preservedScanAt": "2026-05-26T07:03:53.257Z"
+    "preservedScanAt": "2026-05-26T08:16:22.977Z"
   },
   "ingest": {
     "status": "imported",
-    "importedEvents": 7,
+    "importedEvents": 9,
     "importedFiles": 1,
-    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-HpENLG/player-events",
+    "outputDirectory": "../../../../../../var/folders/tq/1ph_b7c95_gc2jsn1hc3h1jw0000gn/T/agl-event-ingest-guZ3M2/player-events",
     "piiStrippingEnabled": true,
     "importedFilesAreSanitized": true
   },
@@ -50,8 +50,8 @@
     "status": "imported",
     "importedEvents": 1,
     "importedFiles": 1,
-    "duplicateEvents": 14,
-    "importedFileDuplicateEvents": 7
+    "duplicateEvents": 18,
+    "importedFileDuplicateEvents": 9
   },
   "productionExport": {
     "status": "imported",
@@ -69,7 +69,7 @@
   "analytics": {
     "activeSource": "local-event-drops",
     "localEventFiles": 2,
-    "localEvents": 8,
+    "localEvents": 10,
     "duplicateEvents": 0,
     "retentionSource": "local-event-drops",
     "d1Retention": 1,
@@ -78,7 +78,9 @@
       "game_started": 2,
       "tutorial_completed": 1,
       "level_completed": 1,
-      "local_router_share_clicked": 1
+      "local_router_share_clicked": 1,
+      "local_event_drop_folder_connected": 1,
+      "local_event_drop_folder_exported": 1
     },
     "metrics": {
       "startRate": 0.667,

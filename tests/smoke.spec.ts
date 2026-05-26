@@ -103,6 +103,12 @@ test('event smoke fixtures follow the generated game roster', async () => {
   }
   const eventIngestSmoke = JSON.parse(await readFile('data/event-ingest-smoke.json', 'utf8')) as {
     fixture: { gameSourceFile: string; gameId: string; title: string }
+    analytics: {
+      counts: {
+        local_event_drop_folder_connected: number
+        local_event_drop_folder_exported: number
+      }
+    }
     productionExport: {
       status: string
       mode: string
@@ -128,6 +134,10 @@ test('event smoke fixtures follow the generated game roster', async () => {
   expect(eventIngestSmoke.fixture).toMatchObject({
     gameSourceFile: 'data/generated-playable-games.json',
     title: smokeGame?.title,
+  })
+  expect(eventIngestSmoke.analytics.counts).toMatchObject({
+    local_event_drop_folder_connected: 1,
+    local_event_drop_folder_exported: 1,
   })
   expect(eventIngestSmoke.productionExport).toMatchObject({
     status: 'imported',
@@ -9199,6 +9209,7 @@ test('public gate sample can save evidence to a player-selected local drop folde
       telemetry: { view: string[]; success: string[] }
     }>
   }
+  const gateSampleHtml = await readFile('public/gate-sample.html', 'utf8')
   const mission = samplePlan.missions[0]
 
   await page.addInitScript(({ campaignId, gameId, viewEvent, successEvent }) => {
@@ -9275,6 +9286,7 @@ test('public gate sample can save evidence to a player-selected local drop folde
     selfDescribingExportReceipts: true,
     noExternalUpload: true,
   })
+  expect(gateSampleHtml).toContain("name: 'local_event_drop_folder_exported'")
 
   await page.getByRole('button', { name: 'Connect drop folder' }).click()
   await expect(page.getByText('Drop folder connected')).toBeVisible()

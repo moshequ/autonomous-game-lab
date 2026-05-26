@@ -85,6 +85,9 @@ const allowedEventNames = new Set([
   'local_router_choice_clicked',
   'local_router_share_clicked',
   'local_router_choice_dismissed',
+  'local_event_drop_folder_connected',
+  'local_event_drop_folder_exported',
+  'local_event_drop_folder_failed',
 ])
 const sensitivePropertyKeys = new Set([
   'email',

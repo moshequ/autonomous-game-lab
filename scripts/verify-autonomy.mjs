@@ -5389,10 +5389,13 @@ if (
   eventIngestSmoke.productionExport?.noDownloadsScan !== true ||
   eventIngestSmoke.productionExport?.activeSource !== 'local-event-drops' ||
   eventIngestSmoke.productionExport?.d1Retention !== 1 ||
+  eventIngestSmoke.analytics?.counts?.local_event_drop_folder_connected !== 1 ||
+  eventIngestSmoke.analytics?.counts?.local_event_drop_folder_exported !== 1 ||
   !eventIngestorSource.includes('AGL_PRODUCTION_EVENT_EXPORT_FILES') ||
   !eventIngestorSource.includes('manualProductionExports') ||
   !eventIngestorSource.includes('hashExternalId') ||
-  !eventIngestorSource.includes('externalIdentifiersHashed')
+  !eventIngestorSource.includes('externalIdentifiersHashed') ||
+  !eventIngestorSource.includes('local_event_drop_folder_exported')
 ) {
   fail('Event ingest must support explicit, local-only production export files with PII stripping and hashed external identifiers.')
 }

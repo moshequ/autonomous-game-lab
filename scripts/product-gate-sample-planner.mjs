@@ -1743,15 +1743,74 @@ const gateSamplePage = `<!doctype html>
           const nextEvents = [...events, exportEvent]
           const wroteToFolder = await writeDropFile(nextEvents, exportFileName)
 
-          if (!wroteToFolder) {
+          if (wroteToFolder) {
+            markLocalAnalyticsExported(nextEvents, 'product-gate-sample')
+            writeEvents([
+              ...nextEvents,
+              {
+                id: createId(),
+                name: 'local_event_drop_folder_exported',
+                properties: {
+                  surface: 'public-gate-sample-page',
+                  channel: 'product-gate-sample',
+                  campaignId: mission.campaignId,
+                  gateId: mission.gateId,
+                  gameId: mission.gameId,
+                  exportSurface: 'product-gate-sample',
+                  eventDropFileName: exportFileName,
+                  eventDropMode: 'folder',
+                  eventDropFolderStatus: 'connected',
+                  eventCountAtExport: nextEvents.length,
+                  noExternalUpload: true,
+                  noPiiRequired: true,
+                  playerInitiatedOnly: true,
+                  zeroPaidSpend: true,
+                  noSyntheticEvents: mission.controls.noSyntheticEvents,
+                  noRevenueEnablement: mission.controls.noRevenueEnablement,
+                },
+                createdAt: new Date().toISOString(),
+              },
+            ])
+            renderProgress()
+            return
+          }
+
+          let fallbackEvents = nextEvents
+
+          if (folderPreferred) {
             exportEvent.properties.destination = 'local_file'
             exportEvent.properties.eventDropMode = folderPreferred ? 'folder-failed-download' : 'download'
             exportEvent.properties.eventDropFolderStatus = folderPreferred ? 'failed' : 'not-connected'
-            downloadEvents(nextEvents, exportFileName)
+            fallbackEvents = [
+              ...nextEvents,
+              {
+                id: createId(),
+                name: 'local_event_drop_folder_failed',
+                properties: {
+                  surface: 'public-gate-sample-page',
+                  channel: 'product-gate-sample',
+                  campaignId: mission.campaignId,
+                  gateId: mission.gateId,
+                  gameId: mission.gameId,
+                  reason: 'write-failed-download-fallback',
+                  exportSurface: 'product-gate-sample',
+                  eventDropFileName: exportFileName,
+                  eventDropMode: 'folder-failed-download',
+                  noExternalUpload: true,
+                  noPiiRequired: true,
+                  playerInitiatedOnly: true,
+                  zeroPaidSpend: true,
+                  noSyntheticEvents: mission.controls.noSyntheticEvents,
+                  noRevenueEnablement: mission.controls.noRevenueEnablement,
+                },
+                createdAt: new Date().toISOString(),
+              },
+            ]
           }
 
-          writeEvents(nextEvents)
-          markLocalAnalyticsExported(nextEvents, 'product-gate-sample')
+          downloadEvents(fallbackEvents, exportFileName)
+          writeEvents(fallbackEvents)
+          markLocalAnalyticsExported(fallbackEvents, 'product-gate-sample')
           renderProgress()
         }
 
