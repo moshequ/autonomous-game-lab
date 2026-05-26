@@ -57,6 +57,7 @@ const [
   supportFeedback,
   storeAssets,
   storeCompliance,
+  storeReadiness,
   nativePackage,
   androidSigning,
   androidRelease,
@@ -108,6 +109,7 @@ const [
   readJson(path.join(dataDir, 'support-feedback.json')),
   readJson(path.join(dataDir, 'store-assets.json')),
   readJson(path.join(dataDir, 'store-compliance.json')),
+  readJson(path.join(dataDir, 'store-readiness.json')),
   readJson(path.join(dataDir, 'native-package.json')),
   readJson(path.join(dataDir, 'android-signing.json')),
   readJson(path.join(dataDir, 'android-release.json')),
@@ -172,6 +174,15 @@ const webDecision = promotion.decisions?.find((decision) => decision.channel ===
 const monetizationDecision = promotion.decisions?.find((decision) => decision.channel === 'monetization')
 const androidDecision = promotion.decisions?.find((decision) => decision.channel === 'android-google-play')
 const iosDecision = promotion.decisions?.find((decision) => decision.channel === 'ios-app-store')
+const storeOwnerNextUnlockId = storeReadiness.storeOwnerUnlockSummary?.nextUnlockId ?? null
+const storeOwnerNextUnlock =
+  storeReadiness.storeOwnerUnlocks?.find((unlock) => unlock.id === storeOwnerNextUnlockId) ?? null
+const storeDistributionNextAction =
+  storeOwnerNextUnlock?.id === 'support-contact'
+    ? `Set AGL_SUPPORT_EMAIL with ${storeReadiness.supportOwnerInputPack?.commands?.setupWriteLocalEnvTemplate ?? 'the support-contact input template'} before paid store accounts or submissions.`
+    : storeOwnerNextUnlock
+      ? `Resolve ${storeOwnerNextUnlock.title} when its zero-spend and product-gate controls allow it.`
+      : (androidDecision?.nextAction ?? 'Keep native releases blocked until host, signing, account, and payback gates pass.')
 const acceptedConcepts = concepts.concepts?.filter((concept) => concept.status === 'candidate') ?? []
 const lowRiskConcepts = acceptedConcepts.filter(
   (concept) => concept.sourceDistance?.copiedExpressionRisk === 'low',
@@ -597,6 +608,9 @@ const requirements = [
       }`,
       `Store assets: ${storeAssets.status}`,
       `Store compliance: ${storeCompliance.status}`,
+      `Store owner next unlock: ${storeReadiness.storeOwnerUnlockSummary?.nextUnlockId ?? 'none'}; lowest input ${
+        storeReadiness.storeOwnerUnlockSummary?.lowestInputMissingInputCount ?? 'n/a'
+      } input(s), ${storeReadiness.storeOwnerUnlockSummary?.lowestInputMissingSecretCount ?? 'n/a'} secret(s)`,
       `Android signing: ${androidSigning.status}; fingerprint ${
         androidSigning.signing?.sha256CertFingerprint ? 'available' : 'missing'
       }`,
@@ -612,7 +626,7 @@ const requirements = [
       ...(iosRelease.blockers ?? []),
       ...(iosDecision?.blockers ?? []),
     ],
-    nextAction: androidDecision?.nextAction ?? 'Keep native releases blocked until host, signing, account, and payback gates pass.',
+    nextAction: storeDistributionNextAction,
   }),
   requirement({
     id: 'minimal-cost-guardrails',

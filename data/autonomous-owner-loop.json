@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T06:25:14.360Z",
+  "generatedAt": "2026-05-26T06:30:06.487Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -44,7 +44,7 @@
       "seed-portfolio-traffic"
     ],
     "nextResumeAt": "2026-05-26T23:43:28.218Z",
-    "nextResumeInHours": 17.304,
+    "nextResumeInHours": 17.223,
     "holdReason": "All currently armed local actions were recently executed or covered; holding to avoid cycling until new player evidence, external inputs, or a cooldown expiry changes the state.",
     "controls": {
       "avoidImmediateRepeat": true,
@@ -63,7 +63,7 @@
           "seed-portfolio-traffic"
         ],
         "suppressedUntil": "2026-05-26T23:43:28.218Z",
-        "resumeInHours": 17.304,
+        "resumeInHours": 17.223,
         "resumeCondition": "Wait for repeat-suppression cooldown, new player evidence, or owner-provided production inputs."
       }
     ]
@@ -256,7 +256,7 @@
     "expiredExecutedActionIds": [],
     "lastExecutedActionId": "seed-portfolio-traffic",
     "lastExecutedActionStillExecutable": true,
-    "lastExecutedAgeHours": 0.696,
+    "lastExecutedAgeHours": 0.777,
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [
@@ -266,7 +266,7 @@
     "objectiveAuditFreshness": {
       "fresh": true,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-26T06:25:13.875Z",
+      "auditGeneratedAt": "2026-05-26T06:30:00.074Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -290,7 +290,7 @@
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-26T06:25:13.699Z",
-        "ageHours": 0,
+        "ageHours": 0.081,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -301,7 +301,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-25T23:03:36.105Z",
-        "ageHours": 7.361,
+        "ageHours": 7.442,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -312,7 +312,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-26T05:04:26.141Z",
-        "ageHours": 1.347,
+        "ageHours": 1.428,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -323,7 +323,7 @@
         "ready": true,
         "status": "performance-budget-ready",
         "artifactGeneratedAt": "2026-05-26T06:24:56.555Z",
-        "ageHours": 0.005,
+        "ageHours": 0.086,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -334,7 +334,7 @@
         "ready": true,
         "status": "live-site-monitor-passed",
         "artifactGeneratedAt": "2026-05-26T06:24:59.777Z",
-        "ageHours": 0.004,
+        "ageHours": 0.085,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
         "checksPass": true,
@@ -605,7 +605,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 88.53,
+      "scanAgeHours": 88.61,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },

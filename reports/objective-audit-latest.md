@@ -1,6 +1,6 @@
 # Objective Audit
 
-Generated: 2026-05-26T06:25:13.875Z
+Generated: 2026-05-26T06:30:00.074Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.
@@ -30,7 +30,7 @@ Next best action: hold-for-external-input
 - prepared-blocked-by-gates: monetization-path - Revenue path exists with guarded rewarded/cosmetic tests, app-ads output, and unit-economics spend controls.
   - next: Collect live completion, replay, and retention data until gates pass.
 - prepared-external-blockers: app-store-distribution-path - Store listing, compliance drafts, screenshots, Android TWA handoff, and iOS App Store handoff are prepared while store release stays gated.
-  - next: Connect the Google Play developer account.
+  - next: Set AGL_SUPPORT_EMAIL with ./ops/github/setup-production.sh --support-input-template before paid store accounts or submissions.
 - met: minimal-cost-guardrails - Zero-spend, no-store-submission, and no-revenue-before-gates controls are enforced.
   - next: Preserve zero-spend posture until observed revenue and payback gates open.
 

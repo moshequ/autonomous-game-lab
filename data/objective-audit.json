@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T06:25:13.875Z",
+  "generatedAt": "2026-05-26T06:30:00.074Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -147,6 +147,7 @@
         "Support channel: support-channel-ready; provider github-issues; store email still required true",
         "Store assets: screenshots-ready",
         "Store compliance: draft-ready-external-blockers",
+        "Store owner next unlock: support-contact; lowest input 1 input(s), 0 secret(s)",
         "Android signing: signing-prepared; fingerprint available",
         "Native package: ready-for-bubblewrap-build",
         "Android release: blocked-needs-host-signing-play",
@@ -167,7 +168,7 @@
         "Revenue signal is $0.00, below $99.00.",
         "Apple Developer account is not connected."
       ],
-      "nextAction": "Connect the Google Play developer account.",
+      "nextAction": "Set AGL_SUPPORT_EMAIL with ./ops/github/setup-production.sh --support-input-template before paid store accounts or submissions.",
       "completionCritical": true
     },
     {
@@ -243,11 +244,11 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 103,
-    "currentGitWorktreeDirtyFiles": 103,
-    "currentGeneratedEvidenceDirtyFiles": 103,
+    "currentWorktreeDirtyFiles": 0,
+    "currentGitWorktreeDirtyFiles": 0,
+    "currentGeneratedEvidenceDirtyFiles": 0,
     "currentNonGeneratedWorktreeDirtyFiles": 0,
-    "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
+    "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
     "productionBootstrapFresh": true,
     "productionBootstrapSourceDataHash": "62f3b0bdf964",
     "productionBootstrapStaleInputIds": [],
