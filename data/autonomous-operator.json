@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-26T18:56:49.991Z",
-  "status": "operator-plan-ready",
-  "mode": "plan-only",
+  "generatedAt": "2026-05-26T18:58:16.111Z",
+  "status": "operator-executed",
+  "mode": "execute-one-action",
   "ownerDecision": {
     "actionId": "refresh-completion-loop",
     "command": "npm run autonomous:completion-loop",
@@ -9,7 +9,7 @@
     "rejectionReason": null
   },
   "externalInputHandoff": null,
-  "requestedActionId": null,
+  "requestedActionId": "refresh-completion-loop",
   "selectedAction": {
     "id": "refresh-completion-loop",
     "status": "armed",
@@ -249,11 +249,24 @@
     }
   ],
   "execution": {
-    "requested": false,
-    "status": "not-requested",
+    "requested": true,
+    "status": "executed",
     "maxActionsPerRun": 1,
-    "attemptedActionId": null,
-    "results": []
+    "attemptedActionId": "refresh-completion-loop",
+    "results": [
+      {
+        "script": "autonomous:completion-loop",
+        "exitCode": 0,
+        "stdoutTail": [
+          "> autonomous-game-lab@0.0.0 autonomous:completion-loop",
+          "> node scripts/completion-loop.mjs",
+          "Wrote data/completion-loop.json",
+          "Wrote src/data/completionLoop.ts",
+          "Wrote reports/completion-loop-latest.md"
+        ],
+        "stderrTail": []
+      }
+    ]
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -322,7 +335,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-completion-loop to execute exactly one allowed local action.",
+    "Review refresh-completion-loop execution results before another operator run.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }
