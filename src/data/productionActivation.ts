@@ -1,5 +1,5 @@
 export const productionActivation = {
-  "generatedAt": "2026-05-26T18:56:46.624Z",
+  "generatedAt": "2026-05-26T19:01:28.619Z",
   "status": "activation-ready",
   "mode": "dry-run",
   "envFiles": {

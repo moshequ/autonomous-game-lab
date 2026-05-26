@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-26T18:56:50.262Z
+Generated: 2026-05-26T19:01:32.148Z
 
 ## Environment
 
@@ -32,7 +32,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 80 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready: repo-bootstrap-commit-current-snapshot - 78 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 666.3 KB / 177.8 KB gzip; deferred game chunk GameCanvas-0V27hJ3K.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 666.3 KB / 177.8 KB gzip; deferred game chunk GameCanvas-BDjawEap.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 93; smoke URLs 33.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed; live matches synced deploy true.
@@ -73,8 +73,8 @@ Status: ready-after-build
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected refresh-completion-loop; execution not-requested.
-- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 4.
+- pass: autonomous-operator - Autonomous operator is operator-held; selected none; execution not-requested.
+- pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 5.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-declared-unverified; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 90; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
@@ -122,23 +122,23 @@ Installs: 0
 
 Status: performance-budget-ready
 Initial JS: 666.3 KB (177.8 KB gzip)
-Deferred game chunk: GameCanvas-0V27hJ3K.js
+Deferred game chunk: GameCanvas-BDjawEap.js
 - pass: performance-initial-js-target - Initial JS is 666.3 KB; target is 686 KB.
 - pass: performance-initial-js-budget - Initial JS is 666.3 KB; deploy cap is 700 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 177.8 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 10.9 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-0V27hJ3K.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas-BDjawEap.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-40011e66616b
+Candidate: pwa-5af9296e016d
 Files: 93
-Aggregate SHA-256: 40011e66616b14f329e38ef0b98e449eddc3801e0f07e6198a3507a05c0c40ab
+Aggregate SHA-256: 5af9296e016d52499a32e55bcd95d64ebacbd2f3cf6360f86a8e3c34577f6b40
 - pass: release-dist-inventory - 93 dist files inventoried.
 - pass: release-required-files - 38/38 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -152,7 +152,7 @@ Aggregate SHA-256: 40011e66616b14f329e38ef0b98e449eddc3801e0f07e6198a3507a05c0c4
 
 Status: post-deploy-smoke-observed-live
 Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-40011e66616b
+Candidate: pwa-5af9296e016d
 Checks: 34/34 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (34/34 passed)
 - pass: smoke-app-shell - Live URL matched status and required text.
@@ -193,27 +193,27 @@ Local artifact: predeploy-artifact-smoke-passed (34/34 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26468603465
-Artifact candidate: pwa-7926355061d1
-Live candidate: pwa-7926355061d1
+Workflow run: 26468847482
+Artifact candidate: pwa-3b0906aedce4
+Live candidate: pwa-3b0906aedce4
 Live matches artifact: true
 Deployment freshness: current-head-deployed
 Current head deployed: true
 Current head queued/running: false
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-successful-pages-run - Latest successful web-pwa-deploy.yml run is 26468603465.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26468603465.
+- pass: artifact-sync-successful-pages-run - Latest successful web-pwa-deploy.yml run is 26468847482.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26468847482.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
-- pass: artifact-sync-deployment-freshness - Current main a5af28261c21 is deployed.
+- pass: artifact-sync-deployment-freshness - Current main ac76771fb9c0 is deployed.
 
 ## Live Site Monitor
 
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
 Checks: 34/34 passed (0 failed)
-Live candidate: pwa-7926355061d1
+Live candidate: pwa-3b0906aedce4
 Live matches synced deploy: true
 - pass: live-monitor-app-shell - Live read-only check passed.
 - pass: live-monitor-manifest-webmanifest - Live read-only check passed.
@@ -318,16 +318,16 @@ Execution: idle
 
 ## Autonomous Operator
 
-Status: operator-plan-ready
+Status: operator-held
 Mode: plan-only
-Selected action: refresh-completion-loop
+Selected action: none
 Execution: not-requested
 
 ## Autonomous Operator History
 
 Status: operator-history-ready
 Records: 40
-Executed: 4
+Executed: 5
 
 ## Autonomous Cadence
 
