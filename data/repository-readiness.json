@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T06:25:09.912Z",
+  "generatedAt": "2026-05-26T06:33:19.249Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": false,
@@ -39,7 +39,7 @@
     "insideWorkTree": true,
     "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "currentBranch": "main",
-    "dirtyFiles": 78,
+    "dirtyFiles": 75,
     "dirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -74,7 +74,6 @@
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
       "public/product-gate-recovery.json",
-      "public/store-readiness.html",
       "public/store-readiness.json",
       "reports/deployment-plan-latest.md",
       "reports/live-site-monitor-latest.md",
@@ -108,8 +107,6 @@
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBlockerHandoff.ts",
-      "src/data/productionBootstrap.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
@@ -120,7 +117,7 @@
       "src/data/storeListingOptimizer.ts",
       "src/data/storeReadiness.ts"
     ],
-    "generatedEvidenceDirtyFiles": 78,
+    "generatedEvidenceDirtyFiles": 75,
     "generatedEvidenceDirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -155,7 +152,6 @@
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
       "public/product-gate-recovery.json",
-      "public/store-readiness.html",
       "public/store-readiness.json",
       "reports/deployment-plan-latest.md",
       "reports/live-site-monitor-latest.md",
@@ -189,8 +185,6 @@
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBlockerHandoff.ts",
-      "src/data/productionBootstrap.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
@@ -238,7 +232,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-241a40a61e97",
+    "releaseCandidateId": "pwa-08ce7e830d20",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",

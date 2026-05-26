@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T06:25:14.426Z",
+  "generatedAt": "2026-05-26T06:33:24.136Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -112,7 +112,7 @@
         "originRemote": "https://github.com/moshequ/autonomous-game-lab",
         "remoteRepository": "moshequ/autonomous-game-lab",
         "hasCommit": true,
-        "dirtyFiles": 78,
+        "dirtyFiles": 75,
         "dirtyPaths": [
           "data/deployment-plan.json",
           "data/live-site-monitor.json",
@@ -147,7 +147,6 @@
           "public/owner-unlock-brief.json",
           "public/owner-unlock-preflight.json",
           "public/product-gate-recovery.json",
-          "public/store-readiness.html",
           "public/store-readiness.json",
           "reports/deployment-plan-latest.md",
           "reports/live-site-monitor-latest.md",
@@ -181,8 +180,6 @@
           "src/data/postDeploySmoke.ts",
           "src/data/productGateRecovery.ts",
           "src/data/productionActivation.ts",
-          "src/data/productionBlockerHandoff.ts",
-          "src/data/productionBootstrap.ts",
           "src/data/productionEnvironment.ts",
           "src/data/productionMeasurementStatus.ts",
           "src/data/publicRepoSecurityAudit.ts",
@@ -193,7 +190,7 @@
           "src/data/storeListingOptimizer.ts",
           "src/data/storeReadiness.ts"
         ],
-        "generatedEvidenceDirtyFiles": 78,
+        "generatedEvidenceDirtyFiles": 75,
         "generatedEvidenceDirtyPaths": [
           "data/deployment-plan.json",
           "data/live-site-monitor.json",
@@ -228,7 +225,6 @@
           "public/owner-unlock-brief.json",
           "public/owner-unlock-preflight.json",
           "public/product-gate-recovery.json",
-          "public/store-readiness.html",
           "public/store-readiness.json",
           "reports/deployment-plan-latest.md",
           "reports/live-site-monitor-latest.md",
@@ -262,8 +258,6 @@
           "src/data/postDeploySmoke.ts",
           "src/data/productGateRecovery.ts",
           "src/data/productionActivation.ts",
-          "src/data/productionBlockerHandoff.ts",
-          "src/data/productionBootstrap.ts",
           "src/data/productionEnvironment.ts",
           "src/data/productionMeasurementStatus.ts",
           "src/data/publicRepoSecurityAudit.ts",
@@ -284,7 +278,7 @@
         "originRemote": "https://github.com/moshequ/autonomous-game-lab",
         "remoteRepository": "moshequ/autonomous-game-lab",
         "hasCommit": true,
-        "dirtyFiles": 78,
+        "dirtyFiles": 75,
         "dirtyPaths": [
           "data/deployment-plan.json",
           "data/live-site-monitor.json",
@@ -319,7 +313,6 @@
           "public/owner-unlock-brief.json",
           "public/owner-unlock-preflight.json",
           "public/product-gate-recovery.json",
-          "public/store-readiness.html",
           "public/store-readiness.json",
           "reports/deployment-plan-latest.md",
           "reports/live-site-monitor-latest.md",
@@ -353,8 +346,6 @@
           "src/data/postDeploySmoke.ts",
           "src/data/productGateRecovery.ts",
           "src/data/productionActivation.ts",
-          "src/data/productionBlockerHandoff.ts",
-          "src/data/productionBootstrap.ts",
           "src/data/productionEnvironment.ts",
           "src/data/productionMeasurementStatus.ts",
           "src/data/publicRepoSecurityAudit.ts",
@@ -365,7 +356,7 @@
           "src/data/storeListingOptimizer.ts",
           "src/data/storeReadiness.ts"
         ],
-        "generatedEvidenceDirtyFiles": 78,
+        "generatedEvidenceDirtyFiles": 75,
         "generatedEvidenceDirtyPaths": [
           "data/deployment-plan.json",
           "data/live-site-monitor.json",
@@ -400,7 +391,6 @@
           "public/owner-unlock-brief.json",
           "public/owner-unlock-preflight.json",
           "public/product-gate-recovery.json",
-          "public/store-readiness.html",
           "public/store-readiness.json",
           "reports/deployment-plan-latest.md",
           "reports/live-site-monitor-latest.md",
@@ -434,8 +424,6 @@
           "src/data/postDeploySmoke.ts",
           "src/data/productGateRecovery.ts",
           "src/data/productionActivation.ts",
-          "src/data/productionBlockerHandoff.ts",
-          "src/data/productionBootstrap.ts",
           "src/data/productionEnvironment.ts",
           "src/data/productionMeasurementStatus.ts",
           "src/data/publicRepoSecurityAudit.ts",
@@ -569,7 +557,7 @@
         "mutatesLocalGit": true,
         "mutatesRemoteGitHub": false,
         "requiresExplicitEnv": true,
-        "detail": "78 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+        "detail": "75 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
       },
       {
         "id": "set-or-create-origin",
@@ -712,7 +700,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 654.7 KB / 175.5 KB gzip; deferred game chunk GameCanvas-BxMLb9_b.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 654.3 KB / 175.4 KB gzip; deferred game chunk GameCanvas-hbRZPyd3.js."
       },
       {
         "id": "release-candidate",
@@ -1353,21 +1341,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-BHu7t0KW.js",
+        "index-rWGI3wCG.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-BHu7t0KW.js",
+        "assets/index-rWGI3wCG.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-BHu7t0KW.js",
-          "path": "assets/index-BHu7t0KW.js",
-          "bytes": 670263,
-          "kb": 654.6,
-          "gzipBytes": 179559,
-          "gzipKb": 175.4
+          "file": "index-rWGI3wCG.js",
+          "path": "assets/index-rWGI3wCG.js",
+          "bytes": 669871,
+          "kb": 654.2,
+          "gzipBytes": 179454,
+          "gzipKb": 175.2
         },
         {
           "file": "registerSW.js",
@@ -1378,10 +1366,10 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 670437,
-      "jsKb": 654.7,
-      "gzipBytes": 179701,
-      "gzipKb": 175.5,
+      "jsBytes": 670045,
+      "jsKb": 654.3,
+      "gzipBytes": 179596,
+      "gzipKb": 175.4,
       "cssFiles": [
         {
           "file": "index-BzgYwZsM.css",
@@ -1400,11 +1388,11 @@
     "deferred": {
       "chunks": [
         {
-          "file": "aggregateEvidenceIssue-DMrIfqaA.js",
-          "path": "assets/aggregateEvidenceIssue-DMrIfqaA.js",
+          "file": "aggregateEvidenceIssue-Csw8NQWs.js",
+          "path": "assets/aggregateEvidenceIssue-Csw8NQWs.js",
           "bytes": 3717,
           "kb": 3.6,
-          "gzipBytes": 1484,
+          "gzipBytes": 1482,
           "gzipKb": 1.4
         },
         {
@@ -1432,11 +1420,11 @@
           "gzipKb": 1.1
         },
         {
-          "file": "autonomousCadence-mM3rCBDZ.js",
-          "path": "assets/autonomousCadence-mM3rCBDZ.js",
-          "bytes": 396,
+          "file": "autonomousCadence-hfR3sRDn.js",
+          "path": "assets/autonomousCadence-hfR3sRDn.js",
+          "bytes": 406,
           "kb": 0.4,
-          "gzipBytes": 244,
+          "gzipBytes": 250,
           "gzipKb": 0.2
         },
         {
@@ -1448,11 +1436,11 @@
           "gzipKb": 0.2
         },
         {
-          "file": "calendarReminder-Dvdx_mpG.js",
-          "path": "assets/calendarReminder-Dvdx_mpG.js",
+          "file": "calendarReminder-DArW3vR3.js",
+          "path": "assets/calendarReminder-DArW3vR3.js",
           "bytes": 1627,
           "kb": 1.6,
-          "gzipBytes": 932,
+          "gzipBytes": 930,
           "gzipKb": 0.9
         },
         {
@@ -1488,8 +1476,8 @@
           "gzipKb": 0.8
         },
         {
-          "file": "GameCanvas-BxMLb9_b.js",
-          "path": "assets/GameCanvas-BxMLb9_b.js",
+          "file": "GameCanvas-hbRZPyd3.js",
+          "path": "assets/GameCanvas-hbRZPyd3.js",
           "bytes": 3362,
           "kb": 3.3,
           "gzipBytes": 1239,
@@ -1584,19 +1572,19 @@
           "gzipKb": 0.2
         },
         {
-          "file": "productionEnvironment-ChqZ8FDm.js",
-          "path": "assets/productionEnvironment-ChqZ8FDm.js",
+          "file": "productionEnvironment-qmizqfGG.js",
+          "path": "assets/productionEnvironment-qmizqfGG.js",
           "bytes": 5019,
           "kb": 4.9,
           "gzipBytes": 1934,
           "gzipKb": 1.9
         },
         {
-          "file": "publicRepoSecurityAudit-tKJP03EY.js",
-          "path": "assets/publicRepoSecurityAudit-tKJP03EY.js",
+          "file": "publicRepoSecurityAudit-C-CXUiX0.js",
+          "path": "assets/publicRepoSecurityAudit-C-CXUiX0.js",
           "bytes": 460,
           "kb": 0.4,
-          "gzipBytes": 322,
+          "gzipBytes": 321,
           "gzipKb": 0.3
         },
         {
@@ -1632,16 +1620,16 @@
           "gzipKb": 0.3
         },
         {
-          "file": "storeCompliance-DFiAtRi9.js",
-          "path": "assets/storeCompliance-DFiAtRi9.js",
+          "file": "storeCompliance-D-DoMUFi.js",
+          "path": "assets/storeCompliance-D-DoMUFi.js",
           "bytes": 4797,
           "kb": 4.7,
-          "gzipBytes": 1863,
+          "gzipBytes": 1861,
           "gzipKb": 1.8
         },
         {
-          "file": "storeListingOptimizer-DEYF2Bxj.js",
-          "path": "assets/storeListingOptimizer-DEYF2Bxj.js",
+          "file": "storeListingOptimizer-BDIF_IGG.js",
+          "path": "assets/storeListingOptimizer-BDIF_IGG.js",
           "bytes": 9314,
           "kb": 9.1,
           "gzipBytes": 2323,
@@ -1649,8 +1637,8 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-BxMLb9_b.js",
-        "path": "assets/GameCanvas-BxMLb9_b.js",
+        "file": "GameCanvas-hbRZPyd3.js",
+        "path": "assets/GameCanvas-hbRZPyd3.js",
         "bytes": 3362,
         "kb": 3.3,
         "gzipBytes": 1239,
@@ -1672,7 +1660,7 @@
         "gzipBytes": 350097,
         "gzipKb": 341.9
       },
-      "chunksBytes": 1450480,
+      "chunksBytes": 1450490,
       "chunksKb": 1416.5
     },
     "controls": {
@@ -1687,17 +1675,17 @@
       {
         "id": "initial-js-target",
         "status": "pass",
-        "detail": "Initial JS is 654.7 KB; target is 686 KB."
+        "detail": "Initial JS is 654.3 KB; target is 686 KB."
       },
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 654.7 KB; deploy cap is 700 KB."
+        "detail": "Initial JS is 654.3 KB; deploy cap is 700 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 175.5 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 175.4 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
@@ -1717,7 +1705,7 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-BxMLb9_b.js is deferred from the initial shell."
+        "detail": "GameCanvas-hbRZPyd3.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
@@ -1733,7 +1721,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-241a40a61e97",
+    "candidateId": "pwa-08ce7e830d20",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1744,8 +1732,8 @@
     },
     "summary": {
       "totalFiles": 91,
-      "totalBytes": 4170938,
-      "totalKb": 4073.2,
+      "totalBytes": 4172304,
+      "totalKb": 4074.5,
       "assetFiles": 33,
       "htmlFiles": 24,
       "gamePages": 10,
@@ -1754,7 +1742,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "241a40a61e97d80190966a56cca262c3f86088dbfe716a0e5f65faa653654f4a",
+      "aggregateHash": "08ce7e830d2039ef06c34704a8d9d7e37f6271c64d8e56e4220f94e1a443cb6e",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -2179,8 +2167,8 @@
       "origin": "https://moshequ.github.io/autonomous-game-lab",
       "originSource": "release-candidate-public-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-241a40a61e97",
-      "aggregateHash": "241a40a61e97d80190966a56cca262c3f86088dbfe716a0e5f65faa653654f4a",
+      "candidateId": "pwa-08ce7e830d20",
+      "aggregateHash": "08ce7e830d2039ef06c34704a8d9d7e37f6271c64d8e56e4220f94e1a443cb6e",
       "strictManifestComparison": false
     },
     "sourceStatus": {
@@ -2275,7 +2263,7 @@
           "file": "dist/measurement-status.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 108926,
+          "bytes": 109284,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -2295,7 +2283,7 @@
           "file": "dist/owner-unlock-preflight.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 38816,
+          "bytes": 39848,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -2315,7 +2303,7 @@
           "file": "dist/analytics-unlock.json",
           "expectedStatus": 200,
           "status": "pass",
-          "bytes": 81685,
+          "bytes": 82043,
           "textMatched": true,
           "detail": "Local production artifact matched required text."
         },
@@ -2528,8 +2516,8 @@
           "bytes": 38395,
           "candidateMatches": true,
           "hashMatches": true,
-          "localCandidateId": "pwa-241a40a61e97",
-          "localAggregateHash": "241a40a61e97d80190966a56cca262c3f86088dbfe716a0e5f65faa653654f4a",
+          "localCandidateId": "pwa-08ce7e830d20",
+          "localAggregateHash": "08ce7e830d2039ef06c34704a8d9d7e37f6271c64d8e56e4220f94e1a443cb6e",
           "detail": "Local release manifest matches the release candidate."
         }
       ]
@@ -2641,7 +2629,7 @@
         "actualStatus": 200,
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
         "contentType": "application/json; charset=utf-8",
-        "bytes": 108926,
+        "bytes": 109284,
         "textMatched": true
       },
       {
@@ -2669,7 +2657,7 @@
         "actualStatus": 200,
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json",
         "contentType": "application/json; charset=utf-8",
-        "bytes": 38816,
+        "bytes": 39848,
         "textMatched": true
       },
       {
@@ -2697,7 +2685,7 @@
         "actualStatus": 200,
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json",
         "contentType": "application/json; charset=utf-8",
-        "bytes": 81685,
+        "bytes": 82043,
         "textMatched": true
       },
       {
@@ -2795,7 +2783,7 @@
         "actualStatus": 200,
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/store-readiness.json",
         "contentType": "application/json; charset=utf-8",
-        "bytes": 13480,
+        "bytes": 13438,
         "textMatched": true
       },
       {
@@ -2985,7 +2973,7 @@
         "path": "/release-candidate.json",
         "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-241a40a61e97",
+        "requiredText": "pwa-08ce7e830d20",
         "status": "pass",
         "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
         "actualStatus": 200,
@@ -2997,8 +2985,8 @@
         "localCandidateMatches": false,
         "strictManifestComparison": false,
         "deployedReleaseStatus": "release-candidate-ready",
-        "deployedCandidateId": "pwa-5d47266c6585",
-        "deployedAggregateHash": "5d47266c658523dd1b8606badec5e42d53cb48be42499bbfb8c9d36a41a10047",
+        "deployedCandidateId": "pwa-f690549294db",
+        "deployedAggregateHash": "f690549294db89703cee53cc1fbacdb185c2de46fb6eb1954a5efaf45cd04d72",
         "deployedPostDeploySmoke": [
           {
             "id": "app-shell",
@@ -3227,22 +3215,22 @@
     "workflow": {
       "workflowFile": "web-pwa-deploy.yml",
       "artifactName": "post-deploy-smoke",
-      "runId": 26435993133,
-      "headSha": "7a2e0800206cca86bf65378de1c6d8aa2dabb265",
-      "createdAt": "2026-05-26T06:23:15Z",
-      "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26435993133",
+      "runId": 26436297188,
+      "headSha": "9eb2d28513e2c706899442e09b14b8e13e3816c3",
+      "createdAt": "2026-05-26T06:31:23Z",
+      "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26436297188",
       "source": "latest-successful-run",
       "runListAvailable": true
     },
     "artifact": {
       "status": "post-deploy-smoke-passed",
-      "generatedAt": "2026-05-26T06:24:00.449Z",
+      "generatedAt": "2026-05-26T06:32:02.867Z",
       "target": {
         "origin": "https://moshequ.github.io/autonomous-game-lab/",
         "originSource": "agl-deployed-pwa-origin",
         "provider": "github-pages",
-        "candidateId": "pwa-5d47266c6585",
-        "aggregateHash": "5d47266c658523dd1b8606badec5e42d53cb48be42499bbfb8c9d36a41a10047",
+        "candidateId": "pwa-f690549294db",
+        "aggregateHash": "f690549294db89703cee53cc1fbacdb185c2de46fb6eb1954a5efaf45cd04d72",
         "strictManifestComparison": true
       },
       "sourceStatus": {
@@ -3258,8 +3246,8 @@
       },
       "liveRelease": {
         "status": "release-candidate-ready",
-        "candidateId": "pwa-5d47266c6585",
-        "aggregateHash": "5d47266c658523dd1b8606badec5e42d53cb48be42499bbfb8c9d36a41a10047",
+        "candidateId": "pwa-f690549294db",
+        "aggregateHash": "f690549294db89703cee53cc1fbacdb185c2de46fb6eb1954a5efaf45cd04d72",
         "localCandidateMatches": true,
         "strictManifestComparison": true,
         "postDeploySmokeUrls": 31,
@@ -3276,7 +3264,7 @@
         "strictManifestComparison": true,
         "inferredLiveObservationAllowed": false
       },
-      "reportSha256": "7fcc0b55aa7828e407b1d56940ee0e83e73f85e3c3ec0c73e0863a495da4f88f"
+      "reportSha256": "221f035620687ba823ae1917cb829c9cf6df1da1428618181f87cbcc0746f03d"
     },
     "live": {
       "origin": "https://moshequ.github.io/autonomous-game-lab/",
@@ -3285,10 +3273,10 @@
       "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "contentType": "application/json; charset=utf-8",
       "bytes": 38395,
-      "textSha256": "591b698131f25d0b3bfac5f499093ad9c18c28fe0c15f283bd1251dd7e7ed111",
+      "textSha256": "cdd6a925937430e089d4805391f639db29c37cc5f60b864e89a211a96f5276f8",
       "releaseStatus": "release-candidate-ready",
-      "candidateId": "pwa-5d47266c6585",
-      "aggregateHash": "5d47266c658523dd1b8606badec5e42d53cb48be42499bbfb8c9d36a41a10047",
+      "candidateId": "pwa-f690549294db",
+      "aggregateHash": "f690549294db89703cee53cc1fbacdb185c2de46fb6eb1954a5efaf45cd04d72",
       "matchesArtifact": true
     },
     "validation": {
@@ -3330,12 +3318,12 @@
       {
         "id": "successful-pages-run",
         "status": "pass",
-        "detail": "Latest successful web-pwa-deploy.yml run is 26435993133."
+        "detail": "Latest successful web-pwa-deploy.yml run is 26436297188."
       },
       {
         "id": "post-deploy-smoke-artifact",
         "status": "pass",
-        "detail": "Downloaded post-deploy-smoke artifact from run 26435993133."
+        "detail": "Downloaded post-deploy-smoke artifact from run 26436297188."
       },
       {
         "id": "strict-smoke-artifact",
@@ -3370,11 +3358,11 @@
       "failed": 0,
       "blocked": 0,
       "passRate": 100,
-      "latencyP50Ms": 95,
-      "latencyP95Ms": 108,
-      "liveCandidateId": "pwa-5d47266c6585",
-      "syncedCandidateId": "pwa-5d47266c6585",
-      "localCandidateId": "pwa-241a40a61e97",
+      "latencyP50Ms": 65,
+      "latencyP95Ms": 148,
+      "liveCandidateId": "pwa-f690549294db",
+      "syncedCandidateId": "pwa-f690549294db",
+      "localCandidateId": "pwa-08ce7e830d20",
       "liveMatchesSyncedDeploy": true,
       "liveMatchesCurrentLocalCandidate": false,
       "monitoringPlanSource": "synced-live-release-manifest",
@@ -3401,9 +3389,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 31,
+        "durationMs": 43,
         "bytes": 2846,
-        "contentSha256": "4e63203367cf5b3715fb5352a48e3bc421d1620e96a91b44b3b15684c7f05d7a",
+        "contentSha256": "4e7b15722ab244dd214b925305714599fd50f4382165175b74c5e338889387fa",
         "contentType": "text/html; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/",
         "textMatched": true,
@@ -3419,7 +3407,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 84,
+        "durationMs": 70,
         "bytes": 853,
         "contentSha256": "caada44fb47a5c7bc6f2740988f483bd87acec88ef9e9bf36f7b2edc26f62bfb",
         "contentType": "application/manifest+json; charset=utf-8",
@@ -3437,9 +3425,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/sw.js",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 109,
+        "durationMs": 76,
         "bytes": 6444,
-        "contentSha256": "cec1c032f4e344940e3e47d2bece613bd6af4f9a1c4877281558257de19a38e5",
+        "contentSha256": "a5d121d4ef5c4a7cf4bd7e54ded81a1277b3a7d7d6124fc0c32de47a66699cba",
         "contentType": "application/javascript; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/sw.js",
         "textMatched": true,
@@ -3455,7 +3443,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 98,
+        "durationMs": 152,
         "bytes": 2649,
         "contentSha256": "69c532aac56c8fe00112affd56968db03a65e64984208181e6c45b00cfc35b1b",
         "contentType": "text/html; charset=utf-8",
@@ -3473,7 +3461,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/support.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 104,
+        "durationMs": 74,
         "bytes": 4241,
         "contentSha256": "64a99ddffbb933295c8c9956a52e2f92446d59db0617d69a91b87baf976f3858",
         "contentType": "text/html; charset=utf-8",
@@ -3491,9 +3479,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 108,
+        "durationMs": 77,
         "bytes": 36329,
-        "contentSha256": "67414f82186b0f57fc517cb01827dc3ef0a79add06f77335f2d034f67201b12b",
+        "contentSha256": "8e2307455800f9dc0597027764916de91692449675c67397e195d0a6f753fead",
         "contentType": "text/html; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.html",
         "textMatched": true,
@@ -3509,9 +3497,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 107,
-        "bytes": 108926,
-        "contentSha256": "a6d152f69875a5a7a649037bab7ffe9529b3faf8b3deff559f425d9f8f57ccb7",
+        "durationMs": 78,
+        "bytes": 109284,
+        "contentSha256": "3ed81d35da0246f7e8bc3e9473fa16e341987f92a70a09a632e0c83af242597a",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/measurement-status.json",
         "textMatched": true,
@@ -3527,9 +3515,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 104,
+        "durationMs": 74,
         "bytes": 29556,
-        "contentSha256": "06a83a7e163524fd157ff525f9454ea156c15a5bec8edd44492a0875ca8a4d68",
+        "contentSha256": "77708a9c3523c6857f4886053ed00b4ead1e23cbb63c0a03903fc945284aec7e",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json",
         "textMatched": true,
@@ -3545,9 +3533,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 103,
-        "bytes": 38816,
-        "contentSha256": "ee98fea3948667fc74973b94ec4c76b79c065b06f631e5e5240a67a649ac2af1",
+        "durationMs": 142,
+        "bytes": 39848,
+        "contentSha256": "8a6e4ada1a210acf66848701c56c87d989c297322c05d673df2f1f305dbda814",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json",
         "textMatched": true,
@@ -3563,7 +3551,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 102,
+        "durationMs": 71,
         "bytes": 26240,
         "contentSha256": "0587a00042f48f4e018f975a7bf2d4ba2f6c315fb58c1fad3fa884c9df10567f",
         "contentType": "text/html; charset=utf-8",
@@ -3581,9 +3569,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 102,
-        "bytes": 81685,
-        "contentSha256": "951ca10481bbb7dbd7655a89331d6ff4d564162fee1bc2a2e97201a839b7f02c",
+        "durationMs": 72,
+        "bytes": 82043,
+        "contentSha256": "b71b21b33fd0b041d6ac22fa561936d246cf4ef0784c1474db17843ee12f8d69",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json",
         "textMatched": true,
@@ -3599,7 +3587,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 99,
+        "durationMs": 66,
         "bytes": 6423,
         "contentSha256": "c6ac7ed20c77ffd2d4e7bc1f855457481dc84933fdf402cbf35594e9e3bb6a80",
         "contentType": "text/html; charset=utf-8",
@@ -3617,9 +3605,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 99,
+        "durationMs": 65,
         "bytes": 9315,
-        "contentSha256": "fb8700cd1d5a67b3cdf0391fadddc3e355ae7de58fe24bd878fae1c46544ac59",
+        "contentSha256": "2c0cf6726f6b8366a61295d670cd9965806eaf849f1506a812f6c7293182635c",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.json",
         "textMatched": true,
@@ -3635,7 +3623,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/install.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 95,
+        "durationMs": 64,
         "bytes": 7967,
         "contentSha256": "13395a4f1a40fa5b8e5c5470a65d4c904c6e6e96fc7ecb12d04be4cf3f388cac",
         "contentType": "text/html; charset=utf-8",
@@ -3653,9 +3641,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 97,
+        "durationMs": 141,
         "bytes": 5625,
-        "contentSha256": "4f8403c4d46518148843b9634a6264a276328f173b34f616bd81248facd73e2d",
+        "contentSha256": "20473e8760743f1e086e4e770db1c51a3db27e11db665ecb25b3345fe6b04d8d",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/compliance.json",
         "textMatched": true,
@@ -3671,7 +3659,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/monetization.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 95,
+        "durationMs": 139,
         "bytes": 2095,
         "contentSha256": "4d476ae4c02b881f0c3261de4954ccf1d28db032e6fe6924185791b6055124d6",
         "contentType": "application/json; charset=utf-8",
@@ -3689,9 +3677,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/store-readiness.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 96,
+        "durationMs": 64,
         "bytes": 11602,
-        "contentSha256": "d10e3a112153b685530dc2cf7f31a89a3c4d7c0069ad6b8aadc68ce50254340f",
+        "contentSha256": "cafd450259abf2806e1b1979fa27f7a88d8faf0ee034970143ecd63449900894",
         "contentType": "text/html; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/store-readiness.html",
         "textMatched": true,
@@ -3707,9 +3695,9 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/store-readiness.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 96,
-        "bytes": 13480,
-        "contentSha256": "825c12631d3b9f9b40f71d75dc3c7cffbc4d759b1427c009fc94888b72636469",
+        "durationMs": 63,
+        "bytes": 13438,
+        "contentSha256": "dd14d793e1a99595a876e52a04e37faac0a9e25e1e5df6b1f97a9f3e05ffbba4",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/store-readiness.json",
         "textMatched": true,
@@ -3725,7 +3713,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/app-ads.txt",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 84,
+        "durationMs": 59,
         "bytes": 187,
         "contentSha256": "fca4b9f6094448086cc698a391365b26e773f287e82eee093ce073cdf26d677e",
         "contentType": "text/plain; charset=utf-8",
@@ -3743,7 +3731,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 92,
+        "durationMs": 61,
         "bytes": 348,
         "contentSha256": "5410e9b0a583a5aa4ff2d791895c4f71e25230be9d88b9e851b55998e6a32cdc",
         "contentType": "application/json; charset=utf-8",
@@ -3761,7 +3749,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/gate-sample.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 95,
+        "durationMs": 64,
         "bytes": 45260,
         "contentSha256": "f549c6260c3768f9d4fdfcbdb4f97773aab1c9126cd5d7849d4c4a5cd9b7336d",
         "contentType": "text/html; charset=utf-8",
@@ -3779,7 +3767,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/sample-next.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 91,
+        "durationMs": 60,
         "bytes": 7433,
         "contentSha256": "c54599b0580c08de8d4cd941f7a6d0be566d726f2301d0ac7a81c14afa004275",
         "contentType": "text/html; charset=utf-8",
@@ -3797,7 +3785,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/sample-next.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 90,
+        "durationMs": 58,
         "bytes": 1357,
         "contentSha256": "bd939785d081ebae9a40a6e42ce597da8224569a83bb39f439e105ecd0003faa",
         "contentType": "application/json; charset=utf-8",
@@ -3815,7 +3803,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 90,
+        "durationMs": 60,
         "bytes": 14368,
         "contentSha256": "e002c47d572ecf8fec06f9d1b7350cb322d28454922c6872f2b5b25094b223ff",
         "contentType": "text/html; charset=utf-8",
@@ -3833,7 +3821,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/sample-fastest.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 86,
+        "durationMs": 133,
         "bytes": 2381,
         "contentSha256": "b38f71af529c66da6c0d0d82ecb8db0bd7230e4012330710346003726ec87e50",
         "contentType": "application/json; charset=utf-8",
@@ -3851,7 +3839,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/seed-kit.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 90,
+        "durationMs": 58,
         "bytes": 22314,
         "contentSha256": "a41990626d83d3d9ba557d76022e48fe8e35c6527abcf892ab08f913adc9319c",
         "contentType": "text/html; charset=utf-8",
@@ -3869,7 +3857,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 86,
+        "durationMs": 148,
         "bytes": 6707,
         "contentSha256": "360f43d87a46ee1e8eaca4d65760f0275bf4fe0bac413cbb414770a2b5ad6824",
         "contentType": "text/html; charset=utf-8",
@@ -3887,7 +3875,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/seed-next.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 84,
+        "durationMs": 55,
         "bytes": 1095,
         "contentSha256": "eacdcff9dd39a4702daa50d78c56bf7bd82fb4faf2ee704dff2c2987ad5756bf",
         "contentType": "application/json; charset=utf-8",
@@ -3905,7 +3893,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/sitemap.xml",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 85,
+        "durationMs": 54,
         "bytes": 2907,
         "contentSha256": "1b1877d9ef01fc3ec40fa7e26aead3a2ba07d496d744890443dfb80fc641a2cb",
         "contentType": "application/xml",
@@ -3923,7 +3911,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/monetization.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 84,
+        "durationMs": 54,
         "bytes": 7213,
         "contentSha256": "0c52f37abe5384bd7b99119586646bddc3593fc7d3e1b07908c9b0669abb2a42",
         "contentType": "text/html; charset=utf-8",
@@ -3941,7 +3929,7 @@
         "url": "https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 84,
+        "durationMs": 125,
         "bytes": 5999,
         "contentSha256": "985105b50d138616025980840759ce6528ec4d371ce05d6ba5c97b6b2f8d2a39",
         "contentType": "text/html; charset=utf-8",
@@ -3954,22 +3942,22 @@
         "id": "release-candidate-manifest-live",
         "path": "/release-candidate.json",
         "expectedStatus": 200,
-        "requiredText": "pwa-5d47266c6585",
+        "requiredText": "pwa-f690549294db",
         "kind": "release-manifest",
         "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "status": "pass",
         "httpStatus": 200,
-        "durationMs": 103,
+        "durationMs": 58,
         "bytes": 38395,
-        "contentSha256": "591b698131f25d0b3bfac5f499093ad9c18c28fe0c15f283bd1251dd7e7ed111",
+        "contentSha256": "cdd6a925937430e089d4805391f639db29c37cc5f60b864e89a211a96f5276f8",
         "contentType": "application/json; charset=utf-8",
         "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
         "textMatched": true,
         "manifest": {
           "parsed": true,
           "status": "release-candidate-ready",
-          "candidateId": "pwa-5d47266c6585",
-          "aggregateHash": "5d47266c658523dd1b8606badec5e42d53cb48be42499bbfb8c9d36a41a10047",
+          "candidateId": "pwa-f690549294db",
+          "aggregateHash": "f690549294db89703cee53cc1fbacdb185c2de46fb6eb1954a5efaf45cd04d72",
           "postDeploySmoke": [
             {
               "id": "app-shell",
@@ -5676,7 +5664,7 @@
     "mode": "execute-unlocked-local-followups",
     "sourceStatus": {
       "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
-      "productionBlockerHandoffSourceDataHash": "03b81b1ae1bc"
+      "productionBlockerHandoffSourceDataHash": "cfbbcc0e17d5"
     },
     "summary": {
       "handoffItems": 8,
@@ -6383,8 +6371,8 @@
       "staleArtifactCount": 0,
       "missingGeneratedAtCount": 0,
       "invalidArtifactCount": 0,
-      "oldestAgeHours": 18.2,
-      "latestGeneratedAt": "2026-05-26T06:25:13.578Z",
+      "oldestAgeHours": 18.34,
+      "latestGeneratedAt": "2026-05-26T06:33:23.193Z",
       "oldestGeneratedAt": "2026-05-25T12:13:01.862Z",
       "staleArtifactIds": []
     },
@@ -6394,7 +6382,7 @@
         "label": "Owner loop decision",
         "path": "data/autonomous-owner-loop.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:12.346Z",
+        "generatedAt": "2026-05-26T06:33:21.874Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/autonomous-owner-loop.json is 0h old."
@@ -6404,7 +6392,7 @@
         "label": "Operator execution",
         "path": "data/autonomous-operator.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:12.171Z",
+        "generatedAt": "2026-05-26T06:33:21.685Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/autonomous-operator.json is 0h old."
@@ -6415,16 +6403,16 @@
         "path": "data/autonomous-self-update.json",
         "status": "fresh",
         "generatedAt": "2026-05-25T23:03:36.105Z",
-        "ageHours": 7.36,
+        "ageHours": 7.5,
         "staleAfterHours": 36,
-        "detail": "data/autonomous-self-update.json is 7.36h old."
+        "detail": "data/autonomous-self-update.json is 7.5h old."
       },
       {
         "id": "production-readiness",
         "label": "Production readiness",
         "path": "data/production-readiness.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:12.861Z",
+        "generatedAt": "2026-05-26T06:33:22.416Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/production-readiness.json is 0h old."
@@ -6434,7 +6422,7 @@
         "label": "Deployment plan",
         "path": "data/deployment-plan.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:12.994Z",
+        "generatedAt": "2026-05-26T06:33:22.557Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/deployment-plan.json is 0h old."
@@ -6444,7 +6432,7 @@
         "label": "Repository readiness",
         "path": "data/repository-readiness.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:09.912Z",
+        "generatedAt": "2026-05-26T06:33:19.249Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/repository-readiness.json is 0h old."
@@ -6454,7 +6442,7 @@
         "label": "Repository bootstrap",
         "path": "data/repository-bootstrap.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:10.877Z",
+        "generatedAt": "2026-05-26T06:33:20.268Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/repository-bootstrap.json is 0h old."
@@ -6464,7 +6452,7 @@
         "label": "Public repository security audit",
         "path": "data/public-repo-security-audit.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:24:34.418Z",
+        "generatedAt": "2026-05-26T06:32:40.404Z",
         "ageHours": 0.01,
         "staleAfterHours": 36,
         "detail": "data/public-repo-security-audit.json is 0.01h old."
@@ -6474,7 +6462,7 @@
         "label": "Production bootstrap",
         "path": "data/production-bootstrap.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:13.167Z",
+        "generatedAt": "2026-05-26T06:33:22.752Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/production-bootstrap.json is 0h old."
@@ -6484,7 +6472,7 @@
         "label": "Production activation",
         "path": "data/production-activation.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:11.176Z",
+        "generatedAt": "2026-05-26T06:33:20.603Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/production-activation.json is 0h old."
@@ -6494,7 +6482,7 @@
         "label": "Production environment",
         "path": "data/production-environment.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:24:34.858Z",
+        "generatedAt": "2026-05-26T06:32:40.844Z",
         "ageHours": 0.01,
         "staleAfterHours": 36,
         "detail": "data/production-environment.json is 0.01h old."
@@ -6505,9 +6493,9 @@
         "path": "data/event-collector-deployment.json",
         "status": "fresh",
         "generatedAt": "2026-05-25T23:01:23.527Z",
-        "ageHours": 7.4,
+        "ageHours": 7.53,
         "staleAfterHours": 36,
-        "detail": "data/event-collector-deployment.json is 7.4h old."
+        "detail": "data/event-collector-deployment.json is 7.53h old."
       },
       {
         "id": "event-collector-smoke",
@@ -6515,9 +6503,9 @@
         "path": "data/event-collector-smoke.json",
         "status": "fresh",
         "generatedAt": "2026-05-25T23:01:23.329Z",
-        "ageHours": 7.4,
+        "ageHours": 7.53,
         "staleAfterHours": 36,
-        "detail": "data/event-collector-smoke.json is 7.4h old."
+        "detail": "data/event-collector-smoke.json is 7.53h old."
       },
       {
         "id": "local-event-bridge",
@@ -6525,9 +6513,9 @@
         "path": "data/local-event-bridge.json",
         "status": "fresh",
         "generatedAt": "2026-05-25T23:01:24.467Z",
-        "ageHours": 7.4,
+        "ageHours": 7.53,
         "staleAfterHours": 36,
-        "detail": "data/local-event-bridge.json is 7.4h old."
+        "detail": "data/local-event-bridge.json is 7.53h old."
       },
       {
         "id": "event-ingest",
@@ -6535,9 +6523,9 @@
         "path": "data/event-ingest.json",
         "status": "fresh",
         "generatedAt": "2026-05-25T23:01:24.675Z",
-        "ageHours": 7.4,
+        "ageHours": 7.53,
         "staleAfterHours": 36,
-        "detail": "data/event-ingest.json is 7.4h old."
+        "detail": "data/event-ingest.json is 7.53h old."
       },
       {
         "id": "event-ingest-smoke",
@@ -6545,9 +6533,9 @@
         "path": "data/event-ingest-smoke.json",
         "status": "fresh",
         "generatedAt": "2026-05-25T23:01:24.392Z",
-        "ageHours": 7.4,
+        "ageHours": 7.53,
         "staleAfterHours": 36,
-        "detail": "data/event-ingest-smoke.json is 7.4h old."
+        "detail": "data/event-ingest-smoke.json is 7.53h old."
       },
       {
         "id": "analytics-rollup",
@@ -6555,9 +6543,9 @@
         "path": "data/analytics-rollup.json",
         "status": "fresh",
         "generatedAt": "2026-05-25T23:01:24.884Z",
-        "ageHours": 7.4,
+        "ageHours": 7.53,
         "staleAfterHours": 36,
-        "detail": "data/analytics-rollup.json is 7.4h old."
+        "detail": "data/analytics-rollup.json is 7.53h old."
       },
       {
         "id": "experiment-results",
@@ -6565,9 +6553,9 @@
         "path": "data/experiment-results.json",
         "status": "fresh",
         "generatedAt": "2026-05-25T12:13:01.862Z",
-        "ageHours": 18.2,
+        "ageHours": 18.34,
         "staleAfterHours": 36,
-        "detail": "data/experiment-results.json is 18.2h old."
+        "detail": "data/experiment-results.json is 18.34h old."
       },
       {
         "id": "growth-plan",
@@ -6575,9 +6563,9 @@
         "path": "data/growth-plan.json",
         "status": "fresh",
         "generatedAt": "2026-05-26T05:43:27.245Z",
-        "ageHours": 0.7,
+        "ageHours": 0.83,
         "staleAfterHours": 36,
-        "detail": "data/growth-plan.json is 0.7h old."
+        "detail": "data/growth-plan.json is 0.83h old."
       },
       {
         "id": "portfolio-policy",
@@ -6585,9 +6573,9 @@
         "path": "data/portfolio-policy.json",
         "status": "fresh",
         "generatedAt": "2026-05-26T05:43:27.486Z",
-        "ageHours": 0.7,
+        "ageHours": 0.83,
         "staleAfterHours": 36,
-        "detail": "data/portfolio-policy.json is 0.7h old."
+        "detail": "data/portfolio-policy.json is 0.83h old."
       },
       {
         "id": "traffic-seeding",
@@ -6595,9 +6583,9 @@
         "path": "data/traffic-seeding.json",
         "status": "fresh",
         "generatedAt": "2026-05-26T06:20:35.747Z",
-        "ageHours": 0.08,
+        "ageHours": 0.21,
         "staleAfterHours": 36,
-        "detail": "data/traffic-seeding.json is 0.08h old."
+        "detail": "data/traffic-seeding.json is 0.21h old."
       },
       {
         "id": "acquisition-learning",
@@ -6605,9 +6593,9 @@
         "path": "data/acquisition-learning.json",
         "status": "fresh",
         "generatedAt": "2026-05-26T05:43:27.970Z",
-        "ageHours": 0.7,
+        "ageHours": 0.83,
         "staleAfterHours": 36,
-        "detail": "data/acquisition-learning.json is 0.7h old."
+        "detail": "data/acquisition-learning.json is 0.83h old."
       },
       {
         "id": "organic-seed-loop",
@@ -6615,9 +6603,9 @@
         "path": "data/organic-seed-loop.json",
         "status": "fresh",
         "generatedAt": "2026-05-26T05:43:28.205Z",
-        "ageHours": 0.7,
+        "ageHours": 0.83,
         "staleAfterHours": 36,
-        "detail": "data/organic-seed-loop.json is 0.7h old."
+        "detail": "data/organic-seed-loop.json is 0.83h old."
       },
       {
         "id": "retention-loop",
@@ -6625,26 +6613,26 @@
         "path": "data/retention-loop.json",
         "status": "fresh",
         "generatedAt": "2026-05-26T05:15:11.916Z",
-        "ageHours": 1.17,
+        "ageHours": 1.3,
         "staleAfterHours": 36,
-        "detail": "data/retention-loop.json is 1.17h old."
+        "detail": "data/retention-loop.json is 1.3h old."
       },
       {
         "id": "release-candidate",
         "label": "Release candidate",
         "path": "data/release-candidate.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:24:56.720Z",
-        "ageHours": 0,
+        "generatedAt": "2026-05-26T06:33:03.951Z",
+        "ageHours": 0.01,
         "staleAfterHours": 36,
-        "detail": "data/release-candidate.json is 0h old."
+        "detail": "data/release-candidate.json is 0.01h old."
       },
       {
         "id": "post-deploy-smoke",
         "label": "Post-deploy smoke",
         "path": "data/post-deploy-smoke.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:08.641Z",
+        "generatedAt": "2026-05-26T06:33:17.981Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/post-deploy-smoke.json is 0h old."
@@ -6654,7 +6642,7 @@
         "label": "Post-deploy artifact sync",
         "path": "data/post-deploy-artifact-sync.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:24:59.593Z",
+        "generatedAt": "2026-05-26T06:33:08.295Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/post-deploy-artifact-sync.json is 0h old."
@@ -6664,7 +6652,7 @@
         "label": "Continuous live site monitor",
         "path": "data/live-site-monitor.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:24:59.777Z",
+        "generatedAt": "2026-05-26T06:33:08.465Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/live-site-monitor.json is 0h old."
@@ -6675,16 +6663,16 @@
         "path": "data/release-health.json",
         "status": "fresh",
         "generatedAt": "2026-05-25T23:21:17.442Z",
-        "ageHours": 7.07,
+        "ageHours": 7.2,
         "staleAfterHours": 36,
-        "detail": "data/release-health.json is 7.07h old."
+        "detail": "data/release-health.json is 7.2h old."
       },
       {
         "id": "product-optimization",
         "label": "Product optimization",
         "path": "data/product-optimization.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:13.437Z",
+        "generatedAt": "2026-05-26T06:33:23.039Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/product-optimization.json is 0h old."
@@ -6694,7 +6682,7 @@
         "label": "Product gate recovery",
         "path": "data/product-gate-recovery.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:12.506Z",
+        "generatedAt": "2026-05-26T06:33:22.040Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/product-gate-recovery.json is 0h old."
@@ -6705,16 +6693,16 @@
         "path": "data/product-gate-sample-plan.json",
         "status": "fresh",
         "generatedAt": "2026-05-26T06:20:40.075Z",
-        "ageHours": 0.08,
+        "ageHours": 0.21,
         "staleAfterHours": 36,
-        "detail": "data/product-gate-sample-plan.json is 0.08h old."
+        "detail": "data/product-gate-sample-plan.json is 0.21h old."
       },
       {
         "id": "player-evidence-watchdog",
         "label": "Player evidence watchdog",
         "path": "data/player-evidence-watchdog.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:12.798Z",
+        "generatedAt": "2026-05-26T06:33:22.344Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/player-evidence-watchdog.json is 0h old."
@@ -6725,9 +6713,9 @@
         "path": "data/completion-loop.json",
         "status": "fresh",
         "generatedAt": "2026-05-26T04:40:40.821Z",
-        "ageHours": 1.74,
+        "ageHours": 1.88,
         "staleAfterHours": 36,
-        "detail": "data/completion-loop.json is 1.74h old."
+        "detail": "data/completion-loop.json is 1.88h old."
       },
       {
         "id": "replay-loop",
@@ -6735,16 +6723,16 @@
         "path": "data/replay-loop.json",
         "status": "fresh",
         "generatedAt": "2026-05-26T05:08:56.018Z",
-        "ageHours": 1.27,
+        "ageHours": 1.41,
         "staleAfterHours": 36,
-        "detail": "data/replay-loop.json is 1.27h old."
+        "detail": "data/replay-loop.json is 1.41h old."
       },
       {
         "id": "first-move-coach",
         "label": "First move coach",
         "path": "data/first-move-coach.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:13.578Z",
+        "generatedAt": "2026-05-26T06:33:23.193Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/first-move-coach.json is 0h old."
@@ -6754,7 +6742,7 @@
         "label": "PWA install loop",
         "path": "data/pwa-install-loop.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:24:45.901Z",
+        "generatedAt": "2026-05-26T06:32:52.541Z",
         "ageHours": 0.01,
         "staleAfterHours": 36,
         "detail": "data/pwa-install-loop.json is 0.01h old."
@@ -6765,16 +6753,16 @@
         "path": "data/applied-improvements.json",
         "status": "fresh",
         "generatedAt": "2026-05-25T12:13:02.101Z",
-        "ageHours": 18.2,
+        "ageHours": 18.34,
         "staleAfterHours": 36,
-        "detail": "data/applied-improvements.json is 18.2h old."
+        "detail": "data/applied-improvements.json is 18.34h old."
       },
       {
         "id": "improvement-backlog",
         "label": "Improvement backlog",
         "path": "data/improvement-backlog-summary.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:13.300Z",
+        "generatedAt": "2026-05-26T06:33:22.898Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/improvement-backlog-summary.json is 0h old."
@@ -6784,7 +6772,7 @@
         "label": "Improvement routing",
         "path": "data/improvement-routing.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:13.300Z",
+        "generatedAt": "2026-05-26T06:33:22.898Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/improvement-routing.json is 0h old."
@@ -6794,7 +6782,7 @@
         "label": "Objective audit",
         "path": "data/objective-audit.json",
         "status": "fresh",
-        "generatedAt": "2026-05-26T06:25:11.845Z",
+        "generatedAt": "2026-05-26T06:33:21.343Z",
         "ageHours": 0,
         "staleAfterHours": 36,
         "detail": "data/objective-audit.json is 0h old."
@@ -7022,13 +7010,13 @@
       "noRevenueEnablementUntilGatesPass": true,
       "noStoreSubmissionUntilExternalAccounts": true,
       "currentWorktreeClean": true,
-      "currentWorktreeDirtyFiles": 103,
-      "currentGitWorktreeDirtyFiles": 103,
-      "currentGeneratedEvidenceDirtyFiles": 103,
+      "currentWorktreeDirtyFiles": 97,
+      "currentGitWorktreeDirtyFiles": 97,
+      "currentGeneratedEvidenceDirtyFiles": 97,
       "currentNonGeneratedWorktreeDirtyFiles": 0,
       "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
       "productionBootstrapFresh": true,
-      "productionBootstrapSourceDataHash": "62f3b0bdf964",
+      "productionBootstrapSourceDataHash": "49c6f1124f48",
       "productionBootstrapStaleInputIds": [],
       "objectiveNextBestActionSource": "owner-loop"
     },
@@ -7124,7 +7112,7 @@
           "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
           "Release candidate: release-candidate-ready; smoke URLs 31",
           "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 32/32; local artifact predeploy-artifact-smoke-passed 32/32",
-          "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26435993133; live matches artifact true; candidate pwa-5d47266c6585",
+          "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26436297188; live matches artifact true; candidate pwa-f690549294db",
           "Live site monitor: live-site-monitor-passed; checks 32/32; live matches synced deploy true",
           "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
           "Autonomy score: 98%",
@@ -7174,6 +7162,7 @@
           "Support channel: support-channel-ready; provider github-issues; store email still required true",
           "Store assets: screenshots-ready",
           "Store compliance: draft-ready-external-blockers",
+          "Store owner next unlock: support-contact; lowest input 1 input(s), 0 secret(s)",
           "Android signing: signing-prepared; fingerprint available",
           "Native package: ready-for-bubblewrap-build",
           "Android release: blocked-needs-host-signing-play",
@@ -7194,7 +7183,7 @@
           "Revenue signal is $0.00, below $99.00.",
           "Apple Developer account is not connected."
         ],
-        "nextAction": "Connect the Google Play developer account.",
+        "nextAction": "Set AGL_SUPPORT_EMAIL with ./ops/github/setup-production.sh --support-input-template before paid store accounts or submissions.",
         "completionCritical": true
       },
       {
