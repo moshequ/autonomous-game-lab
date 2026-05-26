@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-05-26T04:38:29.453Z
+Generated: 2026-05-26T04:48:46.649Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: refresh-completion-loop
-Selected action: refresh-completion-loop
+Owner decision: refresh-replay-loop
+Selected action: refresh-replay-loop
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- refresh-completion-loop: npm run autonomous:completion-loop
+- refresh-replay-loop: npm run autonomous:replay-loop
 
 ## External Input Handoff
 
@@ -33,7 +33,6 @@ Execution: not-requested
 - seed-portfolio-traffic
 - refresh-support-feedback
 - optimize-daily-retention
-- refresh-completion-loop
 - refresh-replay-loop
 
 ## Blocked Actions
