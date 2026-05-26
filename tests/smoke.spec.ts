@@ -13147,6 +13147,44 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
       shellExportTemplateLines: string[]
       missingInputCount: number
       secretInputCount: number
+      commands: {
+        writeLocalEnvTemplate: string
+        setupWriteLocalEnvTemplate: string
+        syncConfiguredValues: string
+      }
+      browserLocalActionPack: {
+        id: string
+        status: string
+        receiptStorageKey: string
+        filledDownloadFileName: string
+        field: {
+          envName: string
+          title: string
+          inputId: string
+          validationKind: string
+          inputType: string
+          placeholder: string
+          required: boolean
+          publicValue: boolean
+          maxLength: number
+        }
+        commands: {
+          githubVariableSet: string
+          validate: string
+          readiness: string
+        }
+        controls: {
+          browserLocalOnly: boolean
+          publicValuesOnly: boolean
+          noGeneratedValueSerialization: boolean
+          noSecretValues: boolean
+          noGithubMutation: boolean
+          noWorkflowDispatch: boolean
+          noAccountCreation: boolean
+          noStoreSubmission: boolean
+          noRevenueEnablement: boolean
+        }
+      }
       inputInstructions: Array<{
         repositoryName: string
         envName: string
@@ -13291,6 +13329,39 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
     './ops/github/setup-production.sh --support-input-template',
   )
   expect(readiness.supportOwnerInputPack.commands.syncConfiguredValues).toBe('./ops/github/setup-production.sh')
+  expect(readiness.supportOwnerInputPack.browserLocalActionPack).toMatchObject({
+    id: 'browser-local-support-contact-action-pack',
+    status: 'ready',
+    receiptStorageKey: 'agl.supportContactActionReceipt',
+    filledDownloadFileName: 'agl-support-contact.env',
+    field: {
+      envName: 'AGL_SUPPORT_EMAIL',
+      title: 'Production support email',
+      inputId: 'support-contact-agl-support-email',
+      validationKind: 'email-shape',
+      inputType: 'email',
+      placeholder: 'support@example.com',
+      required: true,
+      publicValue: true,
+      maxLength: 254,
+    },
+    commands: {
+      githubVariableSet: 'gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"',
+      validate: 'npm run autonomous:store-readiness',
+      readiness: 'npm run autonomous:readiness',
+    },
+    controls: {
+      browserLocalOnly: true,
+      publicValuesOnly: true,
+      noGeneratedValueSerialization: true,
+      noSecretValues: true,
+      noGithubMutation: true,
+      noWorkflowDispatch: true,
+      noAccountCreation: true,
+      noStoreSubmission: true,
+      noRevenueEnablement: true,
+    },
+  })
   expect(readiness.supportOwnerInputPack.inputInstructions[0]?.validation.kind).toBe('email-shape')
   expect(readiness.supportOwnerInputPack.controls.zeroPaidSpend).toBe(true)
   expect(readiness.supportOwnerInputPack.controls.noSecretValuesStored).toBe(true)
@@ -13375,6 +13446,18 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
     expect.arrayContaining(['android-google-play', 'ios-app-store']),
   )
 
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: (text: string) => {
+          ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = text
+          return Promise.resolve()
+        },
+      },
+    })
+  })
+
   const response = await page.goto('/store-readiness.html')
 
   expect(response?.ok()).toBeTruthy()
@@ -13390,6 +13473,68 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   await expect(page.getByText('./ops/github/setup-production.sh --support-input-template')).toBeVisible()
   await expect(page.getByText('support-contact', { exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'Production support contact' })).toBeVisible()
+  await expect(page.getByLabel('Browser-local support contact')).toContainText('Production support email')
+  await expect(page.getByRole('button', { name: 'Check support email' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download support env' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy support shell export' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy GitHub variable command' })).toBeDisabled()
+  await page.getByLabel('Production support email').fill('support@example.com')
+  await page.getByRole('button', { name: 'Check support email' }).click()
+  await expect(page.getByText('Support email passed local checks.')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download support env' })).toBeEnabled()
+  await expect(page.getByRole('button', { name: 'Copy support shell export' })).toBeEnabled()
+  await expect(page.getByRole('button', { name: 'Copy GitHub variable command' })).toBeEnabled()
+  const supportDownloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download support env' }).click()
+  const supportDownload = await supportDownloadPromise
+  expect(supportDownload.suggestedFilename()).toBe('agl-support-contact.env')
+  const supportDownloadPath = await supportDownload.path()
+  if (!supportDownloadPath) {
+    throw new Error('Expected support contact env download path.')
+  }
+  expect(await readFile(supportDownloadPath, 'utf8')).toBe('AGL_SUPPORT_EMAIL=support@example.com\n')
+  const supportDownloadReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.supportContactActionReceipt') ?? '{}'),
+  )
+  expect(supportDownloadReceipt).toMatchObject({
+    action: 'download-support-contact-env',
+    actionPackId: 'browser-local-support-contact-action-pack',
+    fileName: 'agl-support-contact.env',
+    valueStored: false,
+    valueSerialized: false,
+    noGithubMutation: true,
+    noWorkflowDispatch: true,
+  })
+  expect(supportDownloadReceipt.validatedInputNames).toEqual(['AGL_SUPPORT_EMAIL'])
+  expect(JSON.stringify(supportDownloadReceipt)).not.toContain('support@example.com')
+  await expect(page.getByText('Support env download prepared locally.')).toBeVisible()
+  await page.getByRole('button', { name: 'Copy support shell export' }).click()
+  await expect
+    .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
+    .toBe("export AGL_SUPPORT_EMAIL='support@example.com'\n")
+  const supportShellReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.supportContactActionReceipt') ?? '{}'),
+  )
+  expect(supportShellReceipt).toMatchObject({
+    action: 'copy-support-contact-shell-export',
+    valueStored: false,
+    valueSerialized: false,
+  })
+  expect(JSON.stringify(supportShellReceipt)).not.toContain('support@example.com')
+  await page.getByRole('button', { name: 'Copy GitHub variable command' }).click()
+  await expect
+    .poll(() => page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite ?? ''))
+    .toBe("gh variable set AGL_SUPPORT_EMAIL --body 'support@example.com'")
+  const supportCommandReceipt = await page.evaluate(() =>
+    JSON.parse(window.localStorage.getItem('agl.supportContactActionReceipt') ?? '{}'),
+  )
+  expect(supportCommandReceipt).toMatchObject({
+    action: 'copy-support-contact-variable-command',
+    commandRequiresOwnerRun: true,
+    valueStored: false,
+    valueSerialized: false,
+  })
+  expect(JSON.stringify(supportCommandReceipt)).not.toContain('support@example.com')
   await expect(page.getByRole('link', { name: 'store-readiness.json' })).toHaveAttribute(
     'href',
     './store-readiness.json',

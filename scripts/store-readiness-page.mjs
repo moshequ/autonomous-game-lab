@@ -462,6 +462,39 @@ const buildSupportOwnerInputPack = (unlock) => {
       syncConfiguredValues: './ops/github/setup-production.sh',
       refreshStoreReadiness: 'npm run autonomous:store-readiness',
     },
+    browserLocalActionPack: {
+      id: 'browser-local-support-contact-action-pack',
+      status: 'ready',
+      receiptStorageKey: 'agl.supportContactActionReceipt',
+      filledDownloadFileName: 'agl-support-contact.env',
+      field: {
+        envName,
+        title: 'Production support email',
+        inputId: 'support-contact-agl-support-email',
+        validationKind: 'email-shape',
+        inputType: 'email',
+        placeholder: 'support@example.com',
+        required: true,
+        publicValue: true,
+        maxLength: 254,
+      },
+      commands: {
+        githubVariableSet: 'gh variable set AGL_SUPPORT_EMAIL --body "$AGL_SUPPORT_EMAIL"',
+        validate: 'npm run autonomous:store-readiness',
+        readiness: 'npm run autonomous:readiness',
+      },
+      controls: {
+        browserLocalOnly: true,
+        publicValuesOnly: true,
+        noGeneratedValueSerialization: true,
+        noSecretValues: true,
+        noGithubMutation: true,
+        noWorkflowDispatch: true,
+        noAccountCreation: true,
+        noStoreSubmission: true,
+        noRevenueEnablement: true,
+      },
+    },
     controls: {
       zeroPaidSpend: true,
       noSecretValuesStored: true,
@@ -860,6 +893,59 @@ const html = `<!doctype html>
         margin-top: 6px;
       }
 
+      .support-action-panel {
+        display: grid;
+        gap: 12px;
+        margin: 18px 0 20px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+      }
+
+      .support-field {
+        display: grid;
+        gap: 6px;
+        max-width: 440px;
+      }
+
+      .support-field label {
+        font-weight: 700;
+      }
+
+      .support-field input {
+        width: 100%;
+        min-height: 42px;
+        box-sizing: border-box;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #fff;
+        color: var(--ink);
+        font: inherit;
+      }
+
+      .support-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      button {
+        min-height: 40px;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--soft);
+        color: var(--ink);
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        opacity: 0.48;
+        cursor: not-allowed;
+      }
+
       .warning {
         color: var(--warn);
         font-weight: 700;
@@ -942,6 +1028,28 @@ const html = `<!doctype html>
               : '<li>All support-contact inputs are available locally or configured in GitHub.</li>'
           }
         </ul>
+        <div class="support-action-panel" aria-label="Browser-local support contact">
+          <div class="support-field">
+            <label for="${escapeHtml(supportOwnerInputPack.browserLocalActionPack.field.inputId)}">${escapeHtml(supportOwnerInputPack.browserLocalActionPack.field.title)}</label>
+            <input
+              id="${escapeHtml(supportOwnerInputPack.browserLocalActionPack.field.inputId)}"
+              name="${escapeHtml(supportOwnerInputPack.browserLocalActionPack.field.envName)}"
+              type="${escapeHtml(supportOwnerInputPack.browserLocalActionPack.field.inputType)}"
+              placeholder="${escapeHtml(supportOwnerInputPack.browserLocalActionPack.field.placeholder)}"
+              maxlength="${supportOwnerInputPack.browserLocalActionPack.field.maxLength}"
+              autocomplete="email"
+              inputmode="email"
+              ${supportOwnerInputPack.browserLocalActionPack.field.required ? 'required' : ''}
+            />
+          </div>
+          <div class="support-controls">
+            <button id="validate-support-contact-input" type="button">Check support email</button>
+            <button id="download-filled-support-contact-template" type="button" disabled>Download support env</button>
+            <button id="copy-filled-support-contact-shell" type="button" disabled>Copy support shell export</button>
+            <button id="copy-support-contact-variable-command" type="button" disabled>Copy GitHub variable command</button>
+          </div>
+          <p class="lede" id="support-contact-validation-status" aria-live="polite">Waiting for support email. Typed values stay in this browser session unless you choose a local download or copy action; generated artifacts contain only field names.</p>
+        </div>
         <div class="grid">
           ${storeOwnerUnlocks
             .map(
@@ -990,6 +1098,153 @@ const html = `<!doctype html>
         <div class="row"><span>Source hash</span><strong>${sourceDataHash}</strong></div>
       </section>
     </main>
+    <script>
+      (() => {
+        const supportActionPack = ${JSON.stringify(supportOwnerInputPack.browserLocalActionPack)}
+        const field = supportActionPack && supportActionPack.field
+        const input = field ? document.getElementById(field.inputId) : null
+        const status = document.getElementById('support-contact-validation-status')
+        const validateButton = document.getElementById('validate-support-contact-input')
+        const downloadButton = document.getElementById('download-filled-support-contact-template')
+        const copyShellButton = document.getElementById('copy-filled-support-contact-shell')
+        const copyCommandButton = document.getElementById('copy-support-contact-variable-command')
+        const actionButtons = [downloadButton, copyShellButton, copyCommandButton]
+
+        const setStatus = (message) => {
+          if (status) status.textContent = message
+        }
+
+        const setSupportButtons = (enabled) => {
+          actionButtons.forEach((button) => {
+            if (button) button.disabled = !enabled
+          })
+        }
+
+        const readSupportValue = () => (input && 'value' in input ? String(input.value).trim() : '')
+
+        const validateSupportEmail = (value) => {
+          const problems = []
+
+          if (!value) problems.push('missing')
+          if (value.length > (field.maxLength || 254)) problems.push('too-long')
+          if (/\\r|\\n/.test(value)) problems.push('single-line')
+          if (/\\s/.test(value)) problems.push('no-whitespace')
+          if (value && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value)) problems.push('email-shape')
+
+          return { valid: problems.length === 0, problems }
+        }
+
+        const validateSupportContactInput = () => {
+          if (!field) return { valid: false, value: '', problems: ['missing-field-config'] }
+
+          const value = readSupportValue()
+          const result = validateSupportEmail(value)
+
+          setSupportButtons(result.valid)
+          setStatus(
+            result.valid
+              ? 'Support email passed local checks.'
+              : 'Support email needs attention: ' + result.problems.join(', '),
+          )
+
+          return { ...result, value }
+        }
+
+        const writeSupportReceipt = (action, details = {}) => {
+          const receipt = {
+            action,
+            actionPackId: supportActionPack.id,
+            timestamp: new Date().toISOString(),
+            inputNames: [field.envName],
+            validatedInputNames: [field.envName],
+            valueStored: false,
+            valueSerialized: false,
+            noGithubMutation: true,
+            noWorkflowDispatch: true,
+            ...details,
+          }
+
+          try {
+            window.localStorage.setItem(supportActionPack.receiptStorageKey, JSON.stringify(receipt))
+          } catch {
+            // Private browsing can reject localStorage; receipts are best-effort only.
+          }
+
+          return receipt
+        }
+
+        const shellQuote = (value) => "'" + String(value).replace(/'/g, "'\\''") + "'"
+        const supportEnvText = (value) => field.envName + '=' + value + '\\n'
+        const supportShellText = (value) => 'export ' + field.envName + '=' + shellQuote(value) + '\\n'
+        const supportVariableCommandText = (value) =>
+          'gh variable set ' + field.envName + ' --body ' + shellQuote(value)
+
+        const downloadText = (text, fileName) => {
+          const blob = new Blob([text], { type: 'text/plain;charset=utf-8' })
+          const url = URL.createObjectURL(blob)
+          const link = document.createElement('a')
+          link.href = url
+          link.download = fileName
+          document.body.appendChild(link)
+          link.click()
+          link.remove()
+          URL.revokeObjectURL(url)
+        }
+
+        const copyText = async (text) => {
+          if (!navigator.clipboard || typeof navigator.clipboard.writeText !== 'function') {
+            throw new Error('clipboard-unavailable')
+          }
+
+          await navigator.clipboard.writeText(text)
+        }
+
+        validateButton?.addEventListener('click', () => {
+          validateSupportContactInput()
+        })
+
+        input?.addEventListener('input', () => {
+          validateSupportContactInput()
+        })
+
+        downloadButton?.addEventListener('click', () => {
+          const result = validateSupportContactInput()
+          if (!result.valid) return
+
+          downloadText(supportEnvText(result.value), supportActionPack.filledDownloadFileName)
+          writeSupportReceipt('download-support-contact-env', { fileName: supportActionPack.filledDownloadFileName })
+          setStatus('Support env download prepared locally. The email value was not written to generated artifacts.')
+        })
+
+        copyShellButton?.addEventListener('click', async () => {
+          const result = validateSupportContactInput()
+          if (!result.valid) return
+
+          try {
+            await copyText(supportShellText(result.value))
+            writeSupportReceipt('copy-support-contact-shell-export')
+            setStatus('Support shell export copied locally. Run it in your own terminal before syncing GitHub variables.')
+          } catch {
+            setStatus('Clipboard is unavailable in this browser session.')
+          }
+        })
+
+        copyCommandButton?.addEventListener('click', async () => {
+          const result = validateSupportContactInput()
+          if (!result.valid) return
+
+          try {
+            await copyText(supportVariableCommandText(result.value))
+            writeSupportReceipt('copy-support-contact-variable-command', { commandRequiresOwnerRun: true })
+            setStatus('GitHub variable command copied locally. It only runs if you paste it in your terminal.')
+          } catch {
+            setStatus('Clipboard is unavailable in this browser session.')
+          }
+        })
+
+        setSupportButtons(false)
+      })()
+    </script>
   </body>
 </html>
 `
@@ -1038,6 +1293,11 @@ const report = [
   `- missing inputs: ${supportOwnerInputPack.missingInputNames.join(', ') || 'none'}`,
   `- secret inputs: ${supportOwnerInputPack.secretInputCount}`,
   `- email validation: ${supportOwnerInputPack.inputInstructions[0]?.validation?.status ?? 'unknown'}`,
+  `- browser-local action pack: ${supportOwnerInputPack.browserLocalActionPack.id} (${supportOwnerInputPack.browserLocalActionPack.status})`,
+  `- browser-local receipt key: ${supportOwnerInputPack.browserLocalActionPack.receiptStorageKey}`,
+  `- browser-local download file: ${supportOwnerInputPack.browserLocalActionPack.filledDownloadFileName}`,
+  `- browser-local public values only: ${supportOwnerInputPack.browserLocalActionPack.controls.publicValuesOnly}`,
+  `- browser-local avoids GitHub mutation: ${supportOwnerInputPack.browserLocalActionPack.controls.noGithubMutation}`,
   `- no secret values stored: ${supportOwnerInputPack.controls.noSecretValuesStored}`,
   `- local template preserves existing values: ${supportOwnerInputPack.controls.localTemplateWritePreservesExistingValues}`,
   `- local template avoids GitHub mutation: ${supportOwnerInputPack.controls.localTemplateWriteNoGithubMutation}`,

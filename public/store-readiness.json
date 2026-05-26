@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T18:31:03.959Z",
+  "generatedAt": "2026-05-26T18:38:31.561Z",
   "sourceDataHash": "72aba26962c6",
   "status": "store-readiness-prepared-external-blockers",
   "summary": {
@@ -75,8 +75,10 @@
         "ready": false,
         "configuredInRepository": false,
         "availableLocally": false,
-        "availableInLocalEnvFile": false,
-        "localEnvFiles": [],
+        "availableInLocalEnvFile": true,
+        "localEnvFiles": [
+          ".env.production.local"
+        ],
         "validation": {
           "kind": "email-shape",
           "status": "not-checked-missing-input",
@@ -104,6 +106,39 @@
       "validate": "npm run autonomous:store-readiness",
       "syncConfiguredValues": "./ops/github/setup-production.sh",
       "refreshStoreReadiness": "npm run autonomous:store-readiness"
+    },
+    "browserLocalActionPack": {
+      "id": "browser-local-support-contact-action-pack",
+      "status": "ready",
+      "receiptStorageKey": "agl.supportContactActionReceipt",
+      "filledDownloadFileName": "agl-support-contact.env",
+      "field": {
+        "envName": "AGL_SUPPORT_EMAIL",
+        "title": "Production support email",
+        "inputId": "support-contact-agl-support-email",
+        "validationKind": "email-shape",
+        "inputType": "email",
+        "placeholder": "support@example.com",
+        "required": true,
+        "publicValue": true,
+        "maxLength": 254
+      },
+      "commands": {
+        "githubVariableSet": "gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\"",
+        "validate": "npm run autonomous:store-readiness",
+        "readiness": "npm run autonomous:readiness"
+      },
+      "controls": {
+        "browserLocalOnly": true,
+        "publicValuesOnly": true,
+        "noGeneratedValueSerialization": true,
+        "noSecretValues": true,
+        "noGithubMutation": true,
+        "noWorkflowDispatch": true,
+        "noAccountCreation": true,
+        "noStoreSubmission": true,
+        "noRevenueEnablement": true
+      }
     },
     "controls": {
       "zeroPaidSpend": true,

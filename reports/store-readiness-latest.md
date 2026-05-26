@@ -1,6 +1,6 @@
 # Store Readiness
 
-Generated: 2026-05-26T18:31:03.959Z
+Generated: 2026-05-26T18:38:31.561Z
 Status: store-readiness-prepared-external-blockers
 Source hash: 72aba26962c6
 
@@ -41,6 +41,11 @@ Source hash: 72aba26962c6
 - missing inputs: AGL_SUPPORT_EMAIL
 - secret inputs: 0
 - email validation: not-checked-missing-input
+- browser-local action pack: browser-local-support-contact-action-pack (ready)
+- browser-local receipt key: agl.supportContactActionReceipt
+- browser-local download file: agl-support-contact.env
+- browser-local public values only: true
+- browser-local avoids GitHub mutation: true
 - no secret values stored: true
 - local template preserves existing values: true
 - local template avoids GitHub mutation: true
