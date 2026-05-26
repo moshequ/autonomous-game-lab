@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-26T20:24:44.837Z
+Generated: 2026-05-26T20:28:07.329Z
 
 ## Environment
 
@@ -32,7 +32,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 80 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready: repo-bootstrap-commit-current-snapshot - 79 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
 - ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
@@ -59,9 +59,9 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 670 KB / 178.3 KB gzip; deferred game chunk GameCanvas-CuO7diyl.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 670 KB / 178.4 KB gzip; deferred game chunk GameCanvas-CuQIvlYB.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 93; smoke URLs 33.
-- pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/34 passed, 34 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
+- pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed; live matches synced deploy true.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 10; primary harbor-rings.
@@ -122,24 +122,24 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 670 KB (178.3 KB gzip)
-Deferred game chunk: GameCanvas-CuO7diyl.js
+Initial JS: 670 KB (178.4 KB gzip)
+Deferred game chunk: GameCanvas-CuQIvlYB.js
 - pass: performance-initial-js-target - Initial JS is 670 KB; target is 686 KB.
 - pass: performance-initial-js-budget - Initial JS is 670 KB; deploy cap is 700 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 178.3 KB; budget is 200 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 178.4 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 12 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-CuO7diyl.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas-CuQIvlYB.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-69c687cc37dc
+Candidate: pwa-759230344ff7
 Files: 93
-Aggregate SHA-256: 69c687cc37dc8f73612c0ca093f9aefba67841339c13d5f97dd4fdc951ce4f0a
+Aggregate SHA-256: 759230344ff7a2056bf3614d1adfb0b26ee80ea5ef3d91f14ab4f2e09b087026
 - pass: release-dist-inventory - 93 dist files inventoried.
 - pass: release-required-files - 38/38 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -151,70 +151,70 @@ Aggregate SHA-256: 69c687cc37dc8f73612c0ca093f9aefba67841339c13d5f97dd4fdc951ce4
 
 ## Post-Deploy Smoke
 
-Status: blocked-missing-origin
-Origin: missing
-Candidate: pwa-69c687cc37dc
-Checks: 0/34 passed (34 blocked)
+Status: post-deploy-smoke-observed-live
+Origin: https://moshequ.github.io/autonomous-game-lab
+Candidate: pwa-759230344ff7
+Checks: 34/34 passed (0 blocked)
 Local artifact: predeploy-artifact-smoke-passed (34/34 passed)
-- blocked: smoke-app-shell - fetch failed
-- blocked: smoke-manifest-webmanifest - fetch failed
-- blocked: smoke-sw-js - fetch failed
-- blocked: smoke-privacy-html - fetch failed
-- blocked: smoke-support-html - fetch failed
-- blocked: smoke-measurement-status-html - fetch failed
-- blocked: smoke-measurement-status-json - fetch failed
-- blocked: smoke-owner-unlock-html - fetch failed
-- blocked: smoke-owner-unlock-brief-json - fetch failed
-- blocked: smoke-owner-unlock-preflight-json - fetch failed
-- blocked: smoke-owner-runtime-config-json - fetch failed
-- blocked: smoke-analytics-unlock-html - fetch failed
-- blocked: smoke-analytics-unlock-json - fetch failed
-- blocked: smoke-product-gate-recovery-html - fetch failed
-- blocked: smoke-product-gate-recovery-json - fetch failed
-- blocked: smoke-install-html - fetch failed
-- blocked: smoke-compliance-json - fetch failed
-- blocked: smoke-monetization-json - fetch failed
-- blocked: smoke-store-readiness-html - fetch failed
-- blocked: smoke-store-readiness-json - fetch failed
-- blocked: smoke-app-ads-txt - fetch failed
-- blocked: smoke-well-known-assetlinks-json - fetch failed
-- blocked: smoke-gate-sample-html - fetch failed
-- blocked: smoke-sample-next-html - fetch failed
-- blocked: smoke-sample-next-json - fetch failed
-- blocked: smoke-sample-fastest-html - fetch failed
-- blocked: smoke-sample-fastest-json - fetch failed
-- blocked: smoke-seed-kit-html - fetch failed
-- blocked: smoke-seed-next-html - fetch failed
-- blocked: smoke-seed-next-json - fetch failed
-- blocked: smoke-sitemap-xml - fetch failed
-- blocked: smoke-monetization-html - fetch failed
-- blocked: smoke-games-canopy-bloom-html - fetch failed
-- blocked: smoke-release-candidate-manifest - fetch failed
+- pass: smoke-app-shell - Live URL matched status and required text.
+- pass: smoke-manifest-webmanifest - Live URL matched status and required text.
+- pass: smoke-sw-js - Live URL matched status and required text.
+- pass: smoke-privacy-html - Live URL matched status and required text.
+- pass: smoke-support-html - Live URL matched status and required text.
+- pass: smoke-measurement-status-html - Live URL matched status and required text.
+- pass: smoke-measurement-status-json - Live URL matched status and required text.
+- pass: smoke-owner-unlock-html - Live URL matched status and required text.
+- pass: smoke-owner-unlock-brief-json - Live URL matched status and required text.
+- pass: smoke-owner-unlock-preflight-json - Live URL matched status and required text.
+- pass: smoke-owner-runtime-config-json - Live URL matched status and required text.
+- pass: smoke-analytics-unlock-html - Live URL matched status and required text.
+- pass: smoke-analytics-unlock-json - Live URL matched status and required text.
+- pass: smoke-product-gate-recovery-html - Live URL matched status and required text.
+- pass: smoke-product-gate-recovery-json - Live URL matched status and required text.
+- pass: smoke-install-html - Live URL matched status and required text.
+- pass: smoke-compliance-json - Live URL matched status and required text.
+- pass: smoke-monetization-json - Live URL matched status and required text.
+- pass: smoke-store-readiness-html - Live URL matched status and required text.
+- pass: smoke-store-readiness-json - Live URL matched status and required text.
+- pass: smoke-app-ads-txt - Live URL matched status and required text.
+- pass: smoke-well-known-assetlinks-json - Live URL matched status and required text.
+- pass: smoke-gate-sample-html - Live URL matched status and required text.
+- pass: smoke-sample-next-html - Live URL matched status and required text.
+- pass: smoke-sample-next-json - Live URL matched status and required text.
+- pass: smoke-sample-fastest-html - Live URL matched status and required text.
+- pass: smoke-sample-fastest-json - Live URL matched status and required text.
+- pass: smoke-seed-kit-html - Live URL matched status and required text.
+- pass: smoke-seed-next-html - Live URL matched status and required text.
+- pass: smoke-seed-next-json - Live URL matched status and required text.
+- pass: smoke-sitemap-xml - Live URL matched status and required text.
+- pass: smoke-monetization-html - Live URL matched status and required text.
+- pass: smoke-games-canopy-bloom-html - Live URL matched status and required text.
+- pass: smoke-release-candidate-manifest - Live release manifest is reachable; it does not match the current local release candidate.
 
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26472623746
-Artifact candidate: pwa-092929e2cc1d
-Live candidate: pwa-092929e2cc1d
+Workflow run: 26473154853
+Artifact candidate: pwa-bd21291b4489
+Live candidate: pwa-bd21291b4489
 Live matches artifact: true
 Deployment freshness: current-head-deployed
 Current head deployed: true
 Current head queued/running: false
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-successful-pages-run - Latest successful web-pwa-deploy.yml run is 26472623746.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26472623746.
+- pass: artifact-sync-successful-pages-run - Latest successful web-pwa-deploy.yml run is 26473154853.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26473154853.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
-- pass: artifact-sync-deployment-freshness - Current main b8ee22eb1780 is deployed.
+- pass: artifact-sync-deployment-freshness - Current main c4e98a845338 is deployed.
 
 ## Live Site Monitor
 
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
 Checks: 34/34 passed (0 failed)
-Live candidate: pwa-092929e2cc1d
+Live candidate: pwa-bd21291b4489
 Live matches synced deploy: true
 - pass: live-monitor-app-shell - Live read-only check passed.
 - pass: live-monitor-manifest-webmanifest - Live read-only check passed.

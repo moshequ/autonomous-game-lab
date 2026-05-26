@@ -12,13 +12,12 @@ export const autonomousOwnerLoop = {
   },
   "executionBackoff": {
     "status": "cooling-down",
-    "heldActionCount": 3,
+    "heldActionCount": 2,
     "executableWithoutRepeatCount": 0,
     "nextResumeAt": "2026-05-27T08:23:08.550Z",
-    "nextResumeInHours": 11.973,
+    "nextResumeInHours": 11.917,
     "heldActionIds": [
       "collect-gate-sample-local-drops",
-      "bootstrap-production-setup",
       "collect-live-events"
     ]
   },

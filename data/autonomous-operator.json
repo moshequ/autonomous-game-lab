@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T20:24:45.584Z",
+  "generatedAt": "2026-05-26T20:28:07.062Z",
   "status": "operator-held",
   "mode": "plan-only",
   "ownerDecision": {
@@ -247,9 +247,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "owner-decision-held"
+      "reason": "status-monitor"
     },
     {
       "id": "activate-production-when-configured",
