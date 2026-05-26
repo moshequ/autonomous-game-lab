@@ -387,12 +387,28 @@ const playerEvidenceInviteRoute = ({ id, title, route, mission, priority }) => (
 })
 const currentSampleMission = sampleMissionForRoute(sampleNextRoute)
 const fastestSampleMission = sampleMissionForRoute(sampleFastestRoute)
+const playerEvidenceInviteShareCopy = [
+  `Start the current sample: ${sampleNextRoute.path}`,
+  `Fastest separate gate sample: ${sampleFastestRoute.path}`,
+  'All sample missions: /gate-sample.html',
+  'After playing, use the in-browser Share evidence flow or Export local analytics; share aggregate counts only.',
+  'Public aggregate notes support diagnosis only; local event drops or configured production analytics are required before gate decisions.',
+]
 const playerEvidenceInvitePack = {
   id: 'zero-spend-player-evidence-invite-pack',
   title: 'Zero-spend player evidence invite pack',
   status: supportReady ? 'player-evidence-invite-pack-ready' : 'player-evidence-invite-pack-blocked',
   primaryRouteId: 'current-sample',
   fastestRouteId: 'fastest-sample',
+  inviteText: playerEvidenceInviteShareCopy.join('\n'),
+  downloadFileName: 'agl-player-evidence-invite-pack.json',
+  receiptStorageKey: 'agl.playerEvidenceInvitePack.receipt',
+  browserActions: {
+    copyButtonId: 'copy-player-invite-pack',
+    downloadButtonId: 'download-player-invite-pack',
+    statusElementId: 'player-invite-pack-status',
+    browserLocalOnly: true,
+  },
   summary: {
     routes: 3,
     missions: productGateSamplePlan.missions?.length ?? 0,
@@ -445,11 +461,7 @@ const playerEvidenceInvitePack = {
       },
     },
   ],
-  shareCopy: [
-    `Start the current sample: ${sampleNextRoute.path}`,
-    `Fastest separate gate sample: ${sampleFastestRoute.path}`,
-    'After playing, use the in-browser Share evidence flow or Export local analytics; share aggregate counts only.',
-  ],
+  shareCopy: playerEvidenceInviteShareCopy,
   followUpCommands: [
     'npm run autonomous:collect-local-event-drops',
     'npm run autonomous:player-evidence-watchdog',
@@ -468,8 +480,12 @@ const playerEvidenceInvitePack = {
     noSyntheticEvents: true,
     noRawEventsInPublicIssues: true,
     noAutomaticPublicUpload: true,
+    noAutomaticMessaging: true,
+    noExternalUpload: true,
+    localBrowserReceiptOnly: true,
     publicAggregateOnly: true,
     aggregateEvidenceDoesNotPassGates: true,
+    noGateDecisionFromInviteAlone: true,
     manualReviewRequiredForGateDecisions: true,
     localEventDropImportOnly: true,
     noRevenueEnablement: true,
@@ -2412,10 +2428,13 @@ const html = `<!doctype html>
         <h3>Follow-Up Commands</h3>
         ${codeList(payload.publicEvidenceHandoff.playerInvitePack.followUpCommands)}
         <div class="actions">
+          <button type="button" id="copy-player-invite-pack">Copy invite text</button>
+          <button type="button" id="download-player-invite-pack">Download invite pack</button>
           <a href="${escapeHtml(publicRouteHref(payload.publicEvidenceHandoff.playerInvitePack.routes[0]?.path, payload.publicRoutes.sampleNext))}">Start invite route</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicEvidenceHandoff.playerInvitePack.routes[1]?.path, payload.publicRoutes.sampleFastest))}">Start fastest invite</a>
           <a href="${escapeHtml(publicRouteHref(payload.publicEvidenceHandoff.playerInvitePack.publicReview.aggregateEvidenceIssue, payload.publicRoutes.support))}">Open aggregate note</a>
         </div>
+        <p class="localExportStatus" id="player-invite-pack-status" aria-live="polite">Invite pack ready. Browser-local receipt only; no upload or gate decision is triggered.</p>
       </section>
 
       <section>
@@ -2586,6 +2605,7 @@ const html = `<!doctype html>
         const exportSurface = ${JSON.stringify(measurementPageExport.exportSurface)}
         const exportSurfaceDetail = ${JSON.stringify(measurementPageExport.exportSurfaceDetail)}
         const ownerInputActionPack = ${JSON.stringify(ownerInputActionPack)}
+        const playerEvidenceInvitePack = ${JSON.stringify(playerEvidenceInvitePack)}
         const readJson = (key, fallback) => {
           try {
             const raw = window.localStorage.getItem(key)
@@ -2699,6 +2719,70 @@ const html = `<!doctype html>
           anchor.download = fileName
           anchor.click()
           URL.revokeObjectURL(url)
+        }
+        const downloadJson = (value, fileName) => {
+          const blob = new Blob([JSON.stringify(value, null, 2) + '\\n'], { type: 'application/json' })
+          const url = URL.createObjectURL(blob)
+          const anchor = document.createElement('a')
+          anchor.href = url
+          anchor.download = fileName
+          anchor.click()
+          URL.revokeObjectURL(url)
+        }
+        const setPlayerInvitePackStatus = (message) => {
+          const status = document.getElementById('player-invite-pack-status')
+          if (status) {
+            status.textContent = message
+          }
+        }
+        const writePlayerInviteReceipt = (action) => {
+          if (!playerEvidenceInvitePack) {
+            return
+          }
+          writeJson(playerEvidenceInvitePack.receiptStorageKey, {
+            action,
+            actedAt: new Date().toISOString(),
+            packId: playerEvidenceInvitePack.id,
+            routeCount: playerEvidenceInvitePack.routes?.length ?? 0,
+            primaryRoute: playerEvidenceInvitePack.routes?.[0]?.path ?? null,
+            fastestRoute: playerEvidenceInvitePack.routes?.[1]?.path ?? null,
+            noExternalUpload: playerEvidenceInvitePack.controls.noExternalUpload === true,
+            noAutomaticPublicUpload: playerEvidenceInvitePack.controls.noAutomaticPublicUpload === true,
+            noRawEventsInPublicIssues: playerEvidenceInvitePack.controls.noRawEventsInPublicIssues === true,
+            aggregateEvidenceDoesNotPassGates:
+              playerEvidenceInvitePack.controls.aggregateEvidenceDoesNotPassGates === true,
+            localEventDropImportOnly: playerEvidenceInvitePack.controls.localEventDropImportOnly === true,
+            noGateDecisionFromInviteAlone:
+              playerEvidenceInvitePack.controls.noGateDecisionFromInviteAlone === true,
+          })
+        }
+        const copyPlayerInviteText = async () => {
+          if (!playerEvidenceInvitePack?.inviteText || !navigator.clipboard?.writeText) {
+            setPlayerInvitePackStatus('Clipboard unavailable. Download the invite pack instead.')
+            return
+          }
+          try {
+            await navigator.clipboard.writeText(playerEvidenceInvitePack.inviteText)
+            writePlayerInviteReceipt('copy-player-evidence-invite-text')
+            setPlayerInvitePackStatus('Invite text copied. No upload or gate decision was triggered.')
+          } catch {
+            setPlayerInvitePackStatus('Clipboard unavailable. Download the invite pack instead.')
+          }
+        }
+        const downloadPlayerInvitePack = () => {
+          if (!playerEvidenceInvitePack) {
+            return
+          }
+          downloadJson(
+            {
+              ...playerEvidenceInvitePack,
+              exportedAt: new Date().toISOString(),
+              exportSurface: 'measurement-status-player-evidence-invite-pack',
+            },
+            playerEvidenceInvitePack.downloadFileName,
+          )
+          writePlayerInviteReceipt('download-player-evidence-invite-pack')
+          setPlayerInvitePackStatus('Invite pack downloaded. No upload or gate decision was triggered.')
         }
         const copyOwnerInputText = async (text, action, successMessage) => {
           if (!ownerInputActionPack) {
@@ -2980,6 +3064,10 @@ const html = `<!doctype html>
           )})
         }
         document.getElementById('export-local-event-drop')?.addEventListener('click', exportLocalEventDrop)
+        document.getElementById('copy-player-invite-pack')?.addEventListener('click', copyPlayerInviteText)
+        document
+          .getElementById('download-player-invite-pack')
+          ?.addEventListener('click', downloadPlayerInvitePack)
         document
           .getElementById('copy-owner-input-template')
           ?.addEventListener('click', () =>

@@ -356,11 +356,11 @@
           </div>
           <div class="card">
             <span>Route campaign</span>
-            <strong>gate-sample-20260526-firstGameCompletion</strong>
+            <strong>gate-sample-20260527-firstGameCompletion</strong>
           </div>
           <div class="card">
             <span>Fastest campaign</span>
-            <strong>gate-sample-20260526-d1Retention</strong>
+            <strong>gate-sample-20260527-d1Retention</strong>
           </div>
         </div>
         <div class="actions">
@@ -413,10 +413,13 @@
         <h3>Follow-Up Commands</h3>
         <ul><li><code>npm run autonomous:collect-local-event-drops</code></li><li><code>npm run autonomous:player-evidence-watchdog</code></li><li><code>npm run autonomous:measurement-status</code></li></ul>
         <div class="actions">
+          <button type="button" id="copy-player-invite-pack">Copy invite text</button>
+          <button type="button" id="download-player-invite-pack">Download invite pack</button>
           <a href="./sample-next.html">Start invite route</a>
           <a href="./sample-fastest.html">Start fastest invite</a>
           <a href="https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&amp;title=%5BEvidence%5D+Player+event+export+note&amp;body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Share+aggregate+counts+only.%0ADo+not+paste+private+information%2C+raw+analytics+exports%2C+event+rows%2C+private+identifiers%2C+or+uploaded+event+files+into+this+issue.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+mission%3A%0AEvidence+window%3A%0AAggregate+starts%3A%0AAggregate+completions%3A%0AAggregate+replays%3A%0AAggregate+D1+eligible+players%3A%0AAggregate+D1+retained+players%3A%0AWhat+changed+or+looked+unusual%3A">Open aggregate note</a>
         </div>
+        <p class="localExportStatus" id="player-invite-pack-status" aria-live="polite">Invite pack ready. Browser-local receipt only; no upload or gate decision is triggered.</p>
       </section>
 
       <section>
@@ -466,11 +469,11 @@
           </div>
           <div class="card">
             <span>Missing variables</span>
-            <strong>3</strong>
+            <strong>5</strong>
           </div>
           <div class="card">
             <span>Missing secrets</span>
-            <strong>1</strong>
+            <strong>3</strong>
           </div>
           <div class="card">
             <span>Minimal inputs</span>
@@ -508,9 +511,9 @@
               <h4>Commands</h4>
               <ol><li><strong>printBrief</strong> <code>node scripts/owner-unlock-brief.mjs --print</code></li><li><strong>combinedPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>analyticsPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>storeReadiness</strong> <code>npm run autonomous:store-readiness</code></li><li><strong>setupPreflight</strong> <code>./ops/github/setup-production.sh --owner-unlock-preflight</code></li><li><strong>npmWriteAnalyticsLocalEnvTemplate</strong> <code>npm run autonomous:analytics-input-template</code></li><li><strong>writeAnalyticsLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --analytics-input-template</code></li><li><strong>setupWriteAnalyticsLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --analytics-input-template</code></li><li><strong>npmWriteLocalEnvTemplate</strong> <code>npm run autonomous:owner-input-template</code></li><li><strong>writeLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --write-local-env-template</code></li><li><strong>setupWriteLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --owner-input-template</code></li><li><strong>npmWriteSupportLocalEnvTemplate</strong> <code>npm run autonomous:support-input-template</code></li><li><strong>syncConfiguredValues</strong> <code>./ops/github/setup-production.sh</code></li><li><strong>workflowDispatch</strong> <code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><strong>zeroSecretRuntimeConfig</strong> <code>npm run autonomous:owner-zero-secret-input-sync</code></li><li><strong>productionInputWatchUi</strong> <code>Production Input Watch workflow dispatch: publish_zero_secret_runtime_config + vite_posthog_key + vite_posthog_host + agl_support_email</code></li></ol>
         <h3>Missing Variables</h3>
-        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
         <h3>Missing Secrets</h3>
-        <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
         <h3>Setup Commands</h3>
         <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>./ops/github/setup-production.sh</code></li><li><code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><code>npm run autonomous:readiness</code></li></ol>
         <h3>Validation Commands</h3>
@@ -680,7 +683,7 @@
             <span>First-party event collector</span>
             <strong>needs-variables-and-secrets</strong>
             <p>zero-spend-use-existing-cloudflare-free-tier</p>
-            <p>Missing inputs: 3 variable(s), 1 secret(s)</p>
+            <p>Missing inputs: 5 variable(s), 3 secret(s)</p>
             <p>Variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL</p>
             <p>Secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN</p>
             <p>Commands: npm run autonomous:event-collector-smoke &amp;&amp; npm run autonomous:collector-deploy-plan &amp;&amp; ./ops/github/setup-production.sh &amp;&amp; RUN_WORKFLOWS=1 ./ops/github/setup-production.sh &amp;&amp; npm run autonomous:readiness</p>
@@ -718,7 +721,7 @@
           </div>
           <div class="card">
             <span>Missing secrets</span>
-            <strong>3</strong>
+            <strong>5</strong>
           </div>
         </div>
         <article class="card">
@@ -829,6 +832,7 @@
         const exportSurface = "measurement-status"
         const exportSurfaceDetail = "public-measurement-status-page"
         const ownerInputActionPack = {"id":"zero-secret-owner-input-action-pack","sourcePackId":"combined-zero-secret-owner-input-pack","status":"waiting-on-owner-values","localEnvFile":".env.production.local","unlockIds":["production-analytics-browser","support-contact"],"analyticsPathId":"posthog-browser","supportUnlockId":"support-contact","missingInputNames":["VITE_POSTHOG_KEY","AGL_SUPPORT_EMAIL"],"missingInputCount":2,"runtimeConfigMinimum":{"id":"posthog-browser-runtime-config-minimum","status":"waiting-on-runtime-minimum-input","unlockId":"production-analytics-browser","pathId":"posthog-browser","minimumPublicInputNames":["VITE_POSTHOG_KEY"],"optionalPublicInputNames":["AGL_SUPPORT_EMAIL"],"missingMinimumPublicInputNames":["VITE_POSTHOG_KEY"],"missingOptionalPublicInputNames":["AGL_SUPPORT_EMAIL"],"missingMinimumInputCount":1,"missingOptionalInputCount":1,"analyticsOnlyAllowed":true,"controls":{"publicValuesOnly":true,"noSecretValues":true,"noWorkflowDispatchFromPage":true,"noStoreSubmission":true,"noRevenueEnablement":true}},"secretInputCount":0,"localEnvTemplateLines":["VITE_POSTHOG_KEY=","AGL_SUPPORT_EMAIL="],"shellExportTemplateLines":["export VITE_POSTHOG_KEY=","export AGL_SUPPORT_EMAIL="],"localEnvTemplateText":"VITE_POSTHOG_KEY=\nAGL_SUPPORT_EMAIL=\n","shellExportTemplateText":"export VITE_POSTHOG_KEY=\nexport AGL_SUPPORT_EMAIL=\n","downloadFileName":"agl-owner-input-template.env","receiptStorageKey":"agl.ownerInputActionReceipt","valueValidation":{"id":"browser-local-zero-secret-owner-input-check","status":"ready","filledDownloadFileName":"agl-owner-input-filled.env","fields":[{"envName":"VITE_POSTHOG_KEY","title":"PostHog browser project key","inputId":"owner-input-vite-posthog-key","validationKind":"posthog-public-key","inputType":"text","placeholder":"phc_public_project_key","required":true,"runtimeConfigRequired":true,"publicValue":true,"maxLength":256},{"envName":"AGL_SUPPORT_EMAIL","title":"Production support email","inputId":"owner-input-agl-support-email","validationKind":"email-shape","inputType":"email","placeholder":"support@example.com","required":true,"runtimeConfigRequired":false,"publicValue":true,"maxLength":254}],"controls":{"browserLocalOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true}},"runtimeConfigPreview":{"id":"browser-local-owner-runtime-config-preview","status":"ready","downloadFileName":"owner-runtime-config.preview.json","targetPublicPath":"public/owner-runtime-config.json","defaultPosthogHost":"https://us.i.posthog.com","provider":"posthog-browser","minimumPublicInputNames":["VITE_POSTHOG_KEY"],"optionalPublicInputNames":["AGL_SUPPORT_EMAIL"],"analyticsOnlyAllowed":true,"controls":{"browserLocalOnly":true,"publicValuesOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true,"noStoreSubmission":true,"noRevenueEnablement":true}},"productionInputWatchCommand":{"id":"browser-local-production-input-watch-command","status":"ready","workflowFile":"production-input-watch.yml","workflowPath":".github/workflows/production-input-watch.yml","ref":"main","requiredFlag":"publish_zero_secret_runtime_config=true","defaultPosthogHost":"https://us.i.posthog.com","minimumPublicInputNames":["VITE_POSTHOG_KEY"],"optionalPublicInputNames":["AGL_SUPPORT_EMAIL"],"analyticsOnlyAllowed":true,"controls":{"browserLocalOnly":true,"publicValuesOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatchFromPage":true,"commandRequiresOwnerRun":true,"noStoreSubmission":true,"noRevenueEnablement":true}},"commands":{"combinedPreflight":"node scripts/owner-unlock-preflight.mjs --assert --print","setupWriteLocalEnvTemplate":"./ops/github/setup-production.sh --owner-input-template","syncConfiguredValues":"./ops/github/setup-production.sh","workflowDispatch":"RUN_WORKFLOWS=1 ./ops/github/setup-production.sh"},"controls":{"zeroPaidSpend":true,"noSecretValues":true,"noSecretValuesStored":true,"localOnlyReceipt":true,"localTemplateWriteNoGithubMutation":true,"workflowDispatchRequiresRunWorkflows":true,"storeSubmissionStillBlocked":true,"revenueStillBlocked":true}}
+        const playerEvidenceInvitePack = {"id":"zero-spend-player-evidence-invite-pack","title":"Zero-spend player evidence invite pack","status":"player-evidence-invite-pack-ready","primaryRouteId":"current-sample","fastestRouteId":"fastest-sample","inviteText":"Start the current sample: /sample-next.html\nFastest separate gate sample: /sample-fastest.html\nAll sample missions: /gate-sample.html\nAfter playing, use the in-browser Share evidence flow or Export local analytics; share aggregate counts only.\nPublic aggregate notes support diagnosis only; local event drops or configured production analytics are required before gate decisions.","downloadFileName":"agl-player-evidence-invite-pack.json","receiptStorageKey":"agl.playerEvidenceInvitePack.receipt","browserActions":{"copyButtonId":"copy-player-invite-pack","downloadButtonId":"download-player-invite-pack","statusElementId":"player-invite-pack-status","browserLocalOnly":true},"summary":{"routes":3,"missions":3,"failingGates":3,"totalPromptViewsNeeded":70,"totalObservedSuccessesNeeded":139,"sampleReadyCount":0,"evidenceReadyCount":0,"localEventsAvailable":false,"aggregateEvidenceNotes":0},"routes":[{"id":"current-sample","title":"Current sample","status":"armed","path":"/sample-next.html","jsonPath":"/sample-next.json","targetCampaignId":"gate-sample-20260527-firstGameCompletion","targetGateId":"firstGameCompletion","targetGameId":"harbor-rings","targetTitle":"Sample First game completion","targetPath":"/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-firstGameCompletion","fallbackPath":"/gate-sample.html","priority":1,"neededPromptViews":30,"neededSuccesses":128,"evidenceStatus":"waiting-for-player-export","sampleRole":"primary-bottleneck","returnHandoff":null,"guardrails":{"playerInitiatedOnly":true,"noAutomatedExternalPosting":true,"noPaidPromotion":true,"noSyntheticEvents":true,"noRevenueEnablement":true}},{"id":"fastest-sample","title":"Fastest sample","status":"armed","path":"/sample-fastest.html","jsonPath":"/sample-fastest.json","targetCampaignId":"gate-sample-20260527-d1Retention","targetGateId":"d1Retention","targetGameId":"market-pulse","targetTitle":"Sample D1 retention","targetPath":"/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention","fallbackPath":"/gate-sample.html","priority":2,"neededPromptViews":10,"neededSuccesses":1,"evidenceStatus":"waiting-for-player-export","sampleRole":"fastest-validation","returnHandoff":{"status":"armed","gateId":"d1Retention","gameId":"market-pulse","campaignId":"gate-sample-20260527-d1Retention","challengeDate":"2026-05-26","intentDate":"2026-05-27","queryParam":"return_intent","returnPath":"/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention&return_intent=2026-05-27","copyCta":"Copy return link","calendarCta":"Save reminder","calendarFileExtension":".ics","surface":"sample-fastest-return-handoff","telemetry":{"copied":"daily_return_link_copied","calendarDownloaded":"daily_return_calendar_downloaded"},"controls":{"zeroPaidSpend":true,"playerInitiatedOnly":true,"noNotificationPermissionRequest":true,"noPushNotifications":true,"noAccountRequired":true,"noExternalUpload":true,"noRevenueEnablement":true,"noSyntheticEvents":true}},"guardrails":{"playerInitiatedOnly":true,"noAutomatedExternalPosting":true,"noPaidPromotion":true,"noSyntheticEvents":true,"noRevenueEnablement":true}},{"id":"all-missions","title":"All sample missions","status":"product-gate-sample-plan-ready","path":"/gate-sample.html","jsonPath":null,"targetCampaignId":"gate-sample-20260527-firstGameCompletion","targetGateId":"firstGameCompletion","targetGameId":"harbor-rings","targetTitle":"Harbor Rings","targetPath":null,"fallbackPath":null,"priority":3,"neededPromptViews":70,"neededSuccesses":139,"evidenceStatus":"waiting-for-player-export","sampleRole":"all-failing-gates","guardrails":{"playerInitiatedOnly":true,"noAutomatedExternalPosting":true,"noPaidPromotion":true,"noSyntheticEvents":true,"noRevenueEnablement":true}}],"shareCopy":["Start the current sample: /sample-next.html","Fastest separate gate sample: /sample-fastest.html","All sample missions: /gate-sample.html","After playing, use the in-browser Share evidence flow or Export local analytics; share aggregate counts only.","Public aggregate notes support diagnosis only; local event drops or configured production analytics are required before gate decisions."],"followUpCommands":["npm run autonomous:collect-local-event-drops","npm run autonomous:player-evidence-watchdog","npm run autonomous:measurement-status"],"publicReview":{"aggregateEvidenceIssue":"https://github.com/moshequ/autonomous-game-lab/issues/new?template=analytics-evidence.yml&title=%5BEvidence%5D+Player+event+export+note&body=Thanks+for+helping+improve+Autonomous+Game+Lab.%0A%0AGitHub+Issues+are+public.+Share+aggregate+counts+only.%0ADo+not+paste+private+information%2C+raw+analytics+exports%2C+event+rows%2C+private+identifiers%2C+or+uploaded+event+files+into+this+issue.%0A%0ASupport+type%3A+analytics-evidence%0AGame+or+mission%3A%0AEvidence+window%3A%0AAggregate+starts%3A%0AAggregate+completions%3A%0AAggregate+replays%3A%0AAggregate+D1+eligible+players%3A%0AAggregate+D1+retained+players%3A%0AWhat+changed+or+looked+unusual%3A","supportRoute":"/support.html","measurementStatusRoute":"/measurement-status.html","gateSampleRoute":"/gate-sample.html"},"controls":{"zeroPaidSpend":true,"noPaidTraffic":true,"playerInitiatedOnly":true,"noSyntheticEvents":true,"noRawEventsInPublicIssues":true,"noAutomaticPublicUpload":true,"noAutomaticMessaging":true,"noExternalUpload":true,"localBrowserReceiptOnly":true,"publicAggregateOnly":true,"aggregateEvidenceDoesNotPassGates":true,"noGateDecisionFromInviteAlone":true,"manualReviewRequiredForGateDecisions":true,"localEventDropImportOnly":true,"noRevenueEnablement":true,"noStoreSubmission":true},"nextActions":["Share /sample-next.html first; use /sample-fastest.html when the owner wants the shortest separate D1-retention check.","After testers play, import local event drops or review public aggregate notes before rerunning product gates.","Keep revenue, store submission, and product-gate pass decisions blocked until real event evidence clears thresholds."]}
         const readJson = (key, fallback) => {
           try {
             const raw = window.localStorage.getItem(key)
@@ -942,6 +946,70 @@
           anchor.download = fileName
           anchor.click()
           URL.revokeObjectURL(url)
+        }
+        const downloadJson = (value, fileName) => {
+          const blob = new Blob([JSON.stringify(value, null, 2) + '\n'], { type: 'application/json' })
+          const url = URL.createObjectURL(blob)
+          const anchor = document.createElement('a')
+          anchor.href = url
+          anchor.download = fileName
+          anchor.click()
+          URL.revokeObjectURL(url)
+        }
+        const setPlayerInvitePackStatus = (message) => {
+          const status = document.getElementById('player-invite-pack-status')
+          if (status) {
+            status.textContent = message
+          }
+        }
+        const writePlayerInviteReceipt = (action) => {
+          if (!playerEvidenceInvitePack) {
+            return
+          }
+          writeJson(playerEvidenceInvitePack.receiptStorageKey, {
+            action,
+            actedAt: new Date().toISOString(),
+            packId: playerEvidenceInvitePack.id,
+            routeCount: playerEvidenceInvitePack.routes?.length ?? 0,
+            primaryRoute: playerEvidenceInvitePack.routes?.[0]?.path ?? null,
+            fastestRoute: playerEvidenceInvitePack.routes?.[1]?.path ?? null,
+            noExternalUpload: playerEvidenceInvitePack.controls.noExternalUpload === true,
+            noAutomaticPublicUpload: playerEvidenceInvitePack.controls.noAutomaticPublicUpload === true,
+            noRawEventsInPublicIssues: playerEvidenceInvitePack.controls.noRawEventsInPublicIssues === true,
+            aggregateEvidenceDoesNotPassGates:
+              playerEvidenceInvitePack.controls.aggregateEvidenceDoesNotPassGates === true,
+            localEventDropImportOnly: playerEvidenceInvitePack.controls.localEventDropImportOnly === true,
+            noGateDecisionFromInviteAlone:
+              playerEvidenceInvitePack.controls.noGateDecisionFromInviteAlone === true,
+          })
+        }
+        const copyPlayerInviteText = async () => {
+          if (!playerEvidenceInvitePack?.inviteText || !navigator.clipboard?.writeText) {
+            setPlayerInvitePackStatus('Clipboard unavailable. Download the invite pack instead.')
+            return
+          }
+          try {
+            await navigator.clipboard.writeText(playerEvidenceInvitePack.inviteText)
+            writePlayerInviteReceipt('copy-player-evidence-invite-text')
+            setPlayerInvitePackStatus('Invite text copied. No upload or gate decision was triggered.')
+          } catch {
+            setPlayerInvitePackStatus('Clipboard unavailable. Download the invite pack instead.')
+          }
+        }
+        const downloadPlayerInvitePack = () => {
+          if (!playerEvidenceInvitePack) {
+            return
+          }
+          downloadJson(
+            {
+              ...playerEvidenceInvitePack,
+              exportedAt: new Date().toISOString(),
+              exportSurface: 'measurement-status-player-evidence-invite-pack',
+            },
+            playerEvidenceInvitePack.downloadFileName,
+          )
+          writePlayerInviteReceipt('download-player-evidence-invite-pack')
+          setPlayerInvitePackStatus('Invite pack downloaded. No upload or gate decision was triggered.')
         }
         const copyOwnerInputText = async (text, action, successMessage) => {
           if (!ownerInputActionPack) {
@@ -1221,6 +1289,10 @@
           updateLocalEvidenceStats("Local event drop downloaded. Import it with npm run autonomous:collect-local-event-drops.")
         }
         document.getElementById('export-local-event-drop')?.addEventListener('click', exportLocalEventDrop)
+        document.getElementById('copy-player-invite-pack')?.addEventListener('click', copyPlayerInviteText)
+        document
+          .getElementById('download-player-invite-pack')
+          ?.addEventListener('click', downloadPlayerInvitePack)
         document
           .getElementById('copy-owner-input-template')
           ?.addEventListener('click', () =>

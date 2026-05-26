@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-26T20:35:32.058Z",
+  "generatedAt": "2026-05-26T21:03:35.610Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-06c90dde81e6",
@@ -161,7 +161,7 @@
       "id": "collect-firstGameCompletion-sample",
       "title": "Harbor Rings",
       "gateId": "firstGameCompletion",
-      "campaignId": "gate-sample-20260526-firstGameCompletion",
+      "campaignId": "gate-sample-20260527-firstGameCompletion",
       "gameId": "harbor-rings",
       "needed": {
         "promptViews": 30,
@@ -178,11 +178,11 @@
       "status": "armed",
       "path": "/sample-next.html",
       "jsonPath": "/sample-next.json",
-      "targetCampaignId": "gate-sample-20260526-firstGameCompletion",
+      "targetCampaignId": "gate-sample-20260527-firstGameCompletion",
       "targetGateId": "firstGameCompletion",
       "targetGameId": "harbor-rings",
       "targetTitle": "Sample First game completion",
-      "targetPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-firstGameCompletion",
+      "targetPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-firstGameCompletion",
       "fallbackPath": "/gate-sample.html",
       "costUsd": 0,
       "guardrails": {
@@ -197,22 +197,22 @@
       "status": "armed",
       "path": "/sample-fastest.html",
       "jsonPath": "/sample-fastest.json",
-      "targetCampaignId": "gate-sample-20260526-d1Retention",
+      "targetCampaignId": "gate-sample-20260527-d1Retention",
       "targetGateId": "d1Retention",
       "targetGameId": "market-pulse",
       "targetTitle": "Sample D1 retention",
-      "targetPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention",
+      "targetPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention",
       "fallbackPath": "/gate-sample.html",
       "costUsd": 0,
       "returnHandoff": {
         "status": "armed",
         "gateId": "d1Retention",
         "gameId": "market-pulse",
-        "campaignId": "gate-sample-20260526-d1Retention",
+        "campaignId": "gate-sample-20260527-d1Retention",
         "challengeDate": "2026-05-26",
         "intentDate": "2026-05-27",
         "queryParam": "return_intent",
-        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention&return_intent=2026-05-27",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention&return_intent=2026-05-27",
         "copyCta": "Copy return link",
         "calendarCta": "Save reminder",
         "calendarFileExtension": ".ics",
@@ -330,6 +330,15 @@
       "status": "player-evidence-invite-pack-ready",
       "primaryRouteId": "current-sample",
       "fastestRouteId": "fastest-sample",
+      "inviteText": "Start the current sample: /sample-next.html\nFastest separate gate sample: /sample-fastest.html\nAll sample missions: /gate-sample.html\nAfter playing, use the in-browser Share evidence flow or Export local analytics; share aggregate counts only.\nPublic aggregate notes support diagnosis only; local event drops or configured production analytics are required before gate decisions.",
+      "downloadFileName": "agl-player-evidence-invite-pack.json",
+      "receiptStorageKey": "agl.playerEvidenceInvitePack.receipt",
+      "browserActions": {
+        "copyButtonId": "copy-player-invite-pack",
+        "downloadButtonId": "download-player-invite-pack",
+        "statusElementId": "player-invite-pack-status",
+        "browserLocalOnly": true
+      },
       "summary": {
         "routes": 3,
         "missions": 3,
@@ -348,11 +357,11 @@
           "status": "armed",
           "path": "/sample-next.html",
           "jsonPath": "/sample-next.json",
-          "targetCampaignId": "gate-sample-20260526-firstGameCompletion",
+          "targetCampaignId": "gate-sample-20260527-firstGameCompletion",
           "targetGateId": "firstGameCompletion",
           "targetGameId": "harbor-rings",
           "targetTitle": "Sample First game completion",
-          "targetPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260526-firstGameCompletion",
+          "targetPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-firstGameCompletion",
           "fallbackPath": "/gate-sample.html",
           "priority": 1,
           "neededPromptViews": 30,
@@ -374,11 +383,11 @@
           "status": "armed",
           "path": "/sample-fastest.html",
           "jsonPath": "/sample-fastest.json",
-          "targetCampaignId": "gate-sample-20260526-d1Retention",
+          "targetCampaignId": "gate-sample-20260527-d1Retention",
           "targetGateId": "d1Retention",
           "targetGameId": "market-pulse",
           "targetTitle": "Sample D1 retention",
-          "targetPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention",
+          "targetPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention",
           "fallbackPath": "/gate-sample.html",
           "priority": 2,
           "neededPromptViews": 10,
@@ -389,11 +398,11 @@
             "status": "armed",
             "gateId": "d1Retention",
             "gameId": "market-pulse",
-            "campaignId": "gate-sample-20260526-d1Retention",
+            "campaignId": "gate-sample-20260527-d1Retention",
             "challengeDate": "2026-05-26",
             "intentDate": "2026-05-27",
             "queryParam": "return_intent",
-            "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260526-d1Retention&return_intent=2026-05-27",
+            "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention&return_intent=2026-05-27",
             "copyCta": "Copy return link",
             "calendarCta": "Save reminder",
             "calendarFileExtension": ".ics",
@@ -427,7 +436,7 @@
           "status": "product-gate-sample-plan-ready",
           "path": "/gate-sample.html",
           "jsonPath": null,
-          "targetCampaignId": "gate-sample-20260526-firstGameCompletion",
+          "targetCampaignId": "gate-sample-20260527-firstGameCompletion",
           "targetGateId": "firstGameCompletion",
           "targetGameId": "harbor-rings",
           "targetTitle": "Harbor Rings",
@@ -450,7 +459,9 @@
       "shareCopy": [
         "Start the current sample: /sample-next.html",
         "Fastest separate gate sample: /sample-fastest.html",
-        "After playing, use the in-browser Share evidence flow or Export local analytics; share aggregate counts only."
+        "All sample missions: /gate-sample.html",
+        "After playing, use the in-browser Share evidence flow or Export local analytics; share aggregate counts only.",
+        "Public aggregate notes support diagnosis only; local event drops or configured production analytics are required before gate decisions."
       ],
       "followUpCommands": [
         "npm run autonomous:collect-local-event-drops",
@@ -470,8 +481,12 @@
         "noSyntheticEvents": true,
         "noRawEventsInPublicIssues": true,
         "noAutomaticPublicUpload": true,
+        "noAutomaticMessaging": true,
+        "noExternalUpload": true,
+        "localBrowserReceiptOnly": true,
         "publicAggregateOnly": true,
         "aggregateEvidenceDoesNotPassGates": true,
+        "noGateDecisionFromInviteAlone": true,
         "manualReviewRequiredForGateDecisions": true,
         "localEventDropImportOnly": true,
         "noRevenueEnablement": true,
@@ -548,11 +563,11 @@
     "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
     "lowestInputMissingInputCount": 1,
-    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
+    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
     "commandCount": 7,
     "validationCommandCount": 4,
-    "missingVariableCount": 4,
-    "missingSecretCount": 1,
+    "missingVariableCount": 6,
+    "missingSecretCount": 3,
     "controls": {
       "zeroPaidSpend": true,
       "noSecretValues": true,
@@ -570,9 +585,9 @@
         "status": "needs-variables-and-secrets",
         "costMode": "zero-spend-use-existing-cloudflare-free-tier",
         "ownerInputRequired": true,
-        "missingVariableCount": 3,
-        "missingSecretCount": 1,
-        "missingInputCount": 4,
+        "missingVariableCount": 5,
+        "missingSecretCount": 3,
+        "missingInputCount": 8,
         "commandCount": 5,
         "validationCommandCount": 4,
         "requiredVariables": [
@@ -585,13 +600,13 @@
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configured": true,
+            "configured": false,
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configured": true,
+            "configured": false,
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -617,13 +632,13 @@
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -822,7 +837,7 @@
     "ownerActionRequired": 4,
     "externalOwnerActions": 4,
     "missingEnvironmentItems": 7,
-    "missingSecrets": 3,
+    "missingSecrets": 5,
     "productGateBlockers": 3,
     "topItems": [
       {
@@ -881,7 +896,7 @@
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
@@ -918,11 +933,11 @@
           "lowestInputMissingVariableCount": 1,
           "lowestInputMissingSecretCount": 0,
           "lowestInputMissingInputCount": 1,
-          "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
+          "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
           "commandCount": 7,
           "validationCommandCount": 4,
-          "missingVariableCount": 4,
-          "missingSecretCount": 1,
+          "missingVariableCount": 6,
+          "missingSecretCount": 3,
           "controls": {
             "zeroPaidSpend": true,
             "noSecretValues": true,
@@ -939,9 +954,9 @@
               "status": "needs-variables-and-secrets",
               "costMode": "zero-spend-use-existing-cloudflare-free-tier",
               "ownerInputRequired": true,
-              "missingVariableCount": 3,
-              "missingSecretCount": 1,
-              "missingInputCount": 4,
+              "missingVariableCount": 5,
+              "missingSecretCount": 3,
+              "missingInputCount": 8,
               "commandCount": 5,
               "validationCommandCount": 4,
               "requiredVariables": [
@@ -954,13 +969,13 @@
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
                   "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-                  "configured": true,
+                  "configured": false,
                   "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
                 },
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
                   "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-                  "configured": true,
+                  "configured": false,
                   "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
                 },
                 {
@@ -986,13 +1001,13 @@
                 {
                   "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
                   "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-                  "configured": true,
+                  "configured": false,
                   "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
                 },
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
                   "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-                  "configured": true,
+                  "configured": false,
                   "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
                 }
               ],
@@ -1069,7 +1084,7 @@
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": true,
+            "configured": false,
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           },
           {
@@ -1250,11 +1265,11 @@
       "lowestInputMissingVariableCount": 1,
       "lowestInputMissingSecretCount": 0,
       "lowestInputMissingInputCount": 1,
-      "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
+      "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
       "commandCount": 7,
       "validationCommandCount": 4,
-      "missingVariableCount": 4,
-      "missingSecretCount": 1,
+      "missingVariableCount": 6,
+      "missingSecretCount": 3,
       "controls": {
         "zeroPaidSpend": true,
         "noSecretValues": true,
@@ -1271,9 +1286,9 @@
           "status": "needs-variables-and-secrets",
           "costMode": "zero-spend-use-existing-cloudflare-free-tier",
           "ownerInputRequired": true,
-          "missingVariableCount": 3,
-          "missingSecretCount": 1,
-          "missingInputCount": 4,
+          "missingVariableCount": 5,
+          "missingSecretCount": 3,
+          "missingInputCount": 8,
           "commandCount": 5,
           "validationCommandCount": 4,
           "requiredVariables": [
@@ -1286,13 +1301,13 @@
             {
               "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
               "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-              "configured": true,
+              "configured": false,
               "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
             },
             {
               "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
               "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-              "configured": true,
+              "configured": false,
               "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
             },
             {
@@ -1318,13 +1333,13 @@
             {
               "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
               "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-              "configured": true,
+              "configured": false,
               "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
             },
             {
               "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
               "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-              "configured": true,
+              "configured": false,
               "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
             }
           ],
@@ -1389,7 +1404,7 @@
       "lowestInputMissingVariableCount": 1,
       "lowestInputMissingSecretCount": 0,
       "lowestInputMissingInputCount": 1,
-      "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
+      "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
       "lowestInputPath": {
         "id": "posthog-browser",
         "title": "PostHog browser capture",
@@ -1399,7 +1414,7 @@
         "missingVariableCount": 1,
         "missingSecretCount": 0,
         "missingInputCount": 1,
-        "manualInputReduction": 3,
+        "manualInputReduction": 7,
         "noSecretsRequired": true,
         "missingVariables": [
           {
@@ -1444,9 +1459,9 @@
         "missingInputCount": 1,
         "missingVariableCount": 1,
         "missingSecretCount": 0,
-        "manualInputReduction": 3,
+        "manualInputReduction": 7,
         "noSecretsRequired": true,
-        "reason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
+        "reason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
         "setupCommands": [
           "./ops/github/setup-production.sh --analytics-input-template",
           "./ops/github/setup-production.sh",
@@ -1540,6 +1555,18 @@
           "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
         },
         {
+          "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+          "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+          "configured": false,
+          "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
+        },
+        {
+          "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+          "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+          "configured": false,
+          "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
+        },
+        {
           "repositoryName": "VITE_EVENT_COLLECTOR_URL",
           "envName": "VITE_EVENT_COLLECTOR_URL",
           "configured": false,
@@ -1558,36 +1585,22 @@
           "envName": "CLOUDFLARE_API_TOKEN",
           "configured": false,
           "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-        }
-      ],
-      "configuredVariables": [
-        {
-          "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-          "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-          "configured": true,
-          "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
         },
-        {
-          "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-          "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-          "configured": true,
-          "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
-        }
-      ],
-      "configuredSecrets": [
         {
           "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "configured": true,
+          "configured": false,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
         {
           "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "configured": true,
+          "configured": false,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         }
       ],
+      "configuredVariables": [],
+      "configuredSecrets": [],
       "setupCommands": [
         "npm run autonomous:event-collector-smoke",
         "npm run autonomous:collector-deploy-plan",
@@ -1626,8 +1639,8 @@
           "lowestInputPathId": "posthog-browser",
           "lowestInputUnlockId": null,
           "activePathId": "posthog-browser",
-          "recommendedMissingInputCount": 4,
-          "recommendedMissingSecretCount": 1,
+          "recommendedMissingInputCount": 8,
+          "recommendedMissingSecretCount": 3,
           "missingVariableCount": 1,
           "missingSecretCount": 0,
           "missingInputCount": 1,

@@ -112,6 +112,105 @@ test('measurement status creates an importable local event drop', async ({ page 
   await expect(page.getByText('Local event drop downloaded.')).toBeVisible()
 })
 
+test('measurement status copies and downloads the player evidence invite pack', async ({ page }) => {
+  const measurement = JSON.parse(await readFile('data/production-measurement-status.json', 'utf8')) as {
+    publicEvidenceHandoff: {
+      playerInvitePack: {
+        id: string
+        inviteText: string
+        downloadFileName: string
+        receiptStorageKey: string
+        routes: Array<{ path: string }>
+        controls: {
+          noExternalUpload: boolean
+          noAutomaticPublicUpload: boolean
+          noRawEventsInPublicIssues: boolean
+          aggregateEvidenceDoesNotPassGates: boolean
+          localEventDropImportOnly: boolean
+          noGateDecisionFromInviteAlone: boolean
+        }
+      }
+    }
+  }
+  const invitePack = measurement.publicEvidenceHandoff.playerInvitePack
+
+  expect(invitePack.inviteText).toContain('/sample-next.html')
+  expect(invitePack.inviteText).toContain('/sample-fastest.html')
+  expect(invitePack.inviteText).toContain('/gate-sample.html')
+  expect(invitePack.downloadFileName).toBe('agl-player-evidence-invite-pack.json')
+  expect(invitePack.receiptStorageKey).toBe('agl.playerEvidenceInvitePack.receipt')
+  expect(invitePack.controls.noExternalUpload).toBe(true)
+  expect(invitePack.controls.noGateDecisionFromInviteAlone).toBe(true)
+
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'clipboard', {
+      configurable: true,
+      value: {
+        writeText: (text: string) => {
+          ;(window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite = text
+          return Promise.resolve()
+        },
+      },
+    })
+  })
+
+  await page.goto('/measurement-status.html')
+  await expect(page.getByRole('heading', { name: 'Player Evidence Invite Pack' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Copy invite text' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download invite pack' })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Copy invite text' }).click()
+  const copiedText = await page.evaluate(() => (window as unknown as { __lastClipboardWrite?: string }).__lastClipboardWrite)
+  expect(copiedText).toBe(invitePack.inviteText)
+  let receipt = await page.evaluate(
+    (storageKey) => JSON.parse(window.localStorage.getItem(storageKey) ?? '{}'),
+    invitePack.receiptStorageKey,
+  )
+  expect(receipt).toMatchObject({
+    action: 'copy-player-evidence-invite-text',
+    packId: invitePack.id,
+    routeCount: invitePack.routes.length,
+    noExternalUpload: true,
+    noAutomaticPublicUpload: true,
+    noRawEventsInPublicIssues: true,
+    aggregateEvidenceDoesNotPassGates: true,
+    localEventDropImportOnly: true,
+    noGateDecisionFromInviteAlone: true,
+  })
+
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: 'Download invite pack' }).click()
+  const download = await downloadPromise
+  expect(download.suggestedFilename()).toBe(invitePack.downloadFileName)
+  const downloadedPath = await download.path()
+  if (!downloadedPath) {
+    throw new Error('Expected player evidence invite pack download path.')
+  }
+  const downloadedInvitePack = JSON.parse(await readFile(downloadedPath, 'utf8')) as typeof invitePack & {
+    exportSurface: string
+  }
+  expect(downloadedInvitePack).toMatchObject({
+    id: invitePack.id,
+    inviteText: invitePack.inviteText,
+    downloadFileName: invitePack.downloadFileName,
+    exportSurface: 'measurement-status-player-evidence-invite-pack',
+    controls: expect.objectContaining({
+      noExternalUpload: true,
+      noAutomaticPublicUpload: true,
+      noRawEventsInPublicIssues: true,
+      aggregateEvidenceDoesNotPassGates: true,
+      localEventDropImportOnly: true,
+      noGateDecisionFromInviteAlone: true,
+    }),
+  })
+  receipt = await page.evaluate(
+    (storageKey) => JSON.parse(window.localStorage.getItem(storageKey) ?? '{}'),
+    invitePack.receiptStorageKey,
+  )
+  expect(receipt.action).toBe('download-player-evidence-invite-pack')
+  await expect(page.locator('#player-invite-pack-status')).toContainText('Invite pack downloaded')
+})
+
 test('trend radar only boosts evidence-bearing public trend signals', async () => {
   const trend = JSON.parse(await readFile('data/trend-signals.json', 'utf8')) as {
     sourceStatus: {
@@ -11195,6 +11294,15 @@ test('production measurement status publishes public aggregate evidence handoff'
         status: string
         primaryRouteId: string
         fastestRouteId: string
+        inviteText: string
+        downloadFileName: string
+        receiptStorageKey: string
+        browserActions: {
+          copyButtonId: string
+          downloadButtonId: string
+          statusElementId: string
+          browserLocalOnly: boolean
+        }
         summary: {
           routes: number
           missions: number
@@ -11241,8 +11349,12 @@ test('production measurement status publishes public aggregate evidence handoff'
           noSyntheticEvents: boolean
           noRawEventsInPublicIssues: boolean
           noAutomaticPublicUpload: boolean
+          noAutomaticMessaging: boolean
+          noExternalUpload: boolean
+          localBrowserReceiptOnly: boolean
           publicAggregateOnly: boolean
           aggregateEvidenceDoesNotPassGates: boolean
+          noGateDecisionFromInviteAlone: boolean
           manualReviewRequiredForGateDecisions: boolean
           localEventDropImportOnly: boolean
           noRevenueEnablement: boolean
@@ -11780,6 +11892,21 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.publicEvidenceHandoff.playerInvitePack.status).toBe('player-evidence-invite-pack-ready')
   expect(measurement.publicEvidenceHandoff.playerInvitePack.primaryRouteId).toBe('current-sample')
   expect(measurement.publicEvidenceHandoff.playerInvitePack.fastestRouteId).toBe('fastest-sample')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.inviteText).toContain('/sample-next.html')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.inviteText).toContain('/sample-fastest.html')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.inviteText).toContain('/gate-sample.html')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.downloadFileName).toBe(
+    'agl-player-evidence-invite-pack.json',
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.receiptStorageKey).toBe(
+    'agl.playerEvidenceInvitePack.receipt',
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.browserActions).toMatchObject({
+    copyButtonId: 'copy-player-invite-pack',
+    downloadButtonId: 'download-player-invite-pack',
+    statusElementId: 'player-invite-pack-status',
+    browserLocalOnly: true,
+  })
   expect(measurement.publicEvidenceHandoff.playerInvitePack.summary.failingGates).toBe(
     samplePlan.summary.failingGates,
   )
@@ -11823,6 +11950,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   ])
   expect(measurement.publicEvidenceHandoff.playerInvitePack.shareCopy.join(' ')).toContain('/sample-next.html')
   expect(measurement.publicEvidenceHandoff.playerInvitePack.shareCopy.join(' ')).toContain('/sample-fastest.html')
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.shareCopy.join(' ')).toContain('/gate-sample.html')
   expect(measurement.publicEvidenceHandoff.playerInvitePack.publicReview.aggregateEvidenceIssue).toBe(
     measurement.publicEvidenceHandoff.analyticsEvidenceIssue,
   )
@@ -11832,7 +11960,11 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.noSyntheticEvents).toBe(true)
   expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.noRawEventsInPublicIssues).toBe(true)
   expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.noAutomaticPublicUpload).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.noAutomaticMessaging).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.noExternalUpload).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.localBrowserReceiptOnly).toBe(true)
   expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.noGateDecisionFromInviteAlone).toBe(true)
   expect(measurement.publicEvidenceHandoff.playerInvitePack.controls.localEventDropImportOnly).toBe(true)
   expect(measurement.publicEvidenceHandoff.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
   expect(measurement.publicEvidenceHandoff.controls.manualReviewRequiredForGateDecisions).toBe(true)
@@ -12779,6 +12911,9 @@ test('production measurement status publishes public aggregate evidence handoff'
     'href',
     './sample-fastest.html',
   )
+  await expect(page.getByRole('button', { name: 'Copy invite text' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download invite pack' })).toBeVisible()
+  await expect(page.locator('#player-invite-pack-status')).toContainText('Invite pack ready')
   await expect(page.getByRole('link', { name: 'Open aggregate note' })).toHaveAttribute(
     'href',
     measurement.publicEvidenceHandoff.analyticsEvidenceIssue ?? './support.html',

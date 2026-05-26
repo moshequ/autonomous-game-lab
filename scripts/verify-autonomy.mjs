@@ -1129,6 +1129,15 @@ if (
   playerEvidenceInvitePack.status !== 'player-evidence-invite-pack-ready' ||
   playerEvidenceInvitePack.primaryRouteId !== 'current-sample' ||
   playerEvidenceInvitePack.fastestRouteId !== 'fastest-sample' ||
+  !playerEvidenceInvitePack.inviteText?.includes('/sample-next.html') ||
+  !playerEvidenceInvitePack.inviteText?.includes('/sample-fastest.html') ||
+  !playerEvidenceInvitePack.inviteText?.includes('/gate-sample.html') ||
+  playerEvidenceInvitePack.downloadFileName !== 'agl-player-evidence-invite-pack.json' ||
+  playerEvidenceInvitePack.receiptStorageKey !== 'agl.playerEvidenceInvitePack.receipt' ||
+  playerEvidenceInvitePack.browserActions?.copyButtonId !== 'copy-player-invite-pack' ||
+  playerEvidenceInvitePack.browserActions?.downloadButtonId !== 'download-player-invite-pack' ||
+  playerEvidenceInvitePack.browserActions?.statusElementId !== 'player-invite-pack-status' ||
+  playerEvidenceInvitePack.browserActions?.browserLocalOnly !== true ||
   playerEvidenceInvitePack.summary?.routes !== 3 ||
   playerEvidenceInvitePack.summary?.failingGates !== productGateSamplePlan.summary?.failingGates ||
   playerEvidenceInvitePack.summary?.totalPromptViewsNeeded !==
@@ -1156,6 +1165,7 @@ if (
   allMissionsPlayerInviteRoute?.path !== '/gate-sample.html' ||
   !playerEvidenceInvitePack.shareCopy?.some((item) => item.includes('/sample-next.html')) ||
   !playerEvidenceInvitePack.shareCopy?.some((item) => item.includes('/sample-fastest.html')) ||
+  !playerEvidenceInvitePack.shareCopy?.some((item) => item.includes('/gate-sample.html')) ||
   !playerEvidenceInvitePack.followUpCommands?.includes('npm run autonomous:collect-local-event-drops') ||
   !playerEvidenceInvitePack.followUpCommands?.includes('npm run autonomous:player-evidence-watchdog') ||
   !playerEvidenceInvitePack.followUpCommands?.includes('npm run autonomous:measurement-status') ||
@@ -1167,7 +1177,11 @@ if (
   playerEvidenceInvitePack.controls?.noSyntheticEvents !== true ||
   playerEvidenceInvitePack.controls?.noRawEventsInPublicIssues !== true ||
   playerEvidenceInvitePack.controls?.noAutomaticPublicUpload !== true ||
+  playerEvidenceInvitePack.controls?.noAutomaticMessaging !== true ||
+  playerEvidenceInvitePack.controls?.noExternalUpload !== true ||
+  playerEvidenceInvitePack.controls?.localBrowserReceiptOnly !== true ||
   playerEvidenceInvitePack.controls?.aggregateEvidenceDoesNotPassGates !== true ||
+  playerEvidenceInvitePack.controls?.noGateDecisionFromInviteAlone !== true ||
   playerEvidenceInvitePack.controls?.localEventDropImportOnly !== true ||
   publicEvidenceControls.aggregateEvidenceDoesNotPassGates !== true ||
   publicEvidenceControls.manualReviewRequiredForGateDecisions !== true ||
@@ -1286,6 +1300,9 @@ if (
   !measurementStatusHtml.includes('sample-next.html') ||
   !measurementStatusHtml.includes('sample-fastest.html') ||
   !measurementStatusHtml.includes('Player Evidence Invite Pack') ||
+  !measurementStatusHtml.includes('Copy invite text') ||
+  !measurementStatusHtml.includes('Download invite pack') ||
+  !measurementStatusHtml.includes('player-invite-pack-status') ||
   !measurementStatusHtml.includes('Start invite route') ||
   !measurementStatusHtml.includes('npm run autonomous:collect-local-event-drops') ||
   !measurementStatusHtml.includes('zero-spend-player-evidence-invite-pack') ||
@@ -1324,6 +1341,9 @@ if (
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
   !productionMeasurementStatusSource.includes('playerEvidenceInvitePack') ||
   !productionMeasurementStatusSource.includes('zero-spend-player-evidence-invite-pack') ||
+  !productionMeasurementStatusSource.includes('copyPlayerInviteText') ||
+  !productionMeasurementStatusSource.includes('downloadPlayerInvitePack') ||
+  !productionMeasurementStatusSource.includes('writePlayerInviteReceipt') ||
   !productionMeasurementStatusSource.includes('appCombinedOwnerInputPreflight') ||
   !productionMeasurementStatusSource.includes('setupWriteLocalEnvTemplate') ||
   !productionMeasurementStatusSource.includes('publicAnalyticsUnlock') ||
