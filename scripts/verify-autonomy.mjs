@@ -1033,6 +1033,8 @@ if (
 const publicEvidenceHandoff = productionMeasurementStatus.publicEvidenceHandoff ?? {}
 const publicEvidenceControls = publicEvidenceHandoff.controls ?? {}
 const playerEvidenceInvitePack = publicEvidenceHandoff.playerInvitePack ?? {}
+const evidenceSprintPlan = productGateSamplePlan.evidenceSprintPlan ?? {}
+const publicEvidenceSprintPlan = publicEvidenceHandoff.evidenceSprintPlan ?? {}
 const playerEvidenceInviteRouteIds = new Set((playerEvidenceInvitePack.routes ?? []).map((route) => route.id))
 const currentPlayerInviteRoute = (playerEvidenceInvitePack.routes ?? []).find((route) => route.id === 'current-sample')
 const fastestPlayerInviteRoute = (playerEvidenceInvitePack.routes ?? []).find((route) => route.id === 'fastest-sample')
@@ -1175,6 +1177,21 @@ if (
   playerEvidenceInvitePack.summary?.totalObservedSuccessesNeeded !==
     productGateSamplePlan.summary?.totalObservedSuccessesNeeded ||
   playerEvidenceInvitePack.summary?.evidenceReadyCount !== productGateSamplePlan.summary?.evidenceReadyCount ||
+  playerEvidenceInvitePack.summary?.evidenceSprintPlanId !== evidenceSprintPlan.id ||
+  playerEvidenceInvitePack.summary?.evidenceSprintStatus !== evidenceSprintPlan.status ||
+  playerEvidenceInvitePack.summary?.evidenceSprintRoutes !== evidenceSprintPlan.totals?.routes ||
+  playerEvidenceInvitePack.summary?.evidenceSprintMinimumCountedRuns !==
+    evidenceSprintPlan.totals?.minimumCountedRunsNeeded ||
+  publicEvidenceSprintPlan.id !== evidenceSprintPlan.id ||
+  publicEvidenceSprintPlan.totals?.minimumCountedRunsNeeded !== evidenceSprintPlan.totals?.minimumCountedRunsNeeded ||
+  publicEvidenceSprintPlan.routeQuotas?.length !== evidenceSprintPlan.routeQuotas?.length ||
+  publicEvidenceSprintPlan.controls?.noAutomaticMessaging !== true ||
+  publicEvidenceSprintPlan.controls?.noExternalUpload !== true ||
+  publicEvidenceSprintPlan.controls?.noGateDecisionFromSprintAlone !== true ||
+  playerEvidenceInvitePack.evidenceSprintPlan?.id !== evidenceSprintPlan.id ||
+  playerEvidenceInvitePack.evidenceSprintPlan?.commands?.collectLocalDrops !==
+    'npm run autonomous:collect-local-event-drops' ||
+  productionMeasurementStatus.productGateEvidence?.evidenceSprintPlan?.id !== evidenceSprintPlan.id ||
   !playerEvidenceInviteRouteIds.has('current-sample') ||
   !playerEvidenceInviteRouteIds.has('fastest-sample') ||
   !playerEvidenceInviteRouteIds.has('all-missions') ||
@@ -1331,6 +1348,7 @@ if (
   !measurementStatusHtml.includes('sample-next.html') ||
   !measurementStatusHtml.includes('sample-fastest.html') ||
   !measurementStatusHtml.includes('Player Evidence Invite Pack') ||
+  !measurementStatusHtml.includes('Evidence Sprint') ||
   !measurementStatusHtml.includes('Copy invite text') ||
   !measurementStatusHtml.includes('Download invite pack') ||
   !measurementStatusHtml.includes('player-invite-pack-status') ||
@@ -1371,6 +1389,8 @@ if (
   !appSource.includes('Combined unlocks') ||
   !productionMeasurementStatusSource.includes('publicEvidenceHandoff') ||
   !productionMeasurementStatusSource.includes('playerEvidenceInvitePack') ||
+  !productionMeasurementStatusSource.includes('productGateEvidenceSprintPlan') ||
+  !productionMeasurementStatusSource.includes('noGateDecisionFromSprintAlone') ||
   !productionMeasurementStatusSource.includes('zero-spend-player-evidence-invite-pack') ||
   !productionMeasurementStatusSource.includes('copyPlayerInviteText') ||
   !productionMeasurementStatusSource.includes('downloadPlayerInvitePack') ||
@@ -2963,6 +2983,10 @@ const sampleFastestMission = productGateSamplePlan.missions?.find(
   (mission) => mission.gateId === productGateRecovery.summary?.quickestGateTest,
 )
 const sampleRetentionMission = productGateSamplePlan.missions?.find((mission) => mission.gateId === 'd1Retention')
+const primarySprintQuota = evidenceSprintPlan.routeQuotas?.find(
+  (quota) => quota.gateId === productGateRecovery.summary?.primaryBottleneck,
+)
+const retentionSprintQuota = evidenceSprintPlan.routeQuotas?.find((quota) => quota.gateId === 'd1Retention')
 
 if (
   productGateSamplePlan.status !== 'product-gate-sample-plan-ready' ||
@@ -3007,6 +3031,45 @@ if (
   productGateSamplePlan.publicSamplePage?.zeroPaidSpend !== true ||
   productGateSamplePlan.publicSamplePage?.playerInitiatedOnly !== true ||
   productGateSamplePlan.publicSamplePage?.noSyntheticEvents !== true ||
+  evidenceSprintPlan.id !== 'zero-spend-product-gate-evidence-sprint' ||
+  evidenceSprintPlan.status !== 'ready-for-player-invite-sprint' ||
+  evidenceSprintPlan.primaryRouteId !== `gate-sample-${productGateSamplePlan.summary?.primaryGateId}` ||
+  evidenceSprintPlan.fastestRouteId !== `gate-sample-${productGateSamplePlan.summary?.fastestGateId}` ||
+  evidenceSprintPlan.defaultRouteId !== `gate-sample-${productGateSamplePlan.summary?.defaultRouteGateId}` ||
+  evidenceSprintPlan.publicSamplePage !== '/gate-sample.html' ||
+  evidenceSprintPlan.measurementStatusPage !== '/measurement-status.html' ||
+  evidenceSprintPlan.totals?.routes !== productGateSamplePlan.missions?.length ||
+  evidenceSprintPlan.totals?.failingGates !== productGateRecovery.summary?.failingGates ||
+  evidenceSprintPlan.totals?.promptViewQuota !== productGateSamplePlan.summary?.totalPromptViewsNeeded ||
+  evidenceSprintPlan.totals?.observedSuccessQuota !== productGateSamplePlan.summary?.totalObservedSuccessesNeeded ||
+  evidenceSprintPlan.totals?.minimumCountedRunsNeeded !==
+    evidenceSprintPlan.routeQuotas?.reduce((sum, quota) => sum + quota.minimumCountedRunsNeeded, 0) ||
+  evidenceSprintPlan.routeQuotas?.length !== productGateSamplePlan.missions?.length ||
+  primarySprintQuota?.campaignId !== samplePrimaryMission?.campaignId ||
+  primarySprintQuota?.playPath !== samplePrimaryMission?.playPath ||
+  primarySprintQuota?.neededPromptViews !== samplePrimaryMission?.needed?.promptViews ||
+  primarySprintQuota?.neededObservedSuccesses !== samplePrimaryMission?.needed?.successes ||
+  primarySprintQuota?.minimumCountedRunsNeeded !==
+    Math.max(samplePrimaryMission?.needed?.promptViews ?? 0, samplePrimaryMission?.needed?.successes ?? 0) ||
+  retentionSprintQuota?.returnHandoffRequired !== true ||
+  retentionSprintQuota?.followUpWindow?.action !== 'player-initiated-return-session' ||
+  evidenceSprintPlan.schedule?.startActions?.length !== productGateSamplePlan.missions?.length ||
+  !evidenceSprintPlan.schedule?.followUps?.some((followUp) => followUp.routeId === retentionSprintQuota?.routeId) ||
+  evidenceSprintPlan.commands?.collectLocalDrops !== 'npm run autonomous:collect-local-event-drops' ||
+  evidenceSprintPlan.commands?.collectSampleDownloads !== 'npm run autonomous:collect-sample-downloads' ||
+  evidenceSprintPlan.commands?.refreshWatchdog !== 'npm run autonomous:player-evidence-watchdog' ||
+  evidenceSprintPlan.commands?.refreshMeasurement !== 'npm run autonomous:measurement-status' ||
+  evidenceSprintPlan.controls?.zeroPaidSpend !== true ||
+  evidenceSprintPlan.controls?.noPaidTraffic !== true ||
+  evidenceSprintPlan.controls?.noAutomaticMessaging !== true ||
+  evidenceSprintPlan.controls?.noExternalUpload !== true ||
+  evidenceSprintPlan.controls?.noRawEventsInPublicIssues !== true ||
+  evidenceSprintPlan.controls?.aggregateEvidenceDoesNotPassGates !== true ||
+  evidenceSprintPlan.controls?.noGateDecisionFromSprintAlone !== true ||
+  evidenceSprintPlan.controls?.requireObservedTelemetryBeforeRecoveryChange !== true ||
+  evidenceSprintPlan.controls?.noSyntheticEvents !== true ||
+  evidenceSprintPlan.controls?.noRevenueEnablement !== true ||
+  evidenceSprintPlan.controls?.noStoreSubmission !== true ||
   productGateSamplePlan.runtimeEvidencePolicy?.status !== 'active' ||
   productGateSamplePlan.runtimeEvidencePolicy?.surface !== 'product-gate-sample-plan-card' ||
   productGateSamplePlan.runtimeEvidencePolicy?.localProgressSource !== 'agl.analytics.events' ||
@@ -3104,6 +3167,9 @@ if (
   !productGateSamplePlanSource.includes('gateSamplePagePath') ||
   !productGateSamplePlanSource.includes('sampleRoleForMission') ||
   !productGateSamplePlanSource.includes('runtimeEvidencePolicy') ||
+  !productGateSamplePlanSource.includes('evidenceSprintPlan') ||
+  !productGateSamplePlanSource.includes('minimumCountedRunsNeeded') ||
+  !productGateSamplePlanSource.includes('noGateDecisionFromSprintAlone') ||
   !productGateSamplePlanSource.includes('sampleStartCreatesFreshRun') ||
   !productGateSamplePlanSource.includes('localExportReceiptKey') ||
   !productGateSamplePlanSource.includes('eventCountAtExport') ||
@@ -3165,6 +3231,7 @@ if (
 
 if (
   !gateSampleHtml.includes('Autonomous Game Lab Gate Sample Missions') ||
+  !gateSampleHtml.includes('Evidence sprint') ||
   !gateSampleHtml.includes('$0.00') ||
   !gateSampleHtml.includes('Fastest gate') ||
   !gateSampleHtml.includes('data-gate-id="firstGameCompletion"') ||

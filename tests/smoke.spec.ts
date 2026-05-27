@@ -188,6 +188,10 @@ test('measurement status copies and downloads the player evidence invite pack', 
         inviteText: string
         downloadFileName: string
         receiptStorageKey: string
+        evidenceSprintPlan: {
+          id: string
+          totals: { minimumCountedRunsNeeded: number }
+        }
         routes: Array<{ path: string }>
         controls: {
           noExternalUpload: boolean
@@ -237,6 +241,8 @@ test('measurement status copies and downloads the player evidence invite pack', 
   expect(receipt).toMatchObject({
     action: 'copy-player-evidence-invite-text',
     packId: invitePack.id,
+    sprintPlanId: invitePack.evidenceSprintPlan.id,
+    sprintMinimumCountedRuns: invitePack.evidenceSprintPlan.totals.minimumCountedRunsNeeded,
     routeCount: invitePack.routes.length,
     noExternalUpload: true,
     noAutomaticPublicUpload: true,
@@ -262,6 +268,9 @@ test('measurement status copies and downloads the player evidence invite pack', 
     inviteText: invitePack.inviteText,
     downloadFileName: invitePack.downloadFileName,
     exportSurface: 'measurement-status-player-evidence-invite-pack',
+    evidenceSprintPlan: expect.objectContaining({
+      id: invitePack.evidenceSprintPlan.id,
+    }),
     controls: expect.objectContaining({
       noExternalUpload: true,
       noAutomaticPublicUpload: true,
@@ -3628,6 +3637,84 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       playerInitiatedOnly: boolean
       noSyntheticEvents: boolean
     }
+    evidenceSprintPlan: {
+      id: string
+      status: string
+      sprintDate: string
+      durationDays: number
+      primaryRouteId: string | null
+      fastestRouteId: string | null
+      defaultRouteId: string | null
+      totals: {
+        routes: number
+        failingGates: number
+        promptViewQuota: number
+        observedSuccessQuota: number
+        minimumCountedRunsNeeded: number
+        sameSessionRoutes: number
+        returnHandoffRoutes: number
+      }
+      routeQuotas: Array<{
+        routeId: string
+        priority: number
+        sampleRole: string
+        gateId: string
+        label: string
+        gameId: string
+        title: string
+        campaignId: string
+        playPath: string
+        neededPromptViews: number
+        neededObservedSuccesses: number
+        minimumCountedRunsNeeded: number
+        latencyDays: number
+        returnHandoffRequired: boolean
+        returnIntentDate: string | null
+        returnPath: string | null
+        controls: {
+          zeroPaidSpend: boolean
+          playerInitiatedOnly: boolean
+          noAutomaticMessaging: boolean
+          noSyntheticEvents: boolean
+          noExternalUpload: boolean
+          noRevenueEnablement: boolean
+          noStoreSubmission: boolean
+        }
+      }>
+      schedule: {
+        startDate: string
+        endDate: string
+        startActions: Array<{ routeId: string; minimumCountedRunsNeeded: number; action: string }>
+        followUps: Array<{ routeId: string; action: string; path: string }>
+        completionCriteria: string[]
+      }
+      commands: {
+        collectLocalDrops: string
+        collectSampleDownloads: string
+        refreshWatchdog: string
+        refreshMeasurement: string
+        refreshGateRecovery: string
+        refreshSamplePlan: string
+      }
+      controls: {
+        zeroPaidSpend: boolean
+        noPaidTraffic: boolean
+        playerInitiatedOnly: boolean
+        noAutomaticMessaging: boolean
+        noExternalUpload: boolean
+        noAutomaticDownloadsScan: boolean
+        downloadsImportRequiresExplicitOptIn: boolean
+        noRawEventsInPublicIssues: boolean
+        publicAggregateEvidenceIsSupportingOnly: boolean
+        aggregateEvidenceDoesNotPassGates: boolean
+        noGateDecisionFromSprintAlone: boolean
+        requireObservedTelemetryBeforeRecoveryChange: boolean
+        manualReviewRequiredForGateDecisions: boolean
+        noSyntheticEvents: boolean
+        noRevenueEnablement: boolean
+        noStoreSubmission: boolean
+      }
+    }
     runtimeEvidencePolicy: {
       status: string
       surface: string
@@ -3876,6 +3963,59 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   expect(samplePlan.publicSamplePage.zeroPaidSpend).toBe(true)
   expect(samplePlan.publicSamplePage.playerInitiatedOnly).toBe(true)
   expect(samplePlan.publicSamplePage.noSyntheticEvents).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.id).toBe('zero-spend-product-gate-evidence-sprint')
+  expect(samplePlan.evidenceSprintPlan.status).toBe('ready-for-player-invite-sprint')
+  expect(samplePlan.evidenceSprintPlan.durationDays).toBeGreaterThanOrEqual(2)
+  expect(samplePlan.evidenceSprintPlan.primaryRouteId).toBe(`gate-sample-${samplePlan.summary.primaryGateId}`)
+  expect(samplePlan.evidenceSprintPlan.fastestRouteId).toBe(`gate-sample-${samplePlan.summary.fastestGateId}`)
+  expect(samplePlan.evidenceSprintPlan.defaultRouteId).toBe(`gate-sample-${samplePlan.summary.defaultRouteGateId}`)
+  expect(samplePlan.evidenceSprintPlan.totals.routes).toBe(samplePlan.missions.length)
+  expect(samplePlan.evidenceSprintPlan.totals.failingGates).toBe(recovery.summary.failingGates)
+  expect(samplePlan.evidenceSprintPlan.totals.promptViewQuota).toBe(samplePlan.summary.totalPromptViewsNeeded)
+  expect(samplePlan.evidenceSprintPlan.totals.observedSuccessQuota).toBe(
+    samplePlan.summary.totalObservedSuccessesNeeded,
+  )
+  expect(samplePlan.evidenceSprintPlan.totals.minimumCountedRunsNeeded).toBe(
+    samplePlan.evidenceSprintPlan.routeQuotas.reduce(
+      (sum, quota) => sum + quota.minimumCountedRunsNeeded,
+      0,
+    ),
+  )
+  expect(samplePlan.evidenceSprintPlan.totals.returnHandoffRoutes).toBeGreaterThanOrEqual(1)
+  expect(samplePlan.evidenceSprintPlan.routeQuotas.map((quota) => quota.gateId)).toEqual(
+    samplePlan.missions.map((mission) => mission.gateId),
+  )
+  expect(samplePlan.evidenceSprintPlan.routeQuotas[0]).toMatchObject({
+    routeId: `gate-sample-${samplePlan.missions[0].gateId}`,
+    campaignId: samplePlan.missions[0].campaignId,
+    playPath: samplePlan.missions[0].playPath,
+    neededPromptViews: samplePlan.missions[0].needed.promptViews,
+    neededObservedSuccesses: samplePlan.missions[0].needed.successes,
+  })
+  expect(samplePlan.evidenceSprintPlan.routeQuotas[0].minimumCountedRunsNeeded).toBe(
+    Math.max(samplePlan.missions[0].needed.promptViews, samplePlan.missions[0].needed.successes),
+  )
+  expect(samplePlan.evidenceSprintPlan.schedule.startActions).toHaveLength(samplePlan.missions.length)
+  expect(samplePlan.evidenceSprintPlan.schedule.followUps.some((followUp) => followUp.action === 'player-initiated-return-session')).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.commands.collectLocalDrops).toBe(
+    'npm run autonomous:collect-local-event-drops',
+  )
+  expect(samplePlan.evidenceSprintPlan.commands.collectSampleDownloads).toBe(
+    'npm run autonomous:collect-sample-downloads',
+  )
+  expect(samplePlan.evidenceSprintPlan.commands.refreshWatchdog).toBe(
+    'npm run autonomous:player-evidence-watchdog',
+  )
+  expect(samplePlan.evidenceSprintPlan.controls.zeroPaidSpend).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.controls.noPaidTraffic).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.controls.noAutomaticMessaging).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.controls.noExternalUpload).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.controls.noRawEventsInPublicIssues).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.controls.aggregateEvidenceDoesNotPassGates).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.controls.noGateDecisionFromSprintAlone).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.controls.requireObservedTelemetryBeforeRecoveryChange).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.controls.noRevenueEnablement).toBe(true)
+  expect(samplePlan.evidenceSprintPlan.controls.noStoreSubmission).toBe(true)
   expect(samplePlan.runtimeEvidencePolicy.status).toBe('active')
   expect(samplePlan.runtimeEvidencePolicy.surface).toBe('product-gate-sample-plan-card')
   expect(samplePlan.runtimeEvidencePolicy.localProgressSource).toBe('agl.analytics.events')
@@ -11286,6 +11426,39 @@ test('production measurement status publishes public aggregate evidence handoff'
       totalObservedSuccessesNeeded: number
       evidenceReadyCount: number
     }
+    evidenceSprintPlan: {
+      id: string
+      status: string
+      sprintDate: string
+      durationDays: number
+      totals: {
+        routes: number
+        promptViewQuota: number
+        observedSuccessQuota: number
+        minimumCountedRunsNeeded: number
+        returnHandoffRoutes: number
+      }
+      routeQuotas: Array<{
+        routeId: string
+        gateId: string
+        label: string
+        campaignId: string
+        playPath: string
+        minimumCountedRunsNeeded: number
+      }>
+      commands: {
+        collectLocalDrops: string
+        refreshMeasurement: string
+      }
+      controls: {
+        zeroPaidSpend: boolean
+        noAutomaticMessaging: boolean
+        noExternalUpload: boolean
+        noGateDecisionFromSprintAlone: boolean
+        noRevenueEnablement: boolean
+        noStoreSubmission: boolean
+      }
+    }
   }
   const traffic = JSON.parse(await readFile('data/traffic-seeding.json', 'utf8')) as {
     status: string
@@ -11731,6 +11904,7 @@ test('production measurement status publishes public aggregate evidence handoff'
           controls: { playerInitiatedOnly: boolean; noExternalUpload: boolean; noSyntheticEvents: boolean }
         } | null
       }
+      evidenceSprintPlan: typeof samplePlan.evidenceSprintPlan
     }
     analyticsUnlock: {
       id: string
@@ -12062,6 +12236,10 @@ test('production measurement status publishes public aggregate evidence handoff'
           totalObservedSuccessesNeeded: number
           evidenceReadyCount: number
           aggregateEvidenceNotes: number
+          evidenceSprintPlanId: string | null
+          evidenceSprintStatus: string | null
+          evidenceSprintRoutes: number
+          evidenceSprintMinimumCountedRuns: number
         }
         routes: Array<{
           id: string
@@ -12086,6 +12264,7 @@ test('production measurement status publishes public aggregate evidence handoff'
           }
         }>
         shareCopy: string[]
+        evidenceSprintPlan: typeof samplePlan.evidenceSprintPlan
         followUpCommands: string[]
         publicReview: {
           aggregateEvidenceIssue: string | null
@@ -12113,6 +12292,7 @@ test('production measurement status publishes public aggregate evidence handoff'
         }
         nextActions: string[]
       }
+      evidenceSprintPlan: typeof samplePlan.evidenceSprintPlan
       controls: {
         aggregateEvidenceDoesNotPassGates: boolean
         manualReviewRequiredForGateDecisions: boolean
@@ -12670,6 +12850,35 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.publicEvidenceHandoff.playerInvitePack.summary.evidenceReadyCount).toBe(
     samplePlan.summary.evidenceReadyCount,
   )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.summary.evidenceSprintPlanId).toBe(
+    samplePlan.evidenceSprintPlan.id,
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.summary.evidenceSprintStatus).toBe(
+    samplePlan.evidenceSprintPlan.status,
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.summary.evidenceSprintRoutes).toBe(
+    samplePlan.evidenceSprintPlan.totals.routes,
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.summary.evidenceSprintMinimumCountedRuns).toBe(
+    samplePlan.evidenceSprintPlan.totals.minimumCountedRunsNeeded,
+  )
+  expect(measurement.publicEvidenceHandoff.evidenceSprintPlan.id).toBe(samplePlan.evidenceSprintPlan.id)
+  expect(measurement.publicEvidenceHandoff.evidenceSprintPlan.totals.minimumCountedRunsNeeded).toBe(
+    samplePlan.evidenceSprintPlan.totals.minimumCountedRunsNeeded,
+  )
+  expect(measurement.publicEvidenceHandoff.evidenceSprintPlan.routeQuotas).toHaveLength(
+    samplePlan.evidenceSprintPlan.routeQuotas.length,
+  )
+  expect(measurement.publicEvidenceHandoff.evidenceSprintPlan.controls.noAutomaticMessaging).toBe(true)
+  expect(measurement.publicEvidenceHandoff.evidenceSprintPlan.controls.noExternalUpload).toBe(true)
+  expect(measurement.publicEvidenceHandoff.evidenceSprintPlan.controls.noGateDecisionFromSprintAlone).toBe(true)
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.evidenceSprintPlan.id).toBe(
+    samplePlan.evidenceSprintPlan.id,
+  )
+  expect(measurement.publicEvidenceHandoff.playerInvitePack.evidenceSprintPlan.commands.collectLocalDrops).toBe(
+    samplePlan.evidenceSprintPlan.commands.collectLocalDrops,
+  )
+  expect(measurement.productGateEvidence.evidenceSprintPlan.id).toBe(samplePlan.evidenceSprintPlan.id)
   expect(measurement.publicEvidenceHandoff.playerInvitePack.routes.map((route) => route.id)).toEqual([
     'current-sample',
     'fastest-sample',
@@ -13758,6 +13967,12 @@ test('production measurement status publishes public aggregate evidence handoff'
     measurement.publicEvidenceHandoff.playerInvitePack.status,
   )
   await expect(page.getByLabel('Player evidence invite pack')).toContainText('70')
+  await expect(page.getByLabel('Evidence sprint')).toContainText(
+    measurement.publicEvidenceHandoff.evidenceSprintPlan.status,
+  )
+  await expect(page.getByLabel('Evidence sprint')).toContainText(
+    String(measurement.publicEvidenceHandoff.evidenceSprintPlan.totals.minimumCountedRunsNeeded),
+  )
   await expect(page.getByLabel('Live release evidence')).toContainText('Synced evidence candidate')
   await expect(page.getByLabel('Live release evidence')).toContainText('Status JSON caveat')
   await expect(page.locator('#exact-live-candidate')).not.toContainText('checking')

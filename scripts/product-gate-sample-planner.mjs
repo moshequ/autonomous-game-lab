@@ -34,6 +34,18 @@ const runtimeHref = (value) => {
 
   return value.startsWith('/') ? `.${value}` : value
 }
+const addIsoDays = (isoDate, days) => {
+  const [year, month, day] = String(isoDate)
+    .split('-')
+    .map((part) => Number.parseInt(part, 10))
+
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
+    return isoDate
+  }
+
+  const date = new Date(Date.UTC(year, month - 1, day + days))
+  return date.toISOString().slice(0, 10)
+}
 
 const routeFor = ({ gameId, gateId }) => {
   const campaignId = `gate-sample-${todaySlug()}-${gateId}`
@@ -504,6 +516,148 @@ const sampleCollectionNextAction = localEventsAvailable
     : downloadsScanPolicy.coolingDown
       ? `Wait until ${downloadsScanPolicy.nextRecommendedScanAt} before the next explicit Downloads scan unless an inbox event drop appears.`
       : `Export or collect real browser events, then run ${collectLocalEventDropsCommand}; use ${collectSampleDownloadsCommand} only after explicit owner opt-in.`
+const sprintDate = localIsoDate()
+const sprintRouteQuotas = missionsWithEvidence.map((mission, index) => {
+  const latencyDays = mission.sampleTiming?.latencyDays ?? sampleLatencyDaysForGate(mission.gateId)
+  const returnDate =
+    mission.returnHandoff?.intentDate ?? (latencyDays > 0 ? addIsoDays(sprintDate, latencyDays) : null)
+  const minimumCountedRunsNeeded = Math.max(mission.needed.promptViews, mission.needed.successes)
+
+  return {
+    routeId: `gate-sample-${mission.gateId}`,
+    priority: index + 1,
+    sampleRole: mission.sampleRole,
+    gateId: mission.gateId,
+    label: mission.label,
+    gameId: mission.gameId,
+    title: mission.title,
+    campaignId: mission.campaignId,
+    playPath: mission.playPath,
+    publicSamplePage: '/gate-sample.html',
+    neededPromptViews: mission.needed.promptViews,
+    neededObservedSuccesses: mission.needed.successes,
+    minimumPromptViewsForDecision: mission.needed.minimumPromptViewsForDecision,
+    minimumCountedRunsNeeded,
+    quotaBasis:
+      'Conservative lower bound: max(prompt views needed, observed successes needed), not a conversion forecast.',
+    evidenceStatus: mission.evidence.status,
+    latencyDays,
+    sameSessionPlayable: mission.sampleTiming?.sameSessionPlayable === true,
+    returnHandoffRequired: mission.sampleTiming?.returnHandoffRequired === true,
+    returnIntentDate: returnDate,
+    returnPath: mission.returnHandoff?.returnPath ?? null,
+    followUpWindow:
+      latencyDays > 0
+        ? {
+            date: returnDate,
+            dayOffset: latencyDays,
+            action: 'player-initiated-return-session',
+            path: mission.returnHandoff?.returnPath ?? mission.playPath,
+          }
+        : null,
+    controls: {
+      zeroPaidSpend: true,
+      playerInitiatedOnly: true,
+      noAutomaticMessaging: true,
+      noSyntheticEvents: true,
+      noExternalUpload: true,
+      noRevenueEnablement: true,
+      noStoreSubmission: true,
+    },
+  }
+})
+const sprintDurationDays = Math.max(1, ...sprintRouteQuotas.map((quota) => quota.latencyDays + 1))
+const evidenceSprintPlan = {
+  id: 'zero-spend-product-gate-evidence-sprint',
+  title: 'Zero-spend product gate evidence sprint',
+  status: missionsWithEvidence.length ? 'ready-for-player-invite-sprint' : 'no-failing-gates',
+  sprintDate,
+  durationDays: sprintDurationDays,
+  primaryRouteId: primaryMission ? `gate-sample-${primaryMission.gateId}` : null,
+  fastestRouteId: fastestMission ? `gate-sample-${fastestMission.gateId}` : null,
+  defaultRouteId: defaultRouteMission ? `gate-sample-${defaultRouteMission.gateId}` : null,
+  primaryCampaignId: primaryMission?.campaignId ?? null,
+  fastestCampaignId: fastestMission?.campaignId ?? null,
+  defaultCampaignId: defaultRouteMission?.campaignId ?? null,
+  publicSamplePage: '/gate-sample.html',
+  measurementStatusPage: '/measurement-status.html',
+  totals: {
+    routes: sprintRouteQuotas.length,
+    failingGates: failingGates.length,
+    promptViewQuota: totalPromptViewsNeeded,
+    observedSuccessQuota: totalObservedSuccessesNeeded,
+    minimumCountedRunsNeeded: sprintRouteQuotas.reduce(
+      (sum, quota) => sum + quota.minimumCountedRunsNeeded,
+      0,
+    ),
+    sameSessionRoutes: sprintRouteQuotas.filter((quota) => quota.sameSessionPlayable).length,
+    returnHandoffRoutes: sprintRouteQuotas.filter((quota) => quota.returnHandoffRequired).length,
+  },
+  routeQuotas: sprintRouteQuotas,
+  schedule: {
+    startDate: sprintDate,
+    endDate: addIsoDays(sprintDate, sprintDurationDays - 1),
+    startActions: sprintRouteQuotas.map((quota) => ({
+      date: sprintDate,
+      dayOffset: 0,
+      routeId: quota.routeId,
+      campaignId: quota.campaignId,
+      gateId: quota.gateId,
+      path: quota.playPath,
+      minimumCountedRunsNeeded: quota.minimumCountedRunsNeeded,
+      action: 'share-player-initiated-sample-route',
+    })),
+    followUps: sprintRouteQuotas
+      .filter((quota) => quota.followUpWindow)
+      .map((quota) => ({
+        ...quota.followUpWindow,
+        routeId: quota.routeId,
+        campaignId: quota.campaignId,
+        gateId: quota.gateId,
+        minimumCountedRunsNeeded: quota.minimumCountedRunsNeeded,
+      })),
+    completionCriteria: [
+      'Each route meets its prompt-view quota from real player telemetry.',
+      'Each route meets its observed-success quota from local event drops or configured production analytics.',
+      'D1 retention routes include the return-session follow-up before gate decisions.',
+      'Public aggregate notes are reviewed as supporting diagnosis only.',
+    ],
+  },
+  commands: {
+    collectLocalDrops: collectLocalEventDropsCommand,
+    collectSampleDownloads: collectSampleDownloadsCommand,
+    refreshWatchdog: 'npm run autonomous:player-evidence-watchdog',
+    refreshMeasurement: 'npm run autonomous:measurement-status',
+    refreshGateRecovery: 'npm run autonomous:gate-recovery',
+    refreshSamplePlan: 'npm run autonomous:sample-plan',
+  },
+  handoff: {
+    localDropInbox: localDropInboxDirectory,
+    filenamePattern: localDropFilenamePattern,
+    configuredDropDirEnv: 'AGL_LOCAL_EVENT_DROP_DIRS',
+    aggregateEvidenceRepository,
+    aggregateEvidenceIssueTemplate: 'analytics-evidence.yml',
+    invitePackPage: '/measurement-status.html',
+  },
+  controls: {
+    zeroPaidSpend: true,
+    noPaidTraffic: true,
+    playerInitiatedOnly: true,
+    noAutomaticMessaging: true,
+    noExternalUpload: true,
+    noAutomaticDownloadsScan: true,
+    downloadsImportRequiresExplicitOptIn: true,
+    noRawEventsInPublicIssues: true,
+    publicAggregateEvidenceIsSupportingOnly: true,
+    aggregateEvidenceDoesNotPassGates: true,
+    noGateDecisionFromSprintAlone: true,
+    requireObservedTelemetryBeforeRecoveryChange: true,
+    manualReviewRequiredForGateDecisions: true,
+    noSyntheticEvents: true,
+    noRevenueEnablement: true,
+    noStoreSubmission: true,
+  },
+}
 const sourceDataHash = hashSourceData({
   sampleDate: localIsoDate(),
   productGateRecovery,
@@ -601,6 +755,7 @@ const payload = {
     playerInitiatedOnly: true,
     noSyntheticEvents: true,
   },
+  evidenceSprintPlan,
   runtimeEvidencePolicy: {
     status: 'active',
     surface: 'product-gate-sample-plan-card',
@@ -820,6 +975,36 @@ const appPayload = {
     },
   },
   defaultRoute,
+  evidenceSprintPlan: {
+    id: payload.evidenceSprintPlan.id,
+    status: payload.evidenceSprintPlan.status,
+    sprintDate: payload.evidenceSprintPlan.sprintDate,
+    durationDays: payload.evidenceSprintPlan.durationDays,
+    totals: payload.evidenceSprintPlan.totals,
+    routeQuotas: payload.evidenceSprintPlan.routeQuotas.map((quota) => ({
+      routeId: quota.routeId,
+      priority: quota.priority,
+      sampleRole: quota.sampleRole,
+      gateId: quota.gateId,
+      gameId: quota.gameId,
+      title: quota.title,
+      campaignId: quota.campaignId,
+      playPath: quota.playPath,
+      neededPromptViews: quota.neededPromptViews,
+      neededObservedSuccesses: quota.neededObservedSuccesses,
+      minimumCountedRunsNeeded: quota.minimumCountedRunsNeeded,
+      latencyDays: quota.latencyDays,
+      returnHandoffRequired: quota.returnHandoffRequired,
+      returnIntentDate: quota.returnIntentDate,
+      returnPath: quota.returnPath,
+    })),
+    controls: {
+      zeroPaidSpend: payload.evidenceSprintPlan.controls.zeroPaidSpend,
+      noAutomaticMessaging: payload.evidenceSprintPlan.controls.noAutomaticMessaging,
+      noGateDecisionFromSprintAlone: payload.evidenceSprintPlan.controls.noGateDecisionFromSprintAlone,
+      noRevenueEnablement: payload.evidenceSprintPlan.controls.noRevenueEnablement,
+    },
+  },
   controls: {
     zeroPaidSpend: payload.controls.zeroPaidSpend,
     sampleStartCreatesFreshRun: payload.controls.sampleStartCreatesFreshRun,
@@ -870,6 +1055,7 @@ const report = [
   `Inbox gate-sample events: ${payload.summary.inboxGateSampleEvents}`,
   `Supporting aggregate evidence notes: ${payload.summary.supportingAggregateEvidenceNotes}`,
   `Return handoff missions: ${payload.summary.returnHandoffMissionCount}`,
+  `Evidence sprint: ${payload.evidenceSprintPlan.status}; routes ${payload.evidenceSprintPlan.totals.routes}; minimum counted runs ${payload.evidenceSprintPlan.totals.minimumCountedRunsNeeded}`,
   `Downloads scan: ${payload.summary.downloadsScanStatus}; cooling down ${payload.summary.downloadsScanCoolingDown}`,
   `Next recommended Downloads scan: ${payload.summary.downloadsScanNextRecommendedAt}`,
   `Public sample page: ${payload.publicSamplePage.path}`,
@@ -882,6 +1068,16 @@ const report = [
   ...payload.missions.map(
     (mission) =>
       `- #${mission.rank} ${mission.gateId}: ${mission.status}; evidence ${mission.evidence.status}; aggregate notes ${mission.supportingAggregateEvidence.noteCount}; ${pct(mission.current.actual)} / ${pct(mission.current.gate)}; needs ${mission.needed.promptViews} prompt view(s), ${mission.needed.successes} success(es); ${mission.playPath}`,
+  ),
+  '',
+  '## Evidence Sprint',
+  '',
+  `- Status: ${payload.evidenceSprintPlan.status}`,
+  `- Window: ${payload.evidenceSprintPlan.schedule.startDate} to ${payload.evidenceSprintPlan.schedule.endDate}`,
+  `- Minimum counted runs: ${payload.evidenceSprintPlan.totals.minimumCountedRunsNeeded}`,
+  ...payload.evidenceSprintPlan.routeQuotas.map(
+    (quota) =>
+      `- ${quota.routeId}: ${quota.neededPromptViews} prompt view(s), ${quota.neededObservedSuccesses} success(es), ${quota.minimumCountedRunsNeeded} counted run(s); ${quota.playPath}`,
   ),
   '',
   '## Commands',
@@ -985,6 +1181,28 @@ ${defaultRoute.returnHandoff
         </div>
       </section>`
   : ''
+
+const sprintPlanPanel = `<section class="sprint" aria-label="Evidence sprint plan" data-sprint-id="${escapeHtml(payload.evidenceSprintPlan.id)}">
+        <div>
+          <p class="eyebrow">Evidence sprint</p>
+          <h2>${escapeHtml(payload.evidenceSprintPlan.title)}</h2>
+          <p>Route quotas package the current failing gates into a zero-spend player invite sprint. Counts are lower bounds for observed telemetry, not synthetic sessions or paid traffic targets.</p>
+        </div>
+        <dl class="sprintStats" aria-label="Evidence sprint summary">
+          <div><dt>Status</dt><dd>${escapeHtml(payload.evidenceSprintPlan.status)}</dd></div>
+          <div><dt>Window</dt><dd>${escapeHtml(payload.evidenceSprintPlan.schedule.startDate)} to ${escapeHtml(payload.evidenceSprintPlan.schedule.endDate)}</dd></div>
+          <div><dt>Routes</dt><dd>${payload.evidenceSprintPlan.totals.routes}</dd></div>
+          <div><dt>Minimum runs</dt><dd>${payload.evidenceSprintPlan.totals.minimumCountedRunsNeeded}</dd></div>
+        </dl>
+        <ul class="sprintRoutes" aria-label="Evidence sprint route quotas">
+          ${payload.evidenceSprintPlan.routeQuotas
+            .map(
+              (quota) =>
+                `<li><strong>${escapeHtml(quota.label)}</strong> needs ${quota.neededPromptViews} view(s), ${quota.neededObservedSuccesses} success(es), and ${quota.minimumCountedRunsNeeded} counted run(s).${quota.followUpWindow ? ` Return ${escapeHtml(quota.followUpWindow.date ?? 'later')} via ${escapeHtml(quota.followUpWindow.path ?? quota.playPath)}.` : ''}</li>`,
+            )
+            .join('\n          ')}
+        </ul>
+      </section>`
 
 const publicMissionEvidence = payload.missions.map((mission) => ({
   id: mission.id,
@@ -1105,6 +1323,7 @@ const gateSamplePage = `<!doctype html>
       .metric,
       .recommended,
       .mission,
+      .sprint,
       .handoff {
         border: 1px solid #cbd8d4;
         border-radius: 8px;
@@ -1181,6 +1400,27 @@ const gateSamplePage = `<!doctype html>
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 14px;
+      }
+
+      .sprint {
+        display: grid;
+        gap: 16px;
+        margin: 16px 0;
+        padding: 18px;
+        border-left: 4px solid #275b55;
+      }
+
+      .sprintStats {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .sprintRoutes {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding-left: 18px;
+        color: #4a5753;
+        line-height: 1.5;
       }
 
       .mission {
@@ -1340,6 +1580,7 @@ const gateSamplePage = `<!doctype html>
         .recommended,
         .summary,
         .missions,
+        .sprintStats,
         .handoffGrid,
         .missionActions {
           grid-template-columns: 1fr;
@@ -1362,6 +1603,7 @@ const gateSamplePage = `<!doctype html>
         <div class="metric"><span>Cost</span><strong>$0.00</strong></div>
       </section>
       ${recommendedMissionPanel}
+      ${sprintPlanPanel}
       <section class="missions" aria-label="Gate sample missions">
         ${missionCards}
       </section>

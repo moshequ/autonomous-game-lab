@@ -399,10 +399,14 @@ const playerEvidenceInviteRoute = ({ id, title, route, mission, priority }) => (
 })
 const currentSampleMission = sampleMissionForRoute(sampleNextRoute)
 const fastestSampleMission = sampleMissionForRoute(sampleFastestRoute)
+const productGateEvidenceSprintPlan = productGateSamplePlan.evidenceSprintPlan ?? null
 const playerEvidenceInviteShareCopy = [
   `Start the current sample: ${sampleNextRoute.path}`,
   `Fastest separate gate sample: ${sampleFastestRoute.path}`,
   'All sample missions: /gate-sample.html',
+  productGateEvidenceSprintPlan
+    ? `Evidence sprint: ${productGateEvidenceSprintPlan.totals?.minimumCountedRunsNeeded ?? 0} counted run lower-bound across ${productGateEvidenceSprintPlan.routeQuotas?.length ?? 0} route(s).`
+    : 'Evidence sprint: regenerate the gate sample plan for route quotas.',
   'After playing, use the in-browser Share evidence flow or Export local analytics; share aggregate counts only.',
   'Public aggregate notes support diagnosis only; local event drops or configured production analytics are required before gate decisions.',
 ]
@@ -431,6 +435,10 @@ const playerEvidenceInvitePack = {
     evidenceReadyCount: numberOrZero(productGateSamplePlan.summary?.evidenceReadyCount),
     localEventsAvailable: productGateSamplePlan.summary?.localEventsAvailable === true,
     aggregateEvidenceNotes: aggregateEvidenceNotes.length,
+    evidenceSprintPlanId: productGateEvidenceSprintPlan?.id ?? null,
+    evidenceSprintStatus: productGateEvidenceSprintPlan?.status ?? null,
+    evidenceSprintRoutes: productGateEvidenceSprintPlan?.totals?.routes ?? 0,
+    evidenceSprintMinimumCountedRuns: productGateEvidenceSprintPlan?.totals?.minimumCountedRunsNeeded ?? 0,
   },
   routes: [
     playerEvidenceInviteRoute({
@@ -474,6 +482,41 @@ const playerEvidenceInvitePack = {
     },
   ],
   shareCopy: playerEvidenceInviteShareCopy,
+  evidenceSprintPlan: productGateEvidenceSprintPlan
+    ? {
+        id: productGateEvidenceSprintPlan.id,
+        title: productGateEvidenceSprintPlan.title,
+        status: productGateEvidenceSprintPlan.status,
+        sprintDate: productGateEvidenceSprintPlan.sprintDate,
+        durationDays: productGateEvidenceSprintPlan.durationDays,
+        primaryRouteId: productGateEvidenceSprintPlan.primaryRouteId,
+        fastestRouteId: productGateEvidenceSprintPlan.fastestRouteId,
+        defaultRouteId: productGateEvidenceSprintPlan.defaultRouteId,
+        totals: productGateEvidenceSprintPlan.totals,
+        routeQuotas: productGateEvidenceSprintPlan.routeQuotas ?? [],
+        schedule: productGateEvidenceSprintPlan.schedule,
+        commands: productGateEvidenceSprintPlan.commands,
+        controls: {
+          zeroPaidSpend: productGateEvidenceSprintPlan.controls?.zeroPaidSpend === true,
+          noPaidTraffic: productGateEvidenceSprintPlan.controls?.noPaidTraffic === true,
+          playerInitiatedOnly: productGateEvidenceSprintPlan.controls?.playerInitiatedOnly === true,
+          noAutomaticMessaging: productGateEvidenceSprintPlan.controls?.noAutomaticMessaging === true,
+          noExternalUpload: productGateEvidenceSprintPlan.controls?.noExternalUpload === true,
+          noRawEventsInPublicIssues: productGateEvidenceSprintPlan.controls?.noRawEventsInPublicIssues === true,
+          aggregateEvidenceDoesNotPassGates:
+            productGateEvidenceSprintPlan.controls?.aggregateEvidenceDoesNotPassGates === true,
+          noGateDecisionFromSprintAlone:
+            productGateEvidenceSprintPlan.controls?.noGateDecisionFromSprintAlone === true,
+          requireObservedTelemetryBeforeRecoveryChange:
+            productGateEvidenceSprintPlan.controls?.requireObservedTelemetryBeforeRecoveryChange === true,
+          manualReviewRequiredForGateDecisions:
+            productGateEvidenceSprintPlan.controls?.manualReviewRequiredForGateDecisions === true,
+          noSyntheticEvents: productGateEvidenceSprintPlan.controls?.noSyntheticEvents === true,
+          noRevenueEnablement: productGateEvidenceSprintPlan.controls?.noRevenueEnablement === true,
+          noStoreSubmission: productGateEvidenceSprintPlan.controls?.noStoreSubmission === true,
+        },
+      }
+    : null,
   followUpCommands: [
     'npm run autonomous:collect-local-event-drops',
     'npm run autonomous:player-evidence-watchdog',
@@ -568,6 +611,7 @@ const publicEvidenceHandoff = {
     missionsWithAggregateEvidence: aggregateEvidenceMissions.length,
     topMissions: aggregateEvidenceMissions.slice(0, 5),
   },
+  evidenceSprintPlan: productGateEvidenceSprintPlan,
   playerInvitePack: playerEvidenceInvitePack,
   measurementPageExport,
   controls: aggregateEvidencePrivacyControls,
@@ -1155,6 +1199,7 @@ const payload = {
     aggregateEvidenceMissionCount: aggregateEvidenceMissions.length,
     sampleNextRoute,
     sampleFastestRoute,
+    evidenceSprintPlan: productGateEvidenceSprintPlan,
   },
   publicEvidenceHandoff,
   analyticsUnlock: publicAnalyticsUnlock,
@@ -2469,6 +2514,37 @@ const html = `<!doctype html>
             <strong>${payload.publicEvidenceHandoff.playerInvitePack.summary.aggregateEvidenceNotes}</strong>
           </div>
         </div>
+        ${
+          payload.publicEvidenceHandoff.evidenceSprintPlan
+            ? `<h3>Evidence Sprint</h3>
+        <div class="grid" aria-label="Evidence sprint">
+          <div class="card">
+            <span>Sprint</span>
+            <strong>${escapeHtml(payload.publicEvidenceHandoff.evidenceSprintPlan.status)}</strong>
+          </div>
+          <div class="card">
+            <span>Date</span>
+            <strong>${escapeHtml(payload.publicEvidenceHandoff.evidenceSprintPlan.sprintDate)}</strong>
+          </div>
+          <div class="card">
+            <span>Minimum runs</span>
+            <strong>${payload.publicEvidenceHandoff.evidenceSprintPlan.totals.minimumCountedRunsNeeded}</strong>
+          </div>
+          <div class="card">
+            <span>Return routes</span>
+            <strong>${payload.publicEvidenceHandoff.evidenceSprintPlan.totals.returnHandoffRoutes}</strong>
+          </div>
+        </div>
+        <ul>
+          ${payload.publicEvidenceHandoff.evidenceSprintPlan.routeQuotas
+            .map(
+              (quota) =>
+                `<li><strong>${escapeHtml(quota.label)}</strong>: ${quota.minimumCountedRunsNeeded} counted run lower-bound for ${escapeHtml(quota.gateId)} via <code>${escapeHtml(quota.playPath)}</code>.</li>`,
+            )
+            .join('\n          ')}
+        </ul>`
+            : ''
+        }
         <h3>Tester Routes</h3>
         <ul>
           ${payload.publicEvidenceHandoff.playerInvitePack.routes
@@ -2796,6 +2872,9 @@ const html = `<!doctype html>
             action,
             actedAt: new Date().toISOString(),
             packId: playerEvidenceInvitePack.id,
+            sprintPlanId: playerEvidenceInvitePack.evidenceSprintPlan?.id ?? null,
+            sprintMinimumCountedRuns:
+              playerEvidenceInvitePack.evidenceSprintPlan?.totals?.minimumCountedRunsNeeded ?? 0,
             routeCount: playerEvidenceInvitePack.routes?.length ?? 0,
             primaryRoute: playerEvidenceInvitePack.routes?.[0]?.path ?? null,
             fastestRoute: playerEvidenceInvitePack.routes?.[1]?.path ?? null,
