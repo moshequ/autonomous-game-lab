@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T06:01:16.852Z",
+  "generatedAt": "2026-05-27T06:15:18.211Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
   "basePath": "/autonomous-game-lab/",
@@ -17,21 +17,21 @@
   },
   "initial": {
     "entryScripts": [
-      "index-DRzbOr9-.js",
+      "index-CnoLD6LN.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-DRzbOr9-.js",
+      "assets/index-CnoLD6LN.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-DRzbOr9-.js",
-        "path": "assets/index-DRzbOr9-.js",
-        "bytes": 688294,
-        "kb": 672.2,
-        "gzipBytes": 181664,
-        "gzipKb": 177.4
+        "file": "index-CnoLD6LN.js",
+        "path": "assets/index-CnoLD6LN.js",
+        "bytes": 690072,
+        "kb": 673.9,
+        "gzipBytes": 181916,
+        "gzipKb": 177.7
       },
       {
         "file": "registerSW.js",
@@ -42,33 +42,33 @@
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 688468,
-    "jsKb": 672.3,
-    "gzipBytes": 181806,
-    "gzipKb": 177.5,
+    "jsBytes": 690246,
+    "jsKb": 674.1,
+    "gzipBytes": 182058,
+    "gzipKb": 177.8,
     "cssFiles": [
       {
-        "file": "index-BaP5I6Cu.css",
-        "path": "assets/index-BaP5I6Cu.css",
-        "bytes": 12336,
-        "kb": 12,
-        "gzipBytes": 3225,
-        "gzipKb": 3.1
+        "file": "index-eoNuDxve.css",
+        "path": "assets/index-eoNuDxve.css",
+        "bytes": 12718,
+        "kb": 12.4,
+        "gzipBytes": 3279,
+        "gzipKb": 3.2
       }
     ],
-    "cssBytes": 12336,
-    "cssKb": 12,
-    "cssGzipBytes": 3225,
-    "cssGzipKb": 3.1
+    "cssBytes": 12718,
+    "cssKb": 12.4,
+    "cssGzipBytes": 3279,
+    "cssGzipKb": 3.2
   },
   "deferred": {
     "chunks": [
       {
-        "file": "aggregateEvidenceIssue-DTxGBuDP.js",
-        "path": "assets/aggregateEvidenceIssue-DTxGBuDP.js",
+        "file": "aggregateEvidenceIssue-kqb2JJ_a.js",
+        "path": "assets/aggregateEvidenceIssue-kqb2JJ_a.js",
         "bytes": 3717,
         "kb": 3.6,
-        "gzipBytes": 1482,
+        "gzipBytes": 1483,
         "gzipKb": 1.4
       },
       {
@@ -96,11 +96,11 @@
         "gzipKb": 1.1
       },
       {
-        "file": "autonomousCadence-B5YtwJVy.js",
-        "path": "assets/autonomousCadence-B5YtwJVy.js",
-        "bytes": 397,
+        "file": "autonomousCadence-UilXh1uo.js",
+        "path": "assets/autonomousCadence-UilXh1uo.js",
+        "bytes": 407,
         "kb": 0.4,
-        "gzipBytes": 244,
+        "gzipBytes": 250,
         "gzipKb": 0.2
       },
       {
@@ -128,11 +128,11 @@
         "gzipKb": 0.2
       },
       {
-        "file": "calendarReminder-Dqr9fUdA.js",
-        "path": "assets/calendarReminder-Dqr9fUdA.js",
+        "file": "calendarReminder-DDhJXJW4.js",
+        "path": "assets/calendarReminder-DDhJXJW4.js",
         "bytes": 1627,
         "kb": 1.6,
-        "gzipBytes": 930,
+        "gzipBytes": 931,
         "gzipKb": 0.9
       },
       {
@@ -168,8 +168,8 @@
         "gzipKb": 0.8
       },
       {
-        "file": "GameCanvas-BCdFduOw.js",
-        "path": "assets/GameCanvas-BCdFduOw.js",
+        "file": "GameCanvas-EdWAuRVW.js",
+        "path": "assets/GameCanvas-EdWAuRVW.js",
         "bytes": 3430,
         "kb": 3.3,
         "gzipBytes": 1239,
@@ -224,11 +224,11 @@
         "gzipKb": 2.4
       },
       {
-        "file": "liveSiteMonitor-jzGczS7z.js",
-        "path": "assets/liveSiteMonitor-jzGczS7z.js",
-        "bytes": 1337,
+        "file": "liveSiteMonitor-D1UZL029.js",
+        "path": "assets/liveSiteMonitor-D1UZL029.js",
+        "bytes": 1331,
         "kb": 1.3,
-        "gzipBytes": 624,
+        "gzipBytes": 621,
         "gzipKb": 0.6
       },
       {
@@ -272,19 +272,19 @@
         "gzipKb": 0.3
       },
       {
-        "file": "productionActivation-B7nN9ZIY.js",
-        "path": "assets/productionActivation-B7nN9ZIY.js",
-        "bytes": 3002,
-        "kb": 2.9,
-        "gzipBytes": 1248,
-        "gzipKb": 1.2
+        "file": "productionActivation-BR3O4Qe9.js",
+        "path": "assets/productionActivation-BR3O4Qe9.js",
+        "bytes": 2505,
+        "kb": 2.4,
+        "gzipBytes": 1098,
+        "gzipKb": 1.1
       },
       {
-        "file": "productionBlockerHandoff-5zo872fn.js",
-        "path": "assets/productionBlockerHandoff-5zo872fn.js",
-        "bytes": 8803,
+        "file": "productionBlockerHandoff-C8sYfBS9.js",
+        "path": "assets/productionBlockerHandoff-C8sYfBS9.js",
+        "bytes": 8791,
         "kb": 8.6,
-        "gzipBytes": 2232,
+        "gzipBytes": 2230,
         "gzipKb": 2.2
       },
       {
@@ -296,24 +296,24 @@
         "gzipKb": 0.1
       },
       {
-        "file": "productionEnvironment-DTOoxEy0.js",
-        "path": "assets/productionEnvironment-DTOoxEy0.js",
+        "file": "productionEnvironment-OsvIM4EK.js",
+        "path": "assets/productionEnvironment-OsvIM4EK.js",
         "bytes": 5019,
         "kb": 4.9,
         "gzipBytes": 1933,
         "gzipKb": 1.9
       },
       {
-        "file": "productionMeasurementStatus-CJ670MnH.js",
-        "path": "assets/productionMeasurementStatus-CJ670MnH.js",
+        "file": "productionMeasurementStatus-B76vUQEp.js",
+        "path": "assets/productionMeasurementStatus-B76vUQEp.js",
         "bytes": 6790,
         "kb": 6.6,
-        "gzipBytes": 1830,
+        "gzipBytes": 1829,
         "gzipKb": 1.8
       },
       {
-        "file": "publicRepoSecurityAudit-B3fZov0t.js",
-        "path": "assets/publicRepoSecurityAudit-B3fZov0t.js",
+        "file": "publicRepoSecurityAudit-CIUv7vll.js",
+        "path": "assets/publicRepoSecurityAudit-CIUv7vll.js",
         "bytes": 460,
         "kb": 0.4,
         "gzipBytes": 321,
@@ -352,33 +352,33 @@
         "gzipKb": 0.3
       },
       {
-        "file": "storeCompliance-BwpBraiH.js",
-        "path": "assets/storeCompliance-BwpBraiH.js",
+        "file": "storeCompliance-DtggDSCQ.js",
+        "path": "assets/storeCompliance-DtggDSCQ.js",
         "bytes": 4797,
         "kb": 4.7,
         "gzipBytes": 1864,
         "gzipKb": 1.8
       },
       {
-        "file": "storeListingOptimizer-zDmBZ2EU.js",
-        "path": "assets/storeListingOptimizer-zDmBZ2EU.js",
+        "file": "storeListingOptimizer-Cca7IUpQ.js",
+        "path": "assets/storeListingOptimizer-Cca7IUpQ.js",
         "bytes": 9314,
         "kb": 9.1,
-        "gzipBytes": 2324,
+        "gzipBytes": 2323,
         "gzipKb": 2.3
       },
       {
-        "file": "storeReadiness-DdSjPq-D.js",
-        "path": "assets/storeReadiness-DdSjPq-D.js",
+        "file": "storeReadiness-W-frL1ii.js",
+        "path": "assets/storeReadiness-W-frL1ii.js",
         "bytes": 18045,
         "kb": 17.6,
-        "gzipBytes": 4476,
+        "gzipBytes": 4475,
         "gzipKb": 4.4
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-BCdFduOw.js",
-      "path": "assets/GameCanvas-BCdFduOw.js",
+      "file": "GameCanvas-EdWAuRVW.js",
+      "path": "assets/GameCanvas-EdWAuRVW.js",
       "bytes": 3430,
       "kb": 3.3,
       "gzipBytes": 1239,
@@ -400,17 +400,17 @@
       "gzipBytes": 350097,
       "gzipKb": 341.9
     },
-    "chunksBytes": 1497880,
-    "chunksKb": 1462.8
+    "chunksBytes": 1497375,
+    "chunksKb": 1462.3
   },
   "assets": {
     "js": [
       {
-        "file": "aggregateEvidenceIssue-DTxGBuDP.js",
-        "path": "assets/aggregateEvidenceIssue-DTxGBuDP.js",
+        "file": "aggregateEvidenceIssue-kqb2JJ_a.js",
+        "path": "assets/aggregateEvidenceIssue-kqb2JJ_a.js",
         "bytes": 3717,
         "kb": 3.6,
-        "gzipBytes": 1482,
+        "gzipBytes": 1483,
         "gzipKb": 1.4
       },
       {
@@ -438,11 +438,11 @@
         "gzipKb": 1.1
       },
       {
-        "file": "autonomousCadence-B5YtwJVy.js",
-        "path": "assets/autonomousCadence-B5YtwJVy.js",
-        "bytes": 397,
+        "file": "autonomousCadence-UilXh1uo.js",
+        "path": "assets/autonomousCadence-UilXh1uo.js",
+        "bytes": 407,
         "kb": 0.4,
-        "gzipBytes": 244,
+        "gzipBytes": 250,
         "gzipKb": 0.2
       },
       {
@@ -470,11 +470,11 @@
         "gzipKb": 0.2
       },
       {
-        "file": "calendarReminder-Dqr9fUdA.js",
-        "path": "assets/calendarReminder-Dqr9fUdA.js",
+        "file": "calendarReminder-DDhJXJW4.js",
+        "path": "assets/calendarReminder-DDhJXJW4.js",
         "bytes": 1627,
         "kb": 1.6,
-        "gzipBytes": 930,
+        "gzipBytes": 931,
         "gzipKb": 0.9
       },
       {
@@ -510,8 +510,8 @@
         "gzipKb": 0.8
       },
       {
-        "file": "GameCanvas-BCdFduOw.js",
-        "path": "assets/GameCanvas-BCdFduOw.js",
+        "file": "GameCanvas-EdWAuRVW.js",
+        "path": "assets/GameCanvas-EdWAuRVW.js",
         "bytes": 3430,
         "kb": 3.3,
         "gzipBytes": 1239,
@@ -550,12 +550,12 @@
         "gzipKb": 0.5
       },
       {
-        "file": "index-DRzbOr9-.js",
-        "path": "assets/index-DRzbOr9-.js",
-        "bytes": 688294,
-        "kb": 672.2,
-        "gzipBytes": 181664,
-        "gzipKb": 177.4
+        "file": "index-CnoLD6LN.js",
+        "path": "assets/index-CnoLD6LN.js",
+        "bytes": 690072,
+        "kb": 673.9,
+        "gzipBytes": 181916,
+        "gzipKb": 177.7
       },
       {
         "file": "iosRelease-ZemIN45r.js",
@@ -574,11 +574,11 @@
         "gzipKb": 2.4
       },
       {
-        "file": "liveSiteMonitor-jzGczS7z.js",
-        "path": "assets/liveSiteMonitor-jzGczS7z.js",
-        "bytes": 1337,
+        "file": "liveSiteMonitor-D1UZL029.js",
+        "path": "assets/liveSiteMonitor-D1UZL029.js",
+        "bytes": 1331,
         "kb": 1.3,
-        "gzipBytes": 624,
+        "gzipBytes": 621,
         "gzipKb": 0.6
       },
       {
@@ -622,19 +622,19 @@
         "gzipKb": 0.3
       },
       {
-        "file": "productionActivation-B7nN9ZIY.js",
-        "path": "assets/productionActivation-B7nN9ZIY.js",
-        "bytes": 3002,
-        "kb": 2.9,
-        "gzipBytes": 1248,
-        "gzipKb": 1.2
+        "file": "productionActivation-BR3O4Qe9.js",
+        "path": "assets/productionActivation-BR3O4Qe9.js",
+        "bytes": 2505,
+        "kb": 2.4,
+        "gzipBytes": 1098,
+        "gzipKb": 1.1
       },
       {
-        "file": "productionBlockerHandoff-5zo872fn.js",
-        "path": "assets/productionBlockerHandoff-5zo872fn.js",
-        "bytes": 8803,
+        "file": "productionBlockerHandoff-C8sYfBS9.js",
+        "path": "assets/productionBlockerHandoff-C8sYfBS9.js",
+        "bytes": 8791,
         "kb": 8.6,
-        "gzipBytes": 2232,
+        "gzipBytes": 2230,
         "gzipKb": 2.2
       },
       {
@@ -646,24 +646,24 @@
         "gzipKb": 0.1
       },
       {
-        "file": "productionEnvironment-DTOoxEy0.js",
-        "path": "assets/productionEnvironment-DTOoxEy0.js",
+        "file": "productionEnvironment-OsvIM4EK.js",
+        "path": "assets/productionEnvironment-OsvIM4EK.js",
         "bytes": 5019,
         "kb": 4.9,
         "gzipBytes": 1933,
         "gzipKb": 1.9
       },
       {
-        "file": "productionMeasurementStatus-CJ670MnH.js",
-        "path": "assets/productionMeasurementStatus-CJ670MnH.js",
+        "file": "productionMeasurementStatus-B76vUQEp.js",
+        "path": "assets/productionMeasurementStatus-B76vUQEp.js",
         "bytes": 6790,
         "kb": 6.6,
-        "gzipBytes": 1830,
+        "gzipBytes": 1829,
         "gzipKb": 1.8
       },
       {
-        "file": "publicRepoSecurityAudit-B3fZov0t.js",
-        "path": "assets/publicRepoSecurityAudit-B3fZov0t.js",
+        "file": "publicRepoSecurityAudit-CIUv7vll.js",
+        "path": "assets/publicRepoSecurityAudit-CIUv7vll.js",
         "bytes": 460,
         "kb": 0.4,
         "gzipBytes": 321,
@@ -710,38 +710,38 @@
         "gzipKb": 0.3
       },
       {
-        "file": "storeCompliance-BwpBraiH.js",
-        "path": "assets/storeCompliance-BwpBraiH.js",
+        "file": "storeCompliance-DtggDSCQ.js",
+        "path": "assets/storeCompliance-DtggDSCQ.js",
         "bytes": 4797,
         "kb": 4.7,
         "gzipBytes": 1864,
         "gzipKb": 1.8
       },
       {
-        "file": "storeListingOptimizer-zDmBZ2EU.js",
-        "path": "assets/storeListingOptimizer-zDmBZ2EU.js",
+        "file": "storeListingOptimizer-Cca7IUpQ.js",
+        "path": "assets/storeListingOptimizer-Cca7IUpQ.js",
         "bytes": 9314,
         "kb": 9.1,
-        "gzipBytes": 2324,
+        "gzipBytes": 2323,
         "gzipKb": 2.3
       },
       {
-        "file": "storeReadiness-DdSjPq-D.js",
-        "path": "assets/storeReadiness-DdSjPq-D.js",
+        "file": "storeReadiness-W-frL1ii.js",
+        "path": "assets/storeReadiness-W-frL1ii.js",
         "bytes": 18045,
         "kb": 17.6,
-        "gzipBytes": 4476,
+        "gzipBytes": 4475,
         "gzipKb": 4.4
       }
     ],
     "css": [
       {
-        "file": "index-BaP5I6Cu.css",
-        "path": "assets/index-BaP5I6Cu.css",
-        "bytes": 12336,
-        "kb": 12,
-        "gzipBytes": 3225,
-        "gzipKb": 3.1
+        "file": "index-eoNuDxve.css",
+        "path": "assets/index-eoNuDxve.css",
+        "bytes": 12718,
+        "kb": 12.4,
+        "gzipBytes": 3279,
+        "gzipKb": 3.2
       }
     ],
     "manifestExists": true,
@@ -760,22 +760,22 @@
     {
       "id": "initial-js-target",
       "status": "pass",
-      "detail": "Initial JS is 672.3 KB; target is 686 KB."
+      "detail": "Initial JS is 674.1 KB; target is 686 KB."
     },
     {
       "id": "initial-js-budget",
       "status": "pass",
-      "detail": "Initial JS is 672.3 KB; deploy cap is 700 KB."
+      "detail": "Initial JS is 674.1 KB; deploy cap is 700 KB."
     },
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 177.5 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 177.8 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
       "status": "pass",
-      "detail": "Initial CSS is 12 KB; budget is 40 KB."
+      "detail": "Initial CSS is 12.4 KB; budget is 40 KB."
     },
     {
       "id": "manifest",
@@ -790,7 +790,7 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-BCdFduOw.js is deferred from the initial shell."
+      "detail": "GameCanvas-EdWAuRVW.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",

@@ -1,8 +1,8 @@
 export const performanceBudget = {
   "status": "performance-budget-ready",
   "initial": {
-    "jsKb": 672.3,
-    "gzipKb": 177.5
+    "jsKb": 674.1,
+    "gzipKb": 177.8
   },
   "deferred": {
     "gameChunk": {

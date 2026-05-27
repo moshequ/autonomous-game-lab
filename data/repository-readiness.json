@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T06:01:31.170Z",
+  "generatedAt": "2026-05-27T06:15:27.075Z",
   "status": "repository-channel-ready",
   "envFiles": {
     "loaded": false,
@@ -39,7 +39,7 @@
     "insideWorkTree": true,
     "gitRoot": "/home/runner/work/autonomous-game-lab/autonomous-game-lab",
     "currentBranch": "main",
-    "dirtyFiles": 81,
+    "dirtyFiles": 79,
     "dirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -76,7 +76,6 @@
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
       "public/product-gate-recovery.json",
-      "public/store-readiness.html",
       "public/store-readiness.json",
       "reports/deployment-plan-latest.md",
       "reports/live-site-monitor-latest.md",
@@ -112,7 +111,6 @@
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBlockerHandoff.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
@@ -123,7 +121,7 @@
       "src/data/storeListingOptimizer.ts",
       "src/data/storeReadiness.ts"
     ],
-    "generatedEvidenceDirtyFiles": 81,
+    "generatedEvidenceDirtyFiles": 79,
     "generatedEvidenceDirtyPaths": [
       "data/deployment-plan.json",
       "data/live-site-monitor.json",
@@ -160,7 +158,6 @@
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
       "public/product-gate-recovery.json",
-      "public/store-readiness.html",
       "public/store-readiness.json",
       "reports/deployment-plan-latest.md",
       "reports/live-site-monitor-latest.md",
@@ -196,7 +193,6 @@
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBlockerHandoff.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
@@ -244,7 +240,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-e5009fc5ec79",
+    "releaseCandidateId": "pwa-353ae30b1fb9",
     "postDeploySmokeStatus": "post-deploy-smoke-observed-live",
     "liveSettings": {
       "status": "inspected",
