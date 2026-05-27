@@ -77,6 +77,7 @@
       .metric,
       .recommended,
       .mission,
+      .sprint,
       .handoff {
         border: 1px solid #cbd8d4;
         border-radius: 8px;
@@ -153,6 +154,27 @@
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 14px;
+      }
+
+      .sprint {
+        display: grid;
+        gap: 16px;
+        margin: 16px 0;
+        padding: 18px;
+        border-left: 4px solid #275b55;
+      }
+
+      .sprintStats {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .sprintRoutes {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding-left: 18px;
+        color: #4a5753;
+        line-height: 1.5;
       }
 
       .mission {
@@ -312,6 +334,7 @@
         .recommended,
         .summary,
         .missions,
+        .sprintStats,
         .handoffGrid,
         .missionActions {
           grid-template-columns: 1fr;
@@ -356,6 +379,24 @@
           <button class="export" type="button" data-export-campaign="gate-sample-20260527-firstGameCompletion">Export evidence</button>
           <button class="evidence" type="button" data-evidence-campaign="gate-sample-20260527-firstGameCompletion">Share evidence</button>
         </div>
+      </section>
+      <section class="sprint" aria-label="Evidence sprint plan" data-sprint-id="zero-spend-product-gate-evidence-sprint">
+        <div>
+          <p class="eyebrow">Evidence sprint</p>
+          <h2>Zero-spend product gate evidence sprint</h2>
+          <p>Route quotas package the current failing gates into a zero-spend player invite sprint. Counts are lower bounds for observed telemetry, not synthetic sessions or paid traffic targets.</p>
+        </div>
+        <dl class="sprintStats" aria-label="Evidence sprint summary">
+          <div><dt>Status</dt><dd>ready-for-player-invite-sprint</dd></div>
+          <div><dt>Window</dt><dd>2026-05-27 to 2026-05-28</dd></div>
+          <div><dt>Routes</dt><dd>3</dd></div>
+          <div><dt>Minimum runs</dt><dd>168</dd></div>
+        </dl>
+        <ul class="sprintRoutes" aria-label="Evidence sprint route quotas">
+          <li><strong>First game completion</strong> needs 30 view(s), 128 success(es), and 128 counted run(s).</li>
+          <li><strong>Replay rate</strong> needs 30 view(s), 10 success(es), and 30 counted run(s).</li>
+          <li><strong>D1 retention</strong> needs 10 view(s), 1 success(es), and 10 counted run(s). Return 2026-05-28 via /?game=market-pulse&amp;utm_source=gate_sample&amp;utm_campaign=gate-sample-20260527-d1Retention&amp;return_intent=2026-05-28.</li>
+        </ul>
       </section>
       <section class="missions" aria-label="Gate sample missions">
         <article class="mission" data-mission-id="collect-firstGameCompletion-sample" data-gate-id="firstGameCompletion" data-campaign-id="gate-sample-20260527-firstGameCompletion" data-sample-role="primary-bottleneck">

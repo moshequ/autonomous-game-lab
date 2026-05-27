@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-27T10:45:44.188Z",
-  "sourceDataHash": "a45102a13201",
+  "generatedAt": "2026-05-27T13:22:04.553Z",
+  "sourceDataHash": "7bd96d71c91a",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -39,7 +39,7 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T13:53:13.086Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 116.88,
+    "scanAgeHours": 119.48,
     "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
   },
@@ -104,6 +104,224 @@
     "zeroPaidSpend": true,
     "playerInitiatedOnly": true,
     "noSyntheticEvents": true
+  },
+  "evidenceSprintPlan": {
+    "id": "zero-spend-product-gate-evidence-sprint",
+    "title": "Zero-spend product gate evidence sprint",
+    "status": "ready-for-player-invite-sprint",
+    "sprintDate": "2026-05-27",
+    "durationDays": 2,
+    "primaryRouteId": "gate-sample-firstGameCompletion",
+    "fastestRouteId": "gate-sample-d1Retention",
+    "defaultRouteId": "gate-sample-firstGameCompletion",
+    "primaryCampaignId": "gate-sample-20260527-firstGameCompletion",
+    "fastestCampaignId": "gate-sample-20260527-d1Retention",
+    "defaultCampaignId": "gate-sample-20260527-firstGameCompletion",
+    "publicSamplePage": "/gate-sample.html",
+    "measurementStatusPage": "/measurement-status.html",
+    "totals": {
+      "routes": 3,
+      "failingGates": 3,
+      "promptViewQuota": 70,
+      "observedSuccessQuota": 139,
+      "minimumCountedRunsNeeded": 168,
+      "sameSessionRoutes": 2,
+      "returnHandoffRoutes": 1
+    },
+    "routeQuotas": [
+      {
+        "routeId": "gate-sample-firstGameCompletion",
+        "priority": 1,
+        "sampleRole": "primary-bottleneck",
+        "gateId": "firstGameCompletion",
+        "label": "First game completion",
+        "gameId": "harbor-rings",
+        "title": "Harbor Rings",
+        "campaignId": "gate-sample-20260527-firstGameCompletion",
+        "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-firstGameCompletion",
+        "publicSamplePage": "/gate-sample.html",
+        "neededPromptViews": 30,
+        "neededObservedSuccesses": 128,
+        "minimumPromptViewsForDecision": 30,
+        "minimumCountedRunsNeeded": 128,
+        "quotaBasis": "Conservative lower bound: max(prompt views needed, observed successes needed), not a conversion forecast.",
+        "evidenceStatus": "waiting-for-player-export",
+        "latencyDays": 0,
+        "sameSessionPlayable": true,
+        "returnHandoffRequired": false,
+        "returnIntentDate": null,
+        "returnPath": null,
+        "followUpWindow": null,
+        "controls": {
+          "zeroPaidSpend": true,
+          "playerInitiatedOnly": true,
+          "noAutomaticMessaging": true,
+          "noSyntheticEvents": true,
+          "noExternalUpload": true,
+          "noRevenueEnablement": true,
+          "noStoreSubmission": true
+        }
+      },
+      {
+        "routeId": "gate-sample-replayRate",
+        "priority": 2,
+        "sampleRole": "supporting-sample",
+        "gateId": "replayRate",
+        "label": "Replay rate",
+        "gameId": "harbor-rings",
+        "title": "Harbor Rings",
+        "campaignId": "gate-sample-20260527-replayRate",
+        "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-replayRate",
+        "publicSamplePage": "/gate-sample.html",
+        "neededPromptViews": 30,
+        "neededObservedSuccesses": 10,
+        "minimumPromptViewsForDecision": 30,
+        "minimumCountedRunsNeeded": 30,
+        "quotaBasis": "Conservative lower bound: max(prompt views needed, observed successes needed), not a conversion forecast.",
+        "evidenceStatus": "waiting-for-player-export",
+        "latencyDays": 0,
+        "sameSessionPlayable": true,
+        "returnHandoffRequired": false,
+        "returnIntentDate": null,
+        "returnPath": null,
+        "followUpWindow": null,
+        "controls": {
+          "zeroPaidSpend": true,
+          "playerInitiatedOnly": true,
+          "noAutomaticMessaging": true,
+          "noSyntheticEvents": true,
+          "noExternalUpload": true,
+          "noRevenueEnablement": true,
+          "noStoreSubmission": true
+        }
+      },
+      {
+        "routeId": "gate-sample-d1Retention",
+        "priority": 3,
+        "sampleRole": "fastest-validation",
+        "gateId": "d1Retention",
+        "label": "D1 retention",
+        "gameId": "market-pulse",
+        "title": "Market Pulse",
+        "campaignId": "gate-sample-20260527-d1Retention",
+        "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention",
+        "publicSamplePage": "/gate-sample.html",
+        "neededPromptViews": 10,
+        "neededObservedSuccesses": 1,
+        "minimumPromptViewsForDecision": 10,
+        "minimumCountedRunsNeeded": 10,
+        "quotaBasis": "Conservative lower bound: max(prompt views needed, observed successes needed), not a conversion forecast.",
+        "evidenceStatus": "waiting-for-player-export",
+        "latencyDays": 1,
+        "sameSessionPlayable": false,
+        "returnHandoffRequired": true,
+        "returnIntentDate": "2026-05-28",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention&return_intent=2026-05-28",
+        "followUpWindow": {
+          "date": "2026-05-28",
+          "dayOffset": 1,
+          "action": "player-initiated-return-session",
+          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention&return_intent=2026-05-28"
+        },
+        "controls": {
+          "zeroPaidSpend": true,
+          "playerInitiatedOnly": true,
+          "noAutomaticMessaging": true,
+          "noSyntheticEvents": true,
+          "noExternalUpload": true,
+          "noRevenueEnablement": true,
+          "noStoreSubmission": true
+        }
+      }
+    ],
+    "schedule": {
+      "startDate": "2026-05-27",
+      "endDate": "2026-05-28",
+      "startActions": [
+        {
+          "date": "2026-05-27",
+          "dayOffset": 0,
+          "routeId": "gate-sample-firstGameCompletion",
+          "campaignId": "gate-sample-20260527-firstGameCompletion",
+          "gateId": "firstGameCompletion",
+          "path": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-firstGameCompletion",
+          "minimumCountedRunsNeeded": 128,
+          "action": "share-player-initiated-sample-route"
+        },
+        {
+          "date": "2026-05-27",
+          "dayOffset": 0,
+          "routeId": "gate-sample-replayRate",
+          "campaignId": "gate-sample-20260527-replayRate",
+          "gateId": "replayRate",
+          "path": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-replayRate",
+          "minimumCountedRunsNeeded": 30,
+          "action": "share-player-initiated-sample-route"
+        },
+        {
+          "date": "2026-05-27",
+          "dayOffset": 0,
+          "routeId": "gate-sample-d1Retention",
+          "campaignId": "gate-sample-20260527-d1Retention",
+          "gateId": "d1Retention",
+          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention",
+          "minimumCountedRunsNeeded": 10,
+          "action": "share-player-initiated-sample-route"
+        }
+      ],
+      "followUps": [
+        {
+          "date": "2026-05-28",
+          "dayOffset": 1,
+          "action": "player-initiated-return-session",
+          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention&return_intent=2026-05-28",
+          "routeId": "gate-sample-d1Retention",
+          "campaignId": "gate-sample-20260527-d1Retention",
+          "gateId": "d1Retention",
+          "minimumCountedRunsNeeded": 10
+        }
+      ],
+      "completionCriteria": [
+        "Each route meets its prompt-view quota from real player telemetry.",
+        "Each route meets its observed-success quota from local event drops or configured production analytics.",
+        "D1 retention routes include the return-session follow-up before gate decisions.",
+        "Public aggregate notes are reviewed as supporting diagnosis only."
+      ]
+    },
+    "commands": {
+      "collectLocalDrops": "npm run autonomous:collect-local-event-drops",
+      "collectSampleDownloads": "npm run autonomous:collect-sample-downloads",
+      "refreshWatchdog": "npm run autonomous:player-evidence-watchdog",
+      "refreshMeasurement": "npm run autonomous:measurement-status",
+      "refreshGateRecovery": "npm run autonomous:gate-recovery",
+      "refreshSamplePlan": "npm run autonomous:sample-plan"
+    },
+    "handoff": {
+      "localDropInbox": "data/player-events/inbox",
+      "filenamePattern": "player-events*.json",
+      "configuredDropDirEnv": "AGL_LOCAL_EVENT_DROP_DIRS",
+      "aggregateEvidenceRepository": "moshequ/autonomous-game-lab",
+      "aggregateEvidenceIssueTemplate": "analytics-evidence.yml",
+      "invitePackPage": "/measurement-status.html"
+    },
+    "controls": {
+      "zeroPaidSpend": true,
+      "noPaidTraffic": true,
+      "playerInitiatedOnly": true,
+      "noAutomaticMessaging": true,
+      "noExternalUpload": true,
+      "noAutomaticDownloadsScan": true,
+      "downloadsImportRequiresExplicitOptIn": true,
+      "noRawEventsInPublicIssues": true,
+      "publicAggregateEvidenceIsSupportingOnly": true,
+      "aggregateEvidenceDoesNotPassGates": true,
+      "noGateDecisionFromSprintAlone": true,
+      "requireObservedTelemetryBeforeRecoveryChange": true,
+      "manualReviewRequiredForGateDecisions": true,
+      "noSyntheticEvents": true,
+      "noRevenueEnablement": true,
+      "noStoreSubmission": true
+    }
   },
   "runtimeEvidencePolicy": {
     "status": "active",

@@ -1,8 +1,8 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-27T10:45:44.188Z
+Generated: 2026-05-27T13:22:04.553Z
 Status: product-gate-sample-plan-ready
-Source hash: a45102a13201
+Source hash: 7bd96d71c91a
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
 Default route: firstGameCompletion (gate-sample-20260527-firstGameCompletion)
@@ -13,6 +13,7 @@ Imported gate-sample events: 0
 Inbox gate-sample events: 0
 Supporting aggregate evidence notes: 0
 Return handoff missions: 1
+Evidence sprint: ready-for-player-invite-sprint; routes 3; minimum counted runs 168
 Downloads scan: no-evidence-found; cooling down false
 Next recommended Downloads scan: 2026-05-22T17:53:13.086Z
 Public sample page: /gate-sample.html
@@ -25,6 +26,15 @@ Runtime evidence policy: active
 - #1 firstGameCompletion: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 40% / 55%; needs 30 prompt view(s), 128 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-firstGameCompletion
 - #2 replayRate: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 31% / 35%; needs 30 prompt view(s), 10 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-replayRate
 - #3 d1Retention: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention
+
+## Evidence Sprint
+
+- Status: ready-for-player-invite-sprint
+- Window: 2026-05-27 to 2026-05-28
+- Minimum counted runs: 168
+- gate-sample-firstGameCompletion: 30 prompt view(s), 128 success(es), 128 counted run(s); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-firstGameCompletion
+- gate-sample-replayRate: 30 prompt view(s), 10 success(es), 30 counted run(s); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-replayRate
+- gate-sample-d1Retention: 10 prompt view(s), 1 success(es), 10 counted run(s); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention
 
 ## Commands
 

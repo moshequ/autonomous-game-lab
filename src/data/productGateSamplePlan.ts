@@ -42,6 +42,80 @@ export const productGateSamplePlan = {
       "noRevenueEnablement": true
     }
   },
+  "evidenceSprintPlan": {
+    "id": "zero-spend-product-gate-evidence-sprint",
+    "status": "ready-for-player-invite-sprint",
+    "sprintDate": "2026-05-27",
+    "durationDays": 2,
+    "totals": {
+      "routes": 3,
+      "failingGates": 3,
+      "promptViewQuota": 70,
+      "observedSuccessQuota": 139,
+      "minimumCountedRunsNeeded": 168,
+      "sameSessionRoutes": 2,
+      "returnHandoffRoutes": 1
+    },
+    "routeQuotas": [
+      {
+        "routeId": "gate-sample-firstGameCompletion",
+        "priority": 1,
+        "sampleRole": "primary-bottleneck",
+        "gateId": "firstGameCompletion",
+        "gameId": "harbor-rings",
+        "title": "Harbor Rings",
+        "campaignId": "gate-sample-20260527-firstGameCompletion",
+        "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-firstGameCompletion",
+        "neededPromptViews": 30,
+        "neededObservedSuccesses": 128,
+        "minimumCountedRunsNeeded": 128,
+        "latencyDays": 0,
+        "returnHandoffRequired": false,
+        "returnIntentDate": null,
+        "returnPath": null
+      },
+      {
+        "routeId": "gate-sample-replayRate",
+        "priority": 2,
+        "sampleRole": "supporting-sample",
+        "gateId": "replayRate",
+        "gameId": "harbor-rings",
+        "title": "Harbor Rings",
+        "campaignId": "gate-sample-20260527-replayRate",
+        "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260527-replayRate",
+        "neededPromptViews": 30,
+        "neededObservedSuccesses": 10,
+        "minimumCountedRunsNeeded": 30,
+        "latencyDays": 0,
+        "returnHandoffRequired": false,
+        "returnIntentDate": null,
+        "returnPath": null
+      },
+      {
+        "routeId": "gate-sample-d1Retention",
+        "priority": 3,
+        "sampleRole": "fastest-validation",
+        "gateId": "d1Retention",
+        "gameId": "market-pulse",
+        "title": "Market Pulse",
+        "campaignId": "gate-sample-20260527-d1Retention",
+        "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention",
+        "neededPromptViews": 10,
+        "neededObservedSuccesses": 1,
+        "minimumCountedRunsNeeded": 10,
+        "latencyDays": 1,
+        "returnHandoffRequired": true,
+        "returnIntentDate": "2026-05-28",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260527-d1Retention&return_intent=2026-05-28"
+      }
+    ],
+    "controls": {
+      "zeroPaidSpend": true,
+      "noAutomaticMessaging": true,
+      "noGateDecisionFromSprintAlone": true,
+      "noRevenueEnablement": true
+    }
+  },
   "controls": {
     "zeroPaidSpend": true,
     "sampleStartCreatesFreshRun": true
