@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-27T06:57:21.520Z",
+  "generatedAt": "2026-05-27T07:05:28.196Z",
   "status": "performance-budget-ready",
   "sourceBuild": "dist",
-  "basePath": "/",
+  "basePath": "/autonomous-game-lab/",
   "budgets": {
     "initialJsTargetBytes": 702464,
     "initialJsTargetKb": 686,
@@ -17,55 +17,55 @@
   },
   "initial": {
     "entryScripts": [
-      "index-CWh5hE7g.js",
+      "index-CZfmq8Dr.js",
       "registerSW.js"
     ],
     "scriptPaths": [
-      "assets/index-CWh5hE7g.js",
+      "assets/index-CZfmq8Dr.js",
       "registerSW.js"
     ],
     "jsFiles": [
       {
-        "file": "index-CWh5hE7g.js",
-        "path": "assets/index-CWh5hE7g.js",
-        "bytes": 691078,
+        "file": "index-CZfmq8Dr.js",
+        "path": "assets/index-CZfmq8Dr.js",
+        "bytes": 691110,
         "kb": 674.9,
-        "gzipBytes": 181976,
-        "gzipKb": 177.7
+        "gzipBytes": 182214,
+        "gzipKb": 177.9
       },
       {
         "file": "registerSW.js",
         "path": "registerSW.js",
         "bytes": 174,
         "kb": 0.2,
-        "gzipBytes": 141,
+        "gzipBytes": 142,
         "gzipKb": 0.1
       }
     ],
-    "jsBytes": 691252,
+    "jsBytes": 691284,
     "jsKb": 675.1,
-    "gzipBytes": 182117,
-    "gzipKb": 177.8,
+    "gzipBytes": 182356,
+    "gzipKb": 178.1,
     "cssFiles": [
       {
         "file": "index-eoNuDxve.css",
         "path": "assets/index-eoNuDxve.css",
         "bytes": 12718,
         "kb": 12.4,
-        "gzipBytes": 3277,
+        "gzipBytes": 3279,
         "gzipKb": 3.2
       }
     ],
     "cssBytes": 12718,
     "cssKb": 12.4,
-    "cssGzipBytes": 3277,
+    "cssGzipBytes": 3279,
     "cssGzipKb": 3.2
   },
   "deferred": {
     "chunks": [
       {
-        "file": "aggregateEvidenceIssue-B02MFP2r.js",
-        "path": "assets/aggregateEvidenceIssue-B02MFP2r.js",
+        "file": "aggregateEvidenceIssue-Cpiq-QRl.js",
+        "path": "assets/aggregateEvidenceIssue-Cpiq-QRl.js",
         "bytes": 3717,
         "kb": 3.6,
         "gzipBytes": 1483,
@@ -76,7 +76,7 @@
         "path": "assets/androidRelease-C2gq3O_q.js",
         "bytes": 4557,
         "kb": 4.5,
-        "gzipBytes": 1785,
+        "gzipBytes": 1775,
         "gzipKb": 1.7
       },
       {
@@ -84,7 +84,7 @@
         "path": "assets/androidRootAssetlinksHandoff-CZ4Ghohx.js",
         "bytes": 259,
         "kb": 0.3,
-        "gzipBytes": 216,
+        "gzipBytes": 215,
         "gzipKb": 0.2
       },
       {
@@ -92,15 +92,15 @@
         "path": "assets/androidSigning-BXjsVZZd.js",
         "bytes": 2480,
         "kb": 2.4,
-        "gzipBytes": 1164,
+        "gzipBytes": 1161,
         "gzipKb": 1.1
       },
       {
-        "file": "autonomousCadence-CcyL8nG1.js",
-        "path": "assets/autonomousCadence-CcyL8nG1.js",
-        "bytes": 407,
+        "file": "autonomousCadence-DYChlGRq.js",
+        "path": "assets/autonomousCadence-DYChlGRq.js",
+        "bytes": 397,
         "kb": 0.4,
-        "gzipBytes": 250,
+        "gzipBytes": 244,
         "gzipKb": 0.2
       },
       {
@@ -108,7 +108,7 @@
         "path": "assets/autonomousOperator-B3GVlWtP.js",
         "bytes": 365,
         "kb": 0.4,
-        "gzipBytes": 257,
+        "gzipBytes": 258,
         "gzipKb": 0.3
       },
       {
@@ -116,7 +116,7 @@
         "path": "assets/autonomousOperatorHistory-DYg1vvRZ.js",
         "bytes": 278,
         "kb": 0.3,
-        "gzipBytes": 207,
+        "gzipBytes": 206,
         "gzipKb": 0.2
       },
       {
@@ -124,15 +124,15 @@
         "path": "assets/autonomousSelfUpdate-C_NgBywh.js",
         "bytes": 257,
         "kb": 0.3,
-        "gzipBytes": 196,
+        "gzipBytes": 197,
         "gzipKb": 0.2
       },
       {
-        "file": "calendarReminder-BLM2CQRQ.js",
-        "path": "assets/calendarReminder-BLM2CQRQ.js",
+        "file": "calendarReminder-CFyY7sk3.js",
+        "path": "assets/calendarReminder-CFyY7sk3.js",
         "bytes": 1627,
         "kb": 1.6,
-        "gzipBytes": 919,
+        "gzipBytes": 930,
         "gzipKb": 0.9
       },
       {
@@ -148,7 +148,7 @@
         "path": "assets/eventCollectorDeployment-B5k0P--U.js",
         "bytes": 4014,
         "kb": 3.9,
-        "gzipBytes": 1554,
+        "gzipBytes": 1555,
         "gzipKb": 1.5
       },
       {
@@ -156,7 +156,7 @@
         "path": "assets/FoundryLedgerScene-q6cT8Q_x.js",
         "bytes": 7446,
         "kb": 7.3,
-        "gzipBytes": 2544,
+        "gzipBytes": 2553,
         "gzipKb": 2.5
       },
       {
@@ -164,15 +164,15 @@
         "path": "assets/gameBalance-Deojcwu6.js",
         "bytes": 2657,
         "kb": 2.6,
-        "gzipBytes": 778,
+        "gzipBytes": 776,
         "gzipKb": 0.8
       },
       {
-        "file": "GameCanvas-MSPVUGwu.js",
-        "path": "assets/GameCanvas-MSPVUGwu.js",
+        "file": "GameCanvas--1ZE4Wkt.js",
+        "path": "assets/GameCanvas--1ZE4Wkt.js",
         "bytes": 3430,
         "kb": 3.3,
-        "gzipBytes": 1244,
+        "gzipBytes": 1240,
         "gzipKb": 1.2
       },
       {
@@ -180,7 +180,7 @@
         "path": "assets/GeneratedPuzzleScene-Dz8I6ren.js",
         "bytes": 7690,
         "kb": 7.5,
-        "gzipBytes": 2476,
+        "gzipBytes": 2480,
         "gzipKb": 2.4
       },
       {
@@ -188,7 +188,7 @@
         "path": "assets/HarborCircuitScene-EkC1AVSM.js",
         "bytes": 8026,
         "kb": 7.8,
-        "gzipBytes": 2573,
+        "gzipBytes": 2579,
         "gzipKb": 2.5
       },
       {
@@ -196,7 +196,7 @@
         "path": "assets/HarborRingsScene-vSkuOMLI.js",
         "bytes": 7117,
         "kb": 7,
-        "gzipBytes": 2461,
+        "gzipBytes": 2465,
         "gzipKb": 2.4
       },
       {
@@ -204,7 +204,7 @@
         "path": "assets/incidentDrill-BwbS0tFO.js",
         "bytes": 1066,
         "kb": 1,
-        "gzipBytes": 506,
+        "gzipBytes": 505,
         "gzipKb": 0.5
       },
       {
@@ -212,7 +212,7 @@
         "path": "assets/iosRelease-ZemIN45r.js",
         "bytes": 3789,
         "kb": 3.7,
-        "gzipBytes": 1561,
+        "gzipBytes": 1551,
         "gzipKb": 1.5
       },
       {
@@ -220,15 +220,15 @@
         "path": "assets/LanternRelayScene-B54FOhSc.js",
         "bytes": 7343,
         "kb": 7.2,
-        "gzipBytes": 2474,
+        "gzipBytes": 2483,
         "gzipKb": 2.4
       },
       {
-        "file": "liveSiteMonitor-jzzPH9D0.js",
-        "path": "assets/liveSiteMonitor-jzzPH9D0.js",
-        "bytes": 1338,
+        "file": "liveSiteMonitor-dE_WLNkb.js",
+        "path": "assets/liveSiteMonitor-dE_WLNkb.js",
+        "bytes": 1337,
         "kb": 1.3,
-        "gzipBytes": 632,
+        "gzipBytes": 621,
         "gzipKb": 0.6
       },
       {
@@ -236,7 +236,7 @@
         "path": "assets/localEventBridge-iTAMzbKV.js",
         "bytes": 5128,
         "kb": 5,
-        "gzipBytes": 1891,
+        "gzipBytes": 1885,
         "gzipKb": 1.8
       },
       {
@@ -244,7 +244,7 @@
         "path": "assets/nativePackage-B-VfYj6d.js",
         "bytes": 3655,
         "kb": 3.6,
-        "gzipBytes": 1396,
+        "gzipBytes": 1392,
         "gzipKb": 1.4
       },
       {
@@ -252,7 +252,7 @@
         "path": "assets/OrbitAtlasScene-JsRi22gu.js",
         "bytes": 8038,
         "kb": 7.8,
-        "gzipBytes": 2615,
+        "gzipBytes": 2627,
         "gzipKb": 2.6
       },
       {
@@ -260,63 +260,63 @@
         "path": "assets/phaser.esm-Bs14CRsP.js",
         "bytes": 1353147,
         "kb": 1321.4,
-        "gzipBytes": 348935,
-        "gzipKb": 340.8
+        "gzipBytes": 350097,
+        "gzipKb": 341.9
       },
       {
         "file": "playerEvidenceWatchdog-BXzz2ZNk.js",
         "path": "assets/playerEvidenceWatchdog-BXzz2ZNk.js",
         "bytes": 652,
         "kb": 0.6,
-        "gzipBytes": 361,
-        "gzipKb": 0.4
+        "gzipBytes": 358,
+        "gzipKb": 0.3
       },
       {
-        "file": "productionActivation-FyVBp094.js",
-        "path": "assets/productionActivation-FyVBp094.js",
-        "bytes": 2505,
-        "kb": 2.4,
-        "gzipBytes": 1099,
-        "gzipKb": 1.1
+        "file": "productionActivation-ePV0DAeZ.js",
+        "path": "assets/productionActivation-ePV0DAeZ.js",
+        "bytes": 2971,
+        "kb": 2.9,
+        "gzipBytes": 1220,
+        "gzipKb": 1.2
       },
       {
-        "file": "productionBlockerHandoff-C8sYfBS9.js",
-        "path": "assets/productionBlockerHandoff-C8sYfBS9.js",
-        "bytes": 8791,
+        "file": "productionBlockerHandoff-DBAKQcRx.js",
+        "path": "assets/productionBlockerHandoff-DBAKQcRx.js",
+        "bytes": 8775,
         "kb": 8.6,
-        "gzipBytes": 2241,
+        "gzipBytes": 2222,
         "gzipKb": 2.2
       },
       {
-        "file": "productionBootstrap-B-UdxnUy.js",
-        "path": "assets/productionBootstrap-B-UdxnUy.js",
-        "bytes": 172,
+        "file": "productionBootstrap-r_35wxWp.js",
+        "path": "assets/productionBootstrap-r_35wxWp.js",
+        "bytes": 176,
         "kb": 0.2,
-        "gzipBytes": 149,
+        "gzipBytes": 151,
         "gzipKb": 0.1
       },
       {
-        "file": "productionEnvironment-COIlLgBn.js",
-        "path": "assets/productionEnvironment-COIlLgBn.js",
+        "file": "productionEnvironment-df2aF0Z8.js",
+        "path": "assets/productionEnvironment-df2aF0Z8.js",
         "bytes": 5019,
         "kb": 4.9,
-        "gzipBytes": 1944,
+        "gzipBytes": 1934,
         "gzipKb": 1.9
       },
       {
-        "file": "productionMeasurementStatus-B2vX5nA-.js",
-        "path": "assets/productionMeasurementStatus-B2vX5nA-.js",
+        "file": "productionMeasurementStatus-CeMaxGR4.js",
+        "path": "assets/productionMeasurementStatus-CeMaxGR4.js",
         "bytes": 6920,
         "kb": 6.8,
-        "gzipBytes": 1881,
+        "gzipBytes": 1876,
         "gzipKb": 1.8
       },
       {
-        "file": "publicRepoSecurityAudit-CcsnA-ll.js",
-        "path": "assets/publicRepoSecurityAudit-CcsnA-ll.js",
+        "file": "publicRepoSecurityAudit-Uy-jm7Ru.js",
+        "path": "assets/publicRepoSecurityAudit-Uy-jm7Ru.js",
         "bytes": 460,
         "kb": 0.4,
-        "gzipBytes": 323,
+        "gzipBytes": 322,
         "gzipKb": 0.3
       },
       {
@@ -324,23 +324,23 @@
         "path": "assets/releaseHealth-DuVTJIpl.js",
         "bytes": 1650,
         "kb": 1.6,
-        "gzipBytes": 786,
+        "gzipBytes": 790,
         "gzipKb": 0.8
       },
       {
-        "file": "repositoryBootstrap-Bute31Ei.js",
-        "path": "assets/repositoryBootstrap-Bute31Ei.js",
-        "bytes": 297,
+        "file": "repositoryBootstrap-B6pnv02H.js",
+        "path": "assets/repositoryBootstrap-B6pnv02H.js",
+        "bytes": 290,
         "kb": 0.3,
-        "gzipBytes": 222,
+        "gzipBytes": 227,
         "gzipKb": 0.2
       },
       {
-        "file": "repositoryReadiness-BFpTqyLG.js",
-        "path": "assets/repositoryReadiness-BFpTqyLG.js",
-        "bytes": 466,
+        "file": "repositoryReadiness-78CAO_v4.js",
+        "path": "assets/repositoryReadiness-78CAO_v4.js",
+        "bytes": 461,
         "kb": 0.5,
-        "gzipBytes": 266,
+        "gzipBytes": 271,
         "gzipKb": 0.3
       },
       {
@@ -348,40 +348,40 @@
         "path": "assets/returnLink-ul_OOIxG.js",
         "bytes": 532,
         "kb": 0.5,
-        "gzipBytes": 348,
+        "gzipBytes": 347,
         "gzipKb": 0.3
       },
       {
-        "file": "storeCompliance-D_JVcSXt.js",
-        "path": "assets/storeCompliance-D_JVcSXt.js",
+        "file": "storeCompliance-CsEup5uH.js",
+        "path": "assets/storeCompliance-CsEup5uH.js",
         "bytes": 4797,
         "kb": 4.7,
-        "gzipBytes": 1881,
+        "gzipBytes": 1862,
         "gzipKb": 1.8
       },
       {
-        "file": "storeListingOptimizer-CsRIkiD-.js",
-        "path": "assets/storeListingOptimizer-CsRIkiD-.js",
+        "file": "storeListingOptimizer-CnOlqWnP.js",
+        "path": "assets/storeListingOptimizer-CnOlqWnP.js",
         "bytes": 9314,
         "kb": 9.1,
-        "gzipBytes": 2334,
+        "gzipBytes": 2323,
         "gzipKb": 2.3
       },
       {
-        "file": "storeReadiness-DUuzNSj7.js",
-        "path": "assets/storeReadiness-DUuzNSj7.js",
+        "file": "storeReadiness-BfnD6atd.js",
+        "path": "assets/storeReadiness-BfnD6atd.js",
         "bytes": 18045,
         "kb": 17.6,
-        "gzipBytes": 4474,
+        "gzipBytes": 4476,
         "gzipKb": 4.4
       }
     ],
     "gameChunk": {
-      "file": "GameCanvas-MSPVUGwu.js",
-      "path": "assets/GameCanvas-MSPVUGwu.js",
+      "file": "GameCanvas--1ZE4Wkt.js",
+      "path": "assets/GameCanvas--1ZE4Wkt.js",
       "bytes": 3430,
       "kb": 3.3,
-      "gzipBytes": 1244,
+      "gzipBytes": 1240,
       "gzipKb": 1.2
     },
     "largestDeferredChunk": {
@@ -389,25 +389,25 @@
       "path": "assets/phaser.esm-Bs14CRsP.js",
       "bytes": 1353147,
       "kb": 1321.4,
-      "gzipBytes": 348935,
-      "gzipKb": 340.8
+      "gzipBytes": 350097,
+      "gzipKb": 341.9
     },
     "largestJsChunk": {
       "file": "phaser.esm-Bs14CRsP.js",
       "path": "assets/phaser.esm-Bs14CRsP.js",
       "bytes": 1353147,
       "kb": 1321.4,
-      "gzipBytes": 348935,
-      "gzipKb": 340.8
+      "gzipBytes": 350097,
+      "gzipKb": 341.9
     },
-    "chunksBytes": 1497512,
-    "chunksKb": 1462.4
+    "chunksBytes": 1497943,
+    "chunksKb": 1462.8
   },
   "assets": {
     "js": [
       {
-        "file": "aggregateEvidenceIssue-B02MFP2r.js",
-        "path": "assets/aggregateEvidenceIssue-B02MFP2r.js",
+        "file": "aggregateEvidenceIssue-Cpiq-QRl.js",
+        "path": "assets/aggregateEvidenceIssue-Cpiq-QRl.js",
         "bytes": 3717,
         "kb": 3.6,
         "gzipBytes": 1483,
@@ -418,7 +418,7 @@
         "path": "assets/androidRelease-C2gq3O_q.js",
         "bytes": 4557,
         "kb": 4.5,
-        "gzipBytes": 1785,
+        "gzipBytes": 1775,
         "gzipKb": 1.7
       },
       {
@@ -426,7 +426,7 @@
         "path": "assets/androidRootAssetlinksHandoff-CZ4Ghohx.js",
         "bytes": 259,
         "kb": 0.3,
-        "gzipBytes": 216,
+        "gzipBytes": 215,
         "gzipKb": 0.2
       },
       {
@@ -434,15 +434,15 @@
         "path": "assets/androidSigning-BXjsVZZd.js",
         "bytes": 2480,
         "kb": 2.4,
-        "gzipBytes": 1164,
+        "gzipBytes": 1161,
         "gzipKb": 1.1
       },
       {
-        "file": "autonomousCadence-CcyL8nG1.js",
-        "path": "assets/autonomousCadence-CcyL8nG1.js",
-        "bytes": 407,
+        "file": "autonomousCadence-DYChlGRq.js",
+        "path": "assets/autonomousCadence-DYChlGRq.js",
+        "bytes": 397,
         "kb": 0.4,
-        "gzipBytes": 250,
+        "gzipBytes": 244,
         "gzipKb": 0.2
       },
       {
@@ -450,7 +450,7 @@
         "path": "assets/autonomousOperator-B3GVlWtP.js",
         "bytes": 365,
         "kb": 0.4,
-        "gzipBytes": 257,
+        "gzipBytes": 258,
         "gzipKb": 0.3
       },
       {
@@ -458,7 +458,7 @@
         "path": "assets/autonomousOperatorHistory-DYg1vvRZ.js",
         "bytes": 278,
         "kb": 0.3,
-        "gzipBytes": 207,
+        "gzipBytes": 206,
         "gzipKb": 0.2
       },
       {
@@ -466,15 +466,15 @@
         "path": "assets/autonomousSelfUpdate-C_NgBywh.js",
         "bytes": 257,
         "kb": 0.3,
-        "gzipBytes": 196,
+        "gzipBytes": 197,
         "gzipKb": 0.2
       },
       {
-        "file": "calendarReminder-BLM2CQRQ.js",
-        "path": "assets/calendarReminder-BLM2CQRQ.js",
+        "file": "calendarReminder-CFyY7sk3.js",
+        "path": "assets/calendarReminder-CFyY7sk3.js",
         "bytes": 1627,
         "kb": 1.6,
-        "gzipBytes": 919,
+        "gzipBytes": 930,
         "gzipKb": 0.9
       },
       {
@@ -490,7 +490,7 @@
         "path": "assets/eventCollectorDeployment-B5k0P--U.js",
         "bytes": 4014,
         "kb": 3.9,
-        "gzipBytes": 1554,
+        "gzipBytes": 1555,
         "gzipKb": 1.5
       },
       {
@@ -498,7 +498,7 @@
         "path": "assets/FoundryLedgerScene-q6cT8Q_x.js",
         "bytes": 7446,
         "kb": 7.3,
-        "gzipBytes": 2544,
+        "gzipBytes": 2553,
         "gzipKb": 2.5
       },
       {
@@ -506,15 +506,15 @@
         "path": "assets/gameBalance-Deojcwu6.js",
         "bytes": 2657,
         "kb": 2.6,
-        "gzipBytes": 778,
+        "gzipBytes": 776,
         "gzipKb": 0.8
       },
       {
-        "file": "GameCanvas-MSPVUGwu.js",
-        "path": "assets/GameCanvas-MSPVUGwu.js",
+        "file": "GameCanvas--1ZE4Wkt.js",
+        "path": "assets/GameCanvas--1ZE4Wkt.js",
         "bytes": 3430,
         "kb": 3.3,
-        "gzipBytes": 1244,
+        "gzipBytes": 1240,
         "gzipKb": 1.2
       },
       {
@@ -522,7 +522,7 @@
         "path": "assets/GeneratedPuzzleScene-Dz8I6ren.js",
         "bytes": 7690,
         "kb": 7.5,
-        "gzipBytes": 2476,
+        "gzipBytes": 2480,
         "gzipKb": 2.4
       },
       {
@@ -530,7 +530,7 @@
         "path": "assets/HarborCircuitScene-EkC1AVSM.js",
         "bytes": 8026,
         "kb": 7.8,
-        "gzipBytes": 2573,
+        "gzipBytes": 2579,
         "gzipKb": 2.5
       },
       {
@@ -538,7 +538,7 @@
         "path": "assets/HarborRingsScene-vSkuOMLI.js",
         "bytes": 7117,
         "kb": 7,
-        "gzipBytes": 2461,
+        "gzipBytes": 2465,
         "gzipKb": 2.4
       },
       {
@@ -546,23 +546,23 @@
         "path": "assets/incidentDrill-BwbS0tFO.js",
         "bytes": 1066,
         "kb": 1,
-        "gzipBytes": 506,
+        "gzipBytes": 505,
         "gzipKb": 0.5
       },
       {
-        "file": "index-CWh5hE7g.js",
-        "path": "assets/index-CWh5hE7g.js",
-        "bytes": 691078,
+        "file": "index-CZfmq8Dr.js",
+        "path": "assets/index-CZfmq8Dr.js",
+        "bytes": 691110,
         "kb": 674.9,
-        "gzipBytes": 181976,
-        "gzipKb": 177.7
+        "gzipBytes": 182214,
+        "gzipKb": 177.9
       },
       {
         "file": "iosRelease-ZemIN45r.js",
         "path": "assets/iosRelease-ZemIN45r.js",
         "bytes": 3789,
         "kb": 3.7,
-        "gzipBytes": 1561,
+        "gzipBytes": 1551,
         "gzipKb": 1.5
       },
       {
@@ -570,15 +570,15 @@
         "path": "assets/LanternRelayScene-B54FOhSc.js",
         "bytes": 7343,
         "kb": 7.2,
-        "gzipBytes": 2474,
+        "gzipBytes": 2483,
         "gzipKb": 2.4
       },
       {
-        "file": "liveSiteMonitor-jzzPH9D0.js",
-        "path": "assets/liveSiteMonitor-jzzPH9D0.js",
-        "bytes": 1338,
+        "file": "liveSiteMonitor-dE_WLNkb.js",
+        "path": "assets/liveSiteMonitor-dE_WLNkb.js",
+        "bytes": 1337,
         "kb": 1.3,
-        "gzipBytes": 632,
+        "gzipBytes": 621,
         "gzipKb": 0.6
       },
       {
@@ -586,7 +586,7 @@
         "path": "assets/localEventBridge-iTAMzbKV.js",
         "bytes": 5128,
         "kb": 5,
-        "gzipBytes": 1891,
+        "gzipBytes": 1885,
         "gzipKb": 1.8
       },
       {
@@ -594,7 +594,7 @@
         "path": "assets/nativePackage-B-VfYj6d.js",
         "bytes": 3655,
         "kb": 3.6,
-        "gzipBytes": 1396,
+        "gzipBytes": 1392,
         "gzipKb": 1.4
       },
       {
@@ -602,7 +602,7 @@
         "path": "assets/OrbitAtlasScene-JsRi22gu.js",
         "bytes": 8038,
         "kb": 7.8,
-        "gzipBytes": 2615,
+        "gzipBytes": 2627,
         "gzipKb": 2.6
       },
       {
@@ -610,63 +610,63 @@
         "path": "assets/phaser.esm-Bs14CRsP.js",
         "bytes": 1353147,
         "kb": 1321.4,
-        "gzipBytes": 348935,
-        "gzipKb": 340.8
+        "gzipBytes": 350097,
+        "gzipKb": 341.9
       },
       {
         "file": "playerEvidenceWatchdog-BXzz2ZNk.js",
         "path": "assets/playerEvidenceWatchdog-BXzz2ZNk.js",
         "bytes": 652,
         "kb": 0.6,
-        "gzipBytes": 361,
-        "gzipKb": 0.4
+        "gzipBytes": 358,
+        "gzipKb": 0.3
       },
       {
-        "file": "productionActivation-FyVBp094.js",
-        "path": "assets/productionActivation-FyVBp094.js",
-        "bytes": 2505,
-        "kb": 2.4,
-        "gzipBytes": 1099,
-        "gzipKb": 1.1
+        "file": "productionActivation-ePV0DAeZ.js",
+        "path": "assets/productionActivation-ePV0DAeZ.js",
+        "bytes": 2971,
+        "kb": 2.9,
+        "gzipBytes": 1220,
+        "gzipKb": 1.2
       },
       {
-        "file": "productionBlockerHandoff-C8sYfBS9.js",
-        "path": "assets/productionBlockerHandoff-C8sYfBS9.js",
-        "bytes": 8791,
+        "file": "productionBlockerHandoff-DBAKQcRx.js",
+        "path": "assets/productionBlockerHandoff-DBAKQcRx.js",
+        "bytes": 8775,
         "kb": 8.6,
-        "gzipBytes": 2241,
+        "gzipBytes": 2222,
         "gzipKb": 2.2
       },
       {
-        "file": "productionBootstrap-B-UdxnUy.js",
-        "path": "assets/productionBootstrap-B-UdxnUy.js",
-        "bytes": 172,
+        "file": "productionBootstrap-r_35wxWp.js",
+        "path": "assets/productionBootstrap-r_35wxWp.js",
+        "bytes": 176,
         "kb": 0.2,
-        "gzipBytes": 149,
+        "gzipBytes": 151,
         "gzipKb": 0.1
       },
       {
-        "file": "productionEnvironment-COIlLgBn.js",
-        "path": "assets/productionEnvironment-COIlLgBn.js",
+        "file": "productionEnvironment-df2aF0Z8.js",
+        "path": "assets/productionEnvironment-df2aF0Z8.js",
         "bytes": 5019,
         "kb": 4.9,
-        "gzipBytes": 1944,
+        "gzipBytes": 1934,
         "gzipKb": 1.9
       },
       {
-        "file": "productionMeasurementStatus-B2vX5nA-.js",
-        "path": "assets/productionMeasurementStatus-B2vX5nA-.js",
+        "file": "productionMeasurementStatus-CeMaxGR4.js",
+        "path": "assets/productionMeasurementStatus-CeMaxGR4.js",
         "bytes": 6920,
         "kb": 6.8,
-        "gzipBytes": 1881,
+        "gzipBytes": 1876,
         "gzipKb": 1.8
       },
       {
-        "file": "publicRepoSecurityAudit-CcsnA-ll.js",
-        "path": "assets/publicRepoSecurityAudit-CcsnA-ll.js",
+        "file": "publicRepoSecurityAudit-Uy-jm7Ru.js",
+        "path": "assets/publicRepoSecurityAudit-Uy-jm7Ru.js",
         "bytes": 460,
         "kb": 0.4,
-        "gzipBytes": 323,
+        "gzipBytes": 322,
         "gzipKb": 0.3
       },
       {
@@ -674,7 +674,7 @@
         "path": "registerSW.js",
         "bytes": 174,
         "kb": 0.2,
-        "gzipBytes": 141,
+        "gzipBytes": 142,
         "gzipKb": 0.1
       },
       {
@@ -682,23 +682,23 @@
         "path": "assets/releaseHealth-DuVTJIpl.js",
         "bytes": 1650,
         "kb": 1.6,
-        "gzipBytes": 786,
+        "gzipBytes": 790,
         "gzipKb": 0.8
       },
       {
-        "file": "repositoryBootstrap-Bute31Ei.js",
-        "path": "assets/repositoryBootstrap-Bute31Ei.js",
-        "bytes": 297,
+        "file": "repositoryBootstrap-B6pnv02H.js",
+        "path": "assets/repositoryBootstrap-B6pnv02H.js",
+        "bytes": 290,
         "kb": 0.3,
-        "gzipBytes": 222,
+        "gzipBytes": 227,
         "gzipKb": 0.2
       },
       {
-        "file": "repositoryReadiness-BFpTqyLG.js",
-        "path": "assets/repositoryReadiness-BFpTqyLG.js",
-        "bytes": 466,
+        "file": "repositoryReadiness-78CAO_v4.js",
+        "path": "assets/repositoryReadiness-78CAO_v4.js",
+        "bytes": 461,
         "kb": 0.5,
-        "gzipBytes": 266,
+        "gzipBytes": 271,
         "gzipKb": 0.3
       },
       {
@@ -706,31 +706,31 @@
         "path": "assets/returnLink-ul_OOIxG.js",
         "bytes": 532,
         "kb": 0.5,
-        "gzipBytes": 348,
+        "gzipBytes": 347,
         "gzipKb": 0.3
       },
       {
-        "file": "storeCompliance-D_JVcSXt.js",
-        "path": "assets/storeCompliance-D_JVcSXt.js",
+        "file": "storeCompliance-CsEup5uH.js",
+        "path": "assets/storeCompliance-CsEup5uH.js",
         "bytes": 4797,
         "kb": 4.7,
-        "gzipBytes": 1881,
+        "gzipBytes": 1862,
         "gzipKb": 1.8
       },
       {
-        "file": "storeListingOptimizer-CsRIkiD-.js",
-        "path": "assets/storeListingOptimizer-CsRIkiD-.js",
+        "file": "storeListingOptimizer-CnOlqWnP.js",
+        "path": "assets/storeListingOptimizer-CnOlqWnP.js",
         "bytes": 9314,
         "kb": 9.1,
-        "gzipBytes": 2334,
+        "gzipBytes": 2323,
         "gzipKb": 2.3
       },
       {
-        "file": "storeReadiness-DUuzNSj7.js",
-        "path": "assets/storeReadiness-DUuzNSj7.js",
+        "file": "storeReadiness-BfnD6atd.js",
+        "path": "assets/storeReadiness-BfnD6atd.js",
         "bytes": 18045,
         "kb": 17.6,
-        "gzipBytes": 4474,
+        "gzipBytes": 4476,
         "gzipKb": 4.4
       }
     ],
@@ -740,7 +740,7 @@
         "path": "assets/index-eoNuDxve.css",
         "bytes": 12718,
         "kb": 12.4,
-        "gzipBytes": 3277,
+        "gzipBytes": 3279,
         "gzipKb": 3.2
       }
     ],
@@ -770,7 +770,7 @@
     {
       "id": "initial-js-gzip-budget",
       "status": "pass",
-      "detail": "Initial JS gzip is 177.8 KB; budget is 200 KB."
+      "detail": "Initial JS gzip is 178.1 KB; budget is 200 KB."
     },
     {
       "id": "initial-css-budget",
@@ -790,7 +790,7 @@
     {
       "id": "game-runtime-deferred",
       "status": "pass",
-      "detail": "GameCanvas-MSPVUGwu.js is deferred from the initial shell."
+      "detail": "GameCanvas--1ZE4Wkt.js is deferred from the initial shell."
     },
     {
       "id": "largest-js-deferred",

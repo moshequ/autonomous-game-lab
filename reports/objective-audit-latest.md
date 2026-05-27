@@ -1,10 +1,10 @@
 # Objective Audit
 
-Generated: 2026-05-27T07:01:05.903Z
+Generated: 2026-05-27T07:05:47.664Z
 Status: objective-in-progress
 Can mark goal complete: false
 Reason: The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.
-Next best action: hold-for-external-input
+Next best action: seed-portfolio-traffic
 
 ## Summary
 
@@ -12,7 +12,7 @@ Next best action: hold-for-external-input
 - Met: 6
 - Prepared: 2
 - Incomplete: 0
-- External blockers: 17
+- External blockers: 15
 - Product blockers: 7
 
 ## Requirements
@@ -36,8 +36,6 @@ Next best action: hold-for-external-input
 
 ## Top Blockers
 
-- Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
-- Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 - Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
 - Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.
@@ -52,3 +50,5 @@ Next best action: hold-for-external-input
 - google-play-account: Google Play developer account must be connected before Android submission.
 - apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
 - google-play-account: Google Play account is not connected.
+- play-service-account: Google Play service account upload credentials are not available to CI.
+- unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.
