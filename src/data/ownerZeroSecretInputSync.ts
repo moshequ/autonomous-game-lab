@@ -1,5 +1,5 @@
 export const ownerZeroSecretInputSync = {
-  "generatedAt": "2026-05-27T07:46:10.320Z",
+  "generatedAt": "2026-05-27T08:48:19.323Z",
   "status": "owner-zero-secret-input-sync-waiting-on-input",
   "mode": "zero-secret-public-owner-inputs",
   "source": {
@@ -117,7 +117,7 @@ export const ownerZeroSecretInputSync = {
     "containsSecretValues": false
   },
   "githubEnvExport": {
-    "status": "skipped-no-github-env",
+    "status": "skipped-no-valid-inputs",
     "exportedInputNames": []
   },
   "workflowDispatch": {

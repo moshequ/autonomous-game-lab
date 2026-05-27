@@ -1,6 +1,6 @@
 # First Move Coach
 
-Generated: 2026-05-27T07:40:18.804Z
+Generated: 2026-05-27T08:48:59.843Z
 Status: first-move-coach-ready
 Enabled: true
 Primary target: harbor-rings
