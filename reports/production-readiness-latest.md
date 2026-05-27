@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-27T10:48:04.125Z
+Generated: 2026-05-27T11:02:40.002Z
 
 ## Environment
 
@@ -76,7 +76,7 @@ Status: blocked
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected prepare-repository-channel; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 4.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- blocker: autonomous-self-update - Autonomous self-update is self-update-needs-attention; safe pending 94; unsafe pending 6; remote push held.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 2; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 4 / 8; can complete false.
 
 ## Monetization
@@ -196,20 +196,20 @@ Local artifact: predeploy-artifact-smoke-passed (34/34 passed)
 ## Post-Deploy Artifact Sync
 
 Status: post-deploy-artifact-sync-passed
-Workflow run: 26505562620
-Artifact candidate: pwa-3c0a12be6d47
-Live candidate: pwa-3c0a12be6d47
+Workflow run: 26506328382
+Artifact candidate: pwa-24bf000a6eeb
+Live candidate: pwa-24bf000a6eeb
 Live matches artifact: true
 Deployment freshness: current-head-deployed
 Current head deployed: true
 Current head queued/running: false
 - pass: artifact-sync-gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: artifact-sync-github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: artifact-sync-successful-pages-run - Latest successful web-pwa-deploy.yml run is 26505562620.
-- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26505562620.
+- pass: artifact-sync-successful-pages-run - Latest successful web-pwa-deploy.yml run is 26506328382.
+- pass: artifact-sync-post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26506328382.
 - pass: artifact-sync-strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: artifact-sync-live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
-- pass: artifact-sync-deployment-freshness - Current main 1fcc32fab1df is deployed.
+- pass: artifact-sync-deployment-freshness - Current main c31bdbcc42e8 is deployed.
 
 ## Live Site Monitor
 
@@ -362,17 +362,17 @@ Freshness: fresh; stale artifacts 0
 
 ## Autonomous Self Update
 
-Status: self-update-needs-attention
+Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 94
-Unsafe pending: 6
+Safe pending: 2
+Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow starts from the daily run, waits for matching post-deploy evidence sync, refreshes main, verifies with production env, and persists allowlisted changes.
 - pass: self-update-post-self-update-deploy - Pages redeploys after gated self-update, public-evidence, and production-input workflows, then repeats deployability and post-deploy smoke checks.
-- blocker: self-update-safe-path-allowlist - 94 safe pending file(s), 6 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 2 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.

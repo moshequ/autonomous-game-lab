@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-27T10:48:04.356Z",
-  "status": "blocked",
+  "generatedAt": "2026-05-27T11:02:56.772Z",
+  "status": "ready-for-pages",
   "target": {
     "provider": "github-pages",
     "cost": "$0 platform hosting for public/internal experiment traffic",
@@ -67,7 +67,7 @@
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
-    "publicOriginStatus": "configured",
+    "publicOriginStatus": "inferred-github-pages",
     "analyticsStatus": "local-or-fixture"
   },
   "setupRequiredOnce": [
@@ -84,8 +84,8 @@
     },
     {
       "id": "web-readiness",
-      "status": "blocker",
-      "detail": "Web readiness is blocked."
+      "status": "pass",
+      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains blocked."
     },
     {
       "id": "release-health",
