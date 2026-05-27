@@ -1,8 +1,8 @@
 # Repository Readiness
 
-Generated: 2026-05-27T10:47:43.080Z
-Status: waiting-for-repository-channel
-Workspace: /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new
+Generated: 2026-05-27T11:09:26.708Z
+Status: repository-channel-ready
+Workspace: /home/runner/work/autonomous-game-lab/autonomous-game-lab
 Repository: moshequ/autonomous-game-lab
 Planned target: moshequ/autonomous-game-lab
 Planned Pages origin: https://moshequ.github.io/autonomous-game-lab
@@ -12,14 +12,14 @@ Live Pages URL: https://moshequ.github.io/autonomous-game-lab/
 
 ## Checks
 
-- pass: local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
+- pass: local-git-worktree - Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
 - pass: github-target - Target repository is moshequ/autonomous-game-lab.
 - pass: origin-remote - Origin remote resolves to moshequ/autonomous-game-lab.
 - pass: gh-cli - gh version 2.92.0 (2026-04-28)
-- pass: gh-token - GitHub CLI authentication is available for repository operations.
+- pass: gh-token - GitHub token is present in the current environment.
 - pass: pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: pages-settings - GitHub Pages build type is workflow; HTTPS enforced true.
-- blocker: deployable-artifact - Deployment blocked; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live.
+- pass: deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live.
 
 ## Controls
 
@@ -40,4 +40,4 @@ Live Pages URL: https://moshequ.github.io/autonomous-game-lab/
 
 ## Blockers
 
-- Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.
+- none
