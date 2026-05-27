@@ -968,6 +968,11 @@ if (
   !productionInputWatchWorkflow.includes('name: Production Input Watch') ||
   !productionInputWatchWorkflow.includes('workflow_dispatch:') ||
   !productionInputWatchWorkflow.includes('publish_zero_secret_runtime_config') ||
+  !productionInputWatchWorkflow.includes('Assert zero-secret runtime config publish') ||
+  !productionInputWatchWorkflow.includes('owner-zero-secret-input-sync-ready') ||
+  !productionInputWatchWorkflow.includes('owner-runtime-config-ready') ||
+  !productionInputWatchWorkflow.includes('AGL_ZERO_SECRET_RUNTIME_CONFIG_PUBLISH') ||
+  !productionInputWatchWorkflow.includes('zero-secret runtime config publish is enabled') ||
   !productionInputWatchWorkflow.includes('vite_posthog_key') ||
   !productionInputWatchWorkflow.includes('vite_posthog_host') ||
   !productionInputWatchWorkflow.includes('agl_support_email') ||
@@ -4101,6 +4106,10 @@ if (
     'publish_zero_secret_runtime_config=true' ||
   ownerUnlockBrowserActionPack?.productionInputWatchCommand?.controls?.noWorkflowDispatchFromPage !== true ||
   ownerUnlockBrowserActionPack?.productionInputWatchCommand?.controls?.commandRequiresOwnerRun !== true ||
+  ownerUnlockBrowserActionPack?.productionInputWatchCommand?.controls?.explicitPublishCanCommitPublicRuntimeConfig !==
+    true ||
+  ownerUnlockBrowserActionPack?.productionInputWatchCommand?.controls
+    ?.directSelfUpdateNotRequiredForPublicRuntimeConfigPublish !== true ||
   !ownerUnlockBrowserActionPackFieldNames.has('VITE_POSTHOG_KEY') ||
   !ownerUnlockBrowserActionPackFieldNames.has('AGL_SUPPORT_EMAIL') ||
   ownerUnlockBrowserActionPackFields.some((field) => field.publicValue !== true) ||
@@ -5209,6 +5218,9 @@ if (
     'node scripts/verify-autonomy.mjs' ||
   cadenceProductionInputWatch.directPushRequiresRepositoryVariable !==
     'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1' ||
+  cadenceProductionInputWatch.zeroSecretRuntimeConfigPublishFlag !==
+    'publish_zero_secret_runtime_config=true' ||
+  cadenceProductionInputWatch.zeroSecretRuntimeConfigPublishCanCommitPublicValues !== true ||
   cadenceProductionInputWatch.followedByDeployWorkflow !==
     '.github/workflows/web-pwa-deploy.yml' ||
   cadenceProductionInputWatch.ownerUnlockQueueSourceStatus !== ownerUnlockBrief.status ||

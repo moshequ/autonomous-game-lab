@@ -1004,6 +1004,8 @@ const ownerInputActionPack = combinedOwnerInputPreflight
           noWorkflowDispatchFromPage: true,
           workflowUiLinkOnly: true,
           commandRequiresOwnerRun: true,
+          explicitPublishCanCommitPublicRuntimeConfig: true,
+          directSelfUpdateNotRequiredForPublicRuntimeConfigPublish: true,
           noStoreSubmission: true,
           noRevenueEnablement: true,
         },

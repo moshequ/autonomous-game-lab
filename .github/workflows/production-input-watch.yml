@@ -113,14 +113,57 @@ jobs:
       - name: Verify autonomy evidence
         run: node scripts/verify-autonomy.mjs
 
+      - name: Assert zero-secret runtime config publish
+        if: ${{ inputs.publish_zero_secret_runtime_config }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFile } from 'node:fs/promises'
+
+          const sync = JSON.parse(await readFile('data/owner-zero-secret-input-sync.json', 'utf8'))
+          const runtime = JSON.parse(await readFile('public/owner-runtime-config.json', 'utf8'))
+          const invalid = new Set([
+            ...(sync.summary?.invalidInputNames ?? []),
+            ...(runtime.invalidPublicInputNames ?? []),
+          ])
+
+          if (sync.status !== 'owner-zero-secret-input-sync-ready') {
+            throw new Error(`Expected ready zero-secret input sync before publishing, got ${sync.status}`)
+          }
+
+          if (runtime.status !== 'owner-runtime-config-ready') {
+            throw new Error(`Expected ready owner runtime config before publishing, got ${runtime.status}`)
+          }
+
+          if (invalid.size > 0) {
+            throw new Error(`Refusing to publish invalid zero-secret inputs: ${[...invalid].join(', ')}`)
+          }
+
+          if (!runtime.configuredPublicInputNames?.includes('VITE_POSTHOG_KEY')) {
+            throw new Error('Refusing to publish runtime config without VITE_POSTHOG_KEY.')
+          }
+
+          if (runtime.controls?.noSecretValues !== true || runtime.controls?.publicValuesOnly !== true) {
+            throw new Error('Runtime config publish must remain zero-secret and public-values-only.')
+          }
+
+          console.log('zero-secret runtime config publish is validated')
+          NODE
+
       - name: Commit production input evidence
         env:
           AGL_AUTONOMOUS_SELF_UPDATE_DIRECT: ${{ vars.AGL_AUTONOMOUS_SELF_UPDATE_DIRECT }}
+          AGL_ZERO_SECRET_RUNTIME_CONFIG_PUBLISH: ${{ inputs.publish_zero_secret_runtime_config }}
           GITHUB_TOKEN: ${{ github.token }}
         run: |
-          if [[ "${AGL_AUTONOMOUS_SELF_UPDATE_DIRECT:-0}" != "1" ]]; then
-            echo "skip commit: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT is not enabled"
+          if [[ "${AGL_AUTONOMOUS_SELF_UPDATE_DIRECT:-0}" != "1" && "${AGL_ZERO_SECRET_RUNTIME_CONFIG_PUBLISH:-false}" != "true" ]]; then
+            echo "skip commit: neither AGL_AUTONOMOUS_SELF_UPDATE_DIRECT nor zero-secret runtime config publish is enabled"
             exit 0
+          fi
+
+          if [[ "${AGL_ZERO_SECRET_RUNTIME_CONFIG_PUBLISH:-false}" == "true" ]]; then
+            echo "allow commit: owner explicitly requested zero-secret runtime config publish"
+          else
+            echo "allow commit: AGL_AUTONOMOUS_SELF_UPDATE_DIRECT is enabled"
           fi
 
           git add -- \

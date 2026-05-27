@@ -301,6 +301,8 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
         requiredFlag: string
         controls: {
           commandRequiresOwnerRun: boolean
+          explicitPublishCanCommitPublicRuntimeConfig: boolean
+          directSelfUpdateNotRequiredForPublicRuntimeConfigPublish: boolean
           noWorkflowDispatchFromPage: boolean
           workflowUiLinkOnly: boolean
         }
@@ -339,6 +341,8 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
   expect(pack.productionInputWatchCommand.controls.commandRequiresOwnerRun).toBe(true)
   expect(pack.productionInputWatchCommand.controls.noWorkflowDispatchFromPage).toBe(true)
   expect(pack.productionInputWatchCommand.controls.workflowUiLinkOnly).toBe(true)
+  expect(pack.productionInputWatchCommand.controls.explicitPublishCanCommitPublicRuntimeConfig).toBe(true)
+  expect(pack.productionInputWatchCommand.controls.directSelfUpdateNotRequiredForPublicRuntimeConfigPublish).toBe(true)
   expect(pack.controls.browserLocalOnly).toBe(true)
   expect(pack.controls.publicValuesOnly).toBe(true)
   expect(pack.controls.noSecretValuesStored).toBe(true)
@@ -6610,6 +6614,10 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   expect(cadence.schedulers.githubProductionInputWatch.directPushRequiresRepositoryVariable).toBe(
     'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
   )
+  expect(cadence.schedulers.githubProductionInputWatch.zeroSecretRuntimeConfigPublishFlag).toBe(
+    'publish_zero_secret_runtime_config=true',
+  )
+  expect(cadence.schedulers.githubProductionInputWatch.zeroSecretRuntimeConfigPublishCanCommitPublicValues).toBe(true)
   expect(cadence.schedulers.githubProductionInputWatch.followedByDeployWorkflow).toBe(
     '.github/workflows/web-pwa-deploy.yml',
   )
@@ -6651,6 +6659,11 @@ test('autonomous cadence keeps unattended operation auditable and guarded', asyn
   )
   expect(productionInputWorkflow).toContain('AGL_AUTONOMOUS_SELF_UPDATE_DIRECT')
   expect(productionInputWorkflow).toContain('publish_zero_secret_runtime_config')
+  expect(productionInputWorkflow).toContain('Assert zero-secret runtime config publish')
+  expect(productionInputWorkflow).toContain('owner-zero-secret-input-sync-ready')
+  expect(productionInputWorkflow).toContain('owner-runtime-config-ready')
+  expect(productionInputWorkflow).toContain('AGL_ZERO_SECRET_RUNTIME_CONFIG_PUBLISH')
+  expect(productionInputWorkflow).toContain('zero-secret runtime config publish is enabled')
   expect(productionInputWorkflow).toContain('vite_posthog_key')
   expect(productionInputWorkflow).toContain('vite_posthog_host')
   expect(productionInputWorkflow).toContain('agl_support_email')
@@ -11853,6 +11866,8 @@ test('production measurement status publishes public aggregate evidence handoff'
           noWorkflowDispatchFromPage: boolean
           workflowUiLinkOnly: boolean
           commandRequiresOwnerRun: boolean
+          explicitPublishCanCommitPublicRuntimeConfig: boolean
+          directSelfUpdateNotRequiredForPublicRuntimeConfigPublish: boolean
           noStoreSubmission: boolean
           noRevenueEnablement: boolean
         }
@@ -13179,6 +13194,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerInputActionPack.productionInputWatchCommand.controls.noWorkflowDispatchFromPage).toBe(true)
   expect(ownerInputActionPack.productionInputWatchCommand.controls.workflowUiLinkOnly).toBe(true)
   expect(ownerInputActionPack.productionInputWatchCommand.controls.commandRequiresOwnerRun).toBe(true)
+  expect(ownerInputActionPack.productionInputWatchCommand.controls.explicitPublishCanCommitPublicRuntimeConfig).toBe(true)
+  expect(ownerInputActionPack.productionInputWatchCommand.controls.directSelfUpdateNotRequiredForPublicRuntimeConfigPublish).toBe(true)
   expect(ownerInputActionPack.controls.zeroPaidSpend).toBe(true)
   expect(ownerInputActionPack.controls.noSecretValues).toBe(true)
   expect(ownerInputActionPack.controls.noSecretValuesStored).toBe(true)

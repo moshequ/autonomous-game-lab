@@ -1108,6 +1108,8 @@ const payload = {
       command: 'npm run autonomous:production-input-watch',
       verificationGate: 'node scripts/verify-autonomy.mjs',
       directPushRequiresRepositoryVariable: 'AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1',
+      zeroSecretRuntimeConfigPublishFlag: 'publish_zero_secret_runtime_config=true',
+      zeroSecretRuntimeConfigPublishCanCommitPublicValues: true,
       followedByDeployWorkflow: '.github/workflows/web-pwa-deploy.yml',
       ownerUnlockQueueSourceStatus: ownerUnlockBrief.status,
       ownerUnlockQueueCoverage: productionInputWorkflowCoversOwnerUnlockQueue,
