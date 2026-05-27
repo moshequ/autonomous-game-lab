@@ -1,39 +1,11 @@
 export const productionActivation = {
-  "generatedAt": "2026-05-27T06:37:11.420Z",
-  "status": "activation-waiting-for-credentials",
+  "generatedAt": "2026-05-27T06:47:38.487Z",
+  "status": "activation-ready",
   "mode": "dry-run",
   "envFiles": {
-    "loaded": true,
-    "loadedFiles": [
-      {
-        "path": ".env.production.local",
-        "keys": [
-          "VITE_POSTHOG_KEY",
-          "VITE_POSTHOG_HOST",
-          "AGL_SUPPORT_EMAIL"
-        ]
-      },
-      {
-        "path": "ops/production.env.local",
-        "keys": [
-          "AGL_ANDROID_PACKAGE_NAME",
-          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-          "AGL_ANDROID_KEYSTORE_BASE64",
-          "AGL_ANDROID_KEYSTORE_PASSWORD",
-          "AGL_ANDROID_KEY_ALIAS"
-        ]
-      }
-    ],
-    "loadedKeys": [
-      "VITE_POSTHOG_KEY",
-      "VITE_POSTHOG_HOST",
-      "AGL_SUPPORT_EMAIL",
-      "AGL_ANDROID_PACKAGE_NAME",
-      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
-      "AGL_ANDROID_KEYSTORE_BASE64",
-      "AGL_ANDROID_KEYSTORE_PASSWORD",
-      "AGL_ANDROID_KEY_ALIAS"
-    ],
+    "loaded": false,
+    "loadedFiles": [],
+    "loadedKeys": [],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -64,22 +36,22 @@ export const productionActivation = {
     }
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-gh-auth",
-    "repositoryBootstrap": "waiting-for-gh-auth",
+    "repositoryReadiness": "repository-channel-ready",
+    "repositoryBootstrap": "repository-bootstrap-ready",
     "productionBootstrap": "production-bootstrap-ready",
     "deployment": "ready-for-pages",
-    "postDeploySmoke": "blocked-missing-origin"
+    "postDeploySmoke": "post-deploy-smoke-observed-live"
   },
   "configuration": {
     "activationRequested": false,
     "repositoryTargetKnown": true,
-    "ghCredentialReady": false,
+    "ghCredentialReady": true,
     "deploymentReady": true,
     "runWebWorkflows": false,
     "allowRepositoryBootstrap": false,
     "allowAndroidWorkflow": false,
-    "configuredVariables": 6,
-    "configuredSecrets": 3
+    "configuredVariables": 10,
+    "configuredSecrets": 5
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -109,11 +81,11 @@ export const productionActivation = {
     {
       "id": "sync-production-settings",
       "command": "ops/github/setup-production.sh",
-      "status": "waiting-for-github-credentials",
+      "status": "ready",
       "canRun": false,
       "costUsd": 0,
       "mutatesExternalState": true,
-      "reason": "Held until an existing GitHub repository target and gh credentials are available.",
+      "reason": "GitHub credentials and repository target are available; setup can sync configured variables, secrets, and Pages settings.",
       "args": [],
       "runnableNow": false
     }
@@ -125,7 +97,7 @@ export const productionActivation = {
     "results": []
   },
   "nextActions": [
-    "Provide an existing GitHub repository target and gh credentials before production activation can apply setup.",
+    "Set AGL_PRODUCTION_ACTIVATE=1 in the production automation environment to apply configured zero-spend GitHub/Pages setup.",
     "Set AGL_PRODUCTION_RUN_WORKFLOWS=1 only after Pages settings and repository variables are configured.",
     "Android workflow dispatch stays held until store economics, signing, and Play credentials clear."
   ]

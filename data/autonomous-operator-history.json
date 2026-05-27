@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T06:42:49.364Z",
+  "generatedAt": "2026-05-27T06:47:41.841Z",
   "status": "operator-history-ready",
   "retention": {
     "maxRecords": 40,
@@ -113,34 +113,6 @@
         "status": "executed",
         "attemptedActionId": "apply-safe-improvements",
         "resultCount": 3,
-        "failedScripts": []
-      },
-      "controls": {
-        "zeroPaidSpend": true,
-        "localCommandAllowlistEnforced": true,
-        "externalWorkflowExecutionBlockedByDefault": true,
-        "maxActionsPerRun": 1
-      }
-    },
-    {
-      "id": "20260526161034-measure-pwa-install-loop",
-      "generatedAt": "2026-05-26T16:10:34.428Z",
-      "runFingerprint": "7ee817f83040a967",
-      "mode": "plan-only",
-      "status": "operator-plan-ready",
-      "selectedActionId": "measure-pwa-install-loop",
-      "selectedCommand": "npm run autonomous:pwa-install",
-      "eligibleActionIds": [
-        "seed-portfolio-traffic",
-        "measure-pwa-install-loop",
-        "optimize-store-listing"
-      ],
-      "blockedActionCount": 35,
-      "execution": {
-        "requested": false,
-        "status": "not-requested",
-        "attemptedActionId": null,
-        "resultCount": 0,
         "failedScripts": []
       },
       "controls": {
@@ -1300,6 +1272,37 @@
         "bootstrap-production-setup",
         "refresh-objective-audit",
         "optimize-store-listing",
+        "apply-safe-improvements"
+      ],
+      "blockedActionCount": 35,
+      "execution": {
+        "requested": false,
+        "status": "not-requested",
+        "attemptedActionId": null,
+        "resultCount": 0,
+        "failedScripts": []
+      },
+      "controls": {
+        "zeroPaidSpend": true,
+        "localCommandAllowlistEnforced": true,
+        "externalWorkflowExecutionBlockedByDefault": true,
+        "maxActionsPerRun": 1
+      }
+    },
+    {
+      "id": "20260527064739-refresh-objective-audit",
+      "generatedAt": "2026-05-27T06:47:39.042Z",
+      "runFingerprint": "14256e512e74ae6d",
+      "mode": "plan-only",
+      "status": "operator-plan-ready",
+      "selectedActionId": "refresh-objective-audit",
+      "selectedCommand": "npm run autonomous:objective-audit",
+      "eligibleActionIds": [
+        "seed-portfolio-traffic",
+        "refresh-organic-seed-loop",
+        "refresh-completion-loop",
+        "refresh-replay-loop",
+        "refresh-objective-audit",
         "apply-safe-improvements"
       ],
       "blockedActionCount": 35,
