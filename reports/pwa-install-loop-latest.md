@@ -1,8 +1,8 @@
 # PWA Install Loop
 
-Generated: 2026-05-27T10:24:10.745Z
+Generated: 2026-05-27T10:26:45.981Z
 Status: pwa-install-loop-ready
-Source hash: 812ffdbfcbd8
+Source hash: 1a2265e693ea
 Channel: pwa-install (ready-after-hosting)
 Install page views: 0
 Open-app clicks: 0

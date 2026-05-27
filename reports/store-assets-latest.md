@@ -1,6 +1,6 @@
 # Store Assets
 
-Generated: 2026-05-27T10:02:28.114Z
+Generated: 2026-05-27T10:26:45.835Z
 Status: screenshots-ready
 
 ## Screenshots
