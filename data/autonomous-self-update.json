@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T07:34:48.131Z",
+  "generatedAt": "2026-05-27T08:43:54.673Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -70,19 +70,19 @@
     "currentBranch": "main",
     "insideWorkTree": true,
     "githubTokenConfigured": false,
-    "githubCredentialConfigured": false,
+    "githubCredentialConfigured": true,
     "directPushConfigured": false,
     "selfUpdateEnabled": false,
     "remotePushReady": false
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-gh-auth",
-    "productionReadiness": "ready-after-build",
+    "repositoryReadiness": "waiting-for-repository-channel",
+    "productionReadiness": "blocked",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 115,
+    "total": 122,
     "safe": [
       {
         "code": "M",
@@ -95,13 +95,6 @@
         "code": "M",
         "path": "data/analytics-rollup.json",
         "raw": " M data/analytics-rollup.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/applied-improvements.json",
-        "raw": " M data/applied-improvements.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -135,8 +128,8 @@
       },
       {
         "code": "M",
-        "path": "data/completion-loop.json",
-        "raw": " M data/completion-loop.json",
+        "path": "data/autonomous-self-update.json",
+        "raw": " M data/autonomous-self-update.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -172,13 +165,6 @@
         "code": "M",
         "path": "data/event-ingest.json",
         "raw": " M data/event-ingest.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/experiment-results.json",
-        "raw": " M data/experiment-results.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -226,6 +212,13 @@
       },
       {
         "code": "M",
+        "path": "data/owner-zero-secret-input-sync.json",
+        "raw": " M data/owner-zero-secret-input-sync.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "data/performance-budget.json",
         "raw": " M data/performance-budget.json",
         "safe": true,
@@ -256,13 +249,6 @@
         "code": "M",
         "path": "data/product-gate-sample-plan.json",
         "raw": " M data/product-gate-sample-plan.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/product-optimization.json",
-        "raw": " M data/product-optimization.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -338,13 +324,6 @@
       },
       {
         "code": "M",
-        "path": "data/replay-loop.json",
-        "raw": " M data/replay-loop.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "data/repository-bootstrap.json",
         "raw": " M data/repository-bootstrap.json",
         "safe": true,
@@ -366,6 +345,34 @@
       },
       {
         "code": "M",
+        "path": "data/store-compliance.json",
+        "raw": " M data/store-compliance.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/store-listing-optimizer.json",
+        "raw": " M data/store-listing-optimizer.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/store-package.json",
+        "raw": " M data/store-package.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "data/store-readiness.json",
+        "raw": " M data/store-readiness.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "ops/codex/autonomous-game-lab-daily-owner-loop.json",
         "raw": " M ops/codex/autonomous-game-lab-daily-owner-loop.json",
         "safe": true,
@@ -373,15 +380,15 @@
       },
       {
         "code": "M",
-        "path": "public/analytics-unlock.html",
-        "raw": " M public/analytics-unlock.html",
+        "path": "public/analytics-unlock.json",
+        "raw": " M public/analytics-unlock.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
       {
         "code": "M",
-        "path": "public/analytics-unlock.json",
-        "raw": " M public/analytics-unlock.json",
+        "path": "public/compliance.json",
+        "raw": " M public/compliance.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -401,6 +408,13 @@
       },
       {
         "code": "M",
+        "path": "public/owner-runtime-config.json",
+        "raw": " M public/owner-runtime-config.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "public/owner-unlock-brief.json",
         "raw": " M public/owner-unlock-brief.json",
         "safe": true,
@@ -415,8 +429,29 @@
       },
       {
         "code": "M",
+        "path": "public/owner-unlock.html",
+        "raw": " M public/owner-unlock.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "public/product-gate-recovery.json",
         "raw": " M public/product-gate-recovery.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/store-readiness.html",
+        "raw": " M public/store-readiness.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/store-readiness.json",
+        "raw": " M public/store-readiness.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -431,13 +466,6 @@
         "code": "M",
         "path": "reports/analytics-rollup-latest.md",
         "raw": " M reports/analytics-rollup-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/applied-improvements-latest.md",
-        "raw": " M reports/applied-improvements-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -471,8 +499,8 @@
       },
       {
         "code": "M",
-        "path": "reports/completion-loop-latest.md",
-        "raw": " M reports/completion-loop-latest.md",
+        "path": "reports/autonomous-self-update-latest.md",
+        "raw": " M reports/autonomous-self-update-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -508,13 +536,6 @@
         "code": "M",
         "path": "reports/event-ingest-smoke-latest.md",
         "raw": " M reports/event-ingest-smoke-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/experiment-results-latest.md",
-        "raw": " M reports/experiment-results-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -562,6 +583,13 @@
       },
       {
         "code": "M",
+        "path": "reports/owner-zero-secret-input-sync-latest.md",
+        "raw": " M reports/owner-zero-secret-input-sync-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "reports/performance-budget-latest.md",
         "raw": " M reports/performance-budget-latest.md",
         "safe": true,
@@ -592,13 +620,6 @@
         "code": "M",
         "path": "reports/product-gate-sample-plan-latest.md",
         "raw": " M reports/product-gate-sample-plan-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/product-optimization-latest.md",
-        "raw": " M reports/product-optimization-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -674,13 +695,6 @@
       },
       {
         "code": "M",
-        "path": "reports/replay-loop-latest.md",
-        "raw": " M reports/replay-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/repository-bootstrap-latest.md",
         "raw": " M reports/repository-bootstrap-latest.md",
         "safe": true,
@@ -697,6 +711,34 @@
         "code": "M",
         "path": "reports/retention-loop-latest.md",
         "raw": " M reports/retention-loop-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/store-compliance-latest.md",
+        "raw": " M reports/store-compliance-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/store-listing-optimizer-latest.md",
+        "raw": " M reports/store-listing-optimizer-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/store-package-latest.md",
+        "raw": " M reports/store-package-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "reports/store-readiness-latest.md",
+        "raw": " M reports/store-readiness-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -737,8 +779,15 @@
       },
       {
         "code": "M",
-        "path": "src/data/completionLoop.ts",
-        "raw": " M src/data/completionLoop.ts",
+        "path": "src/data/autonomousSelfUpdate.ts",
+        "raw": " M src/data/autonomousSelfUpdate.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/deploymentPlan.ts",
+        "raw": " M src/data/deploymentPlan.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -746,13 +795,6 @@
         "code": "M",
         "path": "src/data/eventCollectorDeployment.ts",
         "raw": " M src/data/eventCollectorDeployment.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/experimentResults.ts",
-        "raw": " M src/data/experimentResults.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -786,6 +828,13 @@
       },
       {
         "code": "M",
+        "path": "src/data/ownerZeroSecretInputSync.ts",
+        "raw": " M src/data/ownerZeroSecretInputSync.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "src/data/performanceBudget.ts",
         "raw": " M src/data/performanceBudget.ts",
         "safe": true,
@@ -802,13 +851,6 @@
         "code": "M",
         "path": "src/data/productGateRecovery.ts",
         "raw": " M src/data/productGateRecovery.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/productOptimization.ts",
-        "raw": " M src/data/productOptimization.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -870,28 +912,35 @@
       },
       {
         "code": "M",
-        "path": "src/data/replayLoop.ts",
-        "raw": " M src/data/replayLoop.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/repositoryBootstrap.ts",
-        "raw": " M src/data/repositoryBootstrap.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/repositoryReadiness.ts",
         "raw": " M src/data/repositoryReadiness.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/storeCompliance.ts",
+        "raw": " M src/data/storeCompliance.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/storeListingOptimizer.ts",
+        "raw": " M src/data/storeListingOptimizer.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/storeReadiness.ts",
+        "raw": " M src/data/storeReadiness.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 115,
+    "safeCount": 122,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -906,30 +955,28 @@
     "stagePaths": [
       "data/acquisition-learning.json",
       "data/analytics-rollup.json",
-      "data/applied-improvements.json",
       "data/autonomous-cadence.json",
       "data/autonomous-operator-history.json",
       "data/autonomous-operator.json",
       "data/autonomous-owner-loop.json",
-      "data/completion-loop.json",
+      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/event-collector-deployment.json",
       "data/event-collector-smoke.json",
       "data/event-ingest-smoke.json",
       "data/event-ingest.json",
-      "data/experiment-results.json",
       "data/live-site-monitor.json",
       "data/local-event-bridge.json",
       "data/objective-audit.json",
       "data/organic-seed-loop.json",
       "data/owner-unlock-brief.json",
       "data/owner-unlock-preflight.json",
+      "data/owner-zero-secret-input-sync.json",
       "data/performance-budget.json",
       "data/player-evidence-watchdog.json",
       "data/post-deploy-smoke.json",
       "data/product-gate-recovery.json",
       "data/product-gate-sample-plan.json",
-      "data/product-optimization.json",
       "data/production-activation.json",
       "data/production-blocker-handoff.json",
       "data/production-bootstrap.json",
@@ -940,44 +987,49 @@
       "data/public-repo-security-audit.json",
       "data/pwa-install-loop.json",
       "data/release-candidate.json",
-      "data/replay-loop.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "data/retention-loop.json",
+      "data/store-compliance.json",
+      "data/store-listing-optimizer.json",
+      "data/store-package.json",
+      "data/store-readiness.json",
       "ops/codex/autonomous-game-lab-daily-owner-loop.json",
-      "public/analytics-unlock.html",
       "public/analytics-unlock.json",
+      "public/compliance.json",
       "public/measurement-status.html",
       "public/measurement-status.json",
+      "public/owner-runtime-config.json",
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
+      "public/owner-unlock.html",
       "public/product-gate-recovery.json",
+      "public/store-readiness.html",
+      "public/store-readiness.json",
       "reports/acquisition-learning-latest.md",
       "reports/analytics-rollup-latest.md",
-      "reports/applied-improvements-latest.md",
       "reports/autonomous-cadence-latest.md",
       "reports/autonomous-operator-history-latest.md",
       "reports/autonomous-operator-latest.md",
       "reports/autonomous-owner-loop-latest.md",
-      "reports/completion-loop-latest.md",
+      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/event-collector-deployment-latest.md",
       "reports/event-collector-smoke-latest.md",
       "reports/event-ingest-latest.md",
       "reports/event-ingest-smoke-latest.md",
-      "reports/experiment-results-latest.md",
       "reports/live-site-monitor-latest.md",
       "reports/local-event-bridge-latest.md",
       "reports/objective-audit-latest.md",
       "reports/organic-seed-loop-latest.md",
       "reports/owner-unlock-brief-latest.md",
       "reports/owner-unlock-preflight-latest.md",
+      "reports/owner-zero-secret-input-sync-latest.md",
       "reports/performance-budget-latest.md",
       "reports/player-evidence-watchdog-latest.md",
       "reports/post-deploy-smoke-latest.md",
       "reports/product-gate-recovery-latest.md",
       "reports/product-gate-sample-plan-latest.md",
-      "reports/product-optimization-latest.md",
       "reports/production-activation-latest.md",
       "reports/production-blocker-handoff-latest.md",
       "reports/production-bootstrap-latest.md",
@@ -988,26 +1040,29 @@
       "reports/public-repo-security-audit-latest.md",
       "reports/pwa-install-loop-latest.md",
       "reports/release-candidate-latest.md",
-      "reports/replay-loop-latest.md",
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
+      "reports/store-compliance-latest.md",
+      "reports/store-listing-optimizer-latest.md",
+      "reports/store-package-latest.md",
+      "reports/store-readiness-latest.md",
       "src/data/acquisitionLearning.ts",
       "src/data/autonomousCadence.ts",
       "src/data/autonomousOperator.ts",
       "src/data/autonomousOperatorHistory.ts",
       "src/data/autonomousOwnerLoop.ts",
-      "src/data/completionLoop.ts",
+      "src/data/autonomousSelfUpdate.ts",
+      "src/data/deploymentPlan.ts",
       "src/data/eventCollectorDeployment.ts",
-      "src/data/experimentResults.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/localEventBridge.ts",
       "src/data/objectiveAudit.ts",
       "src/data/organicSeedLoop.ts",
+      "src/data/ownerZeroSecretInputSync.ts",
       "src/data/performanceBudget.ts",
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
-      "src/data/productOptimization.ts",
       "src/data/productionActivation.ts",
       "src/data/productionBlockerHandoff.ts",
       "src/data/productionBootstrap.ts",
@@ -1016,12 +1071,10 @@
       "src/data/publicRepoSecurityAudit.ts",
       "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
-      "src/data/replayLoop.ts",
-      "src/data/repositoryBootstrap.ts",
       "src/data/repositoryReadiness.ts",
-      "data/autonomous-self-update.json",
-      "src/data/autonomousSelfUpdate.ts",
-      "reports/autonomous-self-update-latest.md"
+      "src/data/storeCompliance.ts",
+      "src/data/storeListingOptimizer.ts",
+      "src/data/storeReadiness.ts"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -1146,7 +1199,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "115 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "122 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",

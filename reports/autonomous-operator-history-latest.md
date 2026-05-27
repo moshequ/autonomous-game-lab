@@ -1,9 +1,9 @@
 # Autonomous Operator History
 
-Generated: 2026-05-27T07:40:19.547Z
+Generated: 2026-05-27T08:45:36.476Z
 Status: operator-history-ready
 Records: 40
-Executed records: 7
+Executed records: 4
 Failed records: 0
 Latest run appended: false
 Compacted duplicate dry-runs: 0
@@ -17,13 +17,13 @@ Compacted duplicate dry-runs: 0
 
 ## Recent Records
 
-- 2026-05-27T07:26:12.830Z: refresh-replay-loop; not-requested; appended fingerprint 12e87858c0afe4ed
-- 2026-05-27T07:26:13.389Z: refresh-replay-loop; not-requested; appended fingerprint 06bec61d2d6deedd
-- 2026-05-27T07:27:49.728Z: refresh-replay-loop; executed; appended fingerprint 42c76e3a4460349a
-- 2026-05-27T07:28:48.322Z: collect-gate-sample-local-drops; not-requested; appended fingerprint 2decbccc606fc55d
-- 2026-05-27T07:29:15.075Z: collect-gate-sample-local-drops; executed; appended fingerprint cc566d483cc738f6
-- 2026-05-27T07:29:48.648Z: apply-safe-improvements; not-requested; appended fingerprint 571af8befb52fedb
-- 2026-05-27T07:30:17.873Z: apply-safe-improvements; executed; appended fingerprint 30ea2a18b9737610
-- 2026-05-27T07:34:08.089Z: measure-pwa-install-loop; not-requested; appended fingerprint 1c400560f6ec1bd1
 - 2026-05-27T07:34:48.662Z: refresh-objective-audit; not-requested; appended fingerprint b6ba7f39dc5d01fd
 - 2026-05-27T07:40:16.579Z: refresh-objective-audit; not-requested; appended fingerprint 290850bb2c1f5d24
+- 2026-05-27T08:05:29.646Z: measure-pwa-install-loop; not-requested; appended fingerprint 2eaf39612bd63684
+- 2026-05-27T08:05:30.435Z: measure-pwa-install-loop; not-requested; appended fingerprint 76dd1f9f34779a68
+- 2026-05-27T08:06:33.413Z: refresh-autonomous-self-update; not-requested; appended fingerprint fdbf939c4cf08241
+- 2026-05-27T08:06:41.231Z: refresh-autonomous-self-update; not-requested; appended fingerprint 6d38a36c7b0cc5cf
+- 2026-05-27T08:43:55.233Z: prepare-repository-channel; not-requested; appended fingerprint b5b7a44e246e5321
+- 2026-05-27T08:43:56.221Z: prepare-repository-channel; not-requested; appended fingerprint 70ab78ef52cb9f41
+- 2026-05-27T08:44:33.762Z: measure-pwa-install-loop; not-requested; appended fingerprint 7ee817f83040a967
+- 2026-05-27T08:45:26.471Z: bootstrap-production-setup; not-requested; appended fingerprint a69a3e199228e507

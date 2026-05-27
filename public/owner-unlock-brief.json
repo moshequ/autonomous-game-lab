@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-27T07:40:12.584Z",
+  "generatedAt": "2026-05-27T08:45:38.720Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "68c23fe05589",
+  "sourceDataHash": "b2a16a94a703",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -649,6 +649,8 @@
         "noWorkflowDispatchFromPage": true,
         "workflowUiLinkOnly": true,
         "commandRequiresOwnerRun": true,
+        "explicitPublishCanCommitPublicRuntimeConfig": true,
+        "directSelfUpdateNotRequiredForPublicRuntimeConfigPublish": true,
         "noStoreSubmission": true,
         "noRevenueEnablement": true
       }

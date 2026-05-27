@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-27T07:40:17.727Z",
+  "generatedAt": "2026-05-27T08:45:39.596Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-c4c70da5b684",
@@ -247,6 +247,8 @@ export const productionMeasurementStatus = {
         "noWorkflowDispatchFromPage": true,
         "workflowUiLinkOnly": true,
         "commandRequiresOwnerRun": true,
+        "explicitPublishCanCommitPublicRuntimeConfig": true,
+        "directSelfUpdateNotRequiredForPublicRuntimeConfigPublish": true,
         "noStoreSubmission": true,
         "noRevenueEnablement": true
       }
