@@ -1,6 +1,6 @@
 # Production Environment
 
-Generated: 2026-05-27T07:25:35.500Z
+Generated: 2026-05-27T07:36:02.856Z
 Status: production-env-missing
 Public origin: https://moshequ.github.io/autonomous-game-lab
 Analytics: local-or-fixture
@@ -9,7 +9,8 @@ Android: blocked-needs-host-signing-account
 
 ## Local Env Files
 
-- none loaded
+- .env.production.local: VITE_POSTHOG_KEY, VITE_POSTHOG_HOST, AGL_SUPPORT_EMAIL
+- ops/production.env.local: AGL_ANDROID_PACKAGE_NAME, AGL_ANDROID_SHA256_CERT_FINGERPRINT, AGL_ANDROID_KEYSTORE_BASE64, AGL_ANDROID_KEYSTORE_PASSWORD, AGL_ANDROID_KEY_ALIAS
 - shell env precedence: true
 - protected mutation keys require shell env: true
 - values redacted: true

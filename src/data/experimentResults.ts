@@ -1,5 +1,5 @@
 export const experimentResults = {
-  "generatedAt": "2026-05-26T15:01:54.004Z",
+  "generatedAt": "2026-05-27T07:30:17.376Z",
   "status": "evaluated",
   "sourceStatus": {
     "activeSource": "fixture-experiment-results",
