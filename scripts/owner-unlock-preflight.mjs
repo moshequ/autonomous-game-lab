@@ -35,6 +35,8 @@ const reportPath = path.join(root, 'reports', 'owner-unlock-preflight-latest.md'
 const readJson = async (filePath) => JSON.parse(await readFile(filePath, 'utf8'))
 const configured = (value) => typeof value === 'string' && value.trim().length > 0
 const unique = (items) => [...new Set(items)]
+const posthogPublicKeyPattern = /^phc_[A-Za-z0-9_-]{4,}$/
+const posthogPublicKeyEnvNames = new Set(['VITE_POSTHOG_KEY'])
 const hasValueKey = (item) => {
   if (!item || typeof item !== 'object') {
     return false
@@ -244,10 +246,52 @@ const validateUrlShape = ({ envName, raw }) => {
   }
 }
 
+const validatePosthogPublicKey = ({ envName, raw }) => {
+  const value = raw.trim()
+  const checks = [
+    passCheck('non-empty-local-input', configured(value), `${envName} must be exported before setup can sync it.`),
+    passCheck('single-line', !/[\r\n]/.test(value), `${envName} must be a single line.`),
+    passCheck('no-whitespace', !/\s/.test(value), `${envName} must not contain whitespace.`),
+    passCheck('reasonable-length', value.length <= 256, `${envName} must be 256 characters or fewer.`),
+    passCheck(
+      'posthog-public-key-format',
+      posthogPublicKeyPattern.test(value),
+      `${envName} must start with phc_ and contain only letters, numbers, underscores, or hyphens.`,
+    ),
+  ]
+  const failedChecks = checks.filter((check) => !check.passed)
+
+  return {
+    kind: 'posthog-public-key',
+    status: failedChecks.length ? 'fail' : 'pass',
+    expected: {
+      prefix: 'phc_',
+      allowedCharacters: 'letters, numbers, underscores, hyphens',
+      noWhitespace: true,
+    },
+    checks,
+    failedCheckIds: failedChecks.map((check) => check.id),
+  }
+}
+
 const validateInput = ({ kind, envName, configuredInRepository, availableLocally }) => {
   const raw = process.env[envName]
 
   if (!availableLocally) {
+    if (!configuredInRepository && posthogPublicKeyEnvNames.has(envName)) {
+      return {
+        kind: 'posthog-public-key',
+        status: 'not-checked-missing-input',
+        detail: 'No local PostHog public key is available yet; key shape will be validated before setup can sync it.',
+        expected: {
+          prefix: 'phc_',
+          allowedCharacters: 'letters, numbers, underscores, hyphens',
+          noWhitespace: true,
+        },
+        checks: [passCheck('non-empty-local-input', false, `${envName} must be exported before setup can sync it.`)],
+      }
+    }
+
     if (!configuredInRepository && urlExpectations.has(envName)) {
       return {
         kind: 'url-shape',
@@ -279,6 +323,10 @@ const validateInput = ({ kind, envName, configuredInRepository, availableLocally
 
   if (urlExpectations.has(envName)) {
     return validateUrlShape({ envName, raw })
+  }
+
+  if (posthogPublicKeyEnvNames.has(envName)) {
+    return validatePosthogPublicKey({ envName, raw })
   }
 
   return {

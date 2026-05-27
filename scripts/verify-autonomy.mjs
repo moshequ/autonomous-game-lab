@@ -3966,6 +3966,7 @@ if (
   !ownerZeroSecretInputSyncSource.includes('GITHUB_ENV') ||
   !ownerZeroSecretInputSyncSource.includes('AGL_ENABLE_ZERO_SECRET_WORKFLOW_INPUTS') ||
   !ownerZeroSecretInputSyncSource.includes('built-in-posthog-browser-host') ||
+  !ownerZeroSecretInputSyncSource.includes('posthog-public-key-format') ||
   !ownerZeroSecretInputSyncSource.includes('publicRuntimeConfigMayStoreProvidedPublicValues') ||
   !analyticsLibSource.includes('owner-runtime-config.json') ||
   !analyticsLibSource.includes('loadRuntimePosthogConfig') ||
@@ -4116,6 +4117,7 @@ if (
   ownerUnlockBrowserActionPack?.valueValidation?.controls?.browserLocalOnly !== true ||
   ownerUnlockBrowserActionPack?.valueValidation?.controls?.noGeneratedValueSerialization !== true ||
   ownerUnlockBrowserActionPack?.valueValidation?.controls?.noGithubMutation !== true ||
+  ownerUnlockBrowserActionPack?.valueValidation?.controls?.posthogPublicKeyShapeValidated !== true ||
   ownerUnlockBrowserActionPack?.controls?.zeroPaidSpend !== true ||
   ownerUnlockBrowserActionPack?.controls?.browserLocalOnly !== true ||
   ownerUnlockBrowserActionPack?.controls?.publicValuesOnly !== true ||

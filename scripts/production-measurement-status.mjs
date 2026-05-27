@@ -960,6 +960,7 @@ const ownerInputActionPack = combinedOwnerInputPreflight
           noSecretValues: true,
           noGithubMutation: true,
           noWorkflowDispatch: true,
+          posthogPublicKeyShapeValidated: true,
         },
       },
       runtimeConfigPreview: {
@@ -2862,6 +2863,13 @@ const html = `<!doctype html>
 
           if (field.validationKind === 'email-shape' && value && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value)) {
             checks.push(field.envName + ' must look like an email address')
+          }
+
+          if (field.validationKind === 'posthog-public-key' && value && !/^phc_[A-Za-z0-9_-]{4,}$/.test(value)) {
+            checks.push(
+              field.envName +
+                ' must start with phc_ and contain only letters, numbers, underscores, or hyphens',
+            )
           }
 
           return checks

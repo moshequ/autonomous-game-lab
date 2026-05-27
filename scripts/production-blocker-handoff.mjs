@@ -908,6 +908,7 @@ const buildOwnerUnlockBrowserActionPack = (combinedPack) =>
             noGeneratedValueSerialization: true,
             noGithubMutation: true,
             noWorkflowDispatch: true,
+            posthogPublicKeyShapeValidated: true,
           },
         },
         commands: {
@@ -1650,6 +1651,12 @@ const ownerUnlockPageHtml = (briefPayload) => {
 
         if (field.validationKind === 'email-shape' && value && !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value)) {
           problems.push(field.envName + ' must look like an email address');
+        }
+
+        if (field.validationKind === 'posthog-public-key' && value && !/^phc_[A-Za-z0-9_-]{4,}$/.test(value)) {
+          problems.push(
+            field.envName + ' must start with phc_ and contain only letters, numbers, underscores, or hyphens',
+          );
         }
 
         return problems;

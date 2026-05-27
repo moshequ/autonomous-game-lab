@@ -16,6 +16,7 @@ const reportPath = path.join(reportsDir, 'owner-zero-secret-input-sync-latest.md
 const configured = (value) => typeof value === 'string' && value.trim().length > 0
 const trim = (value) => (typeof value === 'string' ? value.trim() : '')
 const unique = (items) => [...new Set(items.filter(Boolean))]
+const posthogPublicKeyPattern = /^phc_[A-Za-z0-9_-]{4,}$/
 const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
     .then((raw) => JSON.parse(raw))
@@ -55,6 +56,12 @@ const definitions = [
           id: 'reasonable-length',
           passed: value.length <= 256,
           detail: 'PostHog project key must be 256 characters or fewer.',
+        },
+        {
+          id: 'posthog-public-key-format',
+          passed: posthogPublicKeyPattern.test(value),
+          detail:
+            'PostHog project key must start with phc_ and contain only letters, numbers, underscores, or hyphens.',
         },
       ]
 

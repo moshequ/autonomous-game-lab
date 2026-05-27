@@ -295,6 +295,11 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
         targetPublicPath: string
         defaultPosthogHost: string
       }
+      valueValidation: {
+        controls: {
+          posthogPublicKeyShapeValidated: boolean
+        }
+      }
       productionInputWatchCommand: {
         workflowFile: string
         workflowUiUrl: string
@@ -333,6 +338,7 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
     targetPublicPath: 'public/owner-runtime-config.json',
     defaultPosthogHost: 'https://us.i.posthog.com',
   })
+  expect(pack.valueValidation.controls.posthogPublicKeyShapeValidated).toBe(true)
   expect(pack.productionInputWatchCommand).toMatchObject({
     workflowFile: 'production-input-watch.yml',
     workflowUiUrl: expect.stringContaining('/actions/workflows/production-input-watch.yml'),
@@ -397,6 +403,12 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
     storeSubmissionStillBlocked: true,
     revenueStillBlocked: true,
   })
+
+  await page.getByLabel('PostHog browser project key').fill('owner_unlock_key')
+  await page.getByRole('button', { name: 'Check zero-secret values' }).click()
+  await expect(page.locator('#owner-unlock-action-status')).toContainText('VITE_POSTHOG_KEY must start with phc_')
+  await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeDisabled()
 
   await page.getByLabel('PostHog browser project key').fill('phc_owner_unlock_key')
   await page.getByRole('button', { name: 'Check zero-secret values' }).click()
@@ -11822,6 +11834,7 @@ test('production measurement status publishes public aggregate evidence handoff'
           noSecretValues: boolean
           noGithubMutation: boolean
           noWorkflowDispatch: boolean
+          posthogPublicKeyShapeValidated: boolean
         }
       }
       runtimeConfigPreview: {
@@ -13160,6 +13173,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerInputActionPack.valueValidation.controls.browserLocalOnly).toBe(true)
   expect(ownerInputActionPack.valueValidation.controls.noGeneratedValueSerialization).toBe(true)
   expect(ownerInputActionPack.valueValidation.controls.noGithubMutation).toBe(true)
+  expect(ownerInputActionPack.valueValidation.controls.posthogPublicKeyShapeValidated).toBe(true)
   expect(ownerInputActionPack.runtimeConfigPreview).toMatchObject({
     id: 'browser-local-owner-runtime-config-preview',
     status: 'ready',
@@ -13632,6 +13646,12 @@ test('production measurement status publishes public aggregate evidence handoff'
     expect.arrayContaining(['VITE_POSTHOG_KEY', 'AGL_SUPPORT_EMAIL']),
   )
   await expect(page.getByText('Local env template downloaded.')).toBeVisible()
+
+  await page.getByLabel('PostHog browser project key').fill('public_smoke_key')
+  await page.getByRole('button', { name: 'Check zero-secret values' }).click()
+  await expect(page.locator('#owner-input-validation-status')).toContainText('VITE_POSTHOG_KEY must start with phc_')
+  await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeDisabled()
 
   await page.getByLabel('PostHog browser project key').fill('phc_public_smoke_key')
   await page.getByRole('button', { name: 'Check zero-secret values' }).click()
