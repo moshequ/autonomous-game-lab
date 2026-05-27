@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-27T08:48:53.513Z",
+  "generatedAt": "2026-05-27T09:59:51.175Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "11504cdbf610",
+  "sourceDataHash": "d16ac1c4f31a",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -690,7 +690,8 @@
         "noSecretValues": true,
         "noGeneratedValueSerialization": true,
         "noGithubMutation": true,
-        "noWorkflowDispatch": true
+        "noWorkflowDispatch": true,
+        "posthogPublicKeyShapeValidated": true
       }
     },
     "commands": {

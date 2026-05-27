@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T08:43:54.673Z",
+  "generatedAt": "2026-05-27T09:58:15.294Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -76,13 +76,13 @@
     "remotePushReady": false
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-repository-channel",
-    "productionReadiness": "blocked",
+    "repositoryReadiness": "repository-channel-ready",
+    "productionReadiness": "ready-after-build",
     "autonomousCadence": "cadence-ready",
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 122,
+    "total": 90,
     "safe": [
       {
         "code": "M",
@@ -102,34 +102,6 @@
         "code": "M",
         "path": "data/autonomous-cadence.json",
         "raw": " M data/autonomous-cadence.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-operator-history.json",
-        "raw": " M data/autonomous-operator-history.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-operator.json",
-        "raw": " M data/autonomous-operator.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-owner-loop.json",
-        "raw": " M data/autonomous-owner-loop.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/autonomous-self-update.json",
-        "raw": " M data/autonomous-self-update.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -179,13 +151,6 @@
         "code": "M",
         "path": "data/local-event-bridge.json",
         "raw": " M data/local-event-bridge.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/objective-audit.json",
-        "raw": " M data/objective-audit.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -345,34 +310,6 @@
       },
       {
         "code": "M",
-        "path": "data/store-compliance.json",
-        "raw": " M data/store-compliance.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-listing-optimizer.json",
-        "raw": " M data/store-listing-optimizer.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-package.json",
-        "raw": " M data/store-package.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "data/store-readiness.json",
-        "raw": " M data/store-readiness.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "ops/codex/autonomous-game-lab-daily-owner-loop.json",
         "raw": " M ops/codex/autonomous-game-lab-daily-owner-loop.json",
         "safe": true,
@@ -382,13 +319,6 @@
         "code": "M",
         "path": "public/analytics-unlock.json",
         "raw": " M public/analytics-unlock.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/compliance.json",
-        "raw": " M public/compliance.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -443,20 +373,6 @@
       },
       {
         "code": "M",
-        "path": "public/store-readiness.html",
-        "raw": " M public/store-readiness.html",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "public/store-readiness.json",
-        "raw": " M public/store-readiness.json",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "reports/acquisition-learning-latest.md",
         "raw": " M reports/acquisition-learning-latest.md",
         "safe": true,
@@ -473,34 +389,6 @@
         "code": "M",
         "path": "reports/autonomous-cadence-latest.md",
         "raw": " M reports/autonomous-cadence-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-operator-history-latest.md",
-        "raw": " M reports/autonomous-operator-history-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-operator-latest.md",
-        "raw": " M reports/autonomous-operator-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-owner-loop-latest.md",
-        "raw": " M reports/autonomous-owner-loop-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/autonomous-self-update-latest.md",
-        "raw": " M reports/autonomous-self-update-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -550,13 +438,6 @@
         "code": "M",
         "path": "reports/local-event-bridge-latest.md",
         "raw": " M reports/local-event-bridge-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/objective-audit-latest.md",
-        "raw": " M reports/objective-audit-latest.md",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -716,34 +597,6 @@
       },
       {
         "code": "M",
-        "path": "reports/store-compliance-latest.md",
-        "raw": " M reports/store-compliance-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-listing-optimizer-latest.md",
-        "raw": " M reports/store-listing-optimizer-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-package-latest.md",
-        "raw": " M reports/store-package-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "reports/store-readiness-latest.md",
-        "raw": " M reports/store-readiness-latest.md",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/acquisitionLearning.ts",
         "raw": " M src/data/acquisitionLearning.ts",
         "safe": true,
@@ -753,41 +606,6 @@
         "code": "M",
         "path": "src/data/autonomousCadence.ts",
         "raw": " M src/data/autonomousCadence.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousOperator.ts",
-        "raw": " M src/data/autonomousOperator.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousOperatorHistory.ts",
-        "raw": " M src/data/autonomousOperatorHistory.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousOwnerLoop.ts",
-        "raw": " M src/data/autonomousOwnerLoop.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/autonomousSelfUpdate.ts",
-        "raw": " M src/data/autonomousSelfUpdate.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/deploymentPlan.ts",
-        "raw": " M src/data/deploymentPlan.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -809,13 +627,6 @@
         "code": "M",
         "path": "src/data/localEventBridge.ts",
         "raw": " M src/data/localEventBridge.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/objectiveAudit.ts",
-        "raw": " M src/data/objectiveAudit.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -870,13 +681,6 @@
       },
       {
         "code": "M",
-        "path": "src/data/productionBootstrap.ts",
-        "raw": " M src/data/productionBootstrap.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
         "path": "src/data/productionEnvironment.ts",
         "raw": " M src/data/productionEnvironment.ts",
         "safe": true,
@@ -909,38 +713,10 @@
         "raw": " M src/data/releaseCandidate.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/repositoryReadiness.ts",
-        "raw": " M src/data/repositoryReadiness.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeCompliance.ts",
-        "raw": " M src/data/storeCompliance.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeListingOptimizer.ts",
-        "raw": " M src/data/storeListingOptimizer.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
-      },
-      {
-        "code": "M",
-        "path": "src/data/storeReadiness.ts",
-        "raw": " M src/data/storeReadiness.ts",
-        "safe": true,
-        "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 122,
+    "safeCount": 90,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -956,10 +732,6 @@
       "data/acquisition-learning.json",
       "data/analytics-rollup.json",
       "data/autonomous-cadence.json",
-      "data/autonomous-operator-history.json",
-      "data/autonomous-operator.json",
-      "data/autonomous-owner-loop.json",
-      "data/autonomous-self-update.json",
       "data/deployment-plan.json",
       "data/event-collector-deployment.json",
       "data/event-collector-smoke.json",
@@ -967,7 +739,6 @@
       "data/event-ingest.json",
       "data/live-site-monitor.json",
       "data/local-event-bridge.json",
-      "data/objective-audit.json",
       "data/organic-seed-loop.json",
       "data/owner-unlock-brief.json",
       "data/owner-unlock-preflight.json",
@@ -990,13 +761,8 @@
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "data/retention-loop.json",
-      "data/store-compliance.json",
-      "data/store-listing-optimizer.json",
-      "data/store-package.json",
-      "data/store-readiness.json",
       "ops/codex/autonomous-game-lab-daily-owner-loop.json",
       "public/analytics-unlock.json",
-      "public/compliance.json",
       "public/measurement-status.html",
       "public/measurement-status.json",
       "public/owner-runtime-config.json",
@@ -1004,15 +770,9 @@
       "public/owner-unlock-preflight.json",
       "public/owner-unlock.html",
       "public/product-gate-recovery.json",
-      "public/store-readiness.html",
-      "public/store-readiness.json",
       "reports/acquisition-learning-latest.md",
       "reports/analytics-rollup-latest.md",
       "reports/autonomous-cadence-latest.md",
-      "reports/autonomous-operator-history-latest.md",
-      "reports/autonomous-operator-latest.md",
-      "reports/autonomous-owner-loop-latest.md",
-      "reports/autonomous-self-update-latest.md",
       "reports/deployment-plan-latest.md",
       "reports/event-collector-deployment-latest.md",
       "reports/event-collector-smoke-latest.md",
@@ -1020,7 +780,6 @@
       "reports/event-ingest-smoke-latest.md",
       "reports/live-site-monitor-latest.md",
       "reports/local-event-bridge-latest.md",
-      "reports/objective-audit-latest.md",
       "reports/organic-seed-loop-latest.md",
       "reports/owner-unlock-brief-latest.md",
       "reports/owner-unlock-preflight-latest.md",
@@ -1043,21 +802,11 @@
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
-      "reports/store-compliance-latest.md",
-      "reports/store-listing-optimizer-latest.md",
-      "reports/store-package-latest.md",
-      "reports/store-readiness-latest.md",
       "src/data/acquisitionLearning.ts",
       "src/data/autonomousCadence.ts",
-      "src/data/autonomousOperator.ts",
-      "src/data/autonomousOperatorHistory.ts",
-      "src/data/autonomousOwnerLoop.ts",
-      "src/data/autonomousSelfUpdate.ts",
-      "src/data/deploymentPlan.ts",
       "src/data/eventCollectorDeployment.ts",
       "src/data/liveSiteMonitor.ts",
       "src/data/localEventBridge.ts",
-      "src/data/objectiveAudit.ts",
       "src/data/organicSeedLoop.ts",
       "src/data/ownerZeroSecretInputSync.ts",
       "src/data/performanceBudget.ts",
@@ -1065,16 +814,14 @@
       "src/data/productGateRecovery.ts",
       "src/data/productionActivation.ts",
       "src/data/productionBlockerHandoff.ts",
-      "src/data/productionBootstrap.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
       "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
-      "src/data/repositoryReadiness.ts",
-      "src/data/storeCompliance.ts",
-      "src/data/storeListingOptimizer.ts",
-      "src/data/storeReadiness.ts"
+      "data/autonomous-self-update.json",
+      "src/data/autonomousSelfUpdate.ts",
+      "reports/autonomous-self-update-latest.md"
     ],
     "commitMessage": "Autonomous daily self-update",
     "skipWhenNoAllowlistedChanges": true
@@ -1199,7 +946,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "122 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "90 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
