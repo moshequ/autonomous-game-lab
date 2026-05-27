@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-27T06:47:42.106Z
+Generated: 2026-05-27T07:00:54.053Z
 
 ## Environment
 
@@ -10,32 +10,32 @@ Analytics: local-or-fixture
 
 ## Repository Channel
 
-Status: repository-channel-ready
+Status: waiting-for-gh-auth
 Repository: moshequ/autonomous-game-lab
 Git worktree: true
-Workflow dispatch ready: true
-- pass: repository-local-git-worktree - Git worktree detected at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
+Workflow dispatch ready: false
+- pass: repository-local-git-worktree - Git worktree detected at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - pass: repository-github-target - Target repository is moshequ/autonomous-game-lab.
 - pass: repository-origin-remote - Origin remote resolves to moshequ/autonomous-game-lab.
 - pass: repository-gh-cli - gh version 2.92.0 (2026-04-28)
-- pass: repository-gh-token - GitHub token is present in the current environment.
+- external-blocker: repository-gh-token - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for non-interactive workflow dispatch.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
-- pass: repository-pages-settings - GitHub Pages build type is workflow; HTTPS enforced true.
-- pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke post-deploy-smoke-observed-live.
+- pass: repository-pages-settings - GitHub Pages settings could not be inspected: gh-credentials-unavailable.
+- pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
 ## Repository Bootstrap
 
-Status: repository-bootstrap-ready
+Status: waiting-for-gh-auth
 Mode: plan-only
 Helper: ops/github/bootstrap-repository.sh
 Local git: true
-- done: repo-bootstrap-inspect-repository-channel - Repository readiness is repository-channel-ready.
-- ready: repo-bootstrap-initialize-local-git - Git worktree is available at /home/runner/work/autonomous-game-lab/autonomous-game-lab.
+- done: repo-bootstrap-inspect-repository-channel - Repository readiness is waiting-for-gh-auth.
+- ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 85 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 2 non-generated source or artifact file(s) are not committed yet.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
-- ready-for-explicit-create-or-attach: repo-bootstrap-create-github-repository - GitHub CLI can create or attach moshequ/autonomous-game-lab when explicitly allowed.
-- ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
+- credential-gated: repo-bootstrap-create-github-repository - GitHub CLI auth or GH_TOKEN/GITHUB_TOKEN is required before remote repository creation.
+- waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
 
 ## Web/PWA
 
@@ -59,9 +59,9 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 674.7 KB / 178 KB gzip; deferred game chunk GameCanvas-Cx4wZbCK.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 675.1 KB / 177.8 KB gzip; deferred game chunk GameCanvas-MSPVUGwu.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 101; smoke URLs 33.
-- pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
+- pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/34 passed, 34 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed; live matches synced deploy true.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 10; primary harbor-rings.
@@ -69,13 +69,13 @@ Status: ready-after-build
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode can-apply-configured-actions; external blockers 14.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 17.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
-- pass: production-activation - Production activation is activation-ready; mode dry-run; execution dry-run.
+- pass: production-activation - Production activation is activation-waiting-for-credentials; mode dry-run; execution dry-run.
 - pass: autonomous-operator - Autonomous operator is operator-held; selected none; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 6.
-- pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-declared-unverified; GitHub scheduled.
+- pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 90; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
@@ -124,24 +124,24 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 674.7 KB (178 KB gzip)
-Deferred game chunk: GameCanvas-Cx4wZbCK.js
-- pass: performance-initial-js-target - Initial JS is 674.7 KB; target is 686 KB.
-- pass: performance-initial-js-budget - Initial JS is 674.7 KB; deploy cap is 700 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 178 KB; budget is 200 KB.
+Initial JS: 675.1 KB (177.8 KB gzip)
+Deferred game chunk: GameCanvas-MSPVUGwu.js
+- pass: performance-initial-js-target - Initial JS is 675.1 KB; target is 686 KB.
+- pass: performance-initial-js-budget - Initial JS is 675.1 KB; deploy cap is 700 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 177.8 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 12.4 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-Cx4wZbCK.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas-MSPVUGwu.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-76627d4fcb63
+Candidate: pwa-23c4447b63b6
 Files: 101
-Aggregate SHA-256: 76627d4fcb637a2cd34ddc49e7310c120f5102664c0d5369c672367664f9c798
+Aggregate SHA-256: 23c4447b63b6988d0a5d8df8725c57d77d12ac59a6bc6a04107f52d1cb0ec412
 - pass: release-dist-inventory - 101 dist files inventoried.
 - pass: release-required-files - 38/38 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -153,45 +153,45 @@ Aggregate SHA-256: 76627d4fcb637a2cd34ddc49e7310c120f5102664c0d5369c672367664f9c
 
 ## Post-Deploy Smoke
 
-Status: post-deploy-smoke-observed-live
-Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-76627d4fcb63
-Checks: 34/34 passed (0 blocked)
+Status: blocked-missing-origin
+Origin: missing
+Candidate: pwa-23c4447b63b6
+Checks: 0/34 passed (34 blocked)
 Local artifact: predeploy-artifact-smoke-passed (34/34 passed)
-- pass: smoke-app-shell - Live URL matched status and required text.
-- pass: smoke-manifest-webmanifest - Live URL matched status and required text.
-- pass: smoke-sw-js - Live URL matched status and required text.
-- pass: smoke-privacy-html - Live URL matched status and required text.
-- pass: smoke-support-html - Live URL matched status and required text.
-- pass: smoke-measurement-status-html - Live URL matched status and required text.
-- pass: smoke-measurement-status-json - Live URL matched status and required text.
-- pass: smoke-owner-unlock-html - Live URL matched status and required text.
-- pass: smoke-owner-unlock-brief-json - Live URL matched status and required text.
-- pass: smoke-owner-unlock-preflight-json - Live URL matched status and required text.
-- pass: smoke-owner-runtime-config-json - Live URL matched status and required text.
-- pass: smoke-analytics-unlock-html - Live URL matched status and required text.
-- pass: smoke-analytics-unlock-json - Live URL matched status and required text.
-- pass: smoke-product-gate-recovery-html - Live URL matched status and required text.
-- pass: smoke-product-gate-recovery-json - Live URL matched status and required text.
-- pass: smoke-install-html - Live URL matched status and required text.
-- pass: smoke-compliance-json - Live URL matched status and required text.
-- pass: smoke-monetization-json - Live URL matched status and required text.
-- pass: smoke-store-readiness-html - Live URL matched status and required text.
-- pass: smoke-store-readiness-json - Live URL matched status and required text.
-- pass: smoke-app-ads-txt - Live URL matched status and required text.
-- pass: smoke-well-known-assetlinks-json - Live URL matched status and required text.
-- pass: smoke-gate-sample-html - Live URL matched status and required text.
-- pass: smoke-sample-next-html - Live URL matched status and required text.
-- pass: smoke-sample-next-json - Live URL matched status and required text.
-- pass: smoke-sample-fastest-html - Live URL matched status and required text.
-- pass: smoke-sample-fastest-json - Live URL matched status and required text.
-- pass: smoke-seed-kit-html - Live URL matched status and required text.
-- pass: smoke-seed-next-html - Live URL matched status and required text.
-- pass: smoke-seed-next-json - Live URL matched status and required text.
-- pass: smoke-sitemap-xml - Live URL matched status and required text.
-- pass: smoke-monetization-html - Live URL matched status and required text.
-- pass: smoke-games-canopy-bloom-html - Live URL matched status and required text.
-- pass: smoke-release-candidate-manifest - Live release manifest is reachable; it does not match the current local release candidate.
+- blocked: smoke-app-shell - fetch failed
+- blocked: smoke-manifest-webmanifest - fetch failed
+- blocked: smoke-sw-js - fetch failed
+- blocked: smoke-privacy-html - fetch failed
+- blocked: smoke-support-html - fetch failed
+- blocked: smoke-measurement-status-html - fetch failed
+- blocked: smoke-measurement-status-json - fetch failed
+- blocked: smoke-owner-unlock-html - fetch failed
+- blocked: smoke-owner-unlock-brief-json - fetch failed
+- blocked: smoke-owner-unlock-preflight-json - fetch failed
+- blocked: smoke-owner-runtime-config-json - fetch failed
+- blocked: smoke-analytics-unlock-html - fetch failed
+- blocked: smoke-analytics-unlock-json - fetch failed
+- blocked: smoke-product-gate-recovery-html - fetch failed
+- blocked: smoke-product-gate-recovery-json - fetch failed
+- blocked: smoke-install-html - fetch failed
+- blocked: smoke-compliance-json - fetch failed
+- blocked: smoke-monetization-json - fetch failed
+- blocked: smoke-store-readiness-html - fetch failed
+- blocked: smoke-store-readiness-json - fetch failed
+- blocked: smoke-app-ads-txt - fetch failed
+- blocked: smoke-well-known-assetlinks-json - fetch failed
+- blocked: smoke-gate-sample-html - fetch failed
+- blocked: smoke-sample-next-html - fetch failed
+- blocked: smoke-sample-next-json - fetch failed
+- blocked: smoke-sample-fastest-html - fetch failed
+- blocked: smoke-sample-fastest-json - fetch failed
+- blocked: smoke-seed-kit-html - fetch failed
+- blocked: smoke-seed-next-html - fetch failed
+- blocked: smoke-seed-next-json - fetch failed
+- blocked: smoke-sitemap-xml - fetch failed
+- blocked: smoke-monetization-html - fetch failed
+- blocked: smoke-games-canopy-bloom-html - fetch failed
+- blocked: smoke-release-candidate-manifest - fetch failed
 
 ## Post-Deploy Artifact Sync
 
@@ -280,16 +280,16 @@ Prompt: armed (autonomy-cockpit-replay-card)
 ## Production Bootstrap
 
 Status: production-bootstrap-ready
-Mode: can-apply-configured-actions
+Mode: waiting-for-external-credentials
 Setup script: ops/github/setup-production.sh
-- ready: bootstrap-repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch ready.
-- ready: bootstrap-repository-bootstrap - Repository bootstrap repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh; local git ready.
-- waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin configured; support missing-production-address.
+- waiting-for-gh-auth: bootstrap-repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
+- waiting-for-gh-auth: bootstrap-repository-bootstrap - Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.
+- waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.
 - ready: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
-- ready: bootstrap-github-pages-settings - GitHub CLI can configure Pages to use the Actions workflow source.
-- ready: bootstrap-autonomous-self-update - Self-update gate configured; direct push configured.
-- partially-configured: bootstrap-github-actions-variables - 10/24 repository variable value(s) present in this environment.
-- partially-configured: bootstrap-github-actions-secrets - 5/8 repository secret value(s) present in this environment.
+- waiting-for-gh-auth: bootstrap-github-pages-settings - GitHub CLI authentication is required before Pages settings can be synced.
+- ready: bootstrap-autonomous-self-update - Self-update gate missing; direct push held.
+- partially-configured: bootstrap-github-actions-variables - 6/24 repository variable value(s) present in this environment.
+- partially-configured: bootstrap-github-actions-secrets - 3/8 repository secret value(s) present in this environment.
 - blocked-needs-cloudflare-env: bootstrap-event-collector - Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: bootstrap-monetization-gate - Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: bootstrap-store-compliance-unblock - 3 store compliance blocker(s) remain.
@@ -301,7 +301,7 @@ Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
 Owner inputs: 4
 Missing env: 7
-Missing secrets: 3
+Missing secrets: 5
 Next unlock: production-analytics-browser
 Unlock kit: production-analytics-browser
 - web-support-ready-store-email-deferred: handoff-support-contact - Web support channel and store support email
@@ -336,11 +336,11 @@ Executed: 6
 
 Status: cadence-ready
 Cadence: twice-daily-local-daily-ci
-Codex app: active-declared-unverified
+Codex app: active-confirmed
 GitHub Actions: scheduled
 Freshness: fresh; stale artifacts 0
 - pass: cadence-codex-automation-manifest - Codex app automation manifest declares autonomous-game-lab-daily-owner-loop.
-- pass: cadence-codex-automation-installed - Codex automation storage is unavailable in this environment; GitHub Actions remains the CI scheduler.
+- pass: cadence-codex-automation-installed - Codex app automation autonomous-game-lab-daily-owner-loop is active, scheduled, local, and pointed at this workspace.
 - pass: cadence-codex-automation-single-active-owner-loop - No duplicate active Codex owner-loop automations share this workspace.
 - pass: cadence-local-operate-script - autonomous:operate is npm run autonomous:daily && npm run autonomous:operator -- --execute && npm run autonomous:after-action && npm run test:e2e; autonomous:after-action is npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:acquisition && npm run autonomous:retention && npm run autonomous:organic-seed-loop && npm run autonomous:pwa-install && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:player-evidence-watchdog && npm run autonomous:measurement-status && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:deploy-plan && npm run autonomous:readiness && npm run autonomous:objective-audit && npm run autonomous:readiness && npm run autonomous:owner-loop && npm run autonomous:operator && npm run test:automation.
 - pass: cadence-cadence-refresh-script - autonomous:cadence is node scripts/autonomous-cadence.mjs.

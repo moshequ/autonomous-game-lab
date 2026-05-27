@@ -123,6 +123,7 @@ export interface LocalAnalyticsExportCoverage {
 
 const bufferKey = 'agl.analytics.events'
 const forwardedIdsKey = 'agl.analytics.forwardedEventIds'
+const posthogForwardedIdsKey = 'agl.analytics.posthogForwardedEventIds'
 const localExportReceiptKey = 'agl.analytics.localExportReceipt'
 const anonymousIdKey = 'agl.analytics.anonymousId'
 const sessionIdKey = 'agl.analytics.sessionId'
@@ -208,6 +209,7 @@ const initPosthog = (key: string | null, host: string | null) => {
     posthog.opt_out_capturing()
   } else {
     posthog.opt_in_capturing()
+    replayBufferedEventsToPosthog()
   }
 }
 
@@ -503,12 +505,28 @@ export const markLocalAnalyticsExported = (
 }
 
 const readForwardedIds = () => {
+  return readStoredIdSet(forwardedIdsKey)
+}
+
+const writeForwardedIds = (ids: Set<string>) => {
+  writeStoredIdSet(forwardedIdsKey, ids)
+}
+
+const readPosthogForwardedIds = () => {
+  return readStoredIdSet(posthogForwardedIdsKey)
+}
+
+const writePosthogForwardedIds = (ids: Set<string>) => {
+  writeStoredIdSet(posthogForwardedIdsKey, ids)
+}
+
+const readStoredIdSet = (key: string) => {
   if (typeof window === 'undefined') {
     return new Set<string>()
   }
 
   try {
-    const raw = window.localStorage.getItem(forwardedIdsKey)
+    const raw = window.localStorage.getItem(key)
     const ids = raw ? (JSON.parse(raw) as string[]) : []
     return new Set(ids.filter((id) => typeof id === 'string'))
   } catch {
@@ -516,12 +534,12 @@ const readForwardedIds = () => {
   }
 }
 
-const writeForwardedIds = (ids: Set<string>) => {
+const writeStoredIdSet = (key: string, ids: Set<string>) => {
   if (typeof window === 'undefined') {
     return
   }
 
-  window.localStorage.setItem(forwardedIdsKey, JSON.stringify([...ids].slice(-1000)))
+  window.localStorage.setItem(key, JSON.stringify([...ids].slice(-1000)))
 }
 
 const markForwardedEvents = (events: AnalyticsEvent[]) => {
@@ -532,6 +550,51 @@ const markForwardedEvents = (events: AnalyticsEvent[]) => {
   }
 
   writeForwardedIds(forwardedIds)
+}
+
+const markPosthogForwardedEvents = (events: AnalyticsEvent[]) => {
+  const forwardedIds = readPosthogForwardedIds()
+
+  for (const event of events) {
+    forwardedIds.add(event.id)
+  }
+
+  writePosthogForwardedIds(forwardedIds)
+}
+
+const captureEventToPosthog = (
+  event: AnalyticsEvent,
+  replayProperties: AnalyticsProperties = {},
+) => {
+  if (!posthogReady || isExternalAnalyticsOptedOut()) {
+    return false
+  }
+
+  posthog.capture(event.name, {
+    ...event.properties,
+    ...replayProperties,
+  })
+  markPosthogForwardedEvents([event])
+  return true
+}
+
+const replayBufferedEventsToPosthog = () => {
+  if (!posthogReady || isExternalAnalyticsOptedOut()) {
+    return
+  }
+
+  const forwardedIds = readPosthogForwardedIds()
+  const pendingEvents = readBuffer()
+    .filter((event) => !forwardedIds.has(event.id))
+    .slice(-100)
+
+  for (const event of pendingEvents) {
+    captureEventToPosthog(event, {
+      replayedFromLocalBuffer: true,
+      originalEventId: event.id,
+      originalCreatedAt: event.createdAt,
+    })
+  }
 }
 
 const collectorEndpoint = () => {
@@ -655,6 +718,7 @@ export const initAnalytics = () => {
       posthog.opt_out_capturing()
     } else {
       posthog.opt_in_capturing()
+      replayBufferedEventsToPosthog()
       flushBufferedEventsToCollector()
     }
   })
@@ -714,12 +778,9 @@ export const trackEvent = (
     createdAt: new Date().toISOString(),
   }
 
-  if (posthogReady && !isExternalAnalyticsOptedOut()) {
-    posthog.capture(name, enrichedProperties)
-  }
-
   const nextEvents = [...readBuffer(), event]
   writeBuffer(nextEvents)
+  captureEventToPosthog(event)
   flushBufferedEventsToCollector()
   if (typeof window !== 'undefined') {
     window.dispatchEvent(new CustomEvent<AnalyticsEvent>('agl:analytics', { detail: event }))

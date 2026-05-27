@@ -112,6 +112,74 @@ test('measurement status creates an importable local event drop', async ({ page 
   await expect(page.getByText('Local event drop downloaded.')).toBeVisible()
 })
 
+test('runtime PostHog config replays pre-config buffered events once', async ({ page }) => {
+  await page.route('**/owner-runtime-config.json', async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 250))
+    await route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({
+        id: 'owner-runtime-config',
+        status: 'owner-runtime-config-ready',
+        source: 'owner-zero-secret-input-sync',
+        configuredPublicInputNames: ['VITE_POSTHOG_KEY'],
+        missingPublicInputNames: [],
+        analytics: {
+          provider: 'posthog-browser',
+          posthogConfigured: true,
+          posthogKey: 'phc_runtime_replay_smoke',
+          posthogHost: 'https://us.i.posthog.com',
+        },
+      }),
+    })
+  })
+  await page.route('https://us.i.posthog.com/**', (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      headers: { 'Access-Control-Allow-Origin': '*' },
+      body: '{}',
+    }),
+  )
+
+  await page.goto('/')
+
+  await expect
+    .poll(() =>
+      page.evaluate(() => {
+        const events = JSON.parse(window.localStorage.getItem('agl.analytics.events') ?? '[]') as Array<{
+          id: string
+          name: string
+        }>
+        const posthogForwardedIds = JSON.parse(
+          window.localStorage.getItem('agl.analytics.posthogForwardedEventIds') ?? '[]',
+        ) as string[]
+        const appLoaded = events.find((event) => event.name === 'app_loaded')
+
+        return {
+          appLoadedBuffered: Boolean(appLoaded),
+          appLoadedForwarded: appLoaded ? posthogForwardedIds.includes(appLoaded.id) : false,
+          uniqueForwardedIds: new Set(posthogForwardedIds).size,
+          forwardedIds: posthogForwardedIds.length,
+        }
+      }),
+    )
+    .toMatchObject({
+      appLoadedBuffered: true,
+      appLoadedForwarded: true,
+      uniqueForwardedIds: expect.any(Number),
+      forwardedIds: expect.any(Number),
+    })
+
+  const replayState = await page.evaluate(() => {
+    const forwardedIds = JSON.parse(window.localStorage.getItem('agl.analytics.posthogForwardedEventIds') ?? '[]') as string[]
+    return {
+      uniqueForwardedIds: new Set(forwardedIds).size,
+      forwardedIds: forwardedIds.length,
+    }
+  })
+  expect(replayState.uniqueForwardedIds).toBe(replayState.forwardedIds)
+})
+
 test('measurement status copies and downloads the player evidence invite pack', async ({ page }) => {
   const measurement = JSON.parse(await readFile('data/production-measurement-status.json', 'utf8')) as {
     publicEvidenceHandoff: {
