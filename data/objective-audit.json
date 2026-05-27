@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T05:03:35.149Z",
+  "generatedAt": "2026-05-27T05:05:42.183Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -97,7 +97,7 @@
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 33",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34; local artifact predeploy-artifact-smoke-passed 34/34",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26480863459; live matches artifact true; candidate pwa-d749b9c4be0a",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26491912623; live matches artifact true; candidate pwa-0fcbf647ce36",
         "Live site monitor: live-site-monitor-passed; checks 34/34; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
@@ -244,13 +244,13 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 111,
-    "currentGitWorktreeDirtyFiles": 111,
-    "currentGeneratedEvidenceDirtyFiles": 111,
+    "currentWorktreeDirtyFiles": 102,
+    "currentGitWorktreeDirtyFiles": 102,
+    "currentGeneratedEvidenceDirtyFiles": 102,
     "currentNonGeneratedWorktreeDirtyFiles": 0,
     "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "bd3be305aaf1",
+    "productionBootstrapSourceDataHash": "eabbc236f0f4",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
