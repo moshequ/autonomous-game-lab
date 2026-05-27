@@ -560,6 +560,27 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   const deployment = JSON.parse(await readFile('data/deployment-plan.json', 'utf8')) as {
     status: string
   }
+  const monetization = JSON.parse(await readFile('data/monetization-plan.json', 'utf8')) as {
+    adProviderOwnerInputPack: {
+      unlockId: string
+      status: string
+      localEnvFile: string
+      missingInputNames: string[]
+      missingInputCount: number
+      secretInputCount: number
+      providerPaths: Array<{ id: string }>
+      localEnvTemplateLines: string[]
+      revenueStillBlockedUntilProductGatesPass: boolean
+      browserLocalActionPack: {
+        status: string
+      }
+      controls: {
+        noRevenueEnablement: boolean
+        noPaidSpend: boolean
+        noStoreSubmission: boolean
+      }
+    }
+  }
   const productionMeasurement = JSON.parse(await readFile('data/production-measurement-status.json', 'utf8')) as {
     ownerUnlockPreflight?: {
       status: string
@@ -622,6 +643,38 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
   await expect(page.getByText('blocked-by-product-gates')).toBeVisible()
   await expect(page.getByText('Spend guard')).toBeVisible()
   await expect(page.getByText('no-spend')).toBeVisible()
+  const adProviderUnlock = page.getByLabel('Ad Provider Unlock')
+  await expect(adProviderUnlock).toContainText(monetization.adProviderOwnerInputPack.status)
+  await expect(adProviderUnlock).toContainText(monetization.adProviderOwnerInputPack.unlockId)
+  await expect(adProviderUnlock).toContainText(monetization.adProviderOwnerInputPack.localEnvFile)
+  await expect(adProviderUnlock).toContainText(
+    `${monetization.adProviderOwnerInputPack.missingInputCount}/${monetization.adProviderOwnerInputPack.secretInputCount}`,
+  )
+  await expect(adProviderUnlock).toContainText(
+    monetization.adProviderOwnerInputPack.providerPaths.find((providerPath) => providerPath.id === 'web-adsense')
+      ?.id ?? monetization.adProviderOwnerInputPack.providerPaths[0]?.id ?? 'none',
+  )
+  await expect(adProviderUnlock).toContainText(monetization.adProviderOwnerInputPack.browserLocalActionPack.status)
+  for (const inputName of monetization.adProviderOwnerInputPack.missingInputNames) {
+    await expect(adProviderUnlock).toContainText(inputName)
+  }
+  for (const templateLine of monetization.adProviderOwnerInputPack.localEnvTemplateLines) {
+    await expect(adProviderUnlock).toContainText(templateLine)
+  }
+  if (monetization.adProviderOwnerInputPack.revenueStillBlockedUntilProductGatesPass) {
+    await expect(adProviderUnlock).toContainText('revenue gates apply')
+  }
+  if (
+    monetization.adProviderOwnerInputPack.controls.noRevenueEnablement &&
+    monetization.adProviderOwnerInputPack.controls.noPaidSpend &&
+    monetization.adProviderOwnerInputPack.controls.noStoreSubmission
+  ) {
+    await expect(adProviderUnlock).toContainText('no revenue/spend/store')
+  }
+  await expect(adProviderUnlock.getByRole('button', { name: 'Provider template' })).toBeVisible()
+  await expect(adProviderUnlock.getByRole('button', { name: 'Provider helper' })).toBeVisible()
+  await expect(adProviderUnlock.getByRole('button', { name: 'Validate' })).toBeVisible()
+  await expect(adProviderUnlock.getByRole('button', { name: 'Sync provider' })).toBeVisible()
   await expect(page.getByText('Paid acquisition')).toBeVisible()
   await expect(page.getByText('guarded-operations')).toBeVisible()
   await expect(page.getByText('Incident drill')).toBeVisible()

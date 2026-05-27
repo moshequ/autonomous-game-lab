@@ -27,18 +27,11 @@ import { autonomyBacklog, games } from './data/games'
 import { experimentResults } from './data/experimentResults'
 import { generatedPlayableGames } from './data/generatedPlayableGames'
 import { growthPlan } from './data/growthPlan'
-import { liveSiteMonitor } from './data/liveSiteMonitor'
 import { monetizationPlan } from './data/monetizationPlan'
 import { portfolioPolicy } from './data/portfolioPolicy'
 import { promotionDecision } from './data/promotionDecision'
 import { prototypePipeline } from './data/prototypePipeline'
 import { productionResponse } from './data/productionResponse'
-import { productionMeasurementStatus } from './data/productionMeasurementStatus'
-import { productionBootstrap } from './data/productionBootstrap'
-import { productionBlockerHandoff } from './data/productionBlockerHandoff'
-import { productionActivation } from './data/productionActivation'
-import { autonomousOperator } from './data/autonomousOperator'
-import { autonomousOperatorHistory } from './data/autonomousOperatorHistory'
 import { objectiveAudit } from './data/objectiveAudit'
 import { organicSeedLoop } from './data/organicSeedLoop'
 import { firstMoveCoach } from './data/firstMoveCoach'
@@ -217,6 +210,13 @@ type LateOpsData = {
   autonomousSelfUpdate: typeof import('./data/autonomousSelfUpdate').autonomousSelfUpdate
   releaseHealth: typeof import('./data/releaseHealth').releaseHealth
   productionEnvironment: typeof import('./data/productionEnvironment').productionEnvironment
+  liveSiteMonitor: typeof import('./data/liveSiteMonitor').liveSiteMonitor
+  productionBootstrap: typeof import('./data/productionBootstrap').productionBootstrap
+  productionBlockerHandoff: typeof import('./data/productionBlockerHandoff').productionBlockerHandoff
+  productionActivation: typeof import('./data/productionActivation').productionActivation
+  productionMeasurementStatus: typeof import('./data/productionMeasurementStatus').productionMeasurementStatus
+  autonomousOperator: typeof import('./data/autonomousOperator').autonomousOperator
+  autonomousOperatorHistory: typeof import('./data/autonomousOperatorHistory').autonomousOperatorHistory
   incidentDrill: typeof import('./data/incidentDrill').incidentDrill
   deploymentPlan: typeof import('./data/deploymentPlan').deploymentPlan
   eventCollectorDeployment: typeof import('./data/eventCollectorDeployment').eventCollectorDeployment
@@ -975,6 +975,13 @@ function App() {
         autonomousSelfUpdateModule,
         releaseHealthModule,
         productionEnvironmentModule,
+        liveSiteMonitorModule,
+        productionBootstrapModule,
+        productionBlockerHandoffModule,
+        productionActivationModule,
+        productionMeasurementStatusModule,
+        autonomousOperatorModule,
+        autonomousOperatorHistoryModule,
         incidentDrillModule,
         deploymentPlanModule,
         eventCollectorDeploymentModule,
@@ -996,6 +1003,13 @@ function App() {
         import('./data/autonomousSelfUpdate'),
         import('./data/releaseHealth'),
         import('./data/productionEnvironment'),
+        import('./data/liveSiteMonitor'),
+        import('./data/productionBootstrap'),
+        import('./data/productionBlockerHandoff'),
+        import('./data/productionActivation'),
+        import('./data/productionMeasurementStatus'),
+        import('./data/autonomousOperator'),
+        import('./data/autonomousOperatorHistory'),
         import('./data/incidentDrill'),
         import('./data/deploymentPlan'),
         import('./data/eventCollectorDeployment'),
@@ -1023,6 +1037,13 @@ function App() {
         autonomousSelfUpdate: autonomousSelfUpdateModule.autonomousSelfUpdate,
         releaseHealth: releaseHealthModule.releaseHealth,
         productionEnvironment: productionEnvironmentModule.productionEnvironment,
+        liveSiteMonitor: liveSiteMonitorModule.liveSiteMonitor,
+        productionBootstrap: productionBootstrapModule.productionBootstrap,
+        productionBlockerHandoff: productionBlockerHandoffModule.productionBlockerHandoff,
+        productionActivation: productionActivationModule.productionActivation,
+        productionMeasurementStatus: productionMeasurementStatusModule.productionMeasurementStatus,
+        autonomousOperator: autonomousOperatorModule.autonomousOperator,
+        autonomousOperatorHistory: autonomousOperatorHistoryModule.autonomousOperatorHistory,
         incidentDrill: incidentDrillModule.incidentDrill,
         deploymentPlan: deploymentPlanModule.deploymentPlan,
         eventCollectorDeployment: eventCollectorDeploymentModule.eventCollectorDeployment,
@@ -1060,6 +1081,16 @@ function App() {
   const randomBalance = activeBalance.strategies.find((strategy) => strategy.strategy === 'random')
   const greedyBalance = activeBalance.strategies.find((strategy) => strategy.strategy === 'greedy')
   const firstPlacement = monetizationPlan.placements[0]
+  const adProviderInputPack = monetizationPlan.adProviderOwnerInputPack
+  const adProviderPrimaryPath =
+    adProviderInputPack.providerPaths.find((providerPath) => providerPath.id === 'web-adsense') ??
+    adProviderInputPack.providerPaths[0]
+  const adProviderTemplateText = adProviderInputPack.localEnvTemplateLines.join('\n').trim()
+  const adProviderTemplateCommand =
+    adProviderInputPack.commands.setupWriteLocalEnvTemplate ??
+    adProviderInputPack.commands.writeLocalEnvTemplate
+  const adProviderValidateCommand = adProviderInputPack.commands.refreshMonetization
+  const adProviderSyncCommand = adProviderInputPack.commands.syncConfiguredValues
   const monetizationRuntime = getMonetizationRuntimeState({
     plan: monetizationPlan,
     unitEconomics,
@@ -1153,17 +1184,25 @@ function App() {
       ? 'decision-ready'
       : 'export-ready'
     : 'idle'
+  const productionBootstrapData = lateOpsData?.productionBootstrap ?? null
+  const productionBlockerHandoffData = lateOpsData?.productionBlockerHandoff ?? null
+  const productionActivationData = lateOpsData?.productionActivation ?? null
+  const productionMeasurementStatusData = lateOpsData?.productionMeasurementStatus ?? null
+  const liveSiteMonitorData = lateOpsData?.liveSiteMonitor ?? null
+  const autonomousOperatorData = lateOpsData?.autonomousOperator ?? null
+  const autonomousOperatorHistoryData = lateOpsData?.autonomousOperatorHistory ?? null
   const firstMoveCoachPrimary =
     firstMoveCoach.targets.find((target) => target.gameId === firstMoveCoach.summary.primaryTargetId) ??
     firstMoveCoach.targets.find((target) => target.enabled)
-  const productionBootstrapReadyGroups = productionBootstrap.summary.readyGroups ?? 0
+  const productionBootstrapReadyGroups = productionBootstrapData?.summary.readyGroups ?? 0
   const productionBlockerNextHandoff =
-    productionBlockerHandoff.topHandoffItems.find(
-      (item) => item.id === productionBlockerHandoff.summary.nextBestUnlockId,
+    productionBlockerHandoffData?.topHandoffItems.find(
+      (item) => item.id === productionBlockerHandoffData.summary.nextBestUnlockId,
     ) ??
-    productionBlockerHandoff.topHandoffItems.find((item) => item.ownerInputRequired) ??
-    productionBlockerHandoff.topHandoffItems[0]
-  const productionBlockerNextUnlockKit = productionBlockerHandoff.nextUnlockKit
+    productionBlockerHandoffData?.topHandoffItems.find((item) => item.ownerInputRequired) ??
+    productionBlockerHandoffData?.topHandoffItems[0] ??
+    null
+  const productionBlockerNextUnlockKit = productionBlockerHandoffData?.nextUnlockKit ?? null
   const productionBlockerUnlockPath =
     productionBlockerNextUnlockKit?.paths.find(
       (unlockPath) => unlockPath.id === productionBlockerNextUnlockKit.recommendedPathId,
@@ -1172,9 +1211,8 @@ function App() {
     productionBlockerNextUnlockKit?.paths.find(
       (unlockPath) => unlockPath.id === productionBlockerNextUnlockKit.lowestInputPathId,
     ) ?? productionBlockerNextUnlockKit?.paths[0]
-  const productionActivationRunnableActions = productionActivation.plannedActions.filter(
-    (action) => action.runnableNow,
-  ).length
+  const productionActivationRunnableActions =
+    productionActivationData?.plannedActions.filter((action) => action.runnableNow).length ?? 0
   const supportChannelStatus = supportChannel.status as string
   const supportChannelRepository = supportChannel.repository.target ?? 'missing'
   const supportChannelReady = supportChannelStatus === 'support-channel-ready'
@@ -1193,7 +1231,7 @@ function App() {
   const supportFeedbackTopSignal = (supportFeedback.topSignals as readonly { label: string }[])[0]
   const supportFeedbackAggregateEvidence = supportFeedback.aggregateEvidence
   const productionMeasurementPublicHandoff = (
-    productionMeasurementStatus as {
+    (productionMeasurementStatusData ?? {}) as {
       publicEvidenceHandoff?: {
         status: string
         aggregateEvidence: { notes: number; starts: number; completions: number }
@@ -1205,7 +1243,7 @@ function App() {
     }
   ).publicEvidenceHandoff
   const productionMeasurementAnalyticsUnlock = (
-    productionMeasurementStatus as {
+    (productionMeasurementStatusData ?? {}) as {
       analyticsUnlock?: {
         status: string
         recommendedPathId: string
@@ -1221,7 +1259,7 @@ function App() {
     }
   ).analyticsUnlock
   const productionMeasurementExternalUnlockQueue = (
-    productionMeasurementStatus as {
+    (productionMeasurementStatusData ?? {}) as {
       externalUnlockQueue?: {
         status: string
         nextBestUnlockId: string | null
@@ -1231,7 +1269,7 @@ function App() {
     }
   ).externalUnlockQueue
   const productionMeasurementOwnerUnlockPreflight = (
-    productionMeasurementStatus as {
+    (productionMeasurementStatusData ?? {}) as {
       ownerUnlockPreflight?: {
         status: string
         combinedOwnerInputPreflight?: {
@@ -1270,7 +1308,7 @@ function App() {
   const productionMeasurementCombinedOwnerInput =
     productionMeasurementOwnerUnlockPreflight?.combinedOwnerInputPreflight
   const productionMeasurementOwnerInputActionPack = (
-    productionMeasurementStatus as {
+    (productionMeasurementStatusData ?? {}) as {
       ownerInputActionPack?: {
         status: string
         localEnvFile: string
@@ -1392,10 +1430,10 @@ function App() {
       } | null
     }
   ).storeExternalInputHandoff
-  const liveSiteMonitorOrigin = liveSiteMonitor.origin.origin ?? 'missing'
-  const operatorSelectedAction = autonomousOperator.selectedAction as { id: string } | null
+  const liveSiteMonitorOrigin = liveSiteMonitorData?.origin.origin ?? 'missing'
+  const operatorSelectedAction = (autonomousOperatorData?.selectedAction as { id: string } | null) ?? null
   const operatorExternalInputHandoff = (
-    autonomousOperator as {
+    (autonomousOperatorData ?? {}) as {
       externalInputHandoff?: {
         nextUnlockId: string | null
         recommendedPathId: string | null
@@ -1404,7 +1442,7 @@ function App() {
       } | null
     }
   ).externalInputHandoff
-  const operatorHistorySummary = autonomousOperatorHistory.summary
+  const operatorHistorySummary = autonomousOperatorHistoryData?.summary ?? null
   const objectiveAuditSummary = objectiveAudit.summary
   const trafficCampaigns = useMemo(() => trafficSeeding.campaigns.slice(0, 4), [])
   const trafficCampaignProgress = useMemo(
@@ -4373,7 +4411,7 @@ function App() {
               <div className="monetizationRuntime" aria-label="Live Site Monitor">
                 <div>
                   <span>Live Site Monitor</span>
-                  <strong>{liveSiteMonitor.status}</strong>
+                  <strong>{liveSiteMonitorData?.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Origin</span>
@@ -4382,38 +4420,46 @@ function App() {
                 <div>
                   <span>Checks</span>
                   <strong>
-                    {liveSiteMonitor.summary.passed}/{liveSiteMonitor.summary.planned}
+                    {liveSiteMonitorData?.summary.passed ?? 'loading'}/
+                    {liveSiteMonitorData?.summary.planned ?? 'loading'}
                   </strong>
                 </div>
                 <div>
                   <span>Synced release</span>
-                  <strong>{liveSiteMonitor.summary.liveMatchesSyncedDeploy ? 'matched' : 'review'}</strong>
+                  <strong>
+                    {liveSiteMonitorData?.summary.liveMatchesSyncedDeploy
+                      ? 'matched'
+                      : liveSiteMonitorData
+                        ? 'review'
+                        : 'loading'}
+                  </strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Production Bootstrap">
                 <div>
                   <span>Production Bootstrap</span>
-                  <strong>{productionBootstrap.status}</strong>
+                  <strong>{productionBootstrapData?.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Mode</span>
-                  <strong>{productionBootstrap.mode}</strong>
+                  <strong>{productionBootstrapData?.mode ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Setup groups</span>
                   <strong>
-                    {productionBootstrapReadyGroups}/{productionBootstrap.summary.totalGroups}
+                    {productionBootstrapReadyGroups}/
+                    {productionBootstrapData?.summary.totalGroups ?? 'loading'}
                   </strong>
                 </div>
                 <div>
                   <span>External blockers</span>
-                  <strong>{productionBootstrap.summary.externalBlockers}</strong>
+                  <strong>{productionBootstrapData?.summary.externalBlockers ?? 'loading'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Production Blocker Handoff">
                 <div>
                   <span>Production Handoff</span>
-                  <strong>{productionBlockerHandoff.status}</strong>
+                  <strong>{productionBlockerHandoffData?.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Next unlock</span>
@@ -4421,12 +4467,13 @@ function App() {
                 </div>
                 <div>
                   <span>Owner inputs</span>
-                  <strong>{productionBlockerHandoff.summary.ownerActionRequired}</strong>
+                  <strong>{productionBlockerHandoffData?.summary.ownerActionRequired ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Missing config</span>
                   <strong>
-                    {productionBlockerHandoff.summary.missingEnv}/{productionBlockerHandoff.summary.missingSecrets}
+                    {productionBlockerHandoffData?.summary.missingEnv ?? 'loading'}/
+                    {productionBlockerHandoffData?.summary.missingSecrets ?? 'loading'}
                   </strong>
                 </div>
                 <div>
@@ -4449,15 +4496,15 @@ function App() {
               <div className="monetizationRuntime" aria-label="Production Activation">
                 <div>
                   <span>Production Activation</span>
-                  <strong>{productionActivation.status}</strong>
+                  <strong>{productionActivationData?.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Mode</span>
-                  <strong>{productionActivation.mode}</strong>
+                  <strong>{productionActivationData?.mode ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Execution</span>
-                  <strong>{productionActivation.execution.status}</strong>
+                  <strong>{productionActivationData?.execution.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Runnable actions</span>
@@ -4685,11 +4732,11 @@ function App() {
               <div className="monetizationRuntime" aria-label="Production Measurement">
                 <div>
                   <span>Production Measurement</span>
-                  <strong>{productionMeasurementStatus.status}</strong>
+                  <strong>{productionMeasurementStatusData?.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Active path</span>
-                  <strong>{productionMeasurementStatus.activePath}</strong>
+                  <strong>{productionMeasurementStatusData?.activePath ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Public handoff</span>
@@ -5041,11 +5088,11 @@ function App() {
               <div className="monetizationRuntime" aria-label="Autonomous Operator">
                 <div>
                   <span>Autonomous Operator</span>
-                  <strong>{autonomousOperator.status}</strong>
+                  <strong>{autonomousOperatorData?.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Mode</span>
-                  <strong>{autonomousOperator.mode}</strong>
+                  <strong>{autonomousOperatorData?.mode ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Selected action</span>
@@ -5053,7 +5100,7 @@ function App() {
                 </div>
                 <div>
                   <span>Execution</span>
-                  <strong>{autonomousOperator.execution.status}</strong>
+                  <strong>{autonomousOperatorData?.execution.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Next unlock</span>
@@ -5232,19 +5279,19 @@ function App() {
               <div className="monetizationRuntime" aria-label="Operator History">
                 <div>
                   <span>Operator History</span>
-                  <strong>{autonomousOperatorHistory.status}</strong>
+                  <strong>{autonomousOperatorHistoryData?.status ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Records</span>
-                  <strong>{operatorHistorySummary.totalRecords}</strong>
+                  <strong>{operatorHistorySummary?.totalRecords ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Executed</span>
-                  <strong>{operatorHistorySummary.executedRecords}</strong>
+                  <strong>{operatorHistorySummary?.executedRecords ?? 'loading'}</strong>
                 </div>
                 <div>
                   <span>Last action</span>
-                  <strong>{operatorHistorySummary.lastActionId ?? 'none'}</strong>
+                  <strong>{operatorHistorySummary?.lastActionId ?? 'loading'}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Autonomous Cadence">
@@ -5773,6 +5820,145 @@ function App() {
                     ? 'configured'
                     : 'pending'}
                 </strong>
+              </div>
+              <div className="monetizationRuntime priorityRuntime" aria-label="Ad Provider Unlock">
+                <div>
+                  <span>Ad Provider Unlock</span>
+                  <strong>{adProviderInputPack.status}</strong>
+                </div>
+                <div>
+                  <span>Unlock</span>
+                  <strong>{adProviderInputPack.unlockId}</strong>
+                </div>
+                <div>
+                  <span>Local env</span>
+                  <strong>{adProviderInputPack.localEnvFile}</strong>
+                </div>
+                <div>
+                  <span>Missing / secrets</span>
+                  <strong>
+                    {adProviderInputPack.missingInputCount}/{adProviderInputPack.secretInputCount}
+                  </strong>
+                </div>
+                <div>
+                  <span>Primary path</span>
+                  <strong>{adProviderPrimaryPath?.id ?? 'none'}</strong>
+                </div>
+                <div>
+                  <span>Browser pack</span>
+                  <strong>{adProviderInputPack.browserLocalActionPack.status}</strong>
+                </div>
+                <div>
+                  <span>Gate safety</span>
+                  <strong>
+                    {adProviderInputPack.revenueStillBlockedUntilProductGatesPass
+                      ? 'revenue gates apply'
+                      : 'review'}
+                  </strong>
+                </div>
+                <div>
+                  <span>Guardrails</span>
+                  <strong>
+                    {adProviderInputPack.controls.noRevenueEnablement &&
+                    adProviderInputPack.controls.noPaidSpend &&
+                    adProviderInputPack.controls.noStoreSubmission
+                      ? 'no revenue/spend/store'
+                      : 'review'}
+                  </strong>
+                </div>
+                <ul className="ownerUnlockList">
+                  {adProviderInputPack.localEnvTemplateLines.map((line) => (
+                    <li key={line}>
+                      <code>{line}</code>
+                    </li>
+                  ))}
+                </ul>
+                <div className="ownerUnlockActions">
+                  <button
+                    className="tinyButton"
+                    type="button"
+                    disabled={!adProviderTemplateText}
+                    onClick={() =>
+                      copyOwnerUnlockPackText('ad-provider-template', adProviderTemplateText, {
+                        inputCount: adProviderInputPack.missingInputCount,
+                        localEnvFile: adProviderInputPack.localEnvFile,
+                        noGithubMutation: adProviderInputPack.controls.localTemplateWriteNoGithubMutation,
+                        noSecretValuesStored: adProviderInputPack.controls.noSecretValuesStored,
+                        noWorkflowDispatchFromPage: adProviderInputPack.controls.noWorkflowDispatch,
+                        pathId: adProviderPrimaryPath?.id ?? adProviderInputPack.unlockId,
+                        publicValuesOnly: adProviderInputPack.controls.publicValuesOnly,
+                        secretInputCount: adProviderInputPack.secretInputCount,
+                        unlockIds: adProviderInputPack.unlockId,
+                      })
+                    }
+                  >
+                    <Copy size={14} aria-hidden="true" />
+                    Provider template
+                  </button>
+                  <button
+                    className="tinyButton subtleButton"
+                    type="button"
+                    disabled={!adProviderTemplateCommand}
+                    onClick={() =>
+                      copyOwnerUnlockPackText('ad-provider-helper', adProviderTemplateCommand, {
+                        inputCount: adProviderInputPack.missingInputCount,
+                        localEnvFile: adProviderInputPack.localEnvFile,
+                        noGithubMutation: adProviderInputPack.controls.localTemplateWriteNoGithubMutation,
+                        noSecretValuesStored: adProviderInputPack.controls.noSecretValuesStored,
+                        noWorkflowDispatchFromPage: adProviderInputPack.controls.noWorkflowDispatch,
+                        pathId: adProviderPrimaryPath?.id ?? adProviderInputPack.unlockId,
+                        publicValuesOnly: adProviderInputPack.controls.publicValuesOnly,
+                        secretInputCount: adProviderInputPack.secretInputCount,
+                        unlockIds: adProviderInputPack.unlockId,
+                      })
+                    }
+                  >
+                    <Copy size={14} aria-hidden="true" />
+                    Provider helper
+                  </button>
+                  <button
+                    className="tinyButton subtleButton"
+                    type="button"
+                    disabled={!adProviderValidateCommand}
+                    onClick={() =>
+                      copyOwnerUnlockPackText('ad-provider-validate', adProviderValidateCommand, {
+                        inputCount: adProviderInputPack.missingInputCount,
+                        localEnvFile: adProviderInputPack.localEnvFile,
+                        noGithubMutation: true,
+                        noSecretValuesStored: adProviderInputPack.controls.noSecretValuesStored,
+                        noWorkflowDispatchFromPage: true,
+                        pathId: adProviderPrimaryPath?.id ?? adProviderInputPack.unlockId,
+                        publicValuesOnly: adProviderInputPack.controls.publicValuesOnly,
+                        secretInputCount: adProviderInputPack.secretInputCount,
+                        unlockIds: adProviderInputPack.unlockId,
+                      })
+                    }
+                  >
+                    <Copy size={14} aria-hidden="true" />
+                    Validate
+                  </button>
+                  <button
+                    className="tinyButton subtleButton"
+                    type="button"
+                    disabled={!adProviderSyncCommand}
+                    onClick={() =>
+                      copyOwnerUnlockPackText('ad-provider-sync', adProviderSyncCommand, {
+                        inputCount: adProviderInputPack.missingInputCount,
+                        localEnvFile: adProviderInputPack.localEnvFile,
+                        noGithubMutation: false,
+                        noSecretValuesStored: adProviderInputPack.controls.noSecretValuesStored,
+                        noWorkflowDispatchFromPage: adProviderInputPack.controls.noWorkflowDispatch,
+                        pathId: adProviderPrimaryPath?.id ?? adProviderInputPack.unlockId,
+                        publicValuesOnly: adProviderInputPack.controls.publicValuesOnly,
+                        secretInputCount: adProviderInputPack.secretInputCount,
+                        unlockIds: adProviderInputPack.unlockId,
+                      })
+                    }
+                  >
+                    <Copy size={14} aria-hidden="true" />
+                    Sync provider
+                  </button>
+                </div>
               </div>
               <div className="factRow">
                 <span>app-ads.txt</span>
