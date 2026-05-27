@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-26T22:49:04.623Z",
+  "generatedAt": "2026-05-27T07:21:08.001Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "252dcd21a496",
+  "sourceDataHash": "17dc9da60247",
   "dailyChallenge": {
-    "date": "2026-05-26",
+    "date": "2026-05-27",
     "gameId": "market-pulse",
     "title": "Market Pulse",
-    "seed": "daily-20260526-27o",
+    "seed": "daily-20260527-ol",
     "reason": "Market Pulse has the strongest blended portfolio score (51.912)."
   },
   "sourceStatus": {
@@ -90,7 +90,7 @@
     "ctaLabel": "Queue tomorrow",
     "dismissLabel": "Not today",
     "copy": "Queue tomorrow's board to protect your local daily streak.",
-    "nextChallengeDate": "2026-05-27",
+    "nextChallengeDate": "2026-05-28",
     "cooldown": "one prompt per daily challenge date",
     "reason": "D1 retention is 17% and the gate is 18%; ask for a local return intent after a completed run.",
     "telemetry": {
@@ -140,7 +140,7 @@
     "trigger": "after-completed-run",
     "ctaLabel": "Copy return link",
     "queryParam": "return_intent",
-    "intentDate": "2026-05-27",
+    "intentDate": "2026-05-28",
     "campaignId": "gate-sample-20260527-d1Retention",
     "telemetry": {
       "copied": "daily_return_link_copied"
@@ -162,7 +162,7 @@
     "ctaLabel": "Save reminder",
     "queryParam": "return_intent",
     "fileExtension": ".ics",
-    "intentDate": "2026-05-27",
+    "intentDate": "2026-05-28",
     "campaignId": "gate-sample-20260527-d1Retention",
     "telemetry": {
       "downloaded": "daily_return_calendar_downloaded"
@@ -248,7 +248,7 @@
       "evidenceReadyNow": false,
       "lastScanAt": "2026-05-22T13:53:13.086Z",
       "lastScanStatus": "no-evidence-found",
-      "scanAgeHours": 104.93,
+      "scanAgeHours": 113.46,
       "cooldownRemainingHours": 0,
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
     },
@@ -305,7 +305,7 @@
     },
     {
       "id": "confirm-return-intent",
-      "label": "Queue 2026-05-27 board intent",
+      "label": "Queue 2026-05-28 board intent",
       "event": "daily_return_prompt_clicked",
       "gameId": "market-pulse",
       "reward": "local-return-intent",
@@ -313,7 +313,7 @@
     },
     {
       "id": "show-return-commitment",
-      "label": "Show saved return path options for 2026-05-27",
+      "label": "Show saved return path options for 2026-05-28",
       "event": "daily_return_commitment_viewed",
       "gameId": "market-pulse",
       "reward": "return-path-followup",
@@ -321,7 +321,7 @@
     },
     {
       "id": "copy-return-link",
-      "label": "Copy 2026-05-27 return link",
+      "label": "Copy 2026-05-28 return link",
       "event": "daily_return_link_copied",
       "gameId": "market-pulse",
       "reward": "player-saved-return-link",
@@ -329,7 +329,7 @@
     },
     {
       "id": "save-return-reminder",
-      "label": "Save 2026-05-27 return reminder",
+      "label": "Save 2026-05-28 return reminder",
       "event": "daily_return_calendar_downloaded",
       "gameId": "market-pulse",
       "reward": "player-saved-calendar-reminder",

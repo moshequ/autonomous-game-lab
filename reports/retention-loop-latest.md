@@ -1,6 +1,6 @@
 # Retention Loop
 
-Generated: 2026-05-26T22:49:04.623Z
+Generated: 2026-05-27T07:21:08.001Z
 Status: retention-loop-ready
 Daily challenge: Market Pulse (market-pulse)
 D1 retention: 17%
@@ -11,10 +11,10 @@ Replay rate: 31%
 - armed: finish-daily-challenge - Finish Market Pulse
 - armed: show-daily-goal-reward - Show daily goal reward after a finished run
 - armed: return-tomorrow - Return tomorrow for a fresh board
-- armed: confirm-return-intent - Queue 2026-05-27 board intent
-- armed: show-return-commitment - Show saved return path options for 2026-05-27
-- armed: copy-return-link - Copy 2026-05-27 return link
-- armed: save-return-reminder - Save 2026-05-27 return reminder
+- armed: confirm-return-intent - Queue 2026-05-28 board intent
+- armed: show-return-commitment - Show saved return path options for 2026-05-28
+- armed: copy-return-link - Copy 2026-05-28 return link
+- armed: save-return-reminder - Save 2026-05-28 return reminder
 - armed: activate-return-intent - Start a queued return board
 - armed: share-daily-seed - Share the daily seed after a run
 
@@ -38,7 +38,7 @@ Replay rate: 31%
 - Status: armed
 - Surface: autonomy-cockpit-retention-card
 - Copy: Queue tomorrow's board to protect your local daily streak.
-- Next challenge date: 2026-05-27
+- Next challenge date: 2026-05-28
 - Telemetry: daily_return_prompt_viewed, daily_return_prompt_clicked, daily_return_prompt_dismissed
 
 ## Return Intent Activation
@@ -60,7 +60,7 @@ Replay rate: 31%
 
 - Status: armed
 - CTA: Copy return link
-- Intent date: 2026-05-27
+- Intent date: 2026-05-28
 - Campaign: gate-sample-20260527-d1Retention
 - Telemetry: daily_return_link_copied
 
@@ -68,7 +68,7 @@ Replay rate: 31%
 
 - Status: armed
 - CTA: Save reminder
-- Intent date: 2026-05-27
+- Intent date: 2026-05-28
 - Campaign: gate-sample-20260527-d1Retention
 - Telemetry: daily_return_calendar_downloaded
 

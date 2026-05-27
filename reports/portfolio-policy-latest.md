@@ -1,9 +1,9 @@
 # Portfolio Policy
 
-Generated: 2026-05-26T14:51:04.577Z
+Generated: 2026-05-27T07:08:03.038Z
 Status: portfolio-policy-ready
 Analytics source: fixture-sample
-Daily challenge: Market Pulse (daily-20260526-27o)
+Daily challenge: Market Pulse (daily-20260527-ol)
 
 ## Rotation
 
