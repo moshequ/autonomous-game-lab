@@ -1,10 +1,38 @@
 {
-  "generatedAt": "2026-05-27T05:05:31.286Z",
+  "generatedAt": "2026-05-27T05:57:51.877Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": ".env.production.local",
+        "keys": [
+          "VITE_POSTHOG_KEY",
+          "VITE_POSTHOG_HOST",
+          "AGL_SUPPORT_EMAIL"
+        ]
+      },
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL",
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -36,7 +64,7 @@
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "environment-or-cli"
+    "source": "origin-remote"
   },
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
@@ -49,20 +77,20 @@
     "runListAvailable": true
   },
   "deploymentFreshness": {
-    "status": "current-head-deployed",
-    "currentHeadSha": "9ed2f2e74d2ca4bd2c2e6b7e306af83e95afc09f",
-    "currentHeadParentSha": "45dd5bd268476de767ae7d94b34b8330019a79d1",
+    "status": "current-head-not-deployed",
+    "currentHeadSha": "8b09c4fb47ca8ba4129ef59a098c31c51d5348bf",
+    "currentHeadParentSha": "bd1dd4e6a6694736d3ffc3b557a99c5c26141c4b",
     "currentBranch": "main",
-    "currentHeadSubject": "Autonomous public evidence intake",
+    "currentHeadSubject": "Perf: lazy-load ops evidence datasets + resync autonomy bundle",
     "selectedRunHeadSha": "9ed2f2e74d2ca4bd2c2e6b7e306af83e95afc09f",
-    "selectedRunHeadMatchesCurrent": true,
-    "selectedRunHeadMatchesDeploySource": true,
+    "selectedRunHeadMatchesCurrent": false,
+    "selectedRunHeadMatchesDeploySource": false,
     "currentHeadIsPostDeployEvidenceCommit": false,
-    "currentHeadDeployed": true,
-    "deploySourceHeadSha": "9ed2f2e74d2ca4bd2c2e6b7e306af83e95afc09f",
-    "deploySourceDeployed": true,
+    "currentHeadDeployed": false,
+    "deploySourceHeadSha": "8b09c4fb47ca8ba4129ef59a098c31c51d5348bf",
+    "deploySourceDeployed": false,
     "currentHeadQueuedOrRunning": false,
-    "currentHeadSuccessfulRunId": 26491912623,
+    "currentHeadSuccessfulRunId": null,
     "currentHeadActiveRunId": null,
     "latestRunId": 26491912623,
     "latestRunStatus": "completed",
@@ -70,9 +98,9 @@
     "latestRunHeadSha": "9ed2f2e74d2ca4bd2c2e6b7e306af83e95afc09f",
     "liveMatchesCurrentLocalCandidate": false,
     "liveCandidateId": "pwa-0fcbf647ce36",
-    "localCandidateId": "pwa-ceb92ba1f205",
+    "localCandidateId": "pwa-8364ec8bf07b",
     "liveAggregateHash": "0fcbf647ce36c2c44ffc0042e4984ee7a4ca91e06f7bcb7c0d5713b7516b6419",
-    "localAggregateHash": "ceb92ba1f20537cc73d62d27089861585c89d15bbc1829e1cb174fe232555e42",
+    "localAggregateHash": "8364ec8bf07b40d9cdb2547292faf033d71018c06a6a1b36c6094b60f7c2d542",
     "workflowRunListAvailable": true
   },
   "artifact": {
@@ -141,7 +169,7 @@
   },
   "summary": {
     "planned": 7,
-    "passed": 7,
+    "passed": 6,
     "failed": 0,
     "blocked": 0
   },
@@ -192,12 +220,12 @@
     },
     {
       "id": "deployment-freshness",
-      "status": "pass",
-      "detail": "Current main 9ed2f2e74d2c is deployed."
+      "status": "monitor",
+      "detail": "Current main 8b09c4fb47ca is not the latest strict deployed artifact; freshness current-head-not-deployed."
     }
   ],
   "nextActions": [
-    "Current main is deployed; keep strict live artifact evidence in sync after each Pages run.",
+    "Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.",
     "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.",
     "Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass."
   ]
