@@ -298,6 +298,8 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
       valueValidation: {
         controls: {
           posthogPublicKeyShapeValidated: boolean
+          supportEmailShapeValidated: boolean
+          supportEmailLengthValidated: boolean
         }
       }
       productionInputWatchCommand: {
@@ -339,6 +341,8 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
     defaultPosthogHost: 'https://us.i.posthog.com',
   })
   expect(pack.valueValidation.controls.posthogPublicKeyShapeValidated).toBe(true)
+  expect(pack.valueValidation.controls.supportEmailShapeValidated).toBe(true)
+  expect(pack.valueValidation.controls.supportEmailLengthValidated).toBe(true)
   expect(pack.productionInputWatchCommand).toMatchObject({
     workflowFile: 'production-input-watch.yml',
     workflowUiUrl: expect.stringContaining('/actions/workflows/production-input-watch.yml'),
@@ -465,6 +469,13 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
     commandRequiresOwnerRun: true,
     copiedCommandStoresPublicValuesOnly: true,
   })
+
+  await page.getByLabel('Production support email').fill('support-example.com')
+  await page.getByRole('button', { name: 'Check zero-secret values' }).click()
+  await expect(page.locator('#owner-unlock-action-status')).toContainText('AGL_SUPPORT_EMAIL must look like an email')
+  await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeDisabled()
 
   await page.getByLabel('Production support email').fill('support@example.com')
   await page.getByRole('button', { name: 'Check zero-secret values' }).click()
@@ -11835,6 +11846,8 @@ test('production measurement status publishes public aggregate evidence handoff'
           noGithubMutation: boolean
           noWorkflowDispatch: boolean
           posthogPublicKeyShapeValidated: boolean
+          supportEmailShapeValidated: boolean
+          supportEmailLengthValidated: boolean
         }
       }
       runtimeConfigPreview: {
@@ -13174,6 +13187,8 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerInputActionPack.valueValidation.controls.noGeneratedValueSerialization).toBe(true)
   expect(ownerInputActionPack.valueValidation.controls.noGithubMutation).toBe(true)
   expect(ownerInputActionPack.valueValidation.controls.posthogPublicKeyShapeValidated).toBe(true)
+  expect(ownerInputActionPack.valueValidation.controls.supportEmailShapeValidated).toBe(true)
+  expect(ownerInputActionPack.valueValidation.controls.supportEmailLengthValidated).toBe(true)
   expect(ownerInputActionPack.runtimeConfigPreview).toMatchObject({
     id: 'browser-local-owner-runtime-config-preview',
     status: 'ready',
@@ -13710,6 +13725,12 @@ test('production measurement status publishes public aggregate evidence handoff'
     noValuesStored: true,
   })
   expect(analyticsInputWatchCommandReceipt.validatedInputNames).toEqual(['VITE_POSTHOG_KEY'])
+  await page.getByLabel('Production support email').fill('support-example.com')
+  await page.getByRole('button', { name: 'Check zero-secret values' }).click()
+  await expect(page.locator('#owner-input-validation-status')).toContainText('AGL_SUPPORT_EMAIL must look like an email')
+  await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeDisabled()
   await page.getByLabel('Production support email').fill('support@example.com')
   await page.getByRole('button', { name: 'Check zero-secret values' }).click()
   await expect(page.getByText('Zero-secret values passed local checks.')).toBeVisible()
@@ -14239,6 +14260,8 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
           noAccountCreation: boolean
           noStoreSubmission: boolean
           noRevenueEnablement: boolean
+          supportEmailShapeValidated: boolean
+          supportEmailLengthValidated: boolean
         }
       }
       inputInstructions: Array<{
@@ -14479,6 +14502,8 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
       noAccountCreation: true,
       noStoreSubmission: true,
       noRevenueEnablement: true,
+      supportEmailShapeValidated: true,
+      supportEmailLengthValidated: true,
     },
   })
   expect(readiness.supportOwnerInputPack.inputInstructions[0]?.validation.kind).toBe('email-shape')
@@ -14650,6 +14675,12 @@ test('store readiness handoff publishes web, Android, and iOS blockers', async (
   await expect(page.getByRole('heading', { name: 'Production support contact' })).toBeVisible()
   await expect(page.getByLabel('Browser-local support contact')).toContainText('Production support email')
   await expect(page.getByRole('button', { name: 'Check support email' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Download support env' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy support shell export' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy GitHub variable command' })).toBeDisabled()
+  await page.getByLabel('Production support email').fill('support-example.com')
+  await page.getByRole('button', { name: 'Check support email' }).click()
+  await expect(page.locator('#support-contact-validation-status')).toContainText('email-shape')
   await expect(page.getByRole('button', { name: 'Download support env' })).toBeDisabled()
   await expect(page.getByRole('button', { name: 'Copy support shell export' })).toBeDisabled()
   await expect(page.getByRole('button', { name: 'Copy GitHub variable command' })).toBeDisabled()

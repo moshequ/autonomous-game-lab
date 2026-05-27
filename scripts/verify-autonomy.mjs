@@ -4118,6 +4118,8 @@ if (
   ownerUnlockBrowserActionPack?.valueValidation?.controls?.noGeneratedValueSerialization !== true ||
   ownerUnlockBrowserActionPack?.valueValidation?.controls?.noGithubMutation !== true ||
   ownerUnlockBrowserActionPack?.valueValidation?.controls?.posthogPublicKeyShapeValidated !== true ||
+  ownerUnlockBrowserActionPack?.valueValidation?.controls?.supportEmailShapeValidated !== true ||
+  ownerUnlockBrowserActionPack?.valueValidation?.controls?.supportEmailLengthValidated !== true ||
   ownerUnlockBrowserActionPack?.controls?.zeroPaidSpend !== true ||
   ownerUnlockBrowserActionPack?.controls?.browserLocalOnly !== true ||
   ownerUnlockBrowserActionPack?.controls?.publicValuesOnly !== true ||
@@ -4324,6 +4326,7 @@ if (
   !ownerUnlockPreflightSource.includes('ownerInputPack') ||
   !ownerUnlockPreflightSource.includes('combinedOwnerInputPreflight') ||
   !ownerUnlockPreflightSource.includes('validateSupportEmail') ||
+  !ownerUnlockPreflightSource.includes('reasonable-length') ||
   !ownerUnlockPreflightSource.includes('localEnvTemplateLines') ||
   !ownerUnlockPreflightSource.includes('writeLocalEnvTemplate') ||
   !ownerUnlockPreflightSource.includes('writeAnalyticsLocalEnvTemplateMode') ||
@@ -6287,6 +6290,8 @@ if (
   !supportOwnerInputPackCommands.has('./ops/github/setup-production.sh --support-input-template') ||
   supportOwnerInputPack?.inputInstructions?.find((input) => input.envName === 'AGL_SUPPORT_EMAIL')?.validation?.kind !==
     'email-shape' ||
+  supportOwnerInputPack?.browserLocalActionPack?.controls?.supportEmailShapeValidated !== true ||
+  supportOwnerInputPack?.browserLocalActionPack?.controls?.supportEmailLengthValidated !== true ||
   supportOwnerInputPack?.controls?.zeroPaidSpend !== true ||
   supportOwnerInputPack?.controls?.noSecretValuesStored !== true ||
   supportOwnerInputPack?.controls?.noAccountCreation !== true ||
@@ -6368,6 +6373,7 @@ if (
   !storeReadinessSource.includes('supportLocalEnvTemplateCommand') ||
   !storeReadinessSource.includes('storePaybackLadder') ||
   !storeReadinessSource.includes('email-shape') ||
+  !storeReadinessSource.includes('supportEmailLengthValidated') ||
   !storeReadinessSource.includes('AGL_SUPPORT_EMAIL') ||
   !storeReadinessSource.includes('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON') ||
   !storeReadinessSource.includes('noSecretValuesStored') ||

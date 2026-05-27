@@ -909,6 +909,8 @@ const buildOwnerUnlockBrowserActionPack = (combinedPack) =>
             noGithubMutation: true,
             noWorkflowDispatch: true,
             posthogPublicKeyShapeValidated: true,
+            supportEmailShapeValidated: true,
+            supportEmailLengthValidated: true,
           },
         },
         commands: {

@@ -359,6 +359,7 @@ const validateSupportEmail = ({ envName, configuredInRepository }) => {
             containsAt: true,
             hasDomain: true,
             noWhitespace: true,
+            maxLength: 254,
           },
           checks: [passCheck('non-empty-local-input', false, `${envName} must be exported before setup can sync it.`)],
         }
@@ -371,6 +372,7 @@ const validateSupportEmail = ({ envName, configuredInRepository }) => {
     passCheck('has-local-part', Boolean(localPart), `${envName} must include a local part.`),
     passCheck('has-domain', Boolean(domainPart?.includes('.')), `${envName} must include a domain with a dot.`),
     passCheck('no-whitespace', !/\s/.test(value), `${envName} must not contain whitespace.`),
+    passCheck('reasonable-length', value.length <= 254, `${envName} must be 254 characters or fewer.`),
   ]
   const failedChecks = checks.filter((check) => !check.passed)
 
@@ -381,6 +383,7 @@ const validateSupportEmail = ({ envName, configuredInRepository }) => {
       containsAt: true,
       hasDomain: true,
       noWhitespace: true,
+      maxLength: 254,
     },
     checks,
     failedCheckIds: failedChecks.map((check) => check.id),

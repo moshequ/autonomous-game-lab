@@ -961,6 +961,8 @@ const ownerInputActionPack = combinedOwnerInputPreflight
           noGithubMutation: true,
           noWorkflowDispatch: true,
           posthogPublicKeyShapeValidated: true,
+          supportEmailShapeValidated: true,
+          supportEmailLengthValidated: true,
         },
       },
       runtimeConfigPreview: {
