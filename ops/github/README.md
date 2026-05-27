@@ -34,25 +34,31 @@ This folder contains the zero-spend GitHub setup helper for the autonomous PWA r
 ./ops/github/setup-production.sh --analytics-input-template
 ```
 
-9. To create or update only the ignored support-contact template before adding `AGL_SUPPORT_EMAIL`, run:
+9. To create or update only the ignored first-party collector template before adding Cloudflare Worker/R2 values, run:
+
+```bash
+./ops/github/setup-production.sh --collector-input-template
+```
+
+10. To create or update only the ignored support-contact template before adding `AGL_SUPPORT_EMAIL`, run:
 
 ```bash
 ./ops/github/setup-production.sh --support-input-template
 ```
 
-10. To create or update only the ignored ad-provider template before adding public AdSense/AdMob ids, run:
+11. To create or update only the ignored ad-provider template before adding public AdSense/AdMob ids, run:
 
 ```bash
 ./ops/github/setup-production.sh --ad-provider-input-template
 ```
 
-11. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
+12. To initialize/attach the repository transport, run the guarded helper with only the explicit actions you want:
 
 ```bash
 AGL_ALLOW_REPOSITORY_BOOTSTRAP=1 ./ops/github/bootstrap-repository.sh
 ```
 
-12. To sync production variables/secrets, run:
+13. To sync production variables/secrets, run:
 
 ```bash
 ./ops/github/setup-production.sh

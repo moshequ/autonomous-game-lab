@@ -4759,6 +4759,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
       supportsSshUrlRemotes: boolean
       supportsDottedRepositoryNames: boolean
       writesAnalyticsInputTemplate: boolean
+      writesCollectorInputTemplate: boolean
       writesSupportInputTemplate: boolean
       writesAdProviderInputTemplate: boolean
     }
@@ -4796,6 +4797,7 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(bootstrap.setupScript.supportsSshUrlRemotes).toBe(true)
   expect(bootstrap.setupScript.supportsDottedRepositoryNames).toBe(true)
   expect(bootstrap.setupScript.writesAnalyticsInputTemplate).toBe(true)
+  expect(bootstrap.setupScript.writesCollectorInputTemplate).toBe(true)
   expect(bootstrap.setupScript.writesSupportInputTemplate).toBe(true)
   expect(bootstrap.setupScript.writesAdProviderInputTemplate).toBe(true)
   expect(bootstrap.requiredVariables.find((item) => item.repositoryVariable === 'VITE_BASE_PATH')?.valueSource).toMatch(
@@ -4822,6 +4824,8 @@ test('production bootstrap emits zero-spend setup handoff artifacts', async ({ p
   expect(setupScript).toContain('node scripts/owner-unlock-preflight.mjs --write-local-env-template --print')
   expect(setupScript).toContain('--analytics-input-template')
   expect(setupScript).toContain('node scripts/owner-unlock-preflight.mjs --analytics-input-template --print')
+  expect(setupScript).toContain('--collector-input-template')
+  expect(setupScript).toContain('node scripts/event-collector-deploy-plan.mjs --write-local-env-template --print')
   expect(setupScript).toContain('--support-input-template')
   expect(setupScript).toContain('node scripts/store-readiness-page.mjs --write-local-env-template --print')
   expect(setupScript).toContain('--ad-provider-input-template')
@@ -11369,6 +11373,92 @@ test('production measurement status publishes public aggregate evidence handoff'
     checks: Array<{ id: string; status: string }>
     setupRequiredOnce: string[]
     commands: { smoke: string; plan: string }
+    ownerInputPack: {
+      id: string
+      status: string
+      localEnvFile: string
+      inputCount: number
+      variableInputCount: number
+      secretInputCount: number
+      missingInputCount: number
+      missingVariableCount: number
+      missingSecretCount: number
+      invalidInputCount: number
+      publicInputNames: string[]
+      secretInputNames: string[]
+      missingInputNames: string[]
+      missingVariableNames: string[]
+      missingSecretNames: string[]
+      invalidInputNames: string[]
+      requiredVariables: Array<{
+        repositoryName: string
+        envName: string
+        configured: boolean
+        valueSource: string
+        command: string
+        validation: { kind: string; status: string; failedCheckIds: string[] }
+        value?: string
+      }>
+      requiredSecrets: Array<{
+        repositoryName: string
+        envName: string
+        configured: boolean
+        valueSource: string
+        command: string
+        validation: { kind: string; status: string; failedCheckIds: string[] }
+        value?: string
+      }>
+      localEnvTemplateLines: string[]
+      shellExportTemplateLines: string[]
+      commands: {
+        smoke: string
+        plan: string
+        npmWriteLocalEnvTemplate: string
+        writeLocalEnvTemplate: string
+        setupWriteLocalEnvTemplate: string
+        syncConfiguredValues: string
+        workflowDispatch: string
+        deployWorkflow: string
+      }
+      valueValidation: {
+        status: string
+        fields: Array<{
+          envName: string
+          repositoryName: string
+          kind: string
+          configured: boolean
+          valueSource: string
+          validation: { kind: string; status: string; failedCheckIds: string[] }
+        }>
+        controls: {
+          noGeneratedValueSerialization: boolean
+          noGithubMutation: boolean
+          cloudflareAccountIdShapeValidated: boolean
+          bucketNameShapeValidated: boolean
+          allowedOriginsShapeValidated: boolean
+          collectorUrlShapeValidated: boolean
+          exportUrlShapeValidated: boolean
+          tokenPresenceOnly: boolean
+        }
+      }
+      controls: {
+        zeroPaidSpend: boolean
+        noSecretValues: boolean
+        noSecretValuesStored: boolean
+        noSecretValuesSerialized: boolean
+        noWorkflowDispatch: boolean
+        workflowDispatchRequiresRunWorkflows: boolean
+        commandRequiresOwnerRun: boolean
+        noAutomatedAccountCreation: boolean
+        noAccountCreation: boolean
+        noStoreSubmission: boolean
+        noRevenueEnablement: boolean
+        localTemplateWriteNoSecretValues: boolean
+        localTemplateWritePreservesExistingValues: boolean
+        localTemplateWriteNoGithubMutation: boolean
+        templateValuesBlank: boolean
+      }
+    }
   }
   const blockerHandoff = JSON.parse(await readFile('data/production-blocker-handoff.json', 'utf8')) as {
     status: string
@@ -11721,6 +11811,7 @@ test('production measurement status publishes public aggregate evidence handoff'
       }
       checks: Array<{ id: string; status: string }>
       setupRequiredOnce: string[]
+      ownerInputPack: typeof eventCollectorDeployment.ownerInputPack
       commands: { smoke: string; plan: string }
       controls: {
         publicArtifact: boolean
@@ -12711,6 +12802,61 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(measurement.collectorDeployment.setupRequiredOnce.join(' ')).toContain('Cloudflare')
   expect(measurement.collectorDeployment.commands.smoke).toBe('npm run autonomous:event-collector-smoke')
   expect(measurement.collectorDeployment.commands.plan).toBe('npm run autonomous:collector-deploy-plan')
+  expect(eventCollectorDeployment.ownerInputPack).toMatchObject({
+    id: 'first-party-collector-owner-input-pack',
+    localEnvFile: '.env.production.local',
+    inputCount: 8,
+    variableInputCount: 5,
+    secretInputCount: 3,
+  })
+  expect(eventCollectorDeployment.ownerInputPack.publicInputNames).toEqual([
+    'CLOUDFLARE_ACCOUNT_ID',
+    'AGL_EVENT_COLLECTOR_R2_BUCKET',
+    'AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS',
+    'VITE_EVENT_COLLECTOR_URL',
+    'AGL_EVENT_COLLECTOR_EXPORT_URL',
+  ])
+  expect(eventCollectorDeployment.ownerInputPack.secretInputNames).toEqual([
+    'CLOUDFLARE_API_TOKEN',
+    'VITE_EVENT_COLLECTOR_WRITE_TOKEN',
+    'AGL_EVENT_COLLECTOR_ADMIN_TOKEN',
+  ])
+  expect(eventCollectorDeployment.ownerInputPack.localEnvTemplateLines).toEqual([
+    'CLOUDFLARE_ACCOUNT_ID=',
+    'AGL_EVENT_COLLECTOR_R2_BUCKET=',
+    'AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS=',
+    'VITE_EVENT_COLLECTOR_URL=',
+    'AGL_EVENT_COLLECTOR_EXPORT_URL=',
+    'CLOUDFLARE_API_TOKEN=',
+    'VITE_EVENT_COLLECTOR_WRITE_TOKEN=',
+    'AGL_EVENT_COLLECTOR_ADMIN_TOKEN=',
+  ])
+  expect(eventCollectorDeployment.ownerInputPack.shellExportTemplateLines).toContain(
+    'export AGL_EVENT_COLLECTOR_ADMIN_TOKEN=',
+  )
+  expect(eventCollectorDeployment.ownerInputPack.commands.npmWriteLocalEnvTemplate).toBe(
+    'npm run autonomous:collector-input-template',
+  )
+  expect(eventCollectorDeployment.ownerInputPack.commands.setupWriteLocalEnvTemplate).toBe(
+    './ops/github/setup-production.sh --collector-input-template',
+  )
+  expect(eventCollectorDeployment.ownerInputPack.valueValidation.fields.map((field) => field.envName)).toEqual(
+    eventCollectorDeployment.ownerInputPack.localEnvTemplateLines.map((line) => line.replace('=', '')),
+  )
+  expect(eventCollectorDeployment.ownerInputPack.valueValidation.controls.cloudflareAccountIdShapeValidated).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.valueValidation.controls.bucketNameShapeValidated).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.valueValidation.controls.allowedOriginsShapeValidated).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.valueValidation.controls.collectorUrlShapeValidated).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.valueValidation.controls.exportUrlShapeValidated).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.valueValidation.controls.tokenPresenceOnly).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.controls.zeroPaidSpend).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.controls.noSecretValuesStored).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.controls.noSecretValuesSerialized).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.controls.noWorkflowDispatch).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.controls.workflowDispatchRequiresRunWorkflows).toBe(true)
+  expect(eventCollectorDeployment.ownerInputPack.controls.localTemplateWriteNoGithubMutation).toBe(true)
+  expect(JSON.stringify(eventCollectorDeployment.ownerInputPack)).not.toContain('"value"')
+  expect(measurement.collectorDeployment.ownerInputPack).toEqual(eventCollectorDeployment.ownerInputPack)
   expect(measurement.collectorDeployment.controls.zeroPaidSpend).toBe(true)
   expect(measurement.collectorDeployment.controls.noSecretValuesStored).toBe(true)
   expect(JSON.stringify(measurement.collectorDeployment)).not.toContain('"value"')

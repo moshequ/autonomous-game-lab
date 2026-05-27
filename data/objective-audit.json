@@ -1,28 +1,31 @@
 {
-  "generatedAt": "2026-05-27T10:44:36.871Z",
+  "generatedAt": "2026-05-27T10:47:59.666Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 6,
+    "met": 4,
     "prepared": 2,
-    "incomplete": 0,
+    "incomplete": 2,
     "externalBlockers": 15,
     "productBlockers": 7
   },
   "requirements": [
     {
       "id": "web-pwa-game-portal",
-      "status": "met",
+      "status": "incomplete",
       "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
       "evidence": [
-        "Web readiness: ready-after-build",
+        "Web readiness: blocked",
         "Manifest in dist: true",
         "Service worker in dist: true",
         "Release candidate: release-candidate-ready; 101 files",
-        "Deployment plan: ready-for-pages"
+        "Deployment plan: blocked"
       ],
-      "blockers": [],
+      "blockers": [
+        "Live monitor is live-site-monitor-alert; origin https://moshequ.github.io/autonomous-game-lab; checks 33/34 passed; live matches synced deploy false.",
+        "Autonomous self-update is self-update-needs-attention; safe pending 94; unsafe pending 6; remote push held."
+      ],
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
       "completionCritical": true
     },
@@ -76,7 +79,7 @@
         "Backlog: improvement-backlog-ready; items 4; hash e2c7b8df405d",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
         "Applied/deferred actions: 7",
-        "Operator selected: none; status operator-held; execution not-requested"
+        "Operator selected: prepare-repository-channel; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -84,26 +87,29 @@
     },
     {
       "id": "minimal-intervention-autonomy",
-      "status": "met-local",
+      "status": "incomplete",
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
-        "Autonomous cadence: cadence-ready; Codex active-declared-unverified; GitHub scheduled",
-        "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
-        "Operator: operator-held",
+        "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
+        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 6",
+        "Operator: operator-plan-ready",
         "Operator history: operator-history-ready; records 40; executed 4",
         "Bootstrap: production-bootstrap-ready",
         "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 33",
         "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34; local artifact predeploy-artifact-smoke-passed 34/34",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26506328382; live matches artifact true; candidate pwa-24bf000a6eeb",
-        "Live site monitor: live-site-monitor-passed; checks 34/34; live matches synced deploy true",
-        "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
-        "Autonomy score: 98%",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26505562620; live matches artifact true; candidate pwa-3c0a12be6d47",
+        "Live site monitor: live-site-monitor-alert; checks 33/34; live matches synced deploy false",
+        "Repository channel: waiting-for-repository-channel; repository moshequ/autonomous-game-lab; git worktree true",
+        "Autonomy score: 89%",
         "Credential-gated actions: 10"
       ],
       "blockers": [
+        "safe-path-allowlist: 94 safe pending file(s), 6 unsafe pending file(s).",
+        "Live site monitor is not yet proving the public PWA between deploys.",
+        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
         "POSTHOG_PROJECT_ID + POSTHOG_PERSONAL_API_KEY: Optional autonomous production analytics and experiment result rollups from PostHog.",
@@ -214,6 +220,7 @@
       "annual-fee-payback: Store spend allowed is false; projected Apple payback is not available."
     ],
     "all": [
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
       "Set AGL_EVENT_COLLECTOR_EXPORT_URL + AGL_EVENT_COLLECTOR_ADMIN_TOKEN or PostHog server credentials for autonomous production rollups.",
@@ -243,20 +250,20 @@
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 100,
-    "currentGitWorktreeDirtyFiles": 100,
-    "currentGeneratedEvidenceDirtyFiles": 100,
-    "currentNonGeneratedWorktreeDirtyFiles": 0,
-    "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
+    "currentWorktreeClean": false,
+    "currentWorktreeDirtyFiles": 126,
+    "currentGitWorktreeDirtyFiles": 126,
+    "currentGeneratedEvidenceDirtyFiles": 120,
+    "currentNonGeneratedWorktreeDirtyFiles": 6,
+    "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "2dc440b546de",
+    "productionBootstrapSourceDataHash": "7b774433cfbe",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "hold-for-external-input"
+    "nextBestAction": "prepare-repository-channel"
   }
 }

@@ -21,6 +21,11 @@ if [[ "${1:-}" == "--analytics-input-template" || "${1:-}" == "--posthog-input-t
   exit 0
 fi
 
+if [[ "${1:-}" == "--collector-input-template" || "${1:-}" == "--event-collector-input-template" || "${1:-}" == "--write-collector-input-template" ]]; then
+  node scripts/event-collector-deploy-plan.mjs --write-local-env-template --print --template-only
+  exit 0
+fi
+
 if [[ "${1:-}" == "--support-input-template" || "${1:-}" == "--support-contact-template" || "${1:-}" == "--write-support-input-template" ]]; then
   node scripts/store-readiness-page.mjs --write-local-env-template --print --template-only
   exit 0

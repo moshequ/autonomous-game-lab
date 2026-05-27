@@ -836,6 +836,7 @@ const publicCollectorDeployment = {
     detail: check.detail,
   })),
   setupRequiredOnce: eventCollectorDeployment.setupRequiredOnce ?? [],
+  ownerInputPack: eventCollectorDeployment.ownerInputPack ?? null,
   commands: {
     smoke: eventCollectorDeployment.commands?.smoke ?? 'npm run autonomous:event-collector-smoke',
     plan: eventCollectorDeployment.commands?.plan ?? 'npm run autonomous:collector-deploy-plan',
@@ -1814,6 +1815,34 @@ const collectorDeploymentHtml = (deployment) =>
               : '<li>Regenerate the collector deployment plan before setup.</li>'
           }
         </ul>
+        ${
+          deployment.ownerInputPack
+            ? `<h3>Collector Owner Input Pack</h3>
+        <div class="grid" aria-label="Collector owner input pack">
+          <div class="card">
+            <span>Status</span>
+            <strong>${escapeHtml(deployment.ownerInputPack.status)}</strong>
+          </div>
+          <div class="card">
+            <span>Missing variables</span>
+            <strong>${deployment.ownerInputPack.missingVariableCount ?? 0}</strong>
+          </div>
+          <div class="card">
+            <span>Missing secrets</span>
+            <strong>${deployment.ownerInputPack.missingSecretCount ?? 0}</strong>
+          </div>
+          <div class="card">
+            <span>No secret values</span>
+            <strong>${deployment.ownerInputPack.controls?.noSecretValuesStored === true}</strong>
+          </div>
+        </div>
+        <ul>
+          <li>Local env template: ${escapeHtml(deployment.ownerInputPack.localEnvFile ?? '.env.production.local')}</li>
+          <li>Template command: ${escapeHtml(deployment.ownerInputPack.commands?.setupWriteLocalEnvTemplate ?? 'missing')}</li>
+          <li>Missing inputs: ${escapeHtml(deployment.ownerInputPack.missingInputNames?.join(', ') || 'none')}</li>
+        </ul>`
+            : ''
+        }
         <h3>Commands</h3>
         ${commandList([deployment.commands?.smoke, deployment.commands?.plan, deployment.commands?.deployWorkflow])}
       </section>`

@@ -1,6 +1,6 @@
 # Event Collector Deployment
 
-Generated: 2026-05-27T10:22:06.768Z
+Generated: 2026-05-27T10:45:41.232Z
 Status: blocked-needs-cloudflare-env
 Provider: cloudflare-worker-r2
 Cost posture: free-tier-friendly-no-paid-traffic
@@ -31,9 +31,37 @@ Runs after production input watch: true
 ## One-Time Setup
 
 - Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.
+- Use ./ops/github/setup-production.sh --collector-input-template or npm run autonomous:collector-input-template to create a blank local collector input template without writing values to tracked files.
 - Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.
 - Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.
 - Let Production Input Watch or the Event Collector Deploy workflow run; it refreshes production environment evidence, runs the collector smoke, and only deploys when the full preflight passes.
+
+## Owner Input Pack
+
+- Status: waiting-on-collector-owner-inputs
+- Local env file: .env.production.local
+- Missing variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
+- Missing secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+- Invalid inputs: none
+- No secret values stored: true
+- No workflow dispatch from template: true
+
+### Local Env Template
+
+- CLOUDFLARE_ACCOUNT_ID=
+- AGL_EVENT_COLLECTOR_R2_BUCKET=
+- AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS=
+- VITE_EVENT_COLLECTOR_URL=
+- AGL_EVENT_COLLECTOR_EXPORT_URL=
+- CLOUDFLARE_API_TOKEN=
+- VITE_EVENT_COLLECTOR_WRITE_TOKEN=
+- AGL_EVENT_COLLECTOR_ADMIN_TOKEN=
+
+### Setup Commands
+
+- Write local template: ./ops/github/setup-production.sh --collector-input-template
+- Sync configured values: ./ops/github/setup-production.sh
+- Dispatch after setup: RUN_WORKFLOWS=1 ./ops/github/setup-production.sh
 
 ## Commands
 

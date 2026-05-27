@@ -380,9 +380,34 @@
         <h3>One-Time Setup</h3>
         <ul>
           <li>Create or select a Cloudflare account; the deploy workflow creates or reuses the R2 bucket for collector event batches.</li>
+          <li>Use ./ops/github/setup-production.sh --collector-input-template or npm run autonomous:collector-input-template to create a blank local collector input template without writing values to tracked files.</li>
           <li>Set repository variables CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, and AGL_EVENT_COLLECTOR_EXPORT_URL.</li>
           <li>Set repository secrets CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, and AGL_EVENT_COLLECTOR_ADMIN_TOKEN.</li>
           <li>Let Production Input Watch or the Event Collector Deploy workflow run; it refreshes production environment evidence, runs the collector smoke, and only deploys when the full preflight passes.</li>
+        </ul>
+        <h3>Collector Owner Input Pack</h3>
+        <div class="grid" aria-label="Collector owner input pack">
+          <div class="card">
+            <span>Status</span>
+            <strong>waiting-on-collector-owner-inputs</strong>
+          </div>
+          <div class="card">
+            <span>Missing variables</span>
+            <strong>5</strong>
+          </div>
+          <div class="card">
+            <span>Missing secrets</span>
+            <strong>3</strong>
+          </div>
+          <div class="card">
+            <span>No secret values</span>
+            <strong>true</strong>
+          </div>
+        </div>
+        <ul>
+          <li>Local env template: .env.production.local</li>
+          <li>Template command: ./ops/github/setup-production.sh --collector-input-template</li>
+          <li>Missing inputs: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL, CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN</li>
         </ul>
         <h3>Commands</h3>
         <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>Production Input Watch triggers Event Collector Deploy after Cloudflare variables and secrets are configured.</code></li></ol>

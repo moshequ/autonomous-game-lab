@@ -1058,6 +1058,11 @@ const publicAnalyticsUnlockLeaksValues = (publicAnalyticsUnlock?.paths ?? []).so
 )
 const publicCollectorDeploymentCheckIds = new Set((publicCollectorDeployment.checks ?? []).map((check) => check.id))
 const publicCollectorDeploymentLeaksValues = JSON.stringify(publicCollectorDeployment).includes('"value"')
+const eventCollectorOwnerInputPack = eventCollectorDeployment.ownerInputPack ?? {}
+const eventCollectorOwnerInputNames = new Set(eventCollectorOwnerInputPack.localEnvTemplateLines ?? [])
+const eventCollectorOwnerValidationFields = new Set(
+  (eventCollectorOwnerInputPack.valueValidation?.fields ?? []).map((field) => field.envName),
+)
 const publicExternalUnlockItemIds = new Set((publicExternalUnlockQueue.topItems ?? []).map((item) => item.id))
 const publicExternalUnlockLeaksValues = (publicExternalUnlockQueue.topItems ?? []).some((item) =>
   [...(item.requiredEnv ?? []), ...(item.requiredSecrets ?? [])].some((requiredItem) =>
@@ -1263,6 +1268,7 @@ if (
   !publicCollectorDeployment.setupRequiredOnce?.some((item) => item.includes('Cloudflare')) ||
   publicCollectorDeployment.commands?.smoke !== 'npm run autonomous:event-collector-smoke' ||
   publicCollectorDeployment.commands?.plan !== 'npm run autonomous:collector-deploy-plan' ||
+  JSON.stringify(publicCollectorDeployment.ownerInputPack) !== JSON.stringify(eventCollectorOwnerInputPack) ||
   publicCollectorDeployment.controls?.zeroPaidSpend !== true ||
   publicCollectorDeployment.controls?.noSecretValuesStored !== true ||
   publicCollectorDeploymentLeaksValues ||
@@ -1746,6 +1752,40 @@ if (
   eventCollectorDeployment.workflow?.preflightRequiresWriteToken !== true ||
   eventCollectorDeployment.environment?.bucketConfigured !== eventCollectorDeployment.worker?.bucketConfigured ||
   eventCollectorDeployment.environment?.allowedOriginsConfigured !== eventCollectorDeployment.worker?.allowedOriginsConfigured ||
+  eventCollectorOwnerInputPack.id !== 'first-party-collector-owner-input-pack' ||
+  eventCollectorOwnerInputPack.localEnvFile !== '.env.production.local' ||
+  eventCollectorOwnerInputPack.inputCount !== 8 ||
+  eventCollectorOwnerInputPack.variableInputCount !== 5 ||
+  eventCollectorOwnerInputPack.secretInputCount !== 3 ||
+  !eventCollectorOwnerInputNames.has('CLOUDFLARE_ACCOUNT_ID=') ||
+  !eventCollectorOwnerInputNames.has('AGL_EVENT_COLLECTOR_R2_BUCKET=') ||
+  !eventCollectorOwnerInputNames.has('AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS=') ||
+  !eventCollectorOwnerInputNames.has('VITE_EVENT_COLLECTOR_URL=') ||
+  !eventCollectorOwnerInputNames.has('AGL_EVENT_COLLECTOR_EXPORT_URL=') ||
+  !eventCollectorOwnerInputNames.has('CLOUDFLARE_API_TOKEN=') ||
+  !eventCollectorOwnerInputNames.has('VITE_EVENT_COLLECTOR_WRITE_TOKEN=') ||
+  !eventCollectorOwnerInputNames.has('AGL_EVENT_COLLECTOR_ADMIN_TOKEN=') ||
+  !eventCollectorOwnerValidationFields.has('CLOUDFLARE_ACCOUNT_ID') ||
+  !eventCollectorOwnerValidationFields.has('AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS') ||
+  !eventCollectorOwnerValidationFields.has('VITE_EVENT_COLLECTOR_URL') ||
+  !eventCollectorOwnerValidationFields.has('AGL_EVENT_COLLECTOR_ADMIN_TOKEN') ||
+  eventCollectorOwnerInputPack.commands?.npmWriteLocalEnvTemplate !== 'npm run autonomous:collector-input-template' ||
+  eventCollectorOwnerInputPack.commands?.setupWriteLocalEnvTemplate !==
+    './ops/github/setup-production.sh --collector-input-template' ||
+  eventCollectorOwnerInputPack.commands?.syncConfiguredValues !== './ops/github/setup-production.sh' ||
+  eventCollectorOwnerInputPack.valueValidation?.controls?.cloudflareAccountIdShapeValidated !== true ||
+  eventCollectorOwnerInputPack.valueValidation?.controls?.bucketNameShapeValidated !== true ||
+  eventCollectorOwnerInputPack.valueValidation?.controls?.allowedOriginsShapeValidated !== true ||
+  eventCollectorOwnerInputPack.valueValidation?.controls?.collectorUrlShapeValidated !== true ||
+  eventCollectorOwnerInputPack.valueValidation?.controls?.exportUrlShapeValidated !== true ||
+  eventCollectorOwnerInputPack.valueValidation?.controls?.tokenPresenceOnly !== true ||
+  eventCollectorOwnerInputPack.controls?.zeroPaidSpend !== true ||
+  eventCollectorOwnerInputPack.controls?.noSecretValuesStored !== true ||
+  eventCollectorOwnerInputPack.controls?.noSecretValuesSerialized !== true ||
+  eventCollectorOwnerInputPack.controls?.noWorkflowDispatch !== true ||
+  eventCollectorOwnerInputPack.controls?.workflowDispatchRequiresRunWorkflows !== true ||
+  eventCollectorOwnerInputPack.controls?.localTemplateWriteNoGithubMutation !== true ||
+  JSON.stringify(eventCollectorOwnerInputPack).includes('"value"') ||
   !eventCollectorWorkerSource.includes('parseAllowedOrigins') ||
   !eventCollectorWorkerSource.includes('new URL(value).origin') ||
   !eventCollectorDeployment.checks?.some((check) => check.id === 'worker-source' && check.status === 'pass') ||
@@ -3684,6 +3724,7 @@ if (
   productionBootstrap.setupScript?.supportsSshUrlRemotes !== true ||
   productionBootstrap.setupScript?.supportsDottedRepositoryNames !== true ||
   productionBootstrap.setupScript?.writesAnalyticsInputTemplate !== true ||
+  productionBootstrap.setupScript?.writesCollectorInputTemplate !== true ||
   productionBootstrap.setupScript?.writesSupportInputTemplate !== true ||
   productionBootstrap.repository?.repositoryReadinessStatus !== repositoryReadiness.status ||
   productionBootstrap.repository?.repositoryBootstrapStatus !== repositoryBootstrap.status ||
@@ -3723,6 +3764,8 @@ if (
   !githubSetupScript.includes('node scripts/owner-unlock-preflight.mjs --write-local-env-template --print') ||
   !githubSetupScript.includes('--analytics-input-template') ||
   !githubSetupScript.includes('node scripts/owner-unlock-preflight.mjs --analytics-input-template --print') ||
+  !githubSetupScript.includes('--collector-input-template') ||
+  !githubSetupScript.includes('node scripts/event-collector-deploy-plan.mjs --write-local-env-template --print') ||
   !githubSetupScript.includes('--support-input-template') ||
   !githubSetupScript.includes('node scripts/store-readiness-page.mjs --write-local-env-template --print') ||
   !githubSetupScript.includes('--ad-provider-input-template') ||
@@ -3739,6 +3782,7 @@ if (
   !githubSetupReadme.includes('--owner-unlock-preflight') ||
   !githubSetupReadme.includes('--owner-input-template') ||
   !githubSetupReadme.includes('--analytics-input-template') ||
+  !githubSetupReadme.includes('--collector-input-template') ||
   !githubSetupReadme.includes('--support-input-template') ||
   !githubSetupReadme.includes('--ad-provider-input-template')
 ) {
@@ -5727,6 +5771,10 @@ if (!packageJson.scripts?.['autonomous:event-collector-smoke']?.includes('event-
 
 if (!packageJson.scripts?.['autonomous:collector-deploy-plan']?.includes('event-collector-deploy-plan')) {
   fail('Autonomous scripts must expose the event collector deployment plan.')
+}
+
+if (!packageJson.scripts?.['autonomous:collector-input-template']?.includes('event-collector-deploy-plan.mjs --write-local-env-template')) {
+  fail('Autonomous scripts must expose a first-party collector owner input template command.')
 }
 
 if (!packageJson.scripts?.['autonomous:daily']?.includes('autonomous:collector-deploy-plan')) {

@@ -1,10 +1,10 @@
 export const autonomousSelfUpdate = {
-  "status": "self-update-ready",
+  "status": "self-update-needs-attention",
   "repository": {
     "remotePushReady": false
   },
   "pendingChanges": {
-    "safeCount": 95
+    "safeCount": 94
   },
   "commitPlan": {
     "workflow": ".github/workflows/autonomous-self-update.yml",

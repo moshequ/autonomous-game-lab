@@ -35,6 +35,7 @@
     "autonomous:collector-deploy-plan": "node scripts/event-collector-deploy-plan.mjs",
     "autonomous:event-ingest-smoke": "node scripts/event-ingest-smoke.mjs",
     "autonomous:analytics": "node scripts/analytics-rollup.mjs",
+    "autonomous:collector-input-template": "node scripts/event-collector-deploy-plan.mjs --write-local-env-template --print --template-only",
     "autonomous:store-package": "node scripts/store-packager.mjs",
     "autonomous:store-assets": "node scripts/store-asset-generator.mjs",
     "autonomous:store-listing-optimize": "node scripts/store-listing-optimizer.mjs",
