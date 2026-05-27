@@ -1,6 +1,6 @@
 {
   "script": "node scripts/public-repo-security-audit.mjs",
-  "generatedAt": "2026-05-27T11:08:51.724Z",
+  "generatedAt": "2026-05-27T12:25:28.051Z",
   "status": "public-repo-security-ready",
   "repository": {
     "target": "moshequ/autonomous-game-lab",
@@ -8,7 +8,7 @@
     "isPrivate": false,
     "isPublic": true,
     "url": "https://github.com/moshequ/autonomous-game-lab",
-    "source": "gh-repo-view"
+    "source": "git-remote-fallback-assumed-public"
   },
   "summary": {
     "trackedFilesScanned": 430,

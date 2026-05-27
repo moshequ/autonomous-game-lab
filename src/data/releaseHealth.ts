@@ -1,5 +1,5 @@
 export const releaseHealth = {
-  "generatedAt": "2026-05-25T23:21:17.442Z",
+  "generatedAt": "2026-05-27T12:25:23.401Z",
   "status": "monitoring",
   "analyticsSource": "fixture-sample",
   "retentionSource": "fixture-retention",
