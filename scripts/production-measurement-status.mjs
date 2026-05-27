@@ -36,6 +36,11 @@ const publicRouteHref = (value, fallback = './') => {
   return candidate.startsWith('/') ? `.${candidate}` : candidate
 }
 
+const normalizeRepositorySlug = (value) => {
+  const slug = String(value ?? '').trim()
+  return /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(slug) ? slug : null
+}
+
 const productionEnvironment = await readJson(path.join(dataDir, 'production-environment.json'))
 const analytics = await readJson(path.join(dataDir, 'analytics-rollup.json'))
 const localEventBridge = await readJson(path.join(dataDir, 'local-event-bridge.json'))
@@ -96,6 +101,13 @@ const publicOwnerRuntimeConfig = await readOptionalJson(path.join(publicDir, 'ow
   },
   controls: {},
 })
+const repositorySlug =
+  normalizeRepositorySlug(productionEnvironment.repositoryEnv?.repository) ??
+  normalizeRepositorySlug(productionEnvironment.publicOrigin?.githubPagesCandidate?.repository) ??
+  normalizeRepositorySlug(process.env.GITHUB_REPOSITORY)
+const productionInputWatchWorkflowUiUrl = repositorySlug
+  ? `https://github.com/${repositorySlug}/actions/workflows/production-input-watch.yml`
+  : null
 
 const browserPosthogConfigured = productionEnvironment.analytics?.browserPosthogConfigured === true
 const browserCollectorConfigured = productionEnvironment.analytics?.eventCollector?.browserConfigured === true
@@ -976,6 +988,7 @@ const ownerInputActionPack = combinedOwnerInputPreflight
         status: 'ready',
         workflowFile: 'production-input-watch.yml',
         workflowPath: '.github/workflows/production-input-watch.yml',
+        workflowUiUrl: productionInputWatchWorkflowUiUrl,
         ref: 'main',
         requiredFlag: 'publish_zero_secret_runtime_config=true',
         defaultPosthogHost: 'https://us.i.posthog.com',
@@ -989,6 +1002,7 @@ const ownerInputActionPack = combinedOwnerInputPreflight
           noSecretValues: true,
           noGithubMutation: true,
           noWorkflowDispatchFromPage: true,
+          workflowUiLinkOnly: true,
           commandRequiresOwnerRun: true,
           noStoreSubmission: true,
           noRevenueEnablement: true,
@@ -1722,6 +1736,11 @@ const ownerInputActionPackHtml = (pack) =>
           <button type="button" id="copy-filled-owner-shell-template" disabled>Copy filled shell exports</button>
           <button type="button" id="download-owner-runtime-config-preview" disabled>Download runtime config preview</button>
           <button type="button" id="copy-production-input-watch-command" disabled>Copy input watch command</button>
+          ${
+            pack.productionInputWatchCommand.workflowUiUrl
+              ? `<a id="open-production-input-watch-workflow" href="${escapeHtml(pack.productionInputWatchCommand.workflowUiUrl)}" target="_blank" rel="noreferrer">Open Input Watch</a>`
+              : ''
+          }
         </div>
         <p class="localExportStatus" id="owner-input-validation-status" aria-live="polite">Waiting for local values. Typed values stay in this browser session unless you choose a local download or copy action; generated artifacts contain only field names.</p>
         <div class="actions">
@@ -3018,6 +3037,7 @@ const html = `<!doctype html>
             writeFilledOwnerInputReceipt('copy-production-input-watch-command', validation.entries, {
               workflowFile: ownerInputActionPack.productionInputWatchCommand.workflowFile,
               workflowPath: ownerInputActionPack.productionInputWatchCommand.workflowPath,
+              workflowUiUrl: ownerInputActionPack.productionInputWatchCommand.workflowUiUrl,
               workflowRef: ownerInputActionPack.productionInputWatchCommand.ref,
               defaultedPublicInputNames: ['VITE_POSTHOG_HOST'],
               copiedCommandStoresPublicValuesOnly: true,
@@ -3104,6 +3124,28 @@ const html = `<!doctype html>
         document
           .getElementById('copy-production-input-watch-command')
           ?.addEventListener('click', copyProductionInputWatchCommand)
+        document
+          .getElementById('open-production-input-watch-workflow')
+          ?.addEventListener('click', () => {
+            if (!ownerInputActionPack?.productionInputWatchCommand) {
+              return
+            }
+            writeJson(ownerInputActionPack.receiptStorageKey, {
+              action: 'open-production-input-watch-workflow',
+              actedAt: new Date().toISOString(),
+              packId: ownerInputActionPack.id,
+              sourcePackId: ownerInputActionPack.sourcePackId,
+              workflowFile: ownerInputActionPack.productionInputWatchCommand.workflowFile,
+              workflowPath: ownerInputActionPack.productionInputWatchCommand.workflowPath,
+              workflowUiUrl: ownerInputActionPack.productionInputWatchCommand.workflowUiUrl,
+              workflowRef: ownerInputActionPack.productionInputWatchCommand.ref,
+              noSecretValues: true,
+              noValuesStored: true,
+              noGeneratedValueSerialization: true,
+              noWorkflowDispatchFromPage: true,
+              commandRequiresOwnerRun: true,
+            })
+          })
         ownerInputFields().forEach((field) => {
           ownerInputElement(field)?.addEventListener('input', validateOwnerInputValues)
         })
@@ -3214,6 +3256,7 @@ const report = [
   `- analytics unlock: ${payload.analyticsUnlock?.status ?? 'missing'}`,
   `- analytics unlock path: ${payload.analyticsUnlock?.recommendedPathId ?? 'none'}`,
   `- lowest-input analytics path: ${payload.analyticsUnlock?.lowestInputPathId ?? 'none'}`,
+  `- input watch UI: ${payload.ownerInputActionPack?.productionInputWatchCommand?.workflowUiUrl ?? 'none'}`,
   `- external unlock queue: ${payload.externalUnlockQueue.status}`,
   `- next external unlock: ${payload.externalUnlockQueue.nextBestUnlockId ?? 'none'}`,
   `- owner unlock brief: ${payload.externalUnlockQueue.ownerUnlockBrief?.recommendedPathId ?? 'none'}`,

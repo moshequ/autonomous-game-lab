@@ -229,8 +229,13 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
       }
       productionInputWatchCommand: {
         workflowFile: string
+        workflowUiUrl: string
         requiredFlag: string
-        controls: { commandRequiresOwnerRun: boolean; noWorkflowDispatchFromPage: boolean }
+        controls: {
+          commandRequiresOwnerRun: boolean
+          noWorkflowDispatchFromPage: boolean
+          workflowUiLinkOnly: boolean
+        }
       }
       controls: {
         browserLocalOnly: boolean
@@ -260,10 +265,12 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
   })
   expect(pack.productionInputWatchCommand).toMatchObject({
     workflowFile: 'production-input-watch.yml',
+    workflowUiUrl: expect.stringContaining('/actions/workflows/production-input-watch.yml'),
     requiredFlag: 'publish_zero_secret_runtime_config=true',
   })
   expect(pack.productionInputWatchCommand.controls.commandRequiresOwnerRun).toBe(true)
   expect(pack.productionInputWatchCommand.controls.noWorkflowDispatchFromPage).toBe(true)
+  expect(pack.productionInputWatchCommand.controls.workflowUiLinkOnly).toBe(true)
   expect(pack.controls.browserLocalOnly).toBe(true)
   expect(pack.controls.publicValuesOnly).toBe(true)
   expect(pack.controls.noSecretValuesStored).toBe(true)
@@ -293,6 +300,10 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
   await expect(page.getByRole('button', { name: 'Download filled local env' })).toBeDisabled()
   await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeDisabled()
   await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeDisabled()
+  await expect(page.getByRole('link', { name: 'Open Input Watch' })).toHaveAttribute(
+    'href',
+    pack.productionInputWatchCommand.workflowUiUrl,
+  )
 
   const templateDownloadPromise = page.waitForEvent('download')
   await page.getByRole('button', { name: 'Download local env template' }).click()
@@ -363,6 +374,13 @@ test('owner unlock page packages zero-secret analytics inputs locally', async ({
   expect(copiedCommand).toContain('-f publish_zero_secret_runtime_config=true')
   expect(copiedCommand).toContain("-f vite_posthog_key='phc_owner_unlock_key'")
   expect(copiedCommand).toContain("-f agl_support_email=''")
+  receipt = await page.evaluate((storageKey) => JSON.parse(window.localStorage.getItem(storageKey) ?? '{}'), pack.receiptStorageKey)
+  expect(receipt).toMatchObject({
+    action: 'copy-production-input-watch-command',
+    workflowUiUrl: pack.productionInputWatchCommand.workflowUiUrl,
+    commandRequiresOwnerRun: true,
+    copiedCommandStoresPublicValuesOnly: true,
+  })
 
   await page.getByLabel('Production support email').fill('support@example.com')
   await page.getByRole('button', { name: 'Check zero-secret values' }).click()
@@ -605,6 +623,13 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
     ownerInputActionPack?: {
       localEnvFile: string
       secretInputCount: number
+      productionInputWatchCommand?: {
+        workflowUiUrl?: string | null
+        controls?: {
+          noWorkflowDispatchFromPage?: boolean
+          workflowUiLinkOnly?: boolean
+        }
+      }
       runtimeConfigMinimum?: {
         status: string
         unlockId: string
@@ -802,6 +827,14 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
     await expect(ownerUnlockPack.getByRole('button', { name: 'Preflight' })).toBeVisible()
     await expect(ownerUnlockPack.getByRole('button', { name: 'Helper' })).toBeVisible()
     await expect(ownerUnlockPack.getByRole('button', { name: 'Sync' })).toBeVisible()
+    if (productionMeasurement.ownerInputActionPack?.productionInputWatchCommand?.workflowUiUrl) {
+      await expect(ownerUnlockPack).toContainText('Input Watch')
+      await expect(ownerUnlockPack).toContainText('link-only')
+      await expect(ownerUnlockPack.getByRole('link', { name: 'Open Input Watch' })).toHaveAttribute(
+        'href',
+        productionMeasurement.ownerInputActionPack.productionInputWatchCommand.workflowUiUrl,
+      )
+    }
   }
   const runtimeMinimum = productionMeasurement.ownerInputActionPack?.runtimeConfigMinimum
   if (runtimeMinimum) {
@@ -824,6 +857,12 @@ test('portal loads a playable canvas and autonomy cockpit', async ({ page }) => 
     await expect(analyticsFastPath.getByRole('button', { name: 'Fast template' })).toBeVisible()
     await expect(analyticsFastPath.getByRole('button', { name: 'Fast helper' })).toBeVisible()
     await expect(analyticsFastPath.getByRole('button', { name: 'Preflight' })).toBeVisible()
+    if (productionMeasurement.ownerInputActionPack?.productionInputWatchCommand?.workflowUiUrl) {
+      await expect(analyticsFastPath.getByRole('link', { name: 'Open Input Watch' })).toHaveAttribute(
+        'href',
+        productionMeasurement.ownerInputActionPack.productionInputWatchCommand.workflowUiUrl,
+      )
+    }
   }
   await expect(page.getByLabel('Player Evidence Watchdog')).toContainText(/watchdog-/)
   await expect(page.getByLabel('Player Evidence Watchdog')).toContainText('Raw events')
@@ -11730,6 +11769,7 @@ test('production measurement status publishes public aggregate evidence handoff'
         status: string
         workflowFile: string
         workflowPath: string
+        workflowUiUrl: string
         ref: string
         requiredFlag: string
         defaultPosthogHost: string
@@ -11743,6 +11783,7 @@ test('production measurement status publishes public aggregate evidence handoff'
           noSecretValues: boolean
           noGithubMutation: boolean
           noWorkflowDispatchFromPage: boolean
+          workflowUiLinkOnly: boolean
           commandRequiresOwnerRun: boolean
           noStoreSubmission: boolean
           noRevenueEnablement: boolean
@@ -13056,6 +13097,7 @@ test('production measurement status publishes public aggregate evidence handoff'
     status: 'ready',
     workflowFile: 'production-input-watch.yml',
     workflowPath: '.github/workflows/production-input-watch.yml',
+    workflowUiUrl: expect.stringContaining('/actions/workflows/production-input-watch.yml'),
     ref: 'main',
     requiredFlag: 'publish_zero_secret_runtime_config=true',
     defaultPosthogHost: 'https://us.i.posthog.com',
@@ -13067,6 +13109,7 @@ test('production measurement status publishes public aggregate evidence handoff'
   expect(ownerInputActionPack.productionInputWatchCommand.controls.publicValuesOnly).toBe(true)
   expect(ownerInputActionPack.productionInputWatchCommand.controls.noGeneratedValueSerialization).toBe(true)
   expect(ownerInputActionPack.productionInputWatchCommand.controls.noWorkflowDispatchFromPage).toBe(true)
+  expect(ownerInputActionPack.productionInputWatchCommand.controls.workflowUiLinkOnly).toBe(true)
   expect(ownerInputActionPack.productionInputWatchCommand.controls.commandRequiresOwnerRun).toBe(true)
   expect(ownerInputActionPack.controls.zeroPaidSpend).toBe(true)
   expect(ownerInputActionPack.controls.noSecretValues).toBe(true)
@@ -13404,6 +13447,10 @@ test('production measurement status publishes public aggregate evidence handoff'
   await expect(page.getByRole('button', { name: 'Copy filled shell exports' })).toBeDisabled()
   await expect(page.getByRole('button', { name: 'Download runtime config preview' })).toBeDisabled()
   await expect(page.getByRole('button', { name: 'Copy input watch command' })).toBeDisabled()
+  await expect(ownerInputRegion.getByRole('link', { name: 'Open Input Watch' })).toHaveAttribute(
+    'href',
+    ownerInputActionPack.productionInputWatchCommand.workflowUiUrl,
+  )
   await expect(page.getByRole('heading', { name: 'First-Party Collector Deployment' })).toBeVisible()
   await expect(page.getByRole('heading', { name: 'External Unlock Queue' })).toBeVisible()
   await expect(page.getByLabel('Product evidence')).toContainText('/sample-next.html')

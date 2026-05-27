@@ -1,6 +1,6 @@
 # Production Measurement Status
 
-Generated: 2026-05-27T06:15:29.933Z
+Generated: 2026-05-27T06:31:15.621Z
 Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
 Live candidate: pwa-3db469f31ed4
@@ -17,6 +17,7 @@ Source hash: d23ae9dd206a
 - analytics unlock: owner-input-required
 - analytics unlock path: first-party-collector
 - lowest-input analytics path: posthog-browser
+- input watch UI: https://github.com/moshequ/autonomous-game-lab/actions/workflows/production-input-watch.yml
 - external unlock queue: handoff-waiting-on-owner-inputs
 - next external unlock: production-analytics-browser
 - owner unlock brief: first-party-collector

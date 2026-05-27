@@ -1,8 +1,8 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-27T06:15:25.006Z
+Generated: 2026-05-27T06:31:15.621Z
 Status: waiting-on-owner-input
-Source hash: 9816b05f1411
+Source hash: 1acc30d9498c
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
@@ -73,6 +73,7 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 - template download: agl-owner-unlock-template.env
 - filled env download: agl-owner-unlock-filled.env
 - runtime preview: owner-runtime-config.preview.json
+- input watch UI: https://github.com/moshequ/autonomous-game-lab/actions/workflows/production-input-watch.yml
 - no workflow dispatch from page: true
 
 ### Combined Local Env Template

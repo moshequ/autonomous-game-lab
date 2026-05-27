@@ -68,8 +68,19 @@ const escapeHtml = (value) =>
     .replaceAll('>', '&gt;')
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;')
+const normalizeRepositorySlug = (value) => {
+  const slug = String(value ?? '').trim()
+  return /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(slug) ? slug : null
+}
 const setupAnalyticsLocalEnvTemplateCommand = './ops/github/setup-production.sh --analytics-input-template'
 const writeAnalyticsLocalEnvTemplateCommand = 'node scripts/owner-unlock-preflight.mjs --analytics-input-template'
+const repositorySlug =
+  normalizeRepositorySlug(productionEnvironment.repositoryEnv?.repository) ??
+  normalizeRepositorySlug(productionEnvironment.publicOrigin?.githubPagesCandidate?.repository) ??
+  normalizeRepositorySlug(process.env.GITHUB_REPOSITORY)
+const productionInputWatchWorkflowUiUrl = repositorySlug
+  ? `https://github.com/${repositorySlug}/actions/workflows/production-input-watch.yml`
+  : null
 const envByName = new Map((productionEnvironment.requiredEnv ?? []).map((item) => [item.name, item]))
 const secretByName = new Map((productionBootstrap.requiredSecrets ?? []).map((item) => [item.repositorySecret, item]))
 const requiredEnv = (names) => names.map((name) => envByName.get(name)).filter(Boolean)
@@ -840,6 +851,7 @@ const buildOwnerUnlockBrowserActionPack = (combinedPack) =>
           status: 'ready',
           workflowFile: 'production-input-watch.yml',
           workflowPath: '.github/workflows/production-input-watch.yml',
+          workflowUiUrl: productionInputWatchWorkflowUiUrl,
           ref: 'main',
           requiredFlag: 'publish_zero_secret_runtime_config=true',
           defaultPosthogHost,
@@ -852,6 +864,7 @@ const buildOwnerUnlockBrowserActionPack = (combinedPack) =>
             noGeneratedValueSerialization: true,
             noGithubMutation: true,
             noWorkflowDispatchFromPage: true,
+            workflowUiLinkOnly: true,
             commandRequiresOwnerRun: true,
             noStoreSubmission: true,
             noRevenueEnablement: true,
@@ -1465,6 +1478,11 @@ const ownerUnlockPageHtml = (briefPayload) => {
           <button type="button" id="owner-unlock-copy-filled-shell" disabled>Copy filled shell exports</button>
           <button type="button" id="owner-unlock-download-runtime-preview" disabled>Download runtime config preview</button>
           <button type="button" id="owner-unlock-copy-input-watch-command" disabled>Copy input watch command</button>
+          ${
+            browserActionPack.productionInputWatchCommand.workflowUiUrl
+              ? `<a id="owner-unlock-open-input-watch" href="${escapeHtml(browserActionPack.productionInputWatchCommand.workflowUiUrl)}" target="_blank" rel="noreferrer">Open Input Watch</a>`
+              : ''
+          }
         </div>
         <p class="localStatus" id="owner-unlock-action-status" aria-live="polite">Ready for browser-local values. No value is stored by generated evidence.</p>
       </section>`
@@ -1837,9 +1855,22 @@ const ownerUnlockPageHtml = (briefPayload) => {
           writeValidatedOwnerUnlockReceipt('copy-production-input-watch-command', validation.entries, {
             workflowFile: ownerUnlockActionPack.productionInputWatchCommand.workflowFile,
             workflowPath: ownerUnlockActionPack.productionInputWatchCommand.workflowPath,
+            workflowUiUrl: ownerUnlockActionPack.productionInputWatchCommand.workflowUiUrl,
             workflowRef: ownerUnlockActionPack.productionInputWatchCommand.ref,
             commandRequiresOwnerRun: true,
             copiedCommandStoresPublicValuesOnly: true,
+          });
+        });
+      document
+        .getElementById('owner-unlock-open-input-watch')
+        ?.addEventListener('click', () => {
+          writeOwnerUnlockReceipt('open-production-input-watch-workflow', {
+            workflowFile: ownerUnlockActionPack.productionInputWatchCommand.workflowFile,
+            workflowPath: ownerUnlockActionPack.productionInputWatchCommand.workflowPath,
+            workflowUiUrl: ownerUnlockActionPack.productionInputWatchCommand.workflowUiUrl,
+            workflowRef: ownerUnlockActionPack.productionInputWatchCommand.ref,
+            noWorkflowDispatchFromPage: true,
+            commandRequiresOwnerRun: true,
           });
         });
       ownerUnlockFields().forEach((field) => {
@@ -1929,6 +1960,7 @@ const ownerUnlockReport = [
   `- template download: ${ownerUnlockBriefPayload.browserLocalActionPack?.templateDownloadFileName ?? 'none'}`,
   `- filled env download: ${ownerUnlockBriefPayload.browserLocalActionPack?.filledDownloadFileName ?? 'none'}`,
   `- runtime preview: ${ownerUnlockBriefPayload.browserLocalActionPack?.runtimeConfigPreview?.downloadFileName ?? 'none'}`,
+  `- input watch UI: ${ownerUnlockBriefPayload.browserLocalActionPack?.productionInputWatchCommand?.workflowUiUrl ?? 'none'}`,
   `- no workflow dispatch from page: ${ownerUnlockBriefPayload.browserLocalActionPack?.controls?.noWorkflowDispatchFromPage === true}`,
   '',
   '### Combined Local Env Template',

@@ -1335,6 +1335,17 @@ function App() {
             noRevenueEnablement?: boolean
           }
         }
+        productionInputWatchCommand?: {
+          workflowUiUrl?: string | null
+          workflowFile?: string
+          workflowPath?: string
+          ref?: string
+          controls?: {
+            noWorkflowDispatchFromPage?: boolean
+            workflowUiLinkOnly?: boolean
+            commandRequiresOwnerRun?: boolean
+          }
+        }
         commands?: {
           combinedPreflight?: string | null
           setupWriteLocalEnvTemplate?: string | null
@@ -1380,6 +1391,8 @@ function App() {
     productionMeasurementOwnerInputActionPack?.commands?.setupWriteAnalyticsLocalEnvTemplate ??
     productionMeasurementOwnerInputActionPack?.commands?.writeAnalyticsLocalEnvTemplate ??
     ''
+  const ownerUnlockInputWatchUiUrl =
+    productionMeasurementOwnerInputActionPack?.productionInputWatchCommand?.workflowUiUrl ?? null
   const ownerUnlockFastPathMissingCount =
     ownerUnlockRuntimeMinimum?.missingMinimumInputCount ??
     productionMeasurementAnalyticsUnlock?.minimalInterventionMissingInputCount ??
@@ -4842,6 +4855,16 @@ function App() {
                       {productionMeasurementCombinedOwnerInput.controls?.noSecretValuesStored ? 'blocked' : 'review'}
                     </strong>
                   </div>
+                  <div>
+                    <span>Input Watch</span>
+                    <strong>
+                      {ownerUnlockInputWatchUiUrl &&
+                      productionMeasurementOwnerInputActionPack?.productionInputWatchCommand?.controls
+                        ?.noWorkflowDispatchFromPage
+                        ? 'link-only'
+                        : 'command-only'}
+                    </strong>
+                  </div>
                   <ul className="ownerUnlockList">
                     {(productionMeasurementCombinedOwnerInput.localEnvTemplateLines ?? []).map((line) => (
                       <li key={line}>
@@ -4886,6 +4909,17 @@ function App() {
                       <Copy size={14} aria-hidden="true" />
                       Sync
                     </button>
+                    {ownerUnlockInputWatchUiUrl ? (
+                      <a
+                        className="tinyButton subtleButton"
+                        href={ownerUnlockInputWatchUiUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Rocket size={14} aria-hidden="true" />
+                        Open Input Watch
+                      </a>
+                    ) : null}
                   </div>
                 </div>
               ) : null}
@@ -5012,6 +5046,17 @@ function App() {
                       <Copy size={14} aria-hidden="true" />
                       Preflight
                     </button>
+                    {ownerUnlockInputWatchUiUrl ? (
+                      <a
+                        className="tinyButton subtleButton"
+                        href={ownerUnlockInputWatchUiUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <Rocket size={14} aria-hidden="true" />
+                        Open Input Watch
+                      </a>
+                    ) : null}
                   </div>
                 </div>
               ) : null}

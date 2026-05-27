@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-27T06:15:25.006Z",
+  "generatedAt": "2026-05-27T06:31:15.621Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "9816b05f1411",
+  "sourceDataHash": "1acc30d9498c",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -630,6 +630,7 @@
       "status": "ready",
       "workflowFile": "production-input-watch.yml",
       "workflowPath": ".github/workflows/production-input-watch.yml",
+      "workflowUiUrl": "https://github.com/moshequ/autonomous-game-lab/actions/workflows/production-input-watch.yml",
       "ref": "main",
       "requiredFlag": "publish_zero_secret_runtime_config=true",
       "defaultPosthogHost": "https://us.i.posthog.com",
@@ -646,6 +647,7 @@
         "noGeneratedValueSerialization": true,
         "noGithubMutation": true,
         "noWorkflowDispatchFromPage": true,
+        "workflowUiLinkOnly": true,
         "commandRequiresOwnerRun": true,
         "noStoreSubmission": true,
         "noRevenueEnablement": true

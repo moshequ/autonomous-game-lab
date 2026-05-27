@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-27T06:15:29.933Z",
+  "generatedAt": "2026-05-27T06:31:15.621Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-3db469f31ed4",
@@ -227,6 +227,7 @@ export const productionMeasurementStatus = {
       "status": "ready",
       "workflowFile": "production-input-watch.yml",
       "workflowPath": ".github/workflows/production-input-watch.yml",
+      "workflowUiUrl": "https://github.com/moshequ/autonomous-game-lab/actions/workflows/production-input-watch.yml",
       "ref": "main",
       "requiredFlag": "publish_zero_secret_runtime_config=true",
       "defaultPosthogHost": "https://us.i.posthog.com",
@@ -244,6 +245,7 @@ export const productionMeasurementStatus = {
         "noSecretValues": true,
         "noGithubMutation": true,
         "noWorkflowDispatchFromPage": true,
+        "workflowUiLinkOnly": true,
         "commandRequiresOwnerRun": true,
         "noStoreSubmission": true,
         "noRevenueEnablement": true
