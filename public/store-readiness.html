@@ -401,12 +401,12 @@
         <div class="row"><span>Paid spend</span><strong>blocked</strong></div>
         <div class="row"><span>Store submission</span><strong>blocked</strong></div>
         <div class="row"><span>Revenue</span><strong>disabled</strong></div>
-        <div class="row"><span>Source hash</span><strong>72f05abf5206</strong></div>
+        <div class="row"><span>Source hash</span><strong>3d075b39ac6c</strong></div>
       </section>
     </main>
     <script>
       (() => {
-        const supportActionPack = {"id":"browser-local-support-contact-action-pack","status":"ready","receiptStorageKey":"agl.supportContactActionReceipt","filledDownloadFileName":"agl-support-contact.env","field":{"envName":"AGL_SUPPORT_EMAIL","title":"Production support email","inputId":"support-contact-agl-support-email","validationKind":"email-shape","inputType":"email","placeholder":"support@example.com","required":true,"publicValue":true,"maxLength":254},"commands":{"githubVariableSet":"gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\"","validate":"npm run autonomous:store-readiness","readiness":"npm run autonomous:readiness"},"controls":{"browserLocalOnly":true,"publicValuesOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true,"noAccountCreation":true,"noStoreSubmission":true,"noRevenueEnablement":true}}
+        const supportActionPack = {"id":"browser-local-support-contact-action-pack","status":"ready","receiptStorageKey":"agl.supportContactActionReceipt","filledDownloadFileName":"agl-support-contact.env","field":{"envName":"AGL_SUPPORT_EMAIL","title":"Production support email","inputId":"support-contact-agl-support-email","validationKind":"email-shape","inputType":"email","placeholder":"support@example.com","required":true,"publicValue":true,"maxLength":254},"commands":{"githubVariableSet":"gh variable set AGL_SUPPORT_EMAIL --body \"$AGL_SUPPORT_EMAIL\"","validate":"npm run autonomous:store-readiness","readiness":"npm run autonomous:readiness"},"controls":{"browserLocalOnly":true,"publicValuesOnly":true,"noGeneratedValueSerialization":true,"noSecretValues":true,"noGithubMutation":true,"noWorkflowDispatch":true,"noAccountCreation":true,"noStoreSubmission":true,"noRevenueEnablement":true,"supportEmailShapeValidated":true,"supportEmailLengthValidated":true}}
         const field = supportActionPack && supportActionPack.field
         const input = field ? document.getElementById(field.inputId) : null
         const status = document.getElementById('support-contact-validation-status')

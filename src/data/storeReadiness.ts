@@ -1,6 +1,6 @@
 export const storeReadiness = {
-  "generatedAt": "2026-05-27T10:02:28.736Z",
-  "sourceDataHash": "72f05abf5206",
+  "generatedAt": "2026-05-27T10:24:11.744Z",
+  "sourceDataHash": "3d075b39ac6c",
   "status": "store-readiness-prepared-external-blockers",
   "sourceStatus": {
     "storePackage": "store-package-ready",
@@ -87,8 +87,10 @@ export const storeReadiness = {
         "ready": false,
         "configuredInRepository": false,
         "availableLocally": false,
-        "availableInLocalEnvFile": false,
-        "localEnvFiles": [],
+        "availableInLocalEnvFile": true,
+        "localEnvFiles": [
+          ".env.production.local"
+        ],
         "validation": {
           "kind": "email-shape",
           "status": "not-checked-missing-input",
@@ -96,7 +98,8 @@ export const storeReadiness = {
           "expected": {
             "containsAt": true,
             "hasDomain": true,
-            "noWhitespace": true
+            "noWhitespace": true,
+            "maxLength": 254
           },
           "checks": [
             {
@@ -147,7 +150,9 @@ export const storeReadiness = {
         "noWorkflowDispatch": true,
         "noAccountCreation": true,
         "noStoreSubmission": true,
-        "noRevenueEnablement": true
+        "noRevenueEnablement": true,
+        "supportEmailShapeValidated": true,
+        "supportEmailLengthValidated": true
       }
     },
     "controls": {

@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-27T10:02:53.267Z",
+  "generatedAt": "2026-05-27T10:24:28.863Z",
   "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-b5b07e0c1371",
@@ -195,7 +195,9 @@ export const productionMeasurementStatus = {
         "noSecretValues": true,
         "noGithubMutation": true,
         "noWorkflowDispatch": true,
-        "posthogPublicKeyShapeValidated": true
+        "posthogPublicKeyShapeValidated": true,
+        "supportEmailShapeValidated": true,
+        "supportEmailLengthValidated": true
       }
     },
     "runtimeConfigPreview": {

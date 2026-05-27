@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-27T09:58:15.294Z",
+  "generatedAt": "2026-05-27T10:22:48.026Z",
   "status": "self-update-ready",
   "mode": "plan-and-assert",
   "envFiles": {
@@ -82,7 +82,7 @@
     "ownerLoop": "owner-loop-ready"
   },
   "pendingChanges": {
-    "total": 90,
+    "total": 95,
     "safe": [
       {
         "code": "M",
@@ -310,6 +310,13 @@
       },
       {
         "code": "M",
+        "path": "data/store-readiness.json",
+        "raw": " M data/store-readiness.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "ops/codex/autonomous-game-lab-daily-owner-loop.json",
         "raw": " M ops/codex/autonomous-game-lab-daily-owner-loop.json",
         "safe": true,
@@ -368,6 +375,20 @@
         "code": "M",
         "path": "public/product-gate-recovery.json",
         "raw": " M public/product-gate-recovery.json",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/store-readiness.html",
+        "raw": " M public/store-readiness.html",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "public/store-readiness.json",
+        "raw": " M public/store-readiness.json",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
       },
@@ -597,6 +618,13 @@
       },
       {
         "code": "M",
+        "path": "reports/store-readiness-latest.md",
+        "raw": " M reports/store-readiness-latest.md",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
         "path": "src/data/acquisitionLearning.ts",
         "raw": " M src/data/acquisitionLearning.ts",
         "safe": true,
@@ -713,10 +741,17 @@
         "raw": " M src/data/releaseCandidate.ts",
         "safe": true,
         "reason": "allowlisted-generated-artifact"
+      },
+      {
+        "code": "M",
+        "path": "src/data/storeReadiness.ts",
+        "raw": " M src/data/storeReadiness.ts",
+        "safe": true,
+        "reason": "allowlisted-generated-artifact"
       }
     ],
     "unsafe": [],
-    "safeCount": 90,
+    "safeCount": 95,
     "unsafeCount": 0
   },
   "commitPlan": {
@@ -761,6 +796,7 @@
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
       "data/retention-loop.json",
+      "data/store-readiness.json",
       "ops/codex/autonomous-game-lab-daily-owner-loop.json",
       "public/analytics-unlock.json",
       "public/measurement-status.html",
@@ -770,6 +806,8 @@
       "public/owner-unlock-preflight.json",
       "public/owner-unlock.html",
       "public/product-gate-recovery.json",
+      "public/store-readiness.html",
+      "public/store-readiness.json",
       "reports/acquisition-learning-latest.md",
       "reports/analytics-rollup-latest.md",
       "reports/autonomous-cadence-latest.md",
@@ -802,6 +840,7 @@
       "reports/repository-bootstrap-latest.md",
       "reports/repository-readiness-latest.md",
       "reports/retention-loop-latest.md",
+      "reports/store-readiness-latest.md",
       "src/data/acquisitionLearning.ts",
       "src/data/autonomousCadence.ts",
       "src/data/eventCollectorDeployment.ts",
@@ -819,6 +858,7 @@
       "src/data/publicRepoSecurityAudit.ts",
       "src/data/pwaInstallLoop.ts",
       "src/data/releaseCandidate.ts",
+      "src/data/storeReadiness.ts",
       "data/autonomous-self-update.json",
       "src/data/autonomousSelfUpdate.ts",
       "reports/autonomous-self-update-latest.md"
@@ -946,7 +986,7 @@
     {
       "id": "safe-path-allowlist",
       "status": "pass",
-      "detail": "90 safe pending file(s), 0 unsafe pending file(s)."
+      "detail": "95 safe pending file(s), 0 unsafe pending file(s)."
     },
     {
       "id": "repository-optional",
