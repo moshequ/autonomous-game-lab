@@ -453,6 +453,37 @@
   font-size: 12px;
 }
 
+.gateSampleQueue {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gateSampleMission {
+  display: grid;
+  gap: 7px;
+  padding: 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.gateSampleMission div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.gateSampleMission .sampleActions {
+  justify-content: flex-end;
+}
+
+.gateSampleMissionHeader strong {
+  color: var(--teal);
+}
+
 .trafficSeedingPanel {
   display: grid;
   gap: 9px;

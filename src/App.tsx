@@ -5566,6 +5566,78 @@ function App() {
                     </strong>
                   </div>
                 ) : null}
+                <ul className="gateSampleQueue" aria-label="Product gate sample mission queue">
+                  {productGateSamplePlan.missions.map((mission) => {
+                    const progress = productGateSampleProgress.get(mission.campaignId)
+                    const targetTitle =
+                      playableGameCatalogById.get(mission.gameId as PlayableGameId)?.title ?? mission.gameId
+
+                    return (
+                      <li className="gateSampleMission" key={mission.campaignId}>
+                        <div className="gateSampleMissionHeader">
+                          <span>{mission.label}</span>
+                          <strong>{mission.gateId}</strong>
+                        </div>
+                        <div>
+                          <span>Status</span>
+                          <strong>{mission.status}</strong>
+                        </div>
+                        <div>
+                          <span>Target</span>
+                          <strong>{targetTitle}</strong>
+                        </div>
+                        <div>
+                          <span>Needed</span>
+                          <strong>
+                            {mission.needed.promptViews} views / {mission.needed.successes} wins
+                          </strong>
+                        </div>
+                        <div>
+                          <span>Local</span>
+                          <strong>
+                            {progress
+                              ? `${progress.campaignEvents} events / ${progress.successEvents} wins`
+                              : '0 events / 0 wins'}
+                          </strong>
+                        </div>
+                        <div>
+                          <span>Remaining</span>
+                          <strong>
+                            {progress
+                              ? `${progress.promptViewsRemaining} views / ${progress.successesRemaining} wins`
+                              : `${mission.needed.promptViews} views / ${mission.needed.successes} wins`}
+                          </strong>
+                        </div>
+                        <div className="sampleActions">
+                          <button
+                            className="tinyButton"
+                            type="button"
+                            onClick={() => startGateSampleMission(mission)}
+                          >
+                            <Play size={14} aria-hidden="true" />
+                            Start {mission.label} sample
+                          </button>
+                          <button
+                            className="tinyButton"
+                            type="button"
+                            onClick={() => exportGateSampleEvidence(mission, 'product-gate-sample-queue')}
+                          >
+                            <Download size={14} aria-hidden="true" />
+                            Export {mission.label} evidence
+                          </button>
+                          <button
+                            className="tinyButton subtleButton"
+                            type="button"
+                            onClick={() => shareGateSampleMission(mission)}
+                          >
+                            <Share2 size={14} aria-hidden="true" />
+                            Share {mission.label} sample
+                          </button>
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ul>
                 {productGateSamplePrimary ? (
                   <div className="sampleActions">
                     <button

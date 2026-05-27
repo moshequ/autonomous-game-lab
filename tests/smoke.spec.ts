@@ -3442,6 +3442,8 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
       gateId: string
       status: string
       gameId: string
+      label: string
+      title: string
       needed: { promptViews: number; successes: number }
       sampleTiming: { latencyDays: number; sameSessionPlayable: boolean; reason: string }
       supportingAggregateEvidence: {
@@ -3832,6 +3834,19 @@ test('product optimizer applies one guarded tuning step from product-gate eviden
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('Default route')
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('Local sample')
   await expect(page.getByLabel('Product Gate Sample Plan')).toContainText('Export state')
+  const missionQueue = page.getByRole('list', { name: 'Product gate sample mission queue' })
+  for (const mission of samplePlan.missions) {
+    await expect(missionQueue).toContainText(mission.label)
+    await expect(missionQueue).toContainText(mission.gateId)
+    await expect(missionQueue).toContainText(mission.status)
+    await expect(missionQueue).toContainText(mission.title)
+    await expect(missionQueue).toContainText(
+      `${mission.needed.promptViews} views / ${mission.needed.successes} wins`,
+    )
+    await expect(missionQueue.getByRole('button', { name: `Start ${mission.label} sample` })).toBeVisible()
+    await expect(missionQueue.getByRole('button', { name: `Export ${mission.label} evidence` })).toBeVisible()
+    await expect(missionQueue.getByRole('button', { name: `Share ${mission.label} sample` })).toBeVisible()
+  }
 })
 
 test('product gate recovery marks passing gates as monitoring instead of collecting sample', async () => {
