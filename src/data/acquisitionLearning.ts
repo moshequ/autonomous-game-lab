@@ -1,7 +1,7 @@
 export const acquisitionLearning = {
-  "generatedAt": "2026-05-27T13:22:03.243Z",
+  "generatedAt": "2026-05-28T06:11:16.187Z",
   "status": "acquisition-learning-ready",
-  "sourceDataHash": "642118b35228",
+  "sourceDataHash": "d7c98238ac6d",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
     "localEventFiles": 0,
@@ -21,7 +21,7 @@ export const acquisitionLearning = {
     "campaigns": 4,
     "collectingCount": 4,
     "blockedCount": 0,
-    "featuredCandidateId": "seed-20260527-market-pulse",
+    "featuredCandidateId": "seed-20260528-market-pulse",
     "featuredGameId": "market-pulse",
     "totalAttributedStarts": 0,
     "totalAggregateStarts": 0,
@@ -82,7 +82,7 @@ export const acquisitionLearning = {
   ],
   "campaigns": [
     {
-      "id": "seed-20260527-market-pulse",
+      "id": "seed-20260528-market-pulse",
       "gameId": "market-pulse",
       "title": "Market Pulse",
       "status": "collecting-attribution",
@@ -127,7 +127,7 @@ export const acquisitionLearning = {
       "nextAction": "Collect campaign-attributed events for Market Pulse; aggregate starts are 0."
     },
     {
-      "id": "seed-20260527-guild-garden",
+      "id": "seed-20260528-guild-garden",
       "gameId": "guild-garden",
       "title": "Guild Garden",
       "status": "collecting-attribution",
@@ -172,7 +172,7 @@ export const acquisitionLearning = {
       "nextAction": "Collect campaign-attributed events for Guild Garden; aggregate starts are 0."
     },
     {
-      "id": "seed-20260527-canopy-bloom",
+      "id": "seed-20260528-canopy-bloom",
       "gameId": "canopy-bloom",
       "title": "Canopy Bloom",
       "status": "collecting-attribution",
@@ -217,7 +217,7 @@ export const acquisitionLearning = {
       "nextAction": "Collect campaign-attributed events for Canopy Bloom; aggregate starts are 0."
     },
     {
-      "id": "seed-20260527-metro-loom",
+      "id": "seed-20260528-metro-loom",
       "gameId": "metro-loom",
       "title": "Metro Loom",
       "status": "collecting-attribution",

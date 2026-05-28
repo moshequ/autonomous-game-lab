@@ -1,5 +1,5 @@
 export const portfolioPolicy = {
-  "generatedAt": "2026-05-27T07:08:03.038Z",
+  "generatedAt": "2026-05-28T06:15:02.538Z",
   "status": "portfolio-policy-ready",
   "analyticsSource": "fixture-sample",
   "releaseHealthStatus": "monitoring",
@@ -10,10 +10,10 @@ export const portfolioPolicy = {
     "preserveIpGuardrails": true
   },
   "dailyChallenge": {
-    "date": "2026-05-27",
+    "date": "2026-05-28",
     "gameId": "market-pulse",
     "title": "Market Pulse",
-    "seed": "daily-20260527-ol",
+    "seed": "daily-20260528-6uj",
     "reason": "Market Pulse has the strongest blended portfolio score (51.912)."
   },
   "rotation": {

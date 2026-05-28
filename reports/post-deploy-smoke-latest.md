@@ -1,18 +1,18 @@
 # Post-Deploy Smoke
 
-Generated: 2026-05-27T13:52:49.172Z
-Status: post-deploy-smoke-observed-live
-Origin: https://moshequ.github.io/autonomous-game-lab
-Origin source: release-candidate-public-origin
-Candidate: pwa-8b1f761917e4
-Live candidate: pwa-c1531259c9ed
+Generated: 2026-05-28T05:57:26.667Z
+Status: blocked-missing-origin
+Origin: missing
+Origin source: network-blocked
+Candidate: pwa-1726e392b6e2
+Live candidate: missing
 
 ## Summary
 
 - Planned: 34
-- Passed: 34
+- Passed: 0
 - Failed: 0
-- Blocked: 0
+- Blocked: 34
 
 ## Local Artifact Smoke
 
@@ -56,40 +56,40 @@ Checks: 34/34 passed
 
 ## Checks
 
-- pass: app-shell - https://moshequ.github.io/autonomous-game-lab/ - Live URL matched status and required text.
-- pass: manifest-webmanifest - https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest - Live URL matched status and required text.
-- pass: sw-js - https://moshequ.github.io/autonomous-game-lab/sw.js - Live URL matched status and required text.
-- pass: privacy-html - https://moshequ.github.io/autonomous-game-lab/privacy.html - Live URL matched status and required text.
-- pass: support-html - https://moshequ.github.io/autonomous-game-lab/support.html - Live URL matched status and required text.
-- pass: measurement-status-html - https://moshequ.github.io/autonomous-game-lab/measurement-status.html - Live URL matched status and required text.
-- pass: measurement-status-json - https://moshequ.github.io/autonomous-game-lab/measurement-status.json - Live URL matched status and required text.
-- pass: owner-unlock-html - https://moshequ.github.io/autonomous-game-lab/owner-unlock.html - Live URL matched status and required text.
-- pass: owner-unlock-brief-json - https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json - Live URL matched status and required text.
-- pass: owner-unlock-preflight-json - https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json - Live URL matched status and required text.
-- pass: owner-runtime-config-json - https://moshequ.github.io/autonomous-game-lab/owner-runtime-config.json - Live URL matched status and required text.
-- pass: analytics-unlock-html - https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html - Live URL matched status and required text.
-- pass: analytics-unlock-json - https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json - Live URL matched status and required text.
-- pass: product-gate-recovery-html - https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.html - Live URL matched status and required text.
-- pass: product-gate-recovery-json - https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.json - Live URL matched status and required text.
-- pass: install-html - https://moshequ.github.io/autonomous-game-lab/install.html - Live URL matched status and required text.
-- pass: compliance-json - https://moshequ.github.io/autonomous-game-lab/compliance.json - Live URL matched status and required text.
-- pass: monetization-json - https://moshequ.github.io/autonomous-game-lab/monetization.json - Live URL matched status and required text.
-- pass: store-readiness-html - https://moshequ.github.io/autonomous-game-lab/store-readiness.html - Live URL matched status and required text.
-- pass: store-readiness-json - https://moshequ.github.io/autonomous-game-lab/store-readiness.json - Live URL matched status and required text.
-- pass: app-ads-txt - https://moshequ.github.io/autonomous-game-lab/app-ads.txt - Live URL matched status and required text.
-- pass: well-known-assetlinks-json - https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json - Live URL matched status and required text.
-- pass: gate-sample-html - https://moshequ.github.io/autonomous-game-lab/gate-sample.html - Live URL matched status and required text.
-- pass: sample-next-html - https://moshequ.github.io/autonomous-game-lab/sample-next.html - Live URL matched status and required text.
-- pass: sample-next-json - https://moshequ.github.io/autonomous-game-lab/sample-next.json - Live URL matched status and required text.
-- pass: sample-fastest-html - https://moshequ.github.io/autonomous-game-lab/sample-fastest.html - Live URL matched status and required text.
-- pass: sample-fastest-json - https://moshequ.github.io/autonomous-game-lab/sample-fastest.json - Live URL matched status and required text.
-- pass: seed-kit-html - https://moshequ.github.io/autonomous-game-lab/seed-kit.html - Live URL matched status and required text.
-- pass: seed-next-html - https://moshequ.github.io/autonomous-game-lab/seed-next.html - Live URL matched status and required text.
-- pass: seed-next-json - https://moshequ.github.io/autonomous-game-lab/seed-next.json - Live URL matched status and required text.
-- pass: sitemap-xml - https://moshequ.github.io/autonomous-game-lab/sitemap.xml - Live URL matched status and required text.
-- pass: monetization-html - https://moshequ.github.io/autonomous-game-lab/monetization.html - Live URL matched status and required text.
-- pass: games-canopy-bloom-html - https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html - Live URL matched status and required text.
-- pass: release-candidate-manifest - https://moshequ.github.io/autonomous-game-lab/release-candidate.json - Live release manifest is reachable; it does not match the current local release candidate.
+- blocked: app-shell - https://moshequ.github.io/autonomous-game-lab/ - fetch failed
+- blocked: manifest-webmanifest - https://moshequ.github.io/autonomous-game-lab/manifest.webmanifest - fetch failed
+- blocked: sw-js - https://moshequ.github.io/autonomous-game-lab/sw.js - fetch failed
+- blocked: privacy-html - https://moshequ.github.io/autonomous-game-lab/privacy.html - fetch failed
+- blocked: support-html - https://moshequ.github.io/autonomous-game-lab/support.html - fetch failed
+- blocked: measurement-status-html - https://moshequ.github.io/autonomous-game-lab/measurement-status.html - fetch failed
+- blocked: measurement-status-json - https://moshequ.github.io/autonomous-game-lab/measurement-status.json - fetch failed
+- blocked: owner-unlock-html - https://moshequ.github.io/autonomous-game-lab/owner-unlock.html - fetch failed
+- blocked: owner-unlock-brief-json - https://moshequ.github.io/autonomous-game-lab/owner-unlock-brief.json - fetch failed
+- blocked: owner-unlock-preflight-json - https://moshequ.github.io/autonomous-game-lab/owner-unlock-preflight.json - fetch failed
+- blocked: owner-runtime-config-json - https://moshequ.github.io/autonomous-game-lab/owner-runtime-config.json - fetch failed
+- blocked: analytics-unlock-html - https://moshequ.github.io/autonomous-game-lab/analytics-unlock.html - fetch failed
+- blocked: analytics-unlock-json - https://moshequ.github.io/autonomous-game-lab/analytics-unlock.json - fetch failed
+- blocked: product-gate-recovery-html - https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.html - fetch failed
+- blocked: product-gate-recovery-json - https://moshequ.github.io/autonomous-game-lab/product-gate-recovery.json - fetch failed
+- blocked: install-html - https://moshequ.github.io/autonomous-game-lab/install.html - fetch failed
+- blocked: compliance-json - https://moshequ.github.io/autonomous-game-lab/compliance.json - fetch failed
+- blocked: monetization-json - https://moshequ.github.io/autonomous-game-lab/monetization.json - fetch failed
+- blocked: store-readiness-html - https://moshequ.github.io/autonomous-game-lab/store-readiness.html - fetch failed
+- blocked: store-readiness-json - https://moshequ.github.io/autonomous-game-lab/store-readiness.json - fetch failed
+- blocked: app-ads-txt - https://moshequ.github.io/autonomous-game-lab/app-ads.txt - fetch failed
+- blocked: well-known-assetlinks-json - https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json - fetch failed
+- blocked: gate-sample-html - https://moshequ.github.io/autonomous-game-lab/gate-sample.html - fetch failed
+- blocked: sample-next-html - https://moshequ.github.io/autonomous-game-lab/sample-next.html - fetch failed
+- blocked: sample-next-json - https://moshequ.github.io/autonomous-game-lab/sample-next.json - fetch failed
+- blocked: sample-fastest-html - https://moshequ.github.io/autonomous-game-lab/sample-fastest.html - fetch failed
+- blocked: sample-fastest-json - https://moshequ.github.io/autonomous-game-lab/sample-fastest.json - fetch failed
+- blocked: seed-kit-html - https://moshequ.github.io/autonomous-game-lab/seed-kit.html - fetch failed
+- blocked: seed-next-html - https://moshequ.github.io/autonomous-game-lab/seed-next.html - fetch failed
+- blocked: seed-next-json - https://moshequ.github.io/autonomous-game-lab/seed-next.json - fetch failed
+- blocked: sitemap-xml - https://moshequ.github.io/autonomous-game-lab/sitemap.xml - fetch failed
+- blocked: monetization-html - https://moshequ.github.io/autonomous-game-lab/monetization.html - fetch failed
+- blocked: games-canopy-bloom-html - https://moshequ.github.io/autonomous-game-lab/games/canopy-bloom.html - fetch failed
+- blocked: release-candidate-manifest - https://moshequ.github.io/autonomous-game-lab/release-candidate.json - fetch failed
 
 ## Controls
 
@@ -105,5 +105,5 @@ Checks: 34/34 passed
 
 ## Next Actions
 
-- Live Pages is reachable and serving pwa-c1531259c9ed; run the deploy workflow for strict proof of the current local candidate if needed.
+- Keep the deployed Pages URL active for live traffic collection.
 - Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.
