@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-28T05:57:27.389Z",
+  "generatedAt": "2026-05-28T12:18:38.035Z",
   "status": "waiting-for-gh-auth",
   "envFiles": {
     "loaded": true,
@@ -67,7 +67,7 @@
     "insideWorkTree": true,
     "gitRoot": "/Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new",
     "currentBranch": "main",
-    "dirtyFiles": 69,
+    "dirtyFiles": 63,
     "dirtyPaths": [
       "data/applied-improvements.json",
       "data/autonomous-operator-history.json",
@@ -92,9 +92,7 @@
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
-      "public/analytics-unlock.html",
       "public/analytics-unlock.json",
-      "public/measurement-status.html",
       "public/measurement-status.json",
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
@@ -130,16 +128,12 @@
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBlockerHandoff.ts",
-      "src/data/productionBootstrap.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
-      "src/data/releaseCandidate.ts",
-      "src/data/repositoryBootstrap.ts",
-      "src/data/repositoryReadiness.ts"
+      "src/data/releaseCandidate.ts"
     ],
-    "generatedEvidenceDirtyFiles": 69,
+    "generatedEvidenceDirtyFiles": 63,
     "generatedEvidenceDirtyPaths": [
       "data/applied-improvements.json",
       "data/autonomous-operator-history.json",
@@ -164,9 +158,7 @@
       "data/release-candidate.json",
       "data/repository-bootstrap.json",
       "data/repository-readiness.json",
-      "public/analytics-unlock.html",
       "public/analytics-unlock.json",
-      "public/measurement-status.html",
       "public/measurement-status.json",
       "public/owner-unlock-brief.json",
       "public/owner-unlock-preflight.json",
@@ -202,14 +194,10 @@
       "src/data/postDeploySmoke.ts",
       "src/data/productGateRecovery.ts",
       "src/data/productionActivation.ts",
-      "src/data/productionBlockerHandoff.ts",
-      "src/data/productionBootstrap.ts",
       "src/data/productionEnvironment.ts",
       "src/data/productionMeasurementStatus.ts",
       "src/data/publicRepoSecurityAudit.ts",
-      "src/data/releaseCandidate.ts",
-      "src/data/repositoryBootstrap.ts",
-      "src/data/repositoryReadiness.ts"
+      "src/data/releaseCandidate.ts"
     ],
     "nonGeneratedDirtyFiles": 0,
     "nonGeneratedDirtyPaths": []
@@ -248,7 +236,7 @@
     "workflowExists": true,
     "deployWorkflowIncludesSmoke": true,
     "deploymentStatus": "ready-for-pages",
-    "releaseCandidateId": "pwa-1726e392b6e2",
+    "releaseCandidateId": "pwa-2cd1bb2f967a",
     "postDeploySmokeStatus": "blocked-missing-origin",
     "liveSettings": {
       "status": "inspected",

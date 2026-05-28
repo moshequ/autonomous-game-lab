@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-28T05:57:27.775Z",
+  "generatedAt": "2026-05-28T12:18:38.435Z",
   "status": "waiting-for-gh-auth",
   "mode": "plan-only",
   "envFiles": {
@@ -72,7 +72,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 69,
+      "dirtyFiles": 63,
       "dirtyPaths": [
         "data/applied-improvements.json",
         "data/autonomous-operator-history.json",
@@ -97,9 +97,7 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "public/analytics-unlock.html",
         "public/analytics-unlock.json",
-        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
@@ -135,16 +133,12 @@
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionEnvironment.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/publicRepoSecurityAudit.ts",
-        "src/data/releaseCandidate.ts",
-        "src/data/repositoryBootstrap.ts",
-        "src/data/repositoryReadiness.ts"
+        "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 69,
+      "generatedEvidenceDirtyFiles": 63,
       "generatedEvidenceDirtyPaths": [
         "data/applied-improvements.json",
         "data/autonomous-operator-history.json",
@@ -169,9 +163,7 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "public/analytics-unlock.html",
         "public/analytics-unlock.json",
-        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
@@ -207,14 +199,10 @@
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionEnvironment.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/publicRepoSecurityAudit.ts",
-        "src/data/releaseCandidate.ts",
-        "src/data/repositoryBootstrap.ts",
-        "src/data/repositoryReadiness.ts"
+        "src/data/releaseCandidate.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -226,7 +214,7 @@
       "originRemote": "git@github.com:moshequ/autonomous-game-lab.git",
       "remoteRepository": "moshequ/autonomous-game-lab",
       "hasCommit": true,
-      "dirtyFiles": 69,
+      "dirtyFiles": 63,
       "dirtyPaths": [
         "data/applied-improvements.json",
         "data/autonomous-operator-history.json",
@@ -251,9 +239,7 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "public/analytics-unlock.html",
         "public/analytics-unlock.json",
-        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
@@ -289,16 +275,12 @@
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionEnvironment.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/publicRepoSecurityAudit.ts",
-        "src/data/releaseCandidate.ts",
-        "src/data/repositoryBootstrap.ts",
-        "src/data/repositoryReadiness.ts"
+        "src/data/releaseCandidate.ts"
       ],
-      "generatedEvidenceDirtyFiles": 69,
+      "generatedEvidenceDirtyFiles": 63,
       "generatedEvidenceDirtyPaths": [
         "data/applied-improvements.json",
         "data/autonomous-operator-history.json",
@@ -323,9 +305,7 @@
         "data/release-candidate.json",
         "data/repository-bootstrap.json",
         "data/repository-readiness.json",
-        "public/analytics-unlock.html",
         "public/analytics-unlock.json",
-        "public/measurement-status.html",
         "public/measurement-status.json",
         "public/owner-unlock-brief.json",
         "public/owner-unlock-preflight.json",
@@ -361,14 +341,10 @@
         "src/data/postDeploySmoke.ts",
         "src/data/productGateRecovery.ts",
         "src/data/productionActivation.ts",
-        "src/data/productionBlockerHandoff.ts",
-        "src/data/productionBootstrap.ts",
         "src/data/productionEnvironment.ts",
         "src/data/productionMeasurementStatus.ts",
         "src/data/publicRepoSecurityAudit.ts",
-        "src/data/releaseCandidate.ts",
-        "src/data/repositoryBootstrap.ts",
-        "src/data/repositoryReadiness.ts"
+        "src/data/releaseCandidate.ts"
       ],
       "nonGeneratedDirtyFiles": 0,
       "nonGeneratedDirtyPaths": []
@@ -406,7 +382,7 @@
     "repositoryReadiness": "waiting-for-gh-auth",
     "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
-    "releaseCandidateId": "pwa-1726e392b6e2",
+    "releaseCandidateId": "pwa-2cd1bb2f967a",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "repositoryTargetPlan": {
@@ -496,7 +472,7 @@
       "mutatesLocalGit": true,
       "mutatesRemoteGitHub": false,
       "requiresExplicitEnv": true,
-      "detail": "69 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
+      "detail": "63 repository evidence file(s) changed during this dry run; the outer verified commit will persist them."
     },
     {
       "id": "set-or-create-origin",

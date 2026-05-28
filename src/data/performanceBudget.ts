@@ -1,7 +1,7 @@
 export const performanceBudget = {
   "status": "performance-budget-ready",
   "initial": {
-    "jsKb": 676.7,
+    "jsKb": 676.4,
     "gzipKb": 178.1
   },
   "deferred": {
