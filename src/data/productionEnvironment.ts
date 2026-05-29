@@ -1,5 +1,5 @@
 export const productionEnvironment = {
-  "generatedAt": "2026-05-28T12:18:51.873Z",
+  "generatedAt": "2026-05-29T09:06:01.279Z",
   "status": "production-env-missing",
   "envFiles": {
     "loaded": true,

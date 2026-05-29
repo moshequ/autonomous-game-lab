@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-28T12:18:51.088Z",
+  "generatedAt": "2026-05-29T09:06:00.465Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -22,10 +22,10 @@
   },
   "selectedRejection": null,
   "eligibleActionIds": [
+    "refresh-autonomous-cadence",
     "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-support-feedback",
-    "optimize-daily-retention",
     "prepare-release-candidate",
     "refresh-live-site-monitor",
     "refresh-completion-loop",
@@ -46,9 +46,9 @@
     },
     {
       "id": "refresh-autonomous-cadence",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:cadence",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-autonomous-self-update",
@@ -76,9 +76,9 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:retention",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "measure-pwa-install-loop",

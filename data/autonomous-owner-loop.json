@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-28T12:18:53.947Z",
+  "generatedAt": "2026-05-29T09:06:03.467Z",
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
@@ -37,10 +37,10 @@
     "executableWithoutRepeatCount": 9,
     "heldActionCount": 0,
     "selectableActionIds": [
+      "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
       "seed-portfolio-traffic",
       "refresh-support-feedback",
-      "optimize-daily-retention",
       "prepare-release-candidate",
       "refresh-live-site-monitor",
       "refresh-completion-loop",
@@ -48,10 +48,10 @@
       "refresh-objective-audit"
     ],
     "executableActionIds": [
+      "refresh-autonomous-cadence",
       "refresh-autonomous-self-update",
       "seed-portfolio-traffic",
       "refresh-support-feedback",
-      "optimize-daily-retention",
       "prepare-release-candidate",
       "refresh-live-site-monitor",
       "refresh-completion-loop",
@@ -257,7 +257,7 @@
     ],
     "lastExecutedActionId": "apply-safe-improvements",
     "lastExecutedActionStillExecutable": false,
-    "lastExecutedAgeHours": 28.81,
+    "lastExecutedAgeHours": 49.596,
     "lastExecutedStatus": "executed",
     "lastRecordExecutionStatus": "not-requested",
     "recentlySatisfiedActionIds": [],
@@ -265,7 +265,7 @@
     "objectiveAuditFreshness": {
       "fresh": false,
       "structurallyReady": true,
-      "auditGeneratedAt": "2026-05-28T12:18:50.189Z",
+      "auditGeneratedAt": "2026-05-29T09:05:59.505Z",
       "evaluatedInputIds": [
         "analytics-rollup",
         "event-ingest",
@@ -287,13 +287,13 @@
     },
     "operationalEvidenceFreshness": {
       "cadence": {
-        "fresh": true,
+        "fresh": false,
         "ready": true,
         "status": "cadence-ready",
         "artifactGeneratedAt": "2026-05-28T06:09:40.043Z",
-        "ageHours": 6.154,
+        "ageHours": 26.94,
         "maxAgeHours": 18,
-        "generatedAtFresh": true,
+        "generatedAtFresh": false,
         "checksPass": true,
         "extraReady": true
       },
@@ -302,7 +302,7 @@
         "ready": true,
         "status": "self-update-ready",
         "artifactGeneratedAt": "2026-05-27T13:22:38.797Z",
-        "ageHours": 22.938,
+        "ageHours": 43.724,
         "maxAgeHours": 18,
         "generatedAtFresh": false,
         "checksPass": true,
@@ -313,7 +313,7 @@
         "ready": true,
         "status": "support-feedback-empty",
         "artifactGeneratedAt": "2026-05-27T10:40:44.706Z",
-        "ageHours": 25.636,
+        "ageHours": 46.422,
         "maxAgeHours": 18,
         "generatedAtFresh": false,
         "checksPass": true,
@@ -323,7 +323,7 @@
         "fresh": true,
         "ready": true,
         "status": "performance-budget-ready",
-        "artifactGeneratedAt": "2026-05-28T12:18:36.862Z",
+        "artifactGeneratedAt": "2026-05-29T09:05:45.368Z",
         "ageHours": 0.005,
         "maxAgeHours": 18,
         "generatedAtFresh": true,
@@ -335,7 +335,7 @@
         "ready": true,
         "status": "live-site-monitor-passed",
         "artifactGeneratedAt": "2026-05-27T13:52:42.894Z",
-        "ageHours": 22.436,
+        "ageHours": 43.222,
         "maxAgeHours": 18,
         "generatedAtFresh": false,
         "checksPass": true,
@@ -357,12 +357,12 @@
         ]
       },
       "retentionLoop": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "retention-loop-ready",
-        "artifactGeneratedAt": "2026-05-28T06:09:39.851Z",
-        "artifactSourceDataHash": "1c2b6f9fd6cd",
-        "sourceDataHash": "768fada4ebf1",
+        "artifactGeneratedAt": "2026-05-29T09:02:08.179Z",
+        "artifactSourceDataHash": "19f0838eff56",
+        "sourceDataHash": "19f0838eff56",
         "evaluatedInputIds": [
           "analytics-rollup",
           "portfolio-policy",
@@ -378,9 +378,9 @@
         "current": false,
         "ready": false,
         "status": "traffic-seeding-ready",
-        "artifactGeneratedAt": "2026-05-28T06:09:39.632Z",
-        "artifactSourceDataHash": "b87d547b9266",
-        "sourceDataHash": "fa42a3730963",
+        "artifactGeneratedAt": "2026-05-29T09:02:05.694Z",
+        "artifactSourceDataHash": "2c1b1a3d3cc8",
+        "sourceDataHash": "df244b7278d1",
         "evaluatedInputIds": [
           "playable-games",
           "portfolio-policy",
@@ -392,12 +392,12 @@
         ]
       },
       "acquisitionLearning": {
-        "current": false,
-        "ready": false,
+        "current": true,
+        "ready": true,
         "status": "acquisition-learning-ready",
-        "artifactGeneratedAt": "2026-05-28T06:11:16.187Z",
-        "artifactSourceDataHash": "d7c98238ac6d",
-        "sourceDataHash": "875d86c813fd",
+        "artifactGeneratedAt": "2026-05-29T09:04:00.525Z",
+        "artifactSourceDataHash": "ce07b6cb746e",
+        "sourceDataHash": "ce07b6cb746e",
         "evaluatedInputIds": [
           "analytics-rollup",
           "traffic-seeding",
@@ -410,9 +410,9 @@
         "current": true,
         "ready": true,
         "status": "organic-seed-loop-ready",
-        "artifactGeneratedAt": "2026-05-28T06:11:16.409Z",
-        "artifactSourceDataHash": "9195b8d167dc",
-        "sourceDataHash": "9195b8d167dc",
+        "artifactGeneratedAt": "2026-05-29T09:04:00.749Z",
+        "artifactSourceDataHash": "4b7d89e7b39a",
+        "sourceDataHash": "4b7d89e7b39a",
         "evaluatedInputIds": [
           "playable-games",
           "analytics-rollup",
@@ -426,9 +426,9 @@
         "current": true,
         "ready": true,
         "status": "pwa-install-loop-ready",
-        "artifactGeneratedAt": "2026-05-28T12:18:39.764Z",
-        "artifactSourceDataHash": "21f582915663",
-        "sourceDataHash": "21f582915663",
+        "artifactGeneratedAt": "2026-05-29T09:05:48.420Z",
+        "artifactSourceDataHash": "59c70d429904",
+        "sourceDataHash": "59c70d429904",
         "evaluatedInputIds": [
           "analytics-rollup",
           "growth-plan",
@@ -444,7 +444,7 @@
         "current": true,
         "ready": true,
         "status": "product-gate-recovery-ready",
-        "artifactGeneratedAt": "2026-05-28T12:18:52.957Z",
+        "artifactGeneratedAt": "2026-05-29T09:06:02.426Z",
         "artifactSourceDataHash": "8d210205988c",
         "sourceDataHash": "8d210205988c",
         "evaluatedInputIds": [
@@ -462,9 +462,9 @@
         "current": true,
         "ready": true,
         "status": "product-gate-sample-plan-ready",
-        "artifactGeneratedAt": "2026-05-28T06:11:27.262Z",
-        "artifactSourceDataHash": "3ecd1ef8f80c",
-        "sourceDataHash": "3ecd1ef8f80c",
+        "artifactGeneratedAt": "2026-05-29T09:04:00.981Z",
+        "artifactSourceDataHash": "759864c89b52",
+        "sourceDataHash": "759864c89b52",
         "evaluatedInputIds": [
           "sample-date",
           "product-gate-recovery",
@@ -484,7 +484,7 @@
         "current": true,
         "ready": true,
         "status": "store-package-ready",
-        "artifactGeneratedAt": "2026-05-28T12:18:39.972Z",
+        "artifactGeneratedAt": "2026-05-29T09:05:48.639Z",
         "artifactSourceDataHash": "57aab506b980",
         "sourceDataHash": "57aab506b980",
         "evaluatedInputIds": [
@@ -499,9 +499,9 @@
         "current": true,
         "ready": true,
         "status": "store-listing-optimizer-ready",
-        "artifactGeneratedAt": "2026-05-28T12:18:40.198Z",
-        "artifactSourceDataHash": "9a8dc188712b",
-        "sourceDataHash": "9a8dc188712b",
+        "artifactGeneratedAt": "2026-05-29T09:05:48.876Z",
+        "artifactSourceDataHash": "6a5736a52375",
+        "sourceDataHash": "6a5736a52375",
         "evaluatedInputIds": [
           "store-package",
           "store-assets",
@@ -519,9 +519,9 @@
         "current": true,
         "ready": true,
         "status": "draft-ready-external-blockers",
-        "artifactGeneratedAt": "2026-05-28T12:18:40.416Z",
-        "artifactSourceDataHash": "78d5965d2fdc",
-        "sourceDataHash": "78d5965d2fdc",
+        "artifactGeneratedAt": "2026-05-29T09:05:49.101Z",
+        "artifactSourceDataHash": "3288e2059e50",
+        "sourceDataHash": "3288e2059e50",
         "evaluatedInputIds": [
           "store-package",
           "monetization-plan",
@@ -608,7 +608,7 @@
       "lastExplicitScanAt": "2026-05-22T13:53:13.086Z",
       "lastExplicitScanStatus": "no-evidence-found",
       "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z",
-      "scanAgeHours": 142.43,
+      "scanAgeHours": 163.21,
       "cooldownRemainingHours": 0,
       "evidenceReadyNow": false
     },
@@ -687,9 +687,9 @@
     },
     "productionBootstrapFreshness": {
       "fresh": true,
-      "bootstrapGeneratedAt": "2026-05-28T12:18:47.061Z",
-      "artifactSourceDataHash": "540ce79b3cb7",
-      "sourceDataHash": "540ce79b3cb7",
+      "bootstrapGeneratedAt": "2026-05-29T09:05:56.275Z",
+      "artifactSourceDataHash": "ff783b3c97e4",
+      "sourceDataHash": "ff783b3c97e4",
       "evaluatedInputIds": [
         "release-candidate",
         "deployment-plan",
@@ -704,7 +704,7 @@
       "current": true,
       "ready": true,
       "status": "handoff-waiting-on-owner-inputs",
-      "generatedAt": "2026-05-28T12:18:52.435Z",
+      "generatedAt": "2026-05-29T09:06:01.884Z",
       "nextBestUnlockId": "production-analytics-browser",
       "ownerActionRequired": 4,
       "missingEnv": 7,
@@ -826,7 +826,7 @@
       "id": "performance-budget",
       "status": "ready",
       "autonomy": "automatic-build-budget",
-      "evidence": "Initial JS 676.4 KB; gzip 178.1 KB; deferred chunks 39.",
+      "evidence": "Initial JS 676.5 KB; gzip 178.1 KB; deferred chunks 39.",
       "nextAction": "Keep Phaser and game scenes outside the initial PWA shell."
     },
     {
@@ -855,7 +855,7 @@
       "status": "ready",
       "autonomy": "sample-collection-routing",
       "evidence": "Sample plan product-gate-sample-plan-ready; primary firstGameCompletion; prompt views needed 70.",
-      "nextAction": "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260528-firstGameCompletion."
+      "nextAction": "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260529-firstGameCompletion."
     },
     {
       "id": "first-move-coach",
@@ -945,7 +945,7 @@
       "id": "production-bootstrap",
       "status": "ready",
       "autonomy": "zero-spend-setup-orchestration",
-      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 16.",
+      "evidence": "Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 17.",
       "nextAction": "Fill required environment values, then run npm run autonomous:bootstrap."
     },
     {
@@ -1061,14 +1061,14 @@
     },
     {
       "id": "refresh-autonomous-cadence",
-      "status": "monitor",
+      "status": "armed",
       "costUsd": 0,
       "command": "npm run autonomous:cadence",
       "targets": [
         "autonomous-game-lab-daily-owner-loop",
         ".github/workflows/autonomous-daily.yml"
       ],
-      "reason": "Cadence evidence is already fresh, scheduled, verified, and zero-spend guarded."
+      "reason": "Keeps the unattended daily operating cadence, recovery policy, and verification chain auditable."
     },
     {
       "id": "refresh-autonomous-self-update",
@@ -1115,13 +1115,13 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "armed",
+      "status": "monitor",
       "costUsd": 0,
       "command": "npm run autonomous:retention",
       "targets": [
         "market-pulse"
       ],
-      "reason": "Keeps daily challenge, local streak prompts, and retention-safe missions aligned with behavior data."
+      "reason": "Daily challenge, return-intent, and D1 sample policies already reflect current retention evidence."
     },
     {
       "id": "measure-pwa-install-loop",
@@ -1140,7 +1140,7 @@
       "command": "npm run build && npm run autonomous:performance && npm run autonomous:release-candidate",
       "targets": [
         "pwa-shell",
-        "GameCanvas-BASl3xNT.js",
+        "GameCanvas-Bx5tcR5B.js",
         "dist-release-candidate"
       ],
       "reason": "Performance budget and release-candidate evidence are already fresh for the current guarded build."
@@ -1216,8 +1216,8 @@
       "command": "npm run autonomous:collect-local-event-drops",
       "targets": [
         "firstGameCompletion",
-        "gate-sample-20260528-firstGameCompletion",
-        "gate-sample-20260528-replayRate"
+        "gate-sample-20260529-firstGameCompletion",
+        "gate-sample-20260529-replayRate"
       ],
       "reason": "Local inbox, configured drop folders, analytics, recovery, and sample plan already reflect the latest no-event drop-folder check and never scans Downloads."
     },
@@ -1228,8 +1228,8 @@
       "command": "npm run autonomous:collect-sample-downloads",
       "targets": [
         "firstGameCompletion",
-        "gate-sample-20260528-firstGameCompletion",
-        "gate-sample-20260528-replayRate"
+        "gate-sample-20260529-firstGameCompletion",
+        "gate-sample-20260529-replayRate"
       ],
       "reason": "Explicit Downloads scan is not recommended until the owner opts in; use local inbox or configured drop-folder collection first."
     },
@@ -1412,8 +1412,8 @@
       "command": "npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan",
       "targets": [
         "firstGameCompletion",
-        "gate-sample-20260528-firstGameCompletion",
-        "gate-sample-20260528-replayRate"
+        "gate-sample-20260529-firstGameCompletion",
+        "gate-sample-20260529-replayRate"
       ],
       "reason": "Local event bridge, import, analytics, gate recovery, and sample plan already reflect the latest no-event collection."
     }

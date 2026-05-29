@@ -1,11 +1,11 @@
 # Product Gate Sample Plan
 
-Generated: 2026-05-28T06:11:27.262Z
+Generated: 2026-05-29T09:04:00.981Z
 Status: product-gate-sample-plan-ready
-Source hash: 3ecd1ef8f80c
+Source hash: 759864c89b52
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
-Default route: firstGameCompletion (gate-sample-20260528-firstGameCompletion)
+Default route: firstGameCompletion (gate-sample-20260529-firstGameCompletion)
 Default route reason: First game completion is the primary revenue-blocking gap and can collect same-session evidence from the next player.
 Prompt views needed: 70
 Observed successes needed: 139
@@ -23,18 +23,18 @@ Runtime evidence policy: active
 
 ## Missions
 
-- #1 firstGameCompletion: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 40% / 55%; needs 30 prompt view(s), 128 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260528-firstGameCompletion
-- #2 replayRate: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 31% / 35%; needs 30 prompt view(s), 10 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260528-replayRate
-- #3 d1Retention: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260528-d1Retention
+- #1 firstGameCompletion: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 40% / 55%; needs 30 prompt view(s), 128 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260529-firstGameCompletion
+- #2 replayRate: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 31% / 35%; needs 30 prompt view(s), 10 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260529-replayRate
+- #3 d1Retention: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260529-d1Retention
 
 ## Evidence Sprint
 
 - Status: ready-for-player-invite-sprint
-- Window: 2026-05-28 to 2026-05-29
+- Window: 2026-05-29 to 2026-05-30
 - Minimum counted runs: 168
-- gate-sample-firstGameCompletion: 30 prompt view(s), 128 success(es), 128 counted run(s); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260528-firstGameCompletion
-- gate-sample-replayRate: 30 prompt view(s), 10 success(es), 30 counted run(s); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260528-replayRate
-- gate-sample-d1Retention: 10 prompt view(s), 1 success(es), 10 counted run(s); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260528-d1Retention
+- gate-sample-firstGameCompletion: 30 prompt view(s), 128 success(es), 128 counted run(s); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260529-firstGameCompletion
+- gate-sample-replayRate: 30 prompt view(s), 10 success(es), 30 counted run(s); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260529-replayRate
+- gate-sample-d1Retention: 10 prompt view(s), 1 success(es), 10 counted run(s); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260529-d1Retention
 
 ## Commands
 
@@ -68,6 +68,6 @@ Runtime evidence policy: active
 
 ## Next Actions
 
-- First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260528-firstGameCompletion.
+- First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260529-firstGameCompletion.
 - D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).
 - Export or collect real browser events, then run npm run autonomous:collect-local-event-drops; use npm run autonomous:collect-sample-downloads only after explicit owner opt-in.

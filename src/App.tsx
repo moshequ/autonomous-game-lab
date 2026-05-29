@@ -1468,9 +1468,11 @@ function App() {
       ),
     [events, trafficCampaigns],
   )
+  const organicSeedTargetCampaignId = organicSeedLoop.target?.campaignId
+    ? String(organicSeedLoop.target.campaignId)
+    : null
   const organicSeedGeneratedTargetCampaign =
-    trafficCampaigns.find((campaign) => campaign.id === organicSeedLoop.target?.campaignId) ??
-    trafficCampaigns[0]
+    trafficCampaigns.find((campaign) => campaign.id === organicSeedTargetCampaignId) ?? trafficCampaigns[0]
   const organicSeedRuntimePick = useMemo(() => {
     const openCampaigns = trafficCampaigns
       .map((campaign) => {
