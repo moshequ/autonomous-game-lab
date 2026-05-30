@@ -464,9 +464,23 @@ const liveChecksBlocked =
   failedChecks.length === 0 &&
   passedChecks.length === 0
 
+let payload = null
 if (liveChecksBlocked && previousSmokeIsReusable({ origin, releaseCandidate })) {
-  console.log('Network blocked; preserving prior post-deploy smoke evidence.')
-  process.exit(0)
+  console.log('Network blocked; preserving prior post-deploy smoke evidence (refreshed timestamp).')
+  payload = {
+    ...previousSmoke,
+    generatedAt: new Date().toISOString(),
+    sourceStatus: {
+      deployment: deployment.status,
+      releaseCandidate: releaseCandidate.status,
+      productionResponse: productionResponse.status,
+    },
+    preservation: {
+      status: 'network-blocked',
+      preservedFromGeneratedAt: previousSmoke?.generatedAt ?? null,
+      note: 'Network access was blocked; reused prior post-deploy smoke evidence and refreshed metadata.',
+    },
+  }
 }
 
 const status = !origin
@@ -481,53 +495,55 @@ const status = !origin
 
 const originForPayload = liveChecksBlocked ? null : origin
 
-const payload = {
-  generatedAt: new Date().toISOString(),
-  status,
-  envFiles: localEnv,
-  target: {
-    origin: originForPayload?.toString() ?? null,
-    originSource: liveChecksBlocked ? 'network-blocked' : originSource,
-    provider: deployment.target?.provider ?? releaseCandidate.target?.provider ?? 'github-pages',
-    candidateId: releaseCandidate.candidateId,
-    aggregateHash: releaseCandidate.integrity?.aggregateHash ?? null,
-    strictManifestComparison,
-  },
-  liveRelease: originForPayload ? liveRelease : null,
-  sourceStatus: {
-    deployment: deployment.status,
-    releaseCandidate: releaseCandidate.status,
-    productionResponse: productionResponse.status,
-  },
-  summary: {
-    planned: checks.length,
-    passed: passedChecks.length,
-    failed: failedChecks.length,
-    blocked: blockedChecks.length,
-  },
-  localArtifactSmoke,
-  controls: {
-    zeroPaidSpend: unitEconomics.controls?.maxDailySpendUsd === 0,
-    noStoreSubmission: true,
-    noRevenueEnablement: true,
-    noAccountCreation: true,
-    readOnlyHttpChecks: true,
-    localArtifactSmokeRequired: true,
-    manifestHashComparisonRequired: true,
-    strictManifestComparison,
-    inferredLiveObservationAllowed: !strictManifestComparison,
-  },
-  checks,
-  nextActions: [
-    origin
-      ? failedChecks.length
-        ? 'Hold promotion and inspect failed post-deploy smoke checks.'
-        : observedDifferentLiveCandidate
-          ? `Live Pages is reachable and serving ${liveRelease.candidateId}; run the deploy workflow for strict proof of the current local candidate if needed.`
-          : 'Keep the deployed Pages URL active for live traffic collection.'
-      : 'Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL.',
-    'Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.',
-  ],
+if (!payload) {
+  payload = {
+    generatedAt: new Date().toISOString(),
+    status,
+    envFiles: localEnv,
+    target: {
+      origin: originForPayload?.toString() ?? null,
+      originSource: liveChecksBlocked ? 'network-blocked' : originSource,
+      provider: deployment.target?.provider ?? releaseCandidate.target?.provider ?? 'github-pages',
+      candidateId: releaseCandidate.candidateId,
+      aggregateHash: releaseCandidate.integrity?.aggregateHash ?? null,
+      strictManifestComparison,
+    },
+    liveRelease: originForPayload ? liveRelease : null,
+    sourceStatus: {
+      deployment: deployment.status,
+      releaseCandidate: releaseCandidate.status,
+      productionResponse: productionResponse.status,
+    },
+    summary: {
+      planned: checks.length,
+      passed: passedChecks.length,
+      failed: failedChecks.length,
+      blocked: blockedChecks.length,
+    },
+    localArtifactSmoke,
+    controls: {
+      zeroPaidSpend: unitEconomics.controls?.maxDailySpendUsd === 0,
+      noStoreSubmission: true,
+      noRevenueEnablement: true,
+      noAccountCreation: true,
+      readOnlyHttpChecks: true,
+      localArtifactSmokeRequired: true,
+      manifestHashComparisonRequired: true,
+      strictManifestComparison,
+      inferredLiveObservationAllowed: !strictManifestComparison,
+    },
+    checks,
+    nextActions: [
+      origin
+        ? failedChecks.length
+          ? 'Hold promotion and inspect failed post-deploy smoke checks.'
+          : observedDifferentLiveCandidate
+            ? `Live Pages is reachable and serving ${liveRelease.candidateId}; run the deploy workflow for strict proof of the current local candidate if needed.`
+            : 'Keep the deployed Pages URL active for live traffic collection.'
+        : 'Run this after deployment with AGL_DEPLOYED_PWA_ORIGIN set to the Pages URL.',
+      'Keep revenue, paid acquisition, and app-store submission disabled until product and credential gates pass.',
+    ],
+  }
 }
 
 const report = [

@@ -1,5 +1,5 @@
 export const repositoryReadiness = {
-  "status": "waiting-for-repository-channel",
+  "status": "waiting-for-gh-auth",
   "workspace": {
     "insideWorkTree": true
   },

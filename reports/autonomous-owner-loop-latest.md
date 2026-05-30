@@ -1,9 +1,9 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-30T07:10:53.192Z
+Generated: 2026-05-30T07:15:31.148Z
 Status: owner-loop-ready
-Mode: guarded-local-automation
-Autonomy score: 41/45 (91%)
+Mode: zero-spend-web-ready
+Autonomy score: 44/45 (98%)
 
 ## Owner Decision
 
@@ -16,7 +16,7 @@ Autonomy score: 41/45 (91%)
 ## Execution Backoff
 
 - Status: ready
-- Selectable actions: refresh-autonomous-self-update, seed-portfolio-traffic, refresh-support-feedback, optimize-daily-retention
+- Selectable actions: seed-portfolio-traffic, refresh-support-feedback, optimize-daily-retention
 - Held actions: none
 - Next resume: new evidence or owner input
 - No repeat cycling: true
@@ -51,7 +51,7 @@ Autonomy score: 41/45 (91%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- needs-self-update-evidence: autonomous-self-update - Self-update self-update-needs-attention; safe pending 162; unsafe pending 2; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Market Pulse; seed traffic: market-pulse, guild-garden, canopy-bloom, metro-loom.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate market-pulse.
@@ -68,21 +68,21 @@ Autonomy score: 41/45 (91%)
 - ready: replay-loop - Replay loop replay-loop-ready; prompt armed; target harbor-rings; replay 31%.
 - ready: improvement-loop - improvement-backlog-ready; 4 backlog item(s); 3 experiment recommendation(s); applied status actions-ready; source e2c7b8df405d.
 - ready: organic-growth - 10 SEO/share pages; optimization 5 page(s).
-- waiting-for-repository-channel: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
+- ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-gh-auth; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
-- blocked: web-deployment - Deployment blocked; web readiness blocked; promotion promotable-internal.
+- ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
 - ready: release-candidate - Release candidate release-candidate-ready; files 101; smoke URLs 33.
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; manifest comparison required; checks 0/34 passed; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26515368723; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34; live matches synced deploy true.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 17.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 16.
 - ready: production-activation - Activation activation-waiting-for-credentials; mode dry-run; execution dry-run; gh blocked.
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
 - ready: support-channel - Support channel support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready; aggregate evidence only true.
 - ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 3.
-- ready: objective-audit - Audit objective-in-progress; met 4/8; external blockers 17.
+- ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 17.
 - ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed no.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
@@ -95,7 +95,7 @@ Autonomy score: 41/45 (91%)
 - armed: run-daily-owner-loop - npm run autonomous:daily
 - monitor: hold-for-external-input - No local command is available until external inputs, configured credentials, or new player evidence arrive.
 - monitor: refresh-autonomous-cadence - npm run autonomous:cadence
-- armed: refresh-autonomous-self-update - npm run autonomous:self-update
+- monitor: refresh-autonomous-self-update - npm run autonomous:self-update
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: refresh-support-feedback - npm run autonomous:support-feedback
@@ -126,7 +126,7 @@ Autonomy score: 41/45 (91%)
 - monitor: optimize-store-listing - npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 - monitor: prepare-android-signing - npm run autonomous:android-signing
 - monitor: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments
-- blocked-needs-repository-channel: deploy-web-pwa - Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.
+- ready-when-repository-pages-enabled: deploy-web-pwa - Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.
 - monitor: collect-live-events - npm run autonomous:local-event-bridge && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:gate-recovery && npm run autonomous:sample-plan
 
 ## Credential Required Actions

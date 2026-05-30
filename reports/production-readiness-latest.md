@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-30T07:10:56.336Z
+Generated: 2026-05-30T07:14:59.554Z
 
 ## Environment
 
@@ -10,7 +10,7 @@ Analytics: local-or-fixture
 
 ## Repository Channel
 
-Status: waiting-for-repository-channel
+Status: waiting-for-gh-auth
 Repository: moshequ/autonomous-game-lab
 Git worktree: true
 Workflow dispatch ready: false
@@ -21,7 +21,7 @@ Workflow dispatch ready: false
 - external-blocker: repository-gh-token - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for non-interactive workflow dispatch.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: repository-pages-settings - GitHub Pages settings could not be inspected: gh-credentials-unavailable.
-- blocker: repository-deployable-artifact - Deployment blocked; release candidate release-candidate-ready; smoke blocked-missing-origin.
+- pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
 ## Repository Bootstrap
 
@@ -39,7 +39,7 @@ Local git: true
 
 ## Web/PWA
 
-Status: blocked
+Status: ready-after-build
 - pass: manifest - PWA manifest exists in the production build.
 - pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
 - pass: service-worker - Offline service worker exists.
@@ -69,15 +69,15 @@ Status: blocked
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 17.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 16.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-waiting-for-credentials; mode dry-run; execution dry-run.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 3.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- blocker: autonomous-self-update - Autonomous self-update is self-update-needs-attention; safe pending 162; unsafe pending 2; remote push held.
-- pass: objective-audit - Objective audit is objective-in-progress; met 4 / 8; can complete false.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
+- pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
 ## Monetization
 
@@ -282,10 +282,10 @@ Prompt: armed (autonomy-cockpit-replay-card)
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 Setup script: ops/github/setup-production.sh
-- waiting-for-repository-channel: bootstrap-repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
+- waiting-for-gh-auth: bootstrap-repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
 - waiting-for-gh-auth: bootstrap-repository-bootstrap - Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.
-- blocked: bootstrap-github-pages-hosting - Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- ready: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - waiting-for-gh-auth: bootstrap-github-pages-settings - GitHub CLI authentication is required before Pages settings can be synced.
 - ready: bootstrap-autonomous-self-update - Self-update gate missing; direct push held.
 - partially-configured: bootstrap-github-actions-variables - 6/24 repository variable value(s) present in this environment.
@@ -362,17 +362,17 @@ Freshness: fresh; stale artifacts 0
 
 ## Autonomous Self Update
 
-Status: self-update-needs-attention
+Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 162
-Unsafe pending: 2
+Safe pending: 0
+Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow starts from the daily run, waits for matching post-deploy evidence sync, refreshes main, verifies with production env, and persists allowlisted changes.
 - pass: self-update-post-self-update-deploy - Pages redeploys after gated self-update, public-evidence, and production-input workflows, then repeats deployability and post-deploy smoke checks.
-- blocker: self-update-safe-path-allowlist - 162 safe pending file(s), 2 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 0 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.
@@ -380,7 +380,7 @@ Remote push ready: false
 ## Objective Audit
 
 Status: objective-in-progress
-Met: 4 / 8
+Met: 6 / 8
 Can mark complete: false
 
 ## Distribution

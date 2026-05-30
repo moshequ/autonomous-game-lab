@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-30T07:01:21.421Z",
+  "generatedAt": "2026-05-30T07:13:26.781Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -72,7 +72,7 @@ export const postDeploySmoke = {
   },
   "liveRelease": null,
   "sourceStatus": {
-    "deployment": "blocked",
+    "deployment": "ready-for-pages",
     "releaseCandidate": "release-candidate-ready",
     "productionResponse": "guarded-operations"
   },
