@@ -375,7 +375,7 @@
           <li><strong>pass</strong>: deploy-workflow - GitHub Actions collector deploy workflow exists.</li>
           <li><strong>missing-env</strong>: cloudflare-credentials - Cloudflare account id and API token are configured.</li>
           <li><strong>missing-env</strong>: collector-runtime-env - Browser collector URL, export URL, R2 bucket, and allowed origins are configured.</li>
-          <li><strong>pass</strong>: collector-tokens - Public write token and admin export token are configured before Worker deployment.</li>
+          <li><strong>missing-env</strong>: collector-tokens - Public write token and admin export token are configured before Worker deployment.</li>
         </ul>
         <h3>One-Time Setup</h3>
         <ul>
@@ -393,11 +393,11 @@
           </div>
           <div class="card">
             <span>Missing variables</span>
-            <strong>3</strong>
+            <strong>5</strong>
           </div>
           <div class="card">
             <span>Missing secrets</span>
-            <strong>1</strong>
+            <strong>3</strong>
           </div>
           <div class="card">
             <span>No secret values</span>
@@ -407,7 +407,7 @@
         <ul>
           <li>Local env template: .env.production.local</li>
           <li>Template command: ./ops/github/setup-production.sh --collector-input-template</li>
-          <li>Missing inputs: CLOUDFLARE_ACCOUNT_ID, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL, CLOUDFLARE_API_TOKEN</li>
+          <li>Missing inputs: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL, CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN</li>
         </ul>
         <h3>Commands</h3>
         <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>Production Input Watch triggers Event Collector Deploy after Cloudflare variables and secrets are configured.</code></li></ol>

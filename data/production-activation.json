@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-29T09:05:56.494Z",
+  "generatedAt": "2026-05-30T07:01:32.572Z",
   "status": "activation-waiting-for-credentials",
   "mode": "dry-run",
   "envFiles": {
@@ -64,17 +64,17 @@
     }
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-gh-auth",
+    "repositoryReadiness": "waiting-for-repository-channel",
     "repositoryBootstrap": "waiting-for-gh-auth",
     "productionBootstrap": "production-bootstrap-ready",
-    "deployment": "ready-for-pages",
+    "deployment": "blocked",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "configuration": {
     "activationRequested": false,
     "repositoryTargetKnown": true,
     "ghCredentialReady": false,
-    "deploymentReady": true,
+    "deploymentReady": false,
     "runWebWorkflows": false,
     "allowRepositoryBootstrap": false,
     "allowAndroidWorkflow": false,

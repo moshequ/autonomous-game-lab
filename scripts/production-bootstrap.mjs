@@ -14,6 +14,7 @@ const environmentPath = path.join(dataDir, 'production-environment.json')
 const repositoryReadinessPath = path.join(dataDir, 'repository-readiness.json')
 const repositoryBootstrapPath = path.join(dataDir, 'repository-bootstrap.json')
 const deploymentPath = path.join(dataDir, 'deployment-plan.json')
+const releaseCandidatePath = path.join(dataDir, 'release-candidate.json')
 const collectorPath = path.join(dataDir, 'event-collector-deployment.json')
 const storeCompliancePath = path.join(dataDir, 'store-compliance.json')
 const nativePackagePath = path.join(dataDir, 'native-package.json')
@@ -68,8 +69,11 @@ const nativePackage = await readJson(nativePackagePath)
 const androidRelease = await readJson(androidReleasePath)
 const monetization = await readJson(monetizationPath)
 const unitEconomics = await readJson(unitEconomicsPath)
+const releaseCandidate = await readOptionalJson(releaseCandidatePath, {
+  status: 'missing',
+})
 const sourceDataHash = productionBootstrapSourceDataHash({
-  releaseCandidate: await readOptionalJson(path.join(dataDir, 'release-candidate.json'), { status: 'missing' }),
+  releaseCandidate,
   deployment,
   repositoryReadiness,
   repositoryBootstrap,

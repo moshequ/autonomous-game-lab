@@ -1,35 +1,34 @@
 {
-  "generatedAt": "2026-05-29T09:06:00.465Z",
+  "generatedAt": "2026-05-30T07:10:53.468Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "refresh-live-site-monitor",
-    "command": "npm run autonomous:live-monitor",
+    "actionId": "seed-portfolio-traffic",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "refresh-live-site-monitor",
+    "id": "seed-portfolio-traffic",
     "status": "armed",
-    "command": "npm run autonomous:live-monitor",
+    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
     "targets": [
-      "https://moshequ.github.io/autonomous-game-lab"
+      "market-pulse",
+      "guild-garden",
+      "canopy-bloom",
+      "metro-loom"
     ],
-    "reason": "Runs read-only live checks between deploys so public PWA drift is caught without waiting for a new release.",
+    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "refresh-autonomous-cadence",
     "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-support-feedback",
-    "prepare-release-candidate",
-    "refresh-live-site-monitor",
-    "refresh-completion-loop",
-    "refresh-replay-loop"
+    "optimize-daily-retention"
   ],
   "blockedActions": [
     {
@@ -46,20 +45,14 @@
     },
     {
       "id": "refresh-autonomous-cadence",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:cadence",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-autonomous-self-update",
       "status": "armed",
       "command": "npm run autonomous:self-update",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "seed-portfolio-traffic",
-      "status": "armed",
-      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "reason": "not-selected-this-run"
     },
     {
@@ -76,9 +69,9 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:retention",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "measure-pwa-install-loop",
@@ -94,9 +87,9 @@
     },
     {
       "id": "prepare-release-candidate",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "run-post-deploy-smoke",
@@ -108,6 +101,12 @@
       "id": "sync-post-deploy-artifact",
       "status": "monitor",
       "command": "npm run autonomous:post-deploy-artifact-sync",
+      "reason": "status-monitor"
+    },
+    {
+      "id": "refresh-live-site-monitor",
+      "status": "monitor",
+      "command": "npm run autonomous:live-monitor",
       "reason": "status-monitor"
     },
     {
@@ -154,15 +153,15 @@
     },
     {
       "id": "refresh-completion-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:completion-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-replay-loop",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:replay-loop",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-repository-channel",
@@ -232,9 +231,9 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "ready-when-repository-pages-enabled",
+      "status": "blocked-needs-repository-channel",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-ready-when-repository-pages-enabled"
+      "reason": "status-blocked-needs-repository-channel"
     },
     {
       "id": "collect-live-events",
@@ -245,8 +244,24 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:live-monitor",
-      "script": "autonomous:live-monitor"
+      "segment": "npm run autonomous:growth",
+      "script": "autonomous:growth"
+    },
+    {
+      "segment": "npm run autonomous:portfolio",
+      "script": "autonomous:portfolio"
+    },
+    {
+      "segment": "npm run autonomous:traffic",
+      "script": "autonomous:traffic"
+    },
+    {
+      "segment": "npm run autonomous:acquisition",
+      "script": "autonomous:acquisition"
+    },
+    {
+      "segment": "npm run autonomous:organic-seed-loop",
+      "script": "autonomous:organic-seed-loop"
     }
   ],
   "execution": {
@@ -323,7 +338,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=refresh-live-site-monitor to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

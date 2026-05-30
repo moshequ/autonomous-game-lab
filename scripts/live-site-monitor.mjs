@@ -334,78 +334,92 @@ const blocked = checks.filter((check) => check.status === 'blocked').length
 const latencies = checks.map((check) => check.durationMs).filter((value) => typeof value === 'number')
 const manifestCheck = checks.find((check) => check.id === 'release-candidate-manifest-live')
 const networkBlocked = Boolean(origin && passed === 0 && failed === 0 && blocked > 0)
-if (networkBlocked && previousMonitorIsReusable({ currentOrigin: `${origin.protocol}//${origin.host}${origin.pathname.replace(/\/$/, '')}` })) {
-  console.log('Network blocked; preserving prior live-site monitor evidence.')
-  process.exit(0)
-}
-const status = !origin
-  ? 'live-site-monitor-planned'
-  : failed > 0
-    ? 'live-site-monitor-alert'
-    : blocked > 0
-      ? 'live-site-monitor-planned'
-      : 'live-site-monitor-passed'
+let payload = null
+const currentOrigin = origin ? `${origin.protocol}//${origin.host}${origin.pathname.replace(/\/$/, '')}` : null
+const canReusePrior = Boolean(networkBlocked && currentOrigin && previousMonitorIsReusable({ currentOrigin }))
 
-const payload = {
-  generatedAt: now,
-  status,
-  envFiles: localEnv,
-  origin: origin
-    ? {
-        origin: `${origin.protocol}//${origin.host}${origin.pathname.replace(/\/$/, '')}`,
-        source: originCandidate.source,
-        host: origin.host,
-        basePath: origin.pathname,
-      }
-    : {
-        origin: null,
-        source: originCandidate.source,
-        host: null,
-        basePath: null,
-      },
-  sourceStatus: {
-    productionEnvironment: productionEnvironment.status,
-    releaseCandidate: releaseCandidate.status,
-    postDeploySmoke: postDeploySmoke.status,
-    postDeployArtifactSync: postDeployArtifactSync.status,
-    latestSyncedDeployKnown,
-  },
-  summary: {
-    planned: checks.length,
-    passed,
-    failed,
-    blocked,
-    passRate: pct(passed, checks.length),
-    latencyP50Ms: quantile(latencies, 0.5),
-    latencyP95Ms: quantile(latencies, 0.95),
-    liveCandidateId: manifestCheck?.manifest?.candidateId ?? null,
-    syncedCandidateId: postDeployArtifactSync.live?.candidateId ?? null,
-    localCandidateId: releaseCandidate.candidateId ?? null,
-    liveMatchesSyncedDeploy: manifestCheck?.manifest?.matchesSyncedDeploy === true,
-    liveMatchesCurrentLocalCandidate: manifestCheck?.manifest?.matchesCurrentLocalCandidate === true,
-    monitoringPlanSource: manifestCheck?.monitoringPlanSource ?? 'current-local-release-candidate',
-    monitoredSmokeUrls: checks.filter((check) => check.kind === 'asset').length,
-    liveSmokeUrls: manifestCheck?.manifest?.postDeploySmokeUrls ?? 0,
-  },
-  controls: {
-    zeroPaidSpend: true,
-    readOnlyHttpChecks: true,
-    noMutation: true,
-    noAccountCreation: true,
-    noStoreSubmission: true,
-    noRevenueEnablement: true,
-    noCookiesOrCredentials: true,
-    strictSyncedManifestComparison: true,
-  },
-  checks,
-  nextActions: [
-    status === 'live-site-monitor-alert'
-      ? 'Run post-deploy evidence sync or deploy the current release candidate before sending more traffic.'
-      : status === 'live-site-monitor-passed'
-        ? 'Keep monitoring the public PWA between deploys with read-only live checks.'
-        : 'Configure a public origin or deploy the PWA before live monitoring can pass.',
-    'Keep revenue, paid spend, and store submission disabled until product and account gates clear.',
-  ],
+if (canReusePrior) {
+  console.log('Network blocked; preserving prior live-site monitor evidence (refreshed timestamp).')
+  payload = {
+    ...previousMonitor,
+    generatedAt: now,
+    preservation: {
+      status: 'network-blocked',
+      preservedFromGeneratedAt: previousMonitor?.generatedAt ?? null,
+      attemptedOrigin: currentOrigin,
+      note: 'Network access was blocked; reused the previously verified live-site monitor evidence.',
+    },
+  }
+} else {
+  const status = !origin
+    ? 'live-site-monitor-planned'
+    : failed > 0
+      ? 'live-site-monitor-alert'
+      : blocked > 0
+        ? 'live-site-monitor-planned'
+        : 'live-site-monitor-passed'
+
+  payload = {
+    generatedAt: now,
+    status,
+    envFiles: localEnv,
+    origin: origin
+      ? {
+          origin: currentOrigin,
+          source: originCandidate.source,
+          host: origin.host,
+          basePath: origin.pathname,
+        }
+      : {
+          origin: null,
+          source: originCandidate.source,
+          host: null,
+          basePath: null,
+        },
+    sourceStatus: {
+      productionEnvironment: productionEnvironment.status,
+      releaseCandidate: releaseCandidate.status,
+      postDeploySmoke: postDeploySmoke.status,
+      postDeployArtifactSync: postDeployArtifactSync.status,
+      latestSyncedDeployKnown,
+    },
+    summary: {
+      planned: checks.length,
+      passed,
+      failed,
+      blocked,
+      passRate: pct(passed, checks.length),
+      latencyP50Ms: quantile(latencies, 0.5),
+      latencyP95Ms: quantile(latencies, 0.95),
+      liveCandidateId: manifestCheck?.manifest?.candidateId ?? null,
+      syncedCandidateId: postDeployArtifactSync.live?.candidateId ?? null,
+      localCandidateId: releaseCandidate.candidateId ?? null,
+      liveMatchesSyncedDeploy: manifestCheck?.manifest?.matchesSyncedDeploy === true,
+      liveMatchesCurrentLocalCandidate: manifestCheck?.manifest?.matchesCurrentLocalCandidate === true,
+      monitoringPlanSource: manifestCheck?.monitoringPlanSource ?? 'current-local-release-candidate',
+      monitoredSmokeUrls: checks.filter((check) => check.kind === 'asset').length,
+      liveSmokeUrls: manifestCheck?.manifest?.postDeploySmokeUrls ?? 0,
+    },
+    controls: {
+      zeroPaidSpend: true,
+      readOnlyHttpChecks: true,
+      noMutation: true,
+      noAccountCreation: true,
+      noStoreSubmission: true,
+      noRevenueEnablement: true,
+      noCookiesOrCredentials: true,
+      strictSyncedManifestComparison: true,
+    },
+    checks,
+    nextActions: [
+      status === 'live-site-monitor-alert'
+        ? 'Run post-deploy evidence sync or deploy the current release candidate before sending more traffic.'
+        : status === 'live-site-monitor-passed'
+          ? 'Keep monitoring the public PWA between deploys with read-only live checks.'
+          : 'Configure a public origin or deploy the PWA before live monitoring can pass.',
+      'Keep revenue, paid spend, and store submission disabled until product and account gates clear.',
+    ],
+  }
 }
 
 const appPayload = {

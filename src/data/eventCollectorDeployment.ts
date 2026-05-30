@@ -1,5 +1,5 @@
 export const eventCollectorDeployment = {
-  "generatedAt": "2026-05-27T13:22:01.402Z",
+  "generatedAt": "2026-05-30T07:00:04.625Z",
   "status": "blocked-needs-cloudflare-env",
   "envFiles": {
     "loaded": true,
@@ -68,9 +68,9 @@ export const eventCollectorDeployment = {
     "path": "ops/cloudflare/event-collector-worker.mjs",
     "storageBinding": "EVENT_BUCKET",
     "bucketName": "autonomous-game-lab-events",
-    "bucketConfigured": true,
+    "bucketConfigured": false,
     "allowedOrigins": null,
-    "allowedOriginsConfigured": true,
+    "allowedOriginsConfigured": false,
     "endpoints": {
       "health": "/health",
       "ingest": "/events",
@@ -96,10 +96,10 @@ export const eventCollectorDeployment = {
     "serverExportConfigured": false,
     "cloudflareAccountConfigured": false,
     "cloudflareTokenConfigured": false,
-    "bucketConfigured": true,
-    "allowedOriginsConfigured": true,
-    "writeTokenConfigured": true,
-    "adminTokenConfigured": true,
+    "bucketConfigured": false,
+    "allowedOriginsConfigured": false,
+    "writeTokenConfigured": false,
+    "adminTokenConfigured": false,
     "collectorUrl": null,
     "exportUrl": null
   },
@@ -128,9 +128,9 @@ export const eventCollectorDeployment = {
     "inputCount": 8,
     "variableInputCount": 5,
     "secretInputCount": 3,
-    "missingInputCount": 4,
-    "missingVariableCount": 3,
-    "missingSecretCount": 1,
+    "missingInputCount": 8,
+    "missingVariableCount": 5,
+    "missingSecretCount": 3,
     "invalidInputCount": 0,
     "publicInputNames": [
       "CLOUDFLARE_ACCOUNT_ID",
@@ -146,17 +146,25 @@ export const eventCollectorDeployment = {
     ],
     "missingInputNames": [
       "CLOUDFLARE_ACCOUNT_ID",
+      "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "VITE_EVENT_COLLECTOR_URL",
       "AGL_EVENT_COLLECTOR_EXPORT_URL",
-      "CLOUDFLARE_API_TOKEN"
+      "CLOUDFLARE_API_TOKEN",
+      "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     ],
     "missingVariableNames": [
       "CLOUDFLARE_ACCOUNT_ID",
+      "AGL_EVENT_COLLECTOR_R2_BUCKET",
+      "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
       "VITE_EVENT_COLLECTOR_URL",
       "AGL_EVENT_COLLECTOR_EXPORT_URL"
     ],
     "missingSecretNames": [
-      "CLOUDFLARE_API_TOKEN"
+      "CLOUDFLARE_API_TOKEN",
+      "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
+      "AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
     ],
     "invalidInputNames": [],
     "requiredVariables": [
@@ -192,13 +200,13 @@ export const eventCollectorDeployment = {
         "id": "var-agl-event-collector-r2-bucket",
         "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
         "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "configured": true,
-        "valueSource": "repository-variable",
+        "configured": false,
+        "valueSource": "missing",
         "purpose": "R2 bucket name for aggregate event batches.",
         "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\"",
         "validation": {
           "kind": "r2-bucket-name-shape",
-          "status": "configured-without-serialized-value",
+          "status": "missing",
           "expected": {
             "noWhitespace": true,
             "pattern": "lowercase letters, numbers, dots, and hyphens",
@@ -206,25 +214,27 @@ export const eventCollectorDeployment = {
           },
           "checks": [
             {
-              "id": "configured-in-repository",
-              "passed": true,
-              "detail": "AGL_EVENT_COLLECTOR_R2_BUCKET is configured outside this generated artifact; the value is not serialized."
+              "id": "non-empty-local-input",
+              "passed": false,
+              "detail": "AGL_EVENT_COLLECTOR_R2_BUCKET must be exported locally or configured in the repository before setup can sync it."
             }
           ],
-          "failedCheckIds": []
+          "failedCheckIds": [
+            "non-empty-local-input"
+          ]
         }
       },
       {
         "id": "var-agl-event-collector-allowed-origins",
         "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
         "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "configured": true,
-        "valueSource": "repository-variable",
+        "configured": false,
+        "valueSource": "missing",
         "purpose": "Comma-separated browser origins allowed to post events.",
         "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\"",
         "validation": {
           "kind": "comma-separated-origin-list-shape",
-          "status": "configured-without-serialized-value",
+          "status": "missing",
           "expected": {
             "commaSeparatedOrigins": true,
             "noPathsQueriesOrHashes": true,
@@ -232,12 +242,14 @@ export const eventCollectorDeployment = {
           },
           "checks": [
             {
-              "id": "configured-in-repository",
-              "passed": true,
-              "detail": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS is configured outside this generated artifact; the value is not serialized."
+              "id": "non-empty-local-input",
+              "passed": false,
+              "detail": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS must be exported locally or configured in the repository before setup can sync it."
             }
           ],
-          "failedCheckIds": []
+          "failedCheckIds": [
+            "non-empty-local-input"
+          ]
         }
       },
       {
@@ -329,50 +341,54 @@ export const eventCollectorDeployment = {
         "id": "secret-vite-event-collector-write-token",
         "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
         "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "configured": true,
-        "valueSource": "repository-secret",
+        "configured": false,
+        "valueSource": "missing",
         "purpose": "Collector write token passed to the browser build without serializing the value here.",
         "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN",
         "validation": {
           "kind": "token-presence-only",
-          "status": "configured-without-serialized-value",
+          "status": "missing",
           "expected": {
             "nonEmpty": true,
             "valueNotSerialized": true
           },
           "checks": [
             {
-              "id": "configured-in-repository",
-              "passed": true,
-              "detail": "VITE_EVENT_COLLECTOR_WRITE_TOKEN is configured outside this generated artifact; the value is not serialized."
+              "id": "non-empty-local-input",
+              "passed": false,
+              "detail": "VITE_EVENT_COLLECTOR_WRITE_TOKEN must be exported locally or configured in the repository before setup can sync it."
             }
           ],
-          "failedCheckIds": []
+          "failedCheckIds": [
+            "non-empty-local-input"
+          ]
         }
       },
       {
         "id": "secret-agl-event-collector-admin-token",
         "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "configured": true,
-        "valueSource": "repository-secret",
+        "configured": false,
+        "valueSource": "missing",
         "purpose": "Collector admin export token for autonomous rollup imports.",
         "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
         "validation": {
           "kind": "token-presence-only",
-          "status": "configured-without-serialized-value",
+          "status": "missing",
           "expected": {
             "nonEmpty": true,
             "valueNotSerialized": true
           },
           "checks": [
             {
-              "id": "configured-in-repository",
-              "passed": true,
-              "detail": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN is configured outside this generated artifact; the value is not serialized."
+              "id": "non-empty-local-input",
+              "passed": false,
+              "detail": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN must be exported locally or configured in the repository before setup can sync it."
             }
           ],
-          "failedCheckIds": []
+          "failedCheckIds": [
+            "non-empty-local-input"
+          ]
         }
       }
     ],
@@ -440,11 +456,11 @@ export const eventCollectorDeployment = {
           "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
           "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
           "kind": "repository-variable",
-          "configured": true,
-          "valueSource": "repository-variable",
+          "configured": false,
+          "valueSource": "missing",
           "validation": {
             "kind": "r2-bucket-name-shape",
-            "status": "configured-without-serialized-value",
+            "status": "missing",
             "expected": {
               "noWhitespace": true,
               "pattern": "lowercase letters, numbers, dots, and hyphens",
@@ -452,23 +468,25 @@ export const eventCollectorDeployment = {
             },
             "checks": [
               {
-                "id": "configured-in-repository",
-                "passed": true,
-                "detail": "AGL_EVENT_COLLECTOR_R2_BUCKET is configured outside this generated artifact; the value is not serialized."
+                "id": "non-empty-local-input",
+                "passed": false,
+                "detail": "AGL_EVENT_COLLECTOR_R2_BUCKET must be exported locally or configured in the repository before setup can sync it."
               }
             ],
-            "failedCheckIds": []
+            "failedCheckIds": [
+              "non-empty-local-input"
+            ]
           }
         },
         {
           "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
           "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
           "kind": "repository-variable",
-          "configured": true,
-          "valueSource": "repository-variable",
+          "configured": false,
+          "valueSource": "missing",
           "validation": {
             "kind": "comma-separated-origin-list-shape",
-            "status": "configured-without-serialized-value",
+            "status": "missing",
             "expected": {
               "commaSeparatedOrigins": true,
               "noPathsQueriesOrHashes": true,
@@ -476,12 +494,14 @@ export const eventCollectorDeployment = {
             },
             "checks": [
               {
-                "id": "configured-in-repository",
-                "passed": true,
-                "detail": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS is configured outside this generated artifact; the value is not serialized."
+                "id": "non-empty-local-input",
+                "passed": false,
+                "detail": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS must be exported locally or configured in the repository before setup can sync it."
               }
             ],
-            "failedCheckIds": []
+            "failedCheckIds": [
+              "non-empty-local-input"
+            ]
           }
         },
         {
@@ -565,46 +585,50 @@ export const eventCollectorDeployment = {
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "kind": "secret",
-          "configured": true,
-          "valueSource": "repository-secret",
+          "configured": false,
+          "valueSource": "missing",
           "validation": {
             "kind": "token-presence-only",
-            "status": "configured-without-serialized-value",
+            "status": "missing",
             "expected": {
               "nonEmpty": true,
               "valueNotSerialized": true
             },
             "checks": [
               {
-                "id": "configured-in-repository",
-                "passed": true,
-                "detail": "VITE_EVENT_COLLECTOR_WRITE_TOKEN is configured outside this generated artifact; the value is not serialized."
+                "id": "non-empty-local-input",
+                "passed": false,
+                "detail": "VITE_EVENT_COLLECTOR_WRITE_TOKEN must be exported locally or configured in the repository before setup can sync it."
               }
             ],
-            "failedCheckIds": []
+            "failedCheckIds": [
+              "non-empty-local-input"
+            ]
           }
         },
         {
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "kind": "secret",
-          "configured": true,
-          "valueSource": "repository-secret",
+          "configured": false,
+          "valueSource": "missing",
           "validation": {
             "kind": "token-presence-only",
-            "status": "configured-without-serialized-value",
+            "status": "missing",
             "expected": {
               "nonEmpty": true,
               "valueNotSerialized": true
             },
             "checks": [
               {
-                "id": "configured-in-repository",
-                "passed": true,
-                "detail": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN is configured outside this generated artifact; the value is not serialized."
+                "id": "non-empty-local-input",
+                "passed": false,
+                "detail": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN must be exported locally or configured in the repository before setup can sync it."
               }
             ],
-            "failedCheckIds": []
+            "failedCheckIds": [
+              "non-empty-local-input"
+            ]
           }
         }
       ],
@@ -680,7 +704,7 @@ export const eventCollectorDeployment = {
     },
     {
       "id": "collector-tokens",
-      "status": "pass",
+      "status": "missing-env",
       "detail": "Public write token and admin export token are configured before Worker deployment."
     }
   ],

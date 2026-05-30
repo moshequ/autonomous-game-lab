@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-29T09:05:56.275Z",
-  "sourceDataHash": "ff783b3c97e4",
+  "generatedAt": "2026-05-30T07:10:47.680Z",
+  "sourceDataHash": "8db253d107d1",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -73,7 +73,7 @@
     "ghAuthAvailable": false,
     "ghCredentialReady": false,
     "canUseGh": false,
-    "repositoryReadinessStatus": "waiting-for-gh-auth",
+    "repositoryReadinessStatus": "waiting-for-repository-channel",
     "repositoryBootstrapStatus": "waiting-for-gh-auth",
     "insideWorkTree": true,
     "workflowDispatchReady": false,
@@ -93,7 +93,7 @@
     "repositoryBootstrapDryRunByDefault": true
   },
   "summary": {
-    "readyGroups": 4,
+    "readyGroups": 3,
     "totalGroups": 12,
     "configuredVariables": 6,
     "totalVariables": 24,
@@ -104,13 +104,14 @@
   "stages": [
     {
       "id": "repository-channel",
-      "status": "waiting-for-gh-auth",
+      "status": "waiting-for-repository-channel",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness",
       "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
       "requires": [
-        "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
+        "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
       ]
     },
     {
@@ -121,7 +122,6 @@
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
-        "Commit current generated changes before pushing to GitHub Pages.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
       ]
     },
@@ -143,11 +143,11 @@
     },
     {
       "id": "github-pages-hosting",
-      "status": "ready",
+      "status": "blocked",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "gh workflow run web-pwa-deploy.yml",
-      "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+      "evidence": "Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
       "requires": [
         "Repository exists on GitHub.",
         "GitHub Pages source is set to GitHub Actions.",
@@ -268,13 +268,14 @@
   "setupGroups": [
     {
       "id": "repository-channel",
-      "status": "waiting-for-gh-auth",
+      "status": "waiting-for-repository-channel",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "npm run autonomous:repo-readiness",
       "evidence": "Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.",
       "requires": [
-        "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
+        "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
       ]
     },
     {
@@ -285,7 +286,6 @@
       "command": "npm run autonomous:repo-bootstrap",
       "evidence": "Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.",
       "requires": [
-        "Commit current generated changes before pushing to GitHub Pages.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap."
       ]
     },
@@ -307,11 +307,11 @@
     },
     {
       "id": "github-pages-hosting",
-      "status": "ready",
+      "status": "blocked",
       "canAutoRun": false,
       "costUsd": 0,
       "command": "gh workflow run web-pwa-deploy.yml",
-      "evidence": "Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
+      "evidence": "Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.",
       "requires": [
         "Repository exists on GitHub.",
         "GitHub Pages source is set to GitHub Actions.",
@@ -1489,8 +1489,8 @@
       "blocker": "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
     },
     {
-      "source": "repository-bootstrap",
-      "blocker": "Commit current generated changes before pushing to GitHub Pages."
+      "source": "repository-readiness",
+      "blocker": "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
     },
     {
       "source": "repository-bootstrap",

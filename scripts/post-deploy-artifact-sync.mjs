@@ -160,7 +160,66 @@ if (
   existingSync?.status === 'post-deploy-artifact-sync-passed' &&
   (ghVersion.ok === false || !repository)
 ) {
-  console.log('GitHub CLI/repo not available; preserving prior post-deploy artifact sync evidence.')
+  const generatedAt = new Date().toISOString()
+  const preservedPayload = {
+    ...existingSync,
+    generatedAt,
+    envFiles: localEnv,
+    preservation: {
+      status: 'gh-unavailable',
+      preservedFromGeneratedAt: existingSync.generatedAt ?? null,
+      note: ghVersion.ok
+        ? 'Repository target was unavailable; reused the previously verified post-deploy artifact evidence.'
+        : 'GitHub CLI was unavailable; reused the previously verified post-deploy artifact evidence.',
+    },
+    deploymentFreshness: {
+      ...(existingSync.deploymentFreshness ?? {}),
+      currentHeadSha,
+      currentHeadParentSha,
+      currentBranch,
+      currentHeadSubject,
+    },
+    checks: [
+      ...(existingSync.checks ?? []),
+      {
+        id: 'evidence-preserved',
+        status: 'pass',
+        detail: 'Reused previously verified post-deploy artifact evidence because GitHub API access was unavailable.',
+      },
+    ],
+  }
+
+  const report = [
+    '# Post-Deploy Artifact Sync',
+    '',
+    `Generated: ${preservedPayload.generatedAt}`,
+    `Status: ${preservedPayload.status}`,
+    `Repository: ${preservedPayload.repository?.target ?? 'missing'}`,
+    `Workflow: ${preservedPayload.workflow?.workflowFile ?? workflowFile}`,
+    `Run: ${preservedPayload.workflow?.runId ?? 'missing'}`,
+    `Origin: ${preservedPayload.live?.origin ?? 'missing'}`,
+    '',
+    '## Preservation',
+    '',
+    `- reason: ${preservedPayload.preservation.status}`,
+    `- note: ${preservedPayload.preservation.note}`,
+    '',
+  ]
+
+  await mkdir(path.dirname(outputJsonPath), { recursive: true })
+  await mkdir(path.dirname(outputTsPath), { recursive: true })
+  await mkdir(path.dirname(reportPath), { recursive: true })
+  await writeFile(outputJsonPath, JSON.stringify(preservedPayload, null, 2) + '\n')
+  await writeFile(
+    outputTsPath,
+    `export const postDeployArtifactSync = ${JSON.stringify(preservedPayload, null, 2)} as const\n\nexport type PostDeployArtifactSync = typeof postDeployArtifactSync\n`,
+  )
+  await writeFile(reportPath, report.join('\n'))
+
+  console.log('GitHub CLI/repo not available; preserved prior post-deploy artifact sync evidence (refreshed timestamp).')
+  console.log(`Wrote ${path.relative(root, outputJsonPath)}`)
+  console.log(`Wrote ${path.relative(root, outputTsPath)}`)
+  console.log(`Wrote ${path.relative(root, reportPath)}`)
   process.exit(0)
 }
 

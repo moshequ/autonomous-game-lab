@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-29T09:05:45.889Z",
+  "generatedAt": "2026-05-30T07:01:21.421Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -66,13 +66,13 @@
     "origin": null,
     "originSource": "network-blocked",
     "provider": "github-pages",
-    "candidateId": "pwa-c3abacb0ae47",
-    "aggregateHash": "c3abacb0ae47b4f71ee9e9a56be0812bee49ec7187b99689e06226ab096f5627",
+    "candidateId": "pwa-ef19fff6b910",
+    "aggregateHash": "ef19fff6b9103245b72c316d0ad610c2d6dbdef3102ad5737b7859f6145f13be",
     "strictManifestComparison": false
   },
   "liveRelease": null,
   "sourceStatus": {
-    "deployment": "ready-for-pages",
+    "deployment": "blocked",
     "releaseCandidate": "release-candidate-ready",
     "productionResponse": "guarded-operations"
   },
@@ -153,7 +153,7 @@
         "file": "dist/measurement-status.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 94624,
+        "bytes": 94766,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -163,7 +163,7 @@
         "file": "dist/measurement-status.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 166265,
+        "bytes": 166788,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -213,7 +213,7 @@
         "file": "dist/analytics-unlock.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 29858,
+        "bytes": 30000,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -223,7 +223,7 @@
         "file": "dist/analytics-unlock.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 105651,
+        "bytes": 106174,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -436,8 +436,8 @@
         "bytes": 42028,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-c3abacb0ae47",
-        "localAggregateHash": "c3abacb0ae47b4f71ee9e9a56be0812bee49ec7187b99689e06226ab096f5627",
+        "localCandidateId": "pwa-ef19fff6b910",
+        "localAggregateHash": "ef19fff6b9103245b72c316d0ad610c2d6dbdef3102ad5737b7859f6145f13be",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -921,7 +921,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-c3abacb0ae47",
+      "requiredText": "pwa-ef19fff6b910",
       "status": "blocked",
       "detail": "fetch failed",
       "actualStatus": null,

@@ -1,28 +1,30 @@
 {
-  "generatedAt": "2026-05-29T09:05:59.505Z",
+  "generatedAt": "2026-05-30T07:10:56.877Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 6,
+    "met": 4,
     "prepared": 2,
-    "incomplete": 0,
+    "incomplete": 2,
     "externalBlockers": 17,
     "productBlockers": 7
   },
   "requirements": [
     {
       "id": "web-pwa-game-portal",
-      "status": "met",
+      "status": "incomplete",
       "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
       "evidence": [
-        "Web readiness: ready-after-build",
+        "Web readiness: blocked",
         "Manifest in dist: true",
         "Service worker in dist: true",
         "Release candidate: release-candidate-ready; 101 files",
-        "Deployment plan: ready-for-pages"
+        "Deployment plan: blocked"
       ],
-      "blockers": [],
+      "blockers": [
+        "Autonomous self-update is self-update-needs-attention; safe pending 162; unsafe pending 2; remote push held."
+      ],
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
       "completionCritical": true
     },
@@ -76,7 +78,7 @@
         "Backlog: improvement-backlog-ready; items 4; hash e2c7b8df405d",
         "Support feedback: support-feedback-empty; issues 0; routable signals 0; aggregate notes 0",
         "Applied/deferred actions: 7",
-        "Operator selected: refresh-live-site-monitor; status operator-plan-ready; execution not-requested"
+        "Operator selected: seed-portfolio-traffic; status operator-plan-ready; execution not-requested"
       ],
       "blockers": [],
       "nextAction": "Keep collecting starts until a safe product-gate tuning action is justified.",
@@ -84,12 +86,12 @@
     },
     {
       "id": "minimal-intervention-autonomy",
-      "status": "met-local",
+      "status": "incomplete",
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
         "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
-        "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
+        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 2",
         "Operator: operator-plan-ready",
         "Operator history: operator-history-ready; records 40; executed 3",
         "Bootstrap: production-bootstrap-ready",
@@ -99,12 +101,14 @@
         "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/34; local artifact predeploy-artifact-smoke-passed 34/34",
         "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26515368723; live matches artifact true; candidate pwa-c1531259c9ed",
         "Live site monitor: live-site-monitor-passed; checks 34/34; live matches synced deploy true",
-        "Repository channel: waiting-for-gh-auth; repository moshequ/autonomous-game-lab; git worktree true",
-        "Autonomy score: 98%",
+        "Repository channel: waiting-for-repository-channel; repository moshequ/autonomous-game-lab; git worktree true",
+        "Autonomy score: 91%",
         "Credential-gated actions: 12"
       ],
       "blockers": [
+        "safe-path-allowlist: 162 safe pending file(s), 2 unsafe pending file(s).",
         "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
@@ -221,6 +225,7 @@
     ],
     "all": [
       "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
@@ -252,19 +257,19 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 102,
-    "currentGitWorktreeDirtyFiles": 102,
-    "currentGeneratedEvidenceDirtyFiles": 101,
-    "currentNonGeneratedWorktreeDirtyFiles": 1,
+    "currentWorktreeDirtyFiles": 165,
+    "currentGitWorktreeDirtyFiles": 165,
+    "currentGeneratedEvidenceDirtyFiles": 162,
+    "currentNonGeneratedWorktreeDirtyFiles": 3,
     "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "ff783b3c97e4",
+    "productionBootstrapSourceDataHash": "8db253d107d1",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
   "completion": {
     "canMarkGoalComplete": false,
     "reason": "The local autonomous PWA system is largely prepared with strict live deploy evidence synced from GitHub Actions, but production credentials, live data, monetization gates, and store account/signing blockers remain.",
-    "nextBestAction": "refresh-live-site-monitor"
+    "nextBestAction": "seed-portfolio-traffic"
   }
 }

@@ -1,10 +1,38 @@
 {
-  "generatedAt": "2026-05-27T13:52:42.718Z",
+  "generatedAt": "2026-05-30T07:06:51.825Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": ".env.production.local",
+        "keys": [
+          "VITE_POSTHOG_KEY",
+          "VITE_POSTHOG_HOST",
+          "AGL_SUPPORT_EMAIL"
+        ]
+      },
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL",
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -49,30 +77,30 @@
     "runListAvailable": true
   },
   "deploymentFreshness": {
-    "status": "current-head-deployed",
-    "currentHeadSha": "1f21857a2546e7bea89d90f56dc3039278c7a5dc",
-    "currentHeadParentSha": "3645ad3b8e9494f45618d00168d249d53d5d8150",
+    "status": "current-head-not-deployed",
+    "currentHeadSha": "c9dd6211d31001a32ac4f8245a5acf6bb6c767ed",
+    "currentHeadParentSha": "805dd7e237c82de9c172368d9e184517055ee1e7",
     "currentBranch": "main",
-    "currentHeadSubject": "Refresh autonomy evidence after sprint plan",
+    "currentHeadSubject": "Autonomy: resync evidence bundle + fix seed campaign typing",
     "selectedRunHeadSha": "1f21857a2546e7bea89d90f56dc3039278c7a5dc",
-    "selectedRunHeadMatchesCurrent": true,
-    "selectedRunHeadMatchesDeploySource": true,
+    "selectedRunHeadMatchesCurrent": false,
+    "selectedRunHeadMatchesDeploySource": false,
     "currentHeadIsPostDeployEvidenceCommit": false,
-    "currentHeadDeployed": true,
-    "deploySourceHeadSha": "1f21857a2546e7bea89d90f56dc3039278c7a5dc",
-    "deploySourceDeployed": true,
+    "currentHeadDeployed": false,
+    "deploySourceHeadSha": "c9dd6211d31001a32ac4f8245a5acf6bb6c767ed",
+    "deploySourceDeployed": false,
     "currentHeadQueuedOrRunning": false,
-    "currentHeadSuccessfulRunId": 26515368723,
+    "currentHeadSuccessfulRunId": null,
     "currentHeadActiveRunId": null,
-    "latestRunId": 26515368723,
-    "latestRunStatus": "completed",
-    "latestRunConclusion": "success",
-    "latestRunHeadSha": "1f21857a2546e7bea89d90f56dc3039278c7a5dc",
+    "latestRunId": null,
+    "latestRunStatus": null,
+    "latestRunConclusion": null,
+    "latestRunHeadSha": null,
     "liveMatchesCurrentLocalCandidate": false,
-    "liveCandidateId": "pwa-c1531259c9ed",
-    "localCandidateId": "pwa-8b1f761917e4",
-    "liveAggregateHash": "c1531259c9edcdd74a6a36707788eaf0cfe628d76e11c43dbbf377e3d6b4547e",
-    "localAggregateHash": "8b1f761917e4ac1ef168c320bf6a775157d09ac698ad83feb4001e1567f5da2a",
+    "liveCandidateId": null,
+    "localCandidateId": "pwa-ef19fff6b910",
+    "liveAggregateHash": null,
+    "localAggregateHash": "ef19fff6b9103245b72c316d0ad610c2d6dbdef3102ad5737b7859f6145f13be",
     "workflowRunListAvailable": true
   },
   "artifact": {
@@ -141,7 +169,7 @@
   },
   "summary": {
     "planned": 7,
-    "passed": 7,
+    "passed": 6,
     "failed": 0,
     "blocked": 0
   },
@@ -192,11 +220,12 @@
     },
     {
       "id": "deployment-freshness",
-      "status": "pass",
-      "detail": "Current main 1f21857a2546 is deployed."
+      "status": "monitor",
+      "detail": "Current main c9dd6211d310 is not the latest strict deployed artifact; freshness current-head-not-deployed."
     }
   ],
   "nextActions": [
+    "Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.",
     "Current main is deployed; keep strict live artifact evidence in sync after each Pages run.",
     "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.",
     "Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass."
