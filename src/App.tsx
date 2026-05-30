@@ -621,6 +621,8 @@ type BeforeInstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>
 }
 
+type IdleDeadline = { didTimeout: boolean; timeRemaining: () => number }
+
 const getPwaDisplayMode = () => {
   if (typeof window === 'undefined') {
     return 'unknown'
@@ -963,6 +965,8 @@ function App() {
 
   useEffect(() => {
     let active = true
+    let idleHandle: number | null = null
+    let timeoutHandle: number | null = null
 
     const loadLateOpsData = async () => {
       const [
@@ -1058,10 +1062,39 @@ function App() {
       })
     }
 
-    void loadLateOpsData()
+    const scheduleLoad = () => {
+      if (typeof window === 'undefined') {
+        void loadLateOpsData()
+        return
+      }
+
+      const requestIdleCallback = (window as Window & {
+        requestIdleCallback?: (callback: (deadline: IdleDeadline) => void, options?: { timeout: number }) => number
+      }).requestIdleCallback
+
+      if (requestIdleCallback) {
+        idleHandle = requestIdleCallback(() => void loadLateOpsData(), { timeout: 2000 })
+        return
+      }
+
+      timeoutHandle = window.setTimeout(() => void loadLateOpsData(), 750)
+    }
+
+    scheduleLoad()
 
     return () => {
       active = false
+
+      if (timeoutHandle !== null) {
+        window.clearTimeout(timeoutHandle)
+      }
+
+      const cancelIdleCallback = (window as Window & { cancelIdleCallback?: (handle: number) => void })
+        .cancelIdleCallback
+
+      if (idleHandle !== null && cancelIdleCallback) {
+        cancelIdleCallback(idleHandle)
+      }
     }
   }, [])
 

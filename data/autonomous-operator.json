@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T07:15:00.971Z",
+  "generatedAt": "2026-05-30T13:24:05.271Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -27,8 +27,7 @@
   "eligibleActionIds": [
     "seed-portfolio-traffic",
     "refresh-support-feedback",
-    "optimize-daily-retention",
-    "refresh-objective-audit"
+    "optimize-daily-retention"
   ],
   "blockedActions": [
     {
@@ -207,9 +206,9 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:objective-audit",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "optimize-store-listing",

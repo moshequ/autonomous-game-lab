@@ -1,5 +1,5 @@
 export const productionActivation = {
-  "generatedAt": "2026-05-30T07:01:32.572Z",
+  "generatedAt": "2026-05-30T13:24:01.411Z",
   "status": "activation-waiting-for-credentials",
   "mode": "dry-run",
   "envFiles": {
@@ -64,17 +64,17 @@ export const productionActivation = {
     }
   },
   "sourceStatus": {
-    "repositoryReadiness": "waiting-for-repository-channel",
+    "repositoryReadiness": "waiting-for-gh-auth",
     "repositoryBootstrap": "waiting-for-gh-auth",
     "productionBootstrap": "production-bootstrap-ready",
-    "deployment": "blocked",
+    "deployment": "ready-for-pages",
     "postDeploySmoke": "blocked-missing-origin"
   },
   "configuration": {
     "activationRequested": false,
     "repositoryTargetKnown": true,
     "ghCredentialReady": false,
-    "deploymentReady": false,
+    "deploymentReady": true,
     "runWebWorkflows": false,
     "allowRepositoryBootstrap": false,
     "allowAndroidWorkflow": false,
