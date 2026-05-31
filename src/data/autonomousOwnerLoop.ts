@@ -13,7 +13,7 @@ export const autonomousOwnerLoop = {
   "executionBackoff": {
     "status": "ready",
     "heldActionCount": 0,
-    "executableWithoutRepeatCount": 4,
+    "executableWithoutRepeatCount": 3,
     "nextResumeAt": null,
     "nextResumeInHours": null,
     "heldActionIds": []

@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-31T08:32:36.474Z
+Generated: 2026-05-31T13:15:06.216Z
 
 ## Environment
 
@@ -32,7 +32,7 @@ Local git: true
 - done: repo-bootstrap-inspect-repository-channel - Repository readiness is waiting-for-gh-auth.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 63 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready: repo-bootstrap-commit-current-snapshot - 110 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - credential-gated: repo-bootstrap-create-github-repository - GitHub CLI auth or GH_TOKEN/GITHUB_TOKEN is required before remote repository creation.
 - ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 676.7 KB / 178.2 KB gzip; deferred game chunk GameCanvas-Cmy71rZM.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 676.7 KB / 178.2 KB gzip; deferred game chunk GameCanvas-Db2z1san.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 101; smoke URLs 33.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/34 passed, 34 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed; live matches synced deploy true.
@@ -76,7 +76,7 @@ Status: ready-after-build
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 3.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 0; unsafe pending 0; remote push held.
+- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 107; unsafe pending 0; remote push held.
 - pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
 ## Monetization
@@ -125,23 +125,23 @@ Installs: 0
 
 Status: performance-budget-ready
 Initial JS: 676.7 KB (178.2 KB gzip)
-Deferred game chunk: GameCanvas-Cmy71rZM.js
+Deferred game chunk: GameCanvas-Db2z1san.js
 - pass: performance-initial-js-target - Initial JS is 676.7 KB; target is 686 KB.
 - pass: performance-initial-js-budget - Initial JS is 676.7 KB; deploy cap is 700 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 178.2 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 12.4 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-Cmy71rZM.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas-Db2z1san.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-b3eb7a51de65
+Candidate: pwa-07c07906ca54
 Files: 101
-Aggregate SHA-256: b3eb7a51de6502abd3725664219cf7be4f57986081a0ed01b649e1ca195f9d19
+Aggregate SHA-256: 07c07906ca541bcd0fa40ccd7316d8d6a3aa1629d1fcca27f1a6d5a8b8ae8364
 - pass: release-dist-inventory - 101 dist files inventoried.
 - pass: release-required-files - 38/38 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -155,7 +155,7 @@ Aggregate SHA-256: b3eb7a51de6502abd3725664219cf7be4f57986081a0ed01b649e1ca195f9
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-b3eb7a51de65
+Candidate: pwa-07c07906ca54
 Checks: 0/34 passed (34 blocked)
 Local artifact: predeploy-artifact-smoke-passed (34/34 passed)
 - blocked: smoke-app-shell - fetch failed
@@ -364,7 +364,7 @@ Freshness: fresh; stale artifacts 0
 
 Status: self-update-ready
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 0
+Safe pending: 107
 Unsafe pending: 0
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
@@ -372,7 +372,7 @@ Remote push ready: false
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow starts from the daily run, waits for matching post-deploy evidence sync, refreshes main, verifies with production env, and persists allowlisted changes.
 - pass: self-update-post-self-update-deploy - Pages redeploys after gated self-update, public-evidence, and production-input workflows, then repeats deployability and post-deploy smoke checks.
-- pass: self-update-safe-path-allowlist - 0 safe pending file(s), 0 unsafe pending file(s).
+- pass: self-update-safe-path-allowlist - 107 safe pending file(s), 0 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.

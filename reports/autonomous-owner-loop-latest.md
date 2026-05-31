@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-31T09:00:09.003Z
+Generated: 2026-05-31T13:15:06.722Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -16,7 +16,7 @@ Autonomy score: 44/45 (98%)
 ## Execution Backoff
 
 - Status: ready
-- Selectable actions: refresh-autonomous-cadence, refresh-autonomous-self-update, seed-portfolio-traffic, refresh-support-feedback
+- Selectable actions: seed-portfolio-traffic, refresh-support-feedback, refresh-objective-audit
 - Held actions: none
 - Next resume: new evidence or owner input
 - No repeat cycling: true
@@ -51,7 +51,7 @@ Autonomy score: 44/45 (98%)
 - ready: analytics-ingest - Active source: fixture-sample; event ingest: idle-no-files; collector smoke: pass.
 - ready: local-event-bridge - Bridge bridge-waiting-for-export; inbox 0 event(s); imported 0 event(s).
 - ready: autonomous-cadence - Cadence cadence-ready; Codex active-confirmed; GitHub scheduled.
-- ready: autonomous-self-update - Self-update self-update-ready; safe pending 0; unsafe pending 0; remote push held.
+- ready: autonomous-self-update - Self-update self-update-ready; safe pending 107; unsafe pending 0; remote push held.
 - ready: portfolio-loop - Daily challenge: Market Pulse; seed traffic: market-pulse, guild-garden, canopy-bloom, metro-loom.
 - ready: traffic-seeding - 4 seed campaign(s); max cost $0.
 - ready: acquisition-learning - 4 campaign(s); 0 attributed start(s); candidate market-pulse.
@@ -83,7 +83,7 @@ Autonomy score: 44/45 (98%)
 - ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 3.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 17.
-- ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed no.
+- ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.
@@ -94,8 +94,8 @@ Autonomy score: 44/45 (98%)
 
 - armed: run-daily-owner-loop - npm run autonomous:daily
 - monitor: hold-for-external-input - No local command is available until external inputs, configured credentials, or new player evidence arrive.
-- armed: refresh-autonomous-cadence - npm run autonomous:cadence
-- armed: refresh-autonomous-self-update - npm run autonomous:self-update
+- monitor: refresh-autonomous-cadence - npm run autonomous:cadence
+- monitor: refresh-autonomous-self-update - npm run autonomous:self-update
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: refresh-support-feedback - npm run autonomous:support-feedback
@@ -122,7 +122,7 @@ Autonomy score: 44/45 (98%)
 - monitor: run-production-unlock-runner - npm run autonomous:unlock-runner -- --execute
 - monitor: run-autonomous-operator - npm run autonomous:operator
 - monitor: review-operator-history - npm run autonomous:operator
-- monitor: refresh-objective-audit - npm run autonomous:objective-audit
+- armed: refresh-objective-audit - npm run autonomous:objective-audit
 - monitor: optimize-store-listing - npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 - monitor: prepare-android-signing - npm run autonomous:android-signing
 - monitor: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments

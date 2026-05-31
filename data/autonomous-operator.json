@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T08:32:33.630Z",
+  "generatedAt": "2026-05-31T13:15:03.496Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -25,13 +25,8 @@
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "refresh-autonomous-cadence",
-    "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
-    "refresh-support-feedback",
-    "optimize-daily-retention",
-    "collect-gate-sample-local-drops",
-    "refresh-product-gate-sample-plan"
+    "refresh-support-feedback"
   ],
   "blockedActions": [
     {
@@ -48,15 +43,15 @@
     },
     {
       "id": "refresh-autonomous-cadence",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:cadence",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:self-update",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -72,9 +67,9 @@
     },
     {
       "id": "optimize-daily-retention",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:retention",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "measure-pwa-install-loop",
@@ -126,9 +121,9 @@
     },
     {
       "id": "collect-gate-sample-local-drops",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -144,9 +139,9 @@
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:sample-plan",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-first-move-coach",
