@@ -1,6 +1,6 @@
 # Autonomous Owner Loop
 
-Generated: 2026-05-30T13:24:08.171Z
+Generated: 2026-05-31T09:00:09.003Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 44/45 (98%)
@@ -16,7 +16,7 @@ Autonomy score: 44/45 (98%)
 ## Execution Backoff
 
 - Status: ready
-- Selectable actions: seed-portfolio-traffic, refresh-support-feedback, optimize-daily-retention, refresh-objective-audit
+- Selectable actions: refresh-autonomous-cadence, refresh-autonomous-self-update, seed-portfolio-traffic, refresh-support-feedback
 - Held actions: none
 - Next resume: new evidence or owner input
 - No repeat cycling: true
@@ -75,7 +75,7 @@ Autonomy score: 44/45 (98%)
 - ready: post-deploy-smoke - Smoke blocked-missing-origin; origin missing; manifest comparison required; checks 0/34 passed; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26515368723; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34; live matches synced deploy true.
-- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 17.
+- ready: production-bootstrap - Bootstrap production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 16.
 - ready: production-activation - Activation activation-waiting-for-credentials; mode dry-run; execution dry-run; gh blocked.
 - ready: production-blocker-handoff - Handoff handoff-waiting-on-owner-inputs; next production-analytics-browser; owner inputs 4; missing env 7; missing secrets 5.
 - ready: production-unlock-runner - Unlock runner unlock-runner-idle; runnable 0; queued commands 0; unsafe 0.
@@ -83,7 +83,7 @@ Autonomy score: 44/45 (98%)
 - ready: autonomous-operator - Operator operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - ready: operator-history - History operator-history-ready; records 40; executed 3.
 - ready: objective-audit - Audit objective-in-progress; met 6/8; external blockers 17.
-- ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed yes.
+- ready: store-listing-optimizer - Focus market-pulse; lead screenshot phone-market-pulse-generated; candidate changed no.
 - ready: store-compliance - Rating Everyone; target audience general; blockers 3.
 - ready: android-signing - Signing signing-prepared; fingerprint available; local secrets configured.
 - ready: production-safety - Response guarded-operations; incident drill pass; spend mode no-spend.
@@ -94,12 +94,12 @@ Autonomy score: 44/45 (98%)
 
 - armed: run-daily-owner-loop - npm run autonomous:daily
 - monitor: hold-for-external-input - No local command is available until external inputs, configured credentials, or new player evidence arrive.
-- monitor: refresh-autonomous-cadence - npm run autonomous:cadence
-- monitor: refresh-autonomous-self-update - npm run autonomous:self-update
+- armed: refresh-autonomous-cadence - npm run autonomous:cadence
+- armed: refresh-autonomous-self-update - npm run autonomous:self-update
 - armed: seed-portfolio-traffic - npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
 - monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: refresh-support-feedback - npm run autonomous:support-feedback
-- armed: optimize-daily-retention - npm run autonomous:retention
+- monitor: optimize-daily-retention - npm run autonomous:retention
 - monitor: measure-pwa-install-loop - npm run autonomous:pwa-install
 - monitor: check-performance-budget - npm run build && npm run autonomous:performance && npm run autonomous:release-candidate
 - monitor: prepare-release-candidate - npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor
@@ -122,7 +122,7 @@ Autonomy score: 44/45 (98%)
 - monitor: run-production-unlock-runner - npm run autonomous:unlock-runner -- --execute
 - monitor: run-autonomous-operator - npm run autonomous:operator
 - monitor: review-operator-history - npm run autonomous:operator
-- armed: refresh-objective-audit - npm run autonomous:objective-audit
+- monitor: refresh-objective-audit - npm run autonomous:objective-audit
 - monitor: optimize-store-listing - npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance
 - monitor: prepare-android-signing - npm run autonomous:android-signing
 - monitor: apply-safe-improvements - npm run autonomous:experiments && npm run autonomous:improve && npm run autonomous:sync-experiments

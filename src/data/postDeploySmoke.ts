@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-30T13:23:51.227Z",
+  "generatedAt": "2026-05-31T08:32:18.381Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -66,8 +66,8 @@ export const postDeploySmoke = {
     "origin": null,
     "originSource": "network-blocked",
     "provider": "github-pages",
-    "candidateId": "pwa-ac05efc5e427",
-    "aggregateHash": "ac05efc5e4276e6bdfa2d6f1701e51f9f6700a7e4ebe7033ffbb0c66a8c3eed2",
+    "candidateId": "pwa-b3eb7a51de65",
+    "aggregateHash": "b3eb7a51de6502abd3725664219cf7be4f57986081a0ed01b649e1ca195f9d19",
     "strictManifestComparison": false
   },
   "liveRelease": null,
@@ -436,8 +436,8 @@ export const postDeploySmoke = {
         "bytes": 42028,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-ac05efc5e427",
-        "localAggregateHash": "ac05efc5e4276e6bdfa2d6f1701e51f9f6700a7e4ebe7033ffbb0c66a8c3eed2",
+        "localCandidateId": "pwa-b3eb7a51de65",
+        "localAggregateHash": "b3eb7a51de6502abd3725664219cf7be4f57986081a0ed01b649e1ca195f9d19",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -921,7 +921,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-ac05efc5e427",
+      "requiredText": "pwa-b3eb7a51de65",
       "status": "blocked",
       "detail": "fetch failed",
       "actualStatus": null,
