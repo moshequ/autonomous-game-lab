@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-31T13:14:51.702Z",
-  "sourceDataHash": "e4a339b8fa96",
+  "generatedAt": "2026-06-02T13:32:43.949Z",
+  "sourceDataHash": "46b14b779dd8",
   "status": "store-readiness-prepared-external-blockers",
   "sourceStatus": {
     "storePackage": "store-package-ready",
     "storeCompliance": "draft-ready-external-blockers",
     "storeListingOptimizer": "store-listing-optimizer-ready",
-    "nativePackage": "ready-for-bubblewrap-build",
+    "nativePackage": "blocked-draft-ready",
     "androidRelease": "blocked-needs-host-signing-play",
     "iosRelease": "deferred-until-ios-payback",
     "unitEconomics": "no-spend",
@@ -20,12 +20,12 @@
     "complianceStatus": "draft-ready-external-blockers",
     "androidStatus": "blocked-needs-host-signing-play",
     "iosStatus": "deferred-until-ios-payback",
-    "nativePackageStatus": "ready-for-bubblewrap-build",
+    "nativePackageStatus": "blocked-draft-ready",
     "storeSpendAllowed": false,
     "revenueEnabled": false,
     "storePaybackStatus": "waiting-for-live-revenue",
     "screenshotCount": 4,
-    "externalBlockerCount": 14,
+    "externalBlockerCount": 15,
     "productBlockerCount": 11
   },
   "publicRoutes": {
@@ -568,8 +568,8 @@
     },
     {
       "id": "native-package",
-      "status": "pass",
-      "detail": "Native Android package handoff is ready-for-bubblewrap-build."
+      "status": "blocker",
+      "detail": "Native Android package handoff is blocked-draft-ready."
     },
     {
       "id": "android-release",
@@ -611,6 +611,7 @@
       "google-play-fee: Google Play developer account is not connected.",
       "ios-fee: Apple Developer account is not connected.",
       "ios-fee: Projected annual revenue is $0.00, below $99.00.",
+      "native-package: Native Android package handoff is blocked-draft-ready.",
       "monetization: Revenue enabled is false.",
       "support-contact: Production support email is required before public app-store submission."
     ],

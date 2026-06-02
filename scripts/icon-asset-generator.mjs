@@ -118,22 +118,31 @@ const renderHtml = (size) => `<!doctype html>
 await mkdir(outputDir, { recursive: true })
 await writeFile(sourceSvgPath, sourceSvg)
 
-const browser = await chromium.launch()
+let renderMode = 'playwright-render'
+let renderDetail = 'Rendered fresh icon PNG assets from the deterministic SVG source.'
 
 try {
-  const page = await browser.newPage({ deviceScaleFactor: 1 })
+  const browser = await chromium.launch()
 
-  for (const spec of iconSpecs) {
-    await page.setViewportSize({ width: spec.size, height: spec.size })
-    await page.setContent(renderHtml(spec.size))
-    await page.screenshot({
-      path: path.join(outputDir, spec.fileName),
-      type: 'png',
-      omitBackground: true,
-    })
+  try {
+    const page = await browser.newPage({ deviceScaleFactor: 1 })
+
+    for (const spec of iconSpecs) {
+      await page.setViewportSize({ width: spec.size, height: spec.size })
+      await page.setContent(renderHtml(spec.size))
+      await page.screenshot({
+        path: path.join(outputDir, spec.fileName),
+        type: 'png',
+        omitBackground: true,
+      })
+    }
+  } finally {
+    await browser.close()
   }
-} finally {
-  await browser.close()
+} catch (error) {
+  renderMode = 'reused-checked-in-pngs'
+  const message = (error instanceof Error ? error.message : String(error)).split('\n')[0].trim()
+  renderDetail = `Playwright render unavailable in this environment; reusing validated checked-in PNG assets. ${message}`
 }
 
 const pngInfo = async (filePath) => {
@@ -176,6 +185,8 @@ if (invalid) {
 const payload = {
   generatedAt: new Date().toISOString(),
   status: 'icons-ready',
+  renderMode,
+  renderDetail,
   sourceSvgPath: 'public/icons/app-icon.svg',
   manifestIcons: assets
     .filter((asset) => ['any', 'maskable'].includes(asset.purpose) && [192, 512].includes(asset.size))
@@ -194,6 +205,8 @@ const report = [
   '',
   `Generated: ${payload.generatedAt}`,
   `Status: ${payload.status}`,
+  `Render mode: ${payload.renderMode}`,
+  `Render detail: ${payload.renderDetail}`,
   '',
   '## Assets',
   '',

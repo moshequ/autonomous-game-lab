@@ -552,8 +552,9 @@ const status = ownerActionRequired.length ? 'handoff-waiting-on-owner-inputs' : 
 const statusDetail = ownerActionRequired.length ? 'blocked-external-inputs' : 'clear'
 const environmentPlan = sanitizeRequiredEnv(productionEnvironment.requiredEnv ?? [])
 const secretPlan = sanitizeRequiredSecrets(productionBootstrap.requiredSecrets ?? [])
-const nextUnlockKit = kitById.get(ownerActionRequired[0]?.id) ?? null
 const nextOwnerAction = ownerActionRequired[0] ?? null
+const nextOwnerActionWithKit = ownerActionRequired.find((item) => kitById.has(item.id)) ?? null
+const nextUnlockKit = kitById.get(nextOwnerActionWithKit?.id) ?? null
 const recommendedUnlockPath =
   nextUnlockKit?.paths.find((unlockPath) => unlockPath.id === nextUnlockKit.recommendedPathId) ??
   nextUnlockKit?.paths[0] ??
@@ -950,12 +951,12 @@ const combinedOwnerInputPack = summarizeCombinedOwnerInputPack(
 )
 const ownerUnlockBrowserActionPack = buildOwnerUnlockBrowserActionPack(combinedOwnerInputPack)
 const ownerUnlockBrief =
-  nextUnlockKit && recommendedUnlockPath
+  nextOwnerActionWithKit && nextUnlockKit && recommendedUnlockPath
     ? {
         id: 'owner-next-unlock-brief',
-        status: nextOwnerAction?.ownerInputRequired ? 'waiting-on-owner-input' : 'ready-to-validate',
-        nextUnlockId: nextOwnerAction?.id ?? nextUnlockKit.id,
-        title: nextOwnerAction?.title ?? nextUnlockKit.title,
+        status: nextOwnerActionWithKit.ownerInputRequired ? 'waiting-on-owner-input' : 'ready-to-validate',
+        nextUnlockId: nextOwnerActionWithKit.id,
+        title: nextOwnerActionWithKit.title ?? nextUnlockKit.title,
         recommendedPathId: recommendedUnlockPath.id,
         recommendedPathTitle: recommendedUnlockPath.title,
         lowestInputPathId: lowestInputUnlockPath?.id ?? null,
@@ -987,7 +988,7 @@ const ownerUnlockBrief =
         ),
         setupCommands: recommendedUnlockPath.commandSequence ?? [],
         validationCommands: recommendedUnlockPath.validationCommands ?? [],
-        afterUnlockCommands: nextOwnerAction?.afterUnlockCommands ?? [],
+        afterUnlockCommands: nextOwnerActionWithKit.afterUnlockCommands ?? [],
         parallelOwnerUnlocks,
         steps: [
           `Use ${recommendedUnlockPath.title} (${recommendedUnlockPath.id}) for the next zero-spend measurement unlock.`,

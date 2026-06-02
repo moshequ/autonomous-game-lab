@@ -1,7 +1,9 @@
 # Icon Assets
 
-Generated: 2026-05-22T09:12:26.935Z
+Generated: 2026-06-02T13:27:06.005Z
 Status: icons-ready
+Render mode: reused-checked-in-pngs
+Render detail: Playwright render unavailable in this environment; reusing validated checked-in PNG assets. browserType.launch: Target page, context or browser has been closed
 
 ## Assets
 

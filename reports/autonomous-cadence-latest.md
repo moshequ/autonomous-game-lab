@@ -1,7 +1,7 @@
 # Autonomous Cadence
 
-Generated: 2026-05-31T13:13:52.044Z
-Status: cadence-ready
+Generated: 2026-06-02T13:31:49.620Z
+Status: cadence-needs-attention
 Cadence: twice-daily-local-daily-ci
 
 ## Schedulers
@@ -29,16 +29,16 @@ Cadence: twice-daily-local-daily-ci
 
 ## Freshness
 
-- Status: fresh
+- Status: stale-evidence
 - Required artifacts: 41
-- Fresh artifacts: 41
-- Stale/invalid artifacts: 0
+- Fresh artifacts: 36
+- Stale/invalid artifacts: 5
 - Stale after: 36h
-- Oldest age: 30.12h
+- Oldest age: 78.42h
 
-- fresh: owner-loop - data/autonomous-owner-loop.json is 0.01h old.
-- fresh: operator - data/autonomous-operator.json is 0.02h old.
-- fresh: autonomous-self-update - data/autonomous-self-update.json is 30.04h old.
+- stale: owner-loop - data/autonomous-owner-loop.json is stale at 48.28h old.
+- stale: operator - data/autonomous-operator.json is stale at 48.28h old.
+- stale: autonomous-self-update - data/autonomous-self-update.json is stale at 48.3h old.
 - fresh: production-readiness - data/production-readiness.json is 0h old.
 - fresh: deployment-plan - data/deployment-plan.json is 0h old.
 - fresh: repository-readiness - data/repository-readiness.json is 0h old.
@@ -53,30 +53,30 @@ Cadence: twice-daily-local-daily-ci
 - fresh: event-ingest - data/event-ingest.json is 0.01h old.
 - fresh: event-ingest-smoke - data/event-ingest-smoke.json is 0.01h old.
 - fresh: analytics-rollup - data/analytics-rollup.json is 0.01h old.
-- fresh: experiment-results - data/experiment-results.json is 30.12h old.
-- fresh: growth-plan - data/growth-plan.json is 30.12h old.
-- fresh: portfolio-policy - data/portfolio-policy.json is 30.12h old.
-- fresh: traffic-seeding - data/traffic-seeding.json is 4.24h old.
+- fresh: experiment-results - data/experiment-results.json is 0.08h old.
+- fresh: growth-plan - data/growth-plan.json is 0.08h old.
+- fresh: portfolio-policy - data/portfolio-policy.json is 0.08h old.
+- fresh: traffic-seeding - data/traffic-seeding.json is 0.08h old.
 - fresh: acquisition-learning - data/acquisition-learning.json is 0.01h old.
 - fresh: organic-seed-loop - data/organic-seed-loop.json is 0.01h old.
 - fresh: retention-loop - data/retention-loop.json is 0.01h old.
 - fresh: release-candidate - data/release-candidate.json is 0h old.
 - fresh: post-deploy-smoke - data/post-deploy-smoke.json is 0h old.
-- fresh: post-deploy-artifact-sync - data/post-deploy-artifact-sync.json is 30.12h old.
+- stale: post-deploy-artifact-sync - data/post-deploy-artifact-sync.json is stale at 78.42h old.
 - fresh: live-site-monitor - data/live-site-monitor.json is 0h old.
-- fresh: release-health - data/release-health.json is 30.12h old.
-- fresh: product-optimization - data/product-optimization.json is 30.12h old.
+- fresh: release-health - data/release-health.json is 0.08h old.
+- fresh: product-optimization - data/product-optimization.json is 0.08h old.
 - fresh: product-gate-recovery - data/product-gate-recovery.json is 0h old.
 - fresh: product-gate-sample-plan - data/product-gate-sample-plan.json is 0.01h old.
 - fresh: player-evidence-watchdog - data/player-evidence-watchdog.json is 0h old.
-- fresh: completion-loop - data/completion-loop.json is 30.12h old.
-- fresh: replay-loop - data/replay-loop.json is 30.12h old.
-- fresh: first-move-coach - data/first-move-coach.json is 30.12h old.
+- fresh: completion-loop - data/completion-loop.json is 0.08h old.
+- fresh: replay-loop - data/replay-loop.json is 0.08h old.
+- fresh: first-move-coach - data/first-move-coach.json is 0.08h old.
 - fresh: pwa-install-loop - data/pwa-install-loop.json is 0.01h old.
-- fresh: applied-improvements - data/applied-improvements.json is 0.05h old.
-- fresh: improvement-backlog - data/improvement-backlog-summary.json is 30.12h old.
-- fresh: improvement-routing - data/improvement-routing.json is 30.12h old.
-- fresh: objective-audit - data/objective-audit.json is 0.02h old.
+- fresh: applied-improvements - data/applied-improvements.json is 0.08h old.
+- fresh: improvement-backlog - data/improvement-backlog-summary.json is 0.08h old.
+- fresh: improvement-routing - data/improvement-routing.json is 0.08h old.
+- stale: objective-audit - data/objective-audit.json is stale at 48.28h old.
 
 ## Checks
 
@@ -92,7 +92,7 @@ Cadence: twice-daily-local-daily-ci
 - pass: daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
 - pass: automation-verifier - autonomous:verify is npm run test:automation; test:automation is npm run autonomous:security-audit && node scripts/event-collector-smoke.mjs && npm run autonomous:collector-deploy-plan && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:acquisition && npm run autonomous:retention && npm run autonomous:organic-seed-loop && npm run autonomous:pwa-install && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:player-evidence-watchdog && npm run autonomous:measurement-status && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:cadence && npm run autonomous:self-update && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:bundle-sync && node scripts/verify-autonomy.mjs.
 - pass: browser-smoke - test:e2e is npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && playwright test && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness.
-- pass: fresh-generated-evidence - All 41 required generated evidence artifacts are fresh within 36h.
+- blocker: fresh-generated-evidence - Stale or invalid generated artifact evidence: owner-loop (stale), operator (stale), autonomous-self-update (stale), post-deploy-artifact-sync (stale), objective-audit (stale).
 - pass: github-scheduled-workflow - GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.
 - pass: github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes after daily runs once matching post-deploy evidence sync is complete, with production env and workflow token evidence when explicitly enabled.
 - pass: post-self-update-deploy - Pages deployment builds the committed PWA artifact from gated self-update, public-evidence, and production-input workflows, so persisted generated improvements can publish without manual dispatch.
@@ -127,4 +127,4 @@ Cadence: twice-daily-local-daily-ci
 
 ## Blockers
 
-- none
+- fresh-generated-evidence: Stale or invalid generated artifact evidence: owner-loop (stale), operator (stale), autonomous-self-update (stale), post-deploy-artifact-sync (stale), objective-audit (stale).

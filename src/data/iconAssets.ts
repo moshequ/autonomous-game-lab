@@ -1,6 +1,8 @@
 export const iconAssets = {
-  "generatedAt": "2026-05-22T09:12:26.935Z",
+  "generatedAt": "2026-06-02T13:27:06.005Z",
   "status": "icons-ready",
+  "renderMode": "reused-checked-in-pngs",
+  "renderDetail": "Playwright render unavailable in this environment; reusing validated checked-in PNG assets. browserType.launch: Target page, context or browser has been closed",
   "sourceSvgPath": "public/icons/app-icon.svg",
   "manifestIcons": [
     {

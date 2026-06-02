@@ -1,6 +1,6 @@
 # Autonomous Analyst Report
 
-Generated: 2026-05-30T07:06:51.210Z
+Generated: 2026-06-02T13:27:11.241Z
 Backlog status: improvement-backlog-ready
 Backlog source hash: e2c7b8df405d
 
@@ -118,7 +118,7 @@ Support feedback: support-feedback-empty; signals 0; routable 0; aggregate notes
 
 ## Trend Inputs
 
-Active trend source: public-rss-live
+Active trend source: public-rss-cache
 Active analytics source: fixture-sample
 Top mechanic: card drafting
 Top theme: science desk

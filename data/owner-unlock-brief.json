@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-31T13:15:05.043Z",
+  "generatedAt": "2026-06-02T13:32:56.136Z",
   "status": "waiting-on-owner-input",
-  "sourceDataHash": "e39405f4af5c",
+  "sourceDataHash": "305f190e2bff",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
     "storeReadiness": "store-readiness-prepared-external-blockers",
-    "nextBestUnlockId": "production-analytics-browser",
-    "nextBestZeroCostUnlockId": "production-analytics-browser"
+    "nextBestUnlockId": "support-contact",
+    "nextBestZeroCostUnlockId": "support-contact"
   },
   "publicRoutes": {
     "ownerUnlock": "/owner-unlock.html",
@@ -250,8 +250,8 @@
     ],
     "parallelOwnerUnlocks": [
       {
-        "id": "production-analytics-browser",
-        "title": "Browser production analytics",
+        "id": "support-contact",
+        "title": "Web support channel and store support email",
         "category": "measurement",
         "status": "waiting-on-owner-input",
         "costMode": "zero-spend-use-existing-posthog-free-project",
@@ -385,8 +385,8 @@
   },
   "ownerInputQueue": [
     {
-      "id": "production-analytics-browser",
-      "title": "Browser production analytics",
+      "id": "support-contact",
+      "title": "Web support channel and store support email",
       "category": "measurement",
       "status": "waiting-on-owner-input",
       "costMode": "zero-spend-use-existing-posthog-free-project",

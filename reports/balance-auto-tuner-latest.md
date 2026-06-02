@@ -1,11 +1,11 @@
 # Balance Auto-Tuner Report
 
-Generated: 2026-05-22T09:12:29.967Z
+Generated: 2026-06-02T13:27:09.857Z
 
 ## Applied Changes
 
-- Canopy Bloom: target 98 -> 104; random bot win rate 69% is too high.
+- No safe tuning changes needed.
 
 ## Generated Runtime Sync
 
-- Canopy Bloom: generated target 98 -> 104.
+- Generated runtime targets already match tuned balance config.

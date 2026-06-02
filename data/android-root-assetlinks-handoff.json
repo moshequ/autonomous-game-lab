@@ -1,31 +1,29 @@
 {
-  "generatedAt": "2026-05-24T22:13:34.574Z",
-  "status": "root-assetlinks-live",
+  "generatedAt": "2026-06-02T13:27:39.285Z",
+  "status": "waiting-for-root-pages-repository",
   "platform": "android-trusted-web-activity",
   "sourceStatus": {
     "nativePackage": "blocked-draft-ready",
     "nativeAssetLinks": "domain-verification-blocked",
-    "repositoryReadiness": "waiting-for-repository-channel"
+    "repositoryReadiness": "waiting-for-gh-auth"
   },
   "target": {
     "repository": "moshequ/moshequ.github.io",
     "repositorySource": "github-pages-host",
-    "repositoryExists": true,
-    "repositoryStatus": "repository-accessible",
-    "repositoryDetail": "moshequ/moshequ.github.io is accessible to GitHub CLI.",
+    "repositoryExists": false,
+    "repositoryStatus": "not-found-or-inaccessible",
+    "repositoryDetail": "error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com",
     "branch": "main",
     "path": ".well-known/assetlinks.json",
     "requiredRootUrl": "https://moshequ.github.io/.well-known/assetlinks.json",
     "projectPublishedUrl": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json"
   },
   "live": {
-    "checkedAt": "2026-05-24T22:13:34.196Z",
-    "status": "live-match",
-    "httpStatus": 200,
-    "finalUrl": "https://moshequ.github.io/.well-known/assetlinks.json",
-    "liveMatchesSource": true,
-    "bytes": 348,
-    "detail": "Root Digital Asset Links match app.autonomousgamelab.portal."
+    "checkedAt": "2026-06-02T13:27:39.236Z",
+    "status": "fetch-failed",
+    "httpStatus": null,
+    "liveMatchesSource": false,
+    "detail": "fetch failed"
   },
   "source": {
     "path": "public/.well-known/assetlinks.json",
@@ -79,13 +77,13 @@
     },
     {
       "id": "target-repository",
-      "status": "pass",
-      "detail": "Prepared to sync into moshequ/moshequ.github.io:main:.well-known/assetlinks.json."
+      "status": "repository-missing",
+      "detail": "moshequ/moshequ.github.io does not exist yet; explicit repository bootstrap is available."
     },
     {
       "id": "root-live-verification",
-      "status": "pass",
-      "detail": "Root Digital Asset Links match app.autonomousgamelab.portal."
+      "status": "blocker",
+      "detail": "fetch failed"
     },
     {
       "id": "github-cli",
@@ -94,7 +92,7 @@
     }
   ],
   "nextActions": [
-    "Root Digital Asset Links are live at https://moshequ.github.io/.well-known/assetlinks.json.",
+    "Create/sync the free root Pages repository with AGL_ALLOW_ROOT_ASSETLINKS_REPO_CREATE=1 AGL_SYNC_ROOT_ASSETLINKS=1 AGL_SYNC_ROOT_ASSETLINKS_PAGES=1 AGL_ROOT_ASSETLINKS_REPOSITORY=\"moshequ/moshequ.github.io\" ./ops/github/sync-root-assetlinks.sh.",
     "After the root file is live, rerun native package, Android release plan, and readiness evidence.",
     "Do not create accounts, pay store fees, or submit to stores from this handoff."
   ]

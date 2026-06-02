@@ -1,12 +1,12 @@
 # Android Root Asset Links Handoff
 
-Generated: 2026-05-24T22:13:34.574Z
-Status: root-assetlinks-live
+Generated: 2026-06-02T13:27:39.285Z
+Status: waiting-for-root-pages-repository
 Target repository: moshequ/moshequ.github.io
 Required root URL: https://moshequ.github.io/.well-known/assetlinks.json
 Project Pages URL: https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json
-Repository exists: true
-Root live status: live-match
+Repository exists: false
+Root live status: fetch-failed
 
 ## Controls
 
@@ -29,8 +29,8 @@ Root live status: live-match
 
 - actionable: root-assetlinks-needed - Android requires https://moshequ.github.io/.well-known/assetlinks.json; project Pages currently publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
 - pass: source-assetlinks - Generated public assetlinks file is ready.
-- pass: target-repository - Prepared to sync into moshequ/moshequ.github.io:main:.well-known/assetlinks.json.
-- pass: root-live-verification - Root Digital Asset Links match app.autonomousgamelab.portal.
+- repository-missing: target-repository - moshequ/moshequ.github.io does not exist yet; explicit repository bootstrap is available.
+- blocker: root-live-verification - fetch failed
 - owner-input-required: github-cli - A GitHub token with access to the root Pages repository is required before syncing.
 
 ## Commands
@@ -42,6 +42,6 @@ Root live status: live-match
 
 ## Next Actions
 
-- Root Digital Asset Links are live at https://moshequ.github.io/.well-known/assetlinks.json.
+- Create/sync the free root Pages repository with AGL_ALLOW_ROOT_ASSETLINKS_REPO_CREATE=1 AGL_SYNC_ROOT_ASSETLINKS=1 AGL_SYNC_ROOT_ASSETLINKS_PAGES=1 AGL_ROOT_ASSETLINKS_REPOSITORY="moshequ/moshequ.github.io" ./ops/github/sync-root-assetlinks.sh.
 - After the root file is live, rerun native package, Android release plan, and readiness evidence.
 - Do not create accounts, pay store fees, or submit to stores from this handoff.

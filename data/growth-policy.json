@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T09:12:28.201Z",
+  "generatedAt": "2026-06-02T13:27:08.078Z",
   "guardrails": {
     "maxChangesPerRun": 2,
     "allowedCtaVariants": [
@@ -30,7 +30,7 @@
       "messageVariant": "generated-original",
       "reason": "No share clicks captured yet; test faster share-oriented CTA.",
       "confidence": 66,
-      "updatedAt": "2026-05-22T02:06:15.830Z"
+      "updatedAt": "2026-06-02T13:27:08.077Z"
     },
     "metro-loom": {
       "ctaVariant": "daily-challenge",
@@ -353,6 +353,21 @@
         "reason": "No organic entry data yet; seed strongest pages with daily challenge copy.",
         "confidence": 73,
         "updatedAt": "2026-05-22T09:12:28.201Z"
+      }
+    },
+    {
+      "status": "applied",
+      "gameId": "harbor-rings",
+      "reason": "No share clicks captured yet; test faster share-oriented CTA.",
+      "confidence": 66,
+      "sourceDataHash": "86c3afd025e1",
+      "appliedAt": "2026-06-02T13:27:08.078Z",
+      "after": {
+        "ctaVariant": "quick-strategy",
+        "messageVariant": "generated-original",
+        "reason": "No share clicks captured yet; test faster share-oriented CTA.",
+        "confidence": 66,
+        "updatedAt": "2026-06-02T13:27:08.077Z"
       }
     }
   ]

@@ -1,6 +1,6 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-05-31T13:15:05.874Z",
-  "status": "production-measurement-local-intake-ready",
+  "generatedAt": "2026-06-02T13:32:56.908Z",
+  "status": "production-measurement-blocked",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-c1531259c9ed",
   "liveRelease": {
@@ -9,7 +9,7 @@ export const productionMeasurementStatus = {
     "staticJsonMayLagBehindLatestDeploy": true
   },
   "publicEvidenceHandoff": {
-    "status": "awaiting-player-initiated-aggregate-notes",
+    "status": "aggregate-evidence-channel-blocked",
     "aggregateEvidence": {
       "notes": 0,
       "starts": 0,
@@ -40,9 +40,9 @@ export const productionMeasurementStatus = {
   },
   "externalUnlockQueue": {
     "status": "handoff-waiting-on-owner-inputs",
-    "nextBestUnlockId": "production-analytics-browser",
-    "nextBestZeroCostUnlockId": "production-analytics-browser",
-    "ownerActionRequired": 4,
+    "nextBestUnlockId": "support-contact",
+    "nextBestZeroCostUnlockId": "support-contact",
+    "ownerActionRequired": 5,
     "ownerUnlockBrief": {
       "status": "waiting-on-owner-input",
       "nextUnlockId": "production-analytics-browser",

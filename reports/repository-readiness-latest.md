@@ -1,7 +1,7 @@
 # Repository Readiness
 
-Generated: 2026-05-31T13:14:48.749Z
-Status: waiting-for-gh-auth
+Generated: 2026-06-02T13:32:41.236Z
+Status: waiting-for-repository-channel
 Workspace: /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new
 Repository: moshequ/autonomous-game-lab
 Planned target: moshequ/autonomous-game-lab
@@ -19,7 +19,7 @@ Live Pages URL: https://moshequ.github.io/autonomous-game-lab/
 - external-blocker: gh-token - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for non-interactive workflow dispatch.
 - pass: pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: pages-settings - GitHub Pages settings could not be inspected: gh-credentials-unavailable.
-- pass: deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
+- blocker: deployable-artifact - Deployment blocked; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
 ## Controls
 
@@ -42,3 +42,4 @@ Live Pages URL: https://moshequ.github.io/autonomous-game-lab/
 ## Blockers
 
 - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.

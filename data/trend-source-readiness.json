@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-22T09:12:22.658Z",
-  "status": "live-public",
-  "activeSource": "public-rss-live",
+  "generatedAt": "2026-06-02T13:27:02.647Z",
+  "status": "cached-public",
+  "activeSource": "public-rss-cache",
   "bggHotness": {
     "configured": false,
     "ok": false,
@@ -12,8 +12,8 @@
   },
   "publicFeeds": {
     "configured": true,
-    "ok": true,
-    "reason": "Fetched 36 public trend item(s) from 3/3 RSS/Atom feed(s).",
+    "ok": false,
+    "reason": "Public trend feeds unavailable from 3 configured feed(s); using cache or fixtures.",
     "endpoints": [
       "https://www.boardgamequest.com/feed/",
       "https://www.meeplemountain.com/feed/",
@@ -21,25 +21,25 @@
     ],
     "feeds": [
       {
-        "ok": true,
+        "ok": false,
         "url": "https://www.boardgamequest.com/feed/",
-        "status": 200,
-        "itemCount": 10,
-        "reason": "Fetched 10 public RSS/Atom item(s)."
+        "status": null,
+        "itemCount": 0,
+        "reason": "Feed fetch failed: fetch failed."
       },
       {
-        "ok": true,
+        "ok": false,
         "url": "https://www.meeplemountain.com/feed/",
-        "status": 200,
-        "itemCount": 13,
-        "reason": "Fetched 13 public RSS/Atom item(s)."
+        "status": null,
+        "itemCount": 0,
+        "reason": "Feed fetch failed: fetch failed."
       },
       {
-        "ok": true,
+        "ok": false,
         "url": "https://www.reddit.com/r/boardgames/hot/.rss?limit=25",
-        "status": 200,
-        "itemCount": 25,
-        "reason": "Fetched 25 public RSS/Atom item(s)."
+        "status": null,
+        "itemCount": 0,
+        "reason": "Feed fetch failed: fetch failed."
       }
     ],
     "tokenEnv": null,
@@ -48,11 +48,11 @@
   "cache": {
     "status": "fresh",
     "usable": true,
-    "ageDays": 0,
+    "ageDays": 11,
     "maxAgeDays": 30,
     "fetchedAt": "2026-05-22T09:12:22.653Z",
     "source": "public-rss",
-    "reason": "Using public RSS trend cache from 2026-05-22T09:12:22.653Z; age 0 day(s)."
+    "reason": "Using public RSS trend cache from 2026-05-22T09:12:22.653Z; age 11 day(s)."
   },
   "quality": {
     "totalItems": 36,

@@ -1,5 +1,5 @@
 export const postDeploySmoke = {
-  "generatedAt": "2026-05-31T13:14:47.961Z",
+  "generatedAt": "2026-06-02T13:32:40.569Z",
   "status": "blocked-missing-origin",
   "envFiles": {
     "loaded": true,
@@ -66,13 +66,13 @@ export const postDeploySmoke = {
     "origin": null,
     "originSource": "network-blocked",
     "provider": "github-pages",
-    "candidateId": "pwa-07c07906ca54",
-    "aggregateHash": "07c07906ca541bcd0fa40ccd7316d8d6a3aa1629d1fcca27f1a6d5a8b8ae8364",
+    "candidateId": "pwa-2f5ea05e99ce",
+    "aggregateHash": "2f5ea05e99ce506214fedbe34aff83d5eaa97f3a848c3155a0f6aab70c172040",
     "strictManifestComparison": false
   },
   "liveRelease": null,
   "sourceStatus": {
-    "deployment": "ready-for-pages",
+    "deployment": "blocked",
     "releaseCandidate": "release-candidate-ready",
     "productionResponse": "guarded-operations"
   },
@@ -153,7 +153,7 @@ export const postDeploySmoke = {
         "file": "dist/measurement-status.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 94766,
+        "bytes": 94681,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -163,7 +163,7 @@ export const postDeploySmoke = {
         "file": "dist/measurement-status.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 166788,
+        "bytes": 166594,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -173,7 +173,7 @@ export const postDeploySmoke = {
         "file": "dist/owner-unlock.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 29986,
+        "bytes": 29988,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -183,7 +183,7 @@ export const postDeploySmoke = {
         "file": "dist/owner-unlock-brief.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 33516,
+        "bytes": 33494,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -193,7 +193,7 @@ export const postDeploySmoke = {
         "file": "dist/owner-unlock-preflight.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 38808,
+        "bytes": 38782,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -213,7 +213,7 @@ export const postDeploySmoke = {
         "file": "dist/analytics-unlock.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 30000,
+        "bytes": 29953,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -223,7 +223,7 @@ export const postDeploySmoke = {
         "file": "dist/analytics-unlock.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 106174,
+        "bytes": 106030,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -263,7 +263,7 @@ export const postDeploySmoke = {
         "file": "dist/compliance.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 5636,
+        "bytes": 5639,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -436,8 +436,8 @@ export const postDeploySmoke = {
         "bytes": 42028,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-07c07906ca54",
-        "localAggregateHash": "07c07906ca541bcd0fa40ccd7316d8d6a3aa1629d1fcca27f1a6d5a8b8ae8364",
+        "localCandidateId": "pwa-2f5ea05e99ce",
+        "localAggregateHash": "2f5ea05e99ce506214fedbe34aff83d5eaa97f3a848c3155a0f6aab70c172040",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -921,7 +921,7 @@ export const postDeploySmoke = {
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-07c07906ca54",
+      "requiredText": "pwa-2f5ea05e99ce",
       "status": "blocked",
       "detail": "fetch failed",
       "actualStatus": null,

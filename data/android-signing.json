@@ -1,10 +1,38 @@
 {
-  "generatedAt": "2026-05-22T09:12:23.772Z",
+  "generatedAt": "2026-06-02T13:27:03.542Z",
   "status": "signing-prepared",
   "envFiles": {
-    "loaded": false,
-    "loadedFiles": [],
-    "loadedKeys": [],
+    "loaded": true,
+    "loadedFiles": [
+      {
+        "path": ".env.production.local",
+        "keys": [
+          "VITE_POSTHOG_KEY",
+          "VITE_POSTHOG_HOST",
+          "AGL_SUPPORT_EMAIL"
+        ]
+      },
+      {
+        "path": "ops/production.env.local",
+        "keys": [
+          "AGL_ANDROID_PACKAGE_NAME",
+          "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+          "AGL_ANDROID_KEYSTORE_BASE64",
+          "AGL_ANDROID_KEYSTORE_PASSWORD",
+          "AGL_ANDROID_KEY_ALIAS"
+        ]
+      }
+    ],
+    "loadedKeys": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL",
+      "AGL_ANDROID_PACKAGE_NAME",
+      "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
+      "AGL_ANDROID_KEYSTORE_BASE64",
+      "AGL_ANDROID_KEYSTORE_PASSWORD",
+      "AGL_ANDROID_KEY_ALIAS"
+    ],
     "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
@@ -41,7 +69,7 @@
     "sha256CertFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2",
     "fingerprintSource": "environment",
     "generatedThisRun": false,
-    "restoredFromBase64": true,
+    "restoredFromBase64": false,
     "validityDays": 10000,
     "algorithm": "RSA-2048",
     "storeType": "pkcs12"
@@ -77,7 +105,7 @@
     {
       "id": "signing-tool",
       "status": "pass",
-      "detail": "keytool is available for Android signing material."
+      "detail": "OpenSSL is available for PKCS#12 Android signing material."
     },
     {
       "id": "keystore-file",

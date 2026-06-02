@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-31T13:15:05.874Z",
+  "generatedAt": "2026-06-02T13:32:56.908Z",
   "status": "owner-input-required",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-c1531259c9ed",
@@ -835,9 +835,9 @@
   },
   "externalUnlockQueue": {
     "status": "handoff-waiting-on-owner-inputs",
-    "nextBestUnlockId": "production-analytics-browser",
-    "nextBestZeroCostUnlockId": "production-analytics-browser",
-    "ownerActionRequired": 4,
+    "nextBestUnlockId": "support-contact",
+    "nextBestZeroCostUnlockId": "support-contact",
+    "ownerActionRequired": 5,
     "missingEnvironmentItems": 7,
     "missingSecrets": 5,
     "productGateBlockers": 3,
@@ -846,10 +846,10 @@
         "id": "support-contact",
         "title": "Web support channel and store support email",
         "category": "store-compliance",
-        "status": "web-support-ready-store-email-deferred",
+        "status": "owner-input-required",
         "priority": 100,
-        "costMode": "zero-spend-public-issues-ready",
-        "ownerInputRequired": false,
+        "costMode": "zero-spend-if-existing-inbox",
+        "ownerInputRequired": true,
         "requiredEnv": [
           {
             "name": "AGL_SUPPORT_EMAIL",
@@ -863,8 +863,7 @@
           "support-contact: Production support email is required before public store submission."
         ],
         "unlocks": [
-          "Hosted privacy/support pages already route web/PWA support to public GitHub Issues.",
-          "A real support email remains deferred until store submission is economically justified."
+          "Hosted privacy/support pages can satisfy public store listing support-contact checks."
         ],
         "afterUnlockCommands": [
           "npm run autonomous:env",
@@ -1490,8 +1489,8 @@
       ],
       "parallelOwnerUnlocks": [
         {
-          "id": "production-analytics-browser",
-          "title": "Browser production analytics",
+          "id": "support-contact",
+          "title": "Web support channel and store support email",
           "category": "measurement",
           "status": "waiting-on-owner-input",
           "costMode": "zero-spend-use-existing-posthog-free-project",

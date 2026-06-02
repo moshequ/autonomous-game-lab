@@ -3,18 +3,18 @@ export const productionBlockerHandoff = {
   "statusDetail": "blocked-external-inputs",
   "summary": {
     "totalItems": 8,
-    "ownerActionRequired": 4,
-    "externalOwnerActions": 4,
-    "zeroCostFirstActions": 1,
+    "ownerActionRequired": 5,
+    "externalOwnerActions": 5,
+    "zeroCostFirstActions": 2,
     "missingEnv": 7,
     "missingEnvironmentItems": 7,
     "missingSecrets": 5,
     "productGateBlockers": 3,
-    "publicSupportChannelReady": true,
+    "publicSupportChannelReady": false,
     "storeSupportEmailNeededNow": false,
-    "nextBestUnlockId": "production-analytics-browser",
-    "nextBestUnlock": "production-analytics-browser",
-    "nextBestZeroCostUnlockId": "production-analytics-browser"
+    "nextBestUnlockId": "support-contact",
+    "nextBestUnlock": "support-contact",
+    "nextBestZeroCostUnlockId": "support-contact"
   },
   "controls": {
     "zeroPaidSpend": true,
@@ -32,7 +32,7 @@ export const productionBlockerHandoff = {
     "productionBootstrap": "production-bootstrap-ready",
     "objectiveAudit": "objective-in-progress",
     "autonomousOwnerLoop": "owner-loop-ready",
-    "supportChannel": "support-channel-ready",
+    "supportChannel": "support-channel-planned",
     "monetization": "blocked-by-product-gates",
     "storeCompliance": "draft-ready-external-blockers",
     "storeReadiness": "store-readiness-prepared-external-blockers",
@@ -45,10 +45,10 @@ export const productionBlockerHandoff = {
     {
       "id": "support-contact",
       "title": "Web support channel and store support email",
-      "status": "web-support-ready-store-email-deferred",
+      "status": "owner-input-required",
       "category": "store-compliance",
-      "costMode": "zero-spend-public-issues-ready",
-      "ownerInputRequired": false,
+      "costMode": "zero-spend-if-existing-inbox",
+      "ownerInputRequired": true,
       "unlockKit": null
     },
     {
@@ -287,7 +287,7 @@ export const productionBlockerHandoff = {
     ],
     "parallelOwnerUnlocks": [
       {
-        "id": "production-analytics-browser",
+        "id": "support-contact",
         "category": "measurement",
         "publicStatusPage": "/measurement-status.html",
         "missingVariableCount": 1,
@@ -315,7 +315,7 @@ export const productionBlockerHandoff = {
     }
   },
   "nextActions": [
-    "Start with Browser production analytics; it is the highest-priority zero-spend owner input.",
+    "Start with Web support channel and store support email; it is the highest-priority zero-spend owner input.",
     "After any owner-provided variable or secret changes, run npm run autonomous:readiness and npm run test:e2e."
   ]
 } as const

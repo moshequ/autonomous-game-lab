@@ -1,10 +1,18 @@
 {
-  "generatedAt": "2026-05-22T09:12:25.078Z",
-  "status": "support-channel-ready",
+  "generatedAt": "2026-06-02T13:27:04.804Z",
+  "status": "support-channel-planned",
   "provider": "github-issues",
   "envFiles": {
     "loaded": true,
     "loadedFiles": [
+      {
+        "path": ".env.production.local",
+        "keys": [
+          "VITE_POSTHOG_KEY",
+          "VITE_POSTHOG_HOST",
+          "AGL_SUPPORT_EMAIL"
+        ]
+      },
       {
         "path": "ops/production.env.local",
         "keys": [
@@ -16,14 +24,17 @@
         ]
       }
     ],
-    "loadedKeys": [],
-    "skippedExistingKeys": [
+    "loadedKeys": [
+      "VITE_POSTHOG_KEY",
+      "VITE_POSTHOG_HOST",
+      "AGL_SUPPORT_EMAIL",
       "AGL_ANDROID_PACKAGE_NAME",
       "AGL_ANDROID_SHA256_CERT_FINGERPRINT",
       "AGL_ANDROID_KEYSTORE_BASE64",
       "AGL_ANDROID_KEYSTORE_PASSWORD",
       "AGL_ANDROID_KEY_ALIAS"
     ],
+    "skippedExistingKeys": [],
     "skippedProtectedKeys": [],
     "overwrittenEnvFileKeys": [],
     "supportedFiles": [
@@ -54,27 +65,28 @@
   },
   "repository": {
     "target": "moshequ/autonomous-game-lab",
-    "source": "environment",
+    "source": "origin-remote",
     "owner": "moshequ",
     "name": "autonomous-game-lab",
     "url": "https://github.com/moshequ/autonomous-game-lab",
     "metadata": {
-      "status": "inspected",
+      "status": "unavailable",
       "nameWithOwner": "moshequ/autonomous-game-lab",
       "url": "https://github.com/moshequ/autonomous-game-lab",
-      "visibility": "PUBLIC",
-      "hasIssuesEnabled": true,
-      "hasDiscussionsEnabled": false,
-      "homepageUrl": "",
-      "isArchived": false,
-      "errors": [],
+      "visibility": null,
+      "hasIssuesEnabled": null,
+      "hasDiscussionsEnabled": null,
+      "isArchived": null,
+      "errors": [
+        "gh repo view: error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com"
+      ],
       "controls": {
         "readOnlyInspection": true,
         "noMutation": true,
         "secretValuesNeverRead": true
       }
     },
-    "publicIssuesReady": true
+    "publicIssuesReady": false
   },
   "issueTemplates": [
     {
@@ -139,9 +151,13 @@
     "analyticsEvidenceAggregateOnly": true,
     "supportEmailStillRequiredForStoreSubmission": true
   },
-  "blockers": [],
+  "blockers": [
+    "GitHub repository metadata is not available to verify issues.",
+    "Use a public repository or another public zero-cost support intake before public launch.",
+    "Enable GitHub Issues on the repository to accept public support reports."
+  ],
   "nextActions": [
-    "Link the generated support page to GitHub Issues and review public support reports before applying product changes.",
+    "Finish the zero-cost GitHub Issues support channel or configure another public support intake.",
     "Keep a real support email as a separate app-store blocker.",
     "Keep player analytics exports voluntary, summarized as aggregate counts, and never uploaded automatically."
   ]

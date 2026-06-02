@@ -1,10 +1,10 @@
 # Trend Radar Report
 
-Generated: 2026-05-22T09:12:22.658Z
+Generated: 2026-06-02T13:27:02.647Z
 
-Active source: public-rss-live
+Active source: public-rss-cache
 BGG note: BGG_XML_API_TOKEN is not set; trying public trend feeds before fixtures.
-Public feed note: Fetched 36 public trend item(s) from 3/3 RSS/Atom feed(s).
+Public feed note: Public trend feeds unavailable from 3 configured feed(s); using cache or fixtures.
 Cache: fresh; usable true
 Qualified items: 23/36
 Ranking policy: rank only boosts items with explicit keyword or category evidence

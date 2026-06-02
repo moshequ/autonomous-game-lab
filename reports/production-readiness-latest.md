@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-05-31T13:15:06.216Z
+Generated: 2026-06-02T13:32:57.227Z
 
 ## Environment
 
@@ -10,7 +10,7 @@ Analytics: local-or-fixture
 
 ## Repository Channel
 
-Status: waiting-for-gh-auth
+Status: waiting-for-repository-channel
 Repository: moshequ/autonomous-game-lab
 Git worktree: true
 Workflow dispatch ready: false
@@ -21,7 +21,7 @@ Workflow dispatch ready: false
 - external-blocker: repository-gh-token - Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for non-interactive workflow dispatch.
 - pass: repository-pages-workflow - Web PWA Deploy workflow exists and includes post-deploy smoke.
 - pass: repository-pages-settings - GitHub Pages settings could not be inspected: gh-credentials-unavailable.
-- pass: repository-deployable-artifact - Deployment ready-for-pages; release candidate release-candidate-ready; smoke blocked-missing-origin.
+- blocker: repository-deployable-artifact - Deployment blocked; release candidate release-candidate-ready; smoke blocked-missing-origin.
 
 ## Repository Bootstrap
 
@@ -29,24 +29,24 @@ Status: waiting-for-gh-auth
 Mode: plan-only
 Helper: ops/github/bootstrap-repository.sh
 Local git: true
-- done: repo-bootstrap-inspect-repository-channel - Repository readiness is waiting-for-gh-auth.
+- done: repo-bootstrap-inspect-repository-channel - Repository readiness is waiting-for-repository-channel.
 - ready: repo-bootstrap-initialize-local-git - Git worktree is available at /Users/moshequ/Documents/Codex/2026-05-18/i-want-to-have-a-new.
 - ready: repo-bootstrap-create-initial-commit - The local repository has at least one commit.
-- ready: repo-bootstrap-commit-current-snapshot - 110 repository evidence file(s) changed during this dry run; the outer verified commit will persist them.
+- ready-for-explicit-snapshot-commit: repo-bootstrap-commit-current-snapshot - 2 non-generated source or artifact file(s) are not committed yet.
 - ready: repo-bootstrap-set-or-create-origin - Origin remote resolves to moshequ/autonomous-game-lab.
 - credential-gated: repo-bootstrap-create-github-repository - GitHub CLI auth or GH_TOKEN/GITHUB_TOKEN is required before remote repository creation.
-- ready-for-explicit-push: repo-bootstrap-push-initial-snapshot - Push stays held until an origin remote exists and AGL_ALLOW_PUSH=1 is set.
+- waiting-for-clean-snapshot: repo-bootstrap-push-initial-snapshot - Push stays held until a committed local snapshot and origin remote exist.
 
 ## Web/PWA
 
-Status: ready-after-build
+Status: blocked
 - pass: manifest - PWA manifest exists in the production build.
 - pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
 - pass: service-worker - Offline service worker exists.
 - pass: privacy-control - External analytics opt-out is exposed in the app shell.
 - pass: privacy-page - Generated privacy policy page is included in public assets and production build.
 - pass: support-page - Generated support page is included in public assets and production build.
-- pass: support-channel - Support channel is support-channel-ready; repository moshequ/autonomous-game-lab; public intake ready.
+- pass: support-channel - Support channel is support-channel-planned; repository moshequ/autonomous-game-lab; public intake planned.
 - pass: support-feedback - Support feedback is support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - pass: compliance-manifest - Generated compliance manifest is included in public assets, production build, and post-deploy smoke handoff.
 - pass: playable-prototypes - Every currently accepted generated concept is playable.
@@ -59,7 +59,7 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 676.7 KB / 178.2 KB gzip; deferred game chunk GameCanvas-Db2z1san.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 677.1 KB / 178.3 KB gzip; deferred game chunk GameCanvas-5SjXQqgp.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 101; smoke URLs 33.
 - pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/34 passed, 34 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed; live matches synced deploy true.
@@ -69,15 +69,15 @@ Status: ready-after-build
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 16.
-- pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 4; next unlock production-analytics-browser.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 18.
+- pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 5; next unlock support-contact.
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-waiting-for-credentials; mode dry-run; execution dry-run.
 - pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 3.
-- pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
-- pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 107; unsafe pending 0; remote push held.
-- pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
+- blocker: autonomous-cadence - Autonomous cadence is cadence-needs-attention; Codex active-confirmed; GitHub scheduled.
+- blocker: autonomous-self-update - Autonomous self-update is self-update-needs-attention; safe pending 184; unsafe pending 2; remote push held.
+- pass: objective-audit - Objective audit is objective-in-progress; met 4 / 8; can complete false.
 
 ## Monetization
 
@@ -124,24 +124,24 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 676.7 KB (178.2 KB gzip)
-Deferred game chunk: GameCanvas-Db2z1san.js
-- pass: performance-initial-js-target - Initial JS is 676.7 KB; target is 686 KB.
-- pass: performance-initial-js-budget - Initial JS is 676.7 KB; deploy cap is 700 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 178.2 KB; budget is 200 KB.
+Initial JS: 677.1 KB (178.3 KB gzip)
+Deferred game chunk: GameCanvas-5SjXQqgp.js
+- pass: performance-initial-js-target - Initial JS is 677.1 KB; target is 686 KB.
+- pass: performance-initial-js-budget - Initial JS is 677.1 KB; deploy cap is 700 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 178.3 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 12.4 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-Db2z1san.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas-5SjXQqgp.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-07c07906ca54
+Candidate: pwa-2f5ea05e99ce
 Files: 101
-Aggregate SHA-256: 07c07906ca541bcd0fa40ccd7316d8d6a3aa1629d1fcca27f1a6d5a8b8ae8364
+Aggregate SHA-256: 2f5ea05e99ce506214fedbe34aff83d5eaa97f3a848c3155a0f6aab70c172040
 - pass: release-dist-inventory - 101 dist files inventoried.
 - pass: release-required-files - 38/38 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -155,7 +155,7 @@ Aggregate SHA-256: 07c07906ca541bcd0fa40ccd7316d8d6a3aa1629d1fcca27f1a6d5a8b8ae8
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-07c07906ca54
+Candidate: pwa-2f5ea05e99ce
 Checks: 0/34 passed (34 blocked)
 Local artifact: predeploy-artifact-smoke-passed (34/34 passed)
 - blocked: smoke-app-shell - fetch failed
@@ -282,10 +282,10 @@ Prompt: armed (autonomy-cockpit-replay-card)
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 Setup script: ops/github/setup-production.sh
-- waiting-for-gh-auth: bootstrap-repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
+- waiting-for-repository-channel: bootstrap-repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
 - waiting-for-gh-auth: bootstrap-repository-bootstrap - Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: bootstrap-production-environment - Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.
-- ready: bootstrap-github-pages-hosting - Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- blocked: bootstrap-github-pages-hosting - Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - waiting-for-gh-auth: bootstrap-github-pages-settings - GitHub CLI authentication is required before Pages settings can be synced.
 - ready: bootstrap-autonomous-self-update - Self-update gate missing; direct push held.
 - partially-configured: bootstrap-github-actions-variables - 6/24 repository variable value(s) present in this environment.
@@ -293,18 +293,18 @@ Setup script: ops/github/setup-production.sh
 - blocked-needs-cloudflare-env: bootstrap-event-collector - Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: bootstrap-monetization-gate - Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: bootstrap-store-compliance-unblock - 3 store compliance blocker(s) remain.
-- blocked-needs-host-signing-play: bootstrap-android-release-unblock - Native package ready-for-bubblewrap-build; Android release blocked-needs-host-signing-play.
+- blocked-needs-host-signing-play: bootstrap-android-release-unblock - Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.
 
 ## Production Blocker Handoff
 
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
-Owner inputs: 4
+Owner inputs: 5
 Missing env: 7
 Missing secrets: 5
-Next unlock: production-analytics-browser
+Next unlock: support-contact
 Unlock kit: production-analytics-browser
-- web-support-ready-store-email-deferred: handoff-support-contact - Web support channel and store support email
+- owner-input-required: handoff-support-contact - Web support channel and store support email
 - owner-input-required: handoff-production-analytics-browser - Browser production analytics
 - owner-input-required: handoff-autonomous-rollup-credentials - Autonomous production rollups
 - needs-live-sample: handoff-product-gate-sample - Product-gate live sample
@@ -334,11 +334,11 @@ Executed: 3
 
 ## Autonomous Cadence
 
-Status: cadence-ready
+Status: cadence-needs-attention
 Cadence: twice-daily-local-daily-ci
 Codex app: active-confirmed
 GitHub Actions: scheduled
-Freshness: fresh; stale artifacts 0
+Freshness: stale-evidence; stale artifacts 5
 - pass: cadence-codex-automation-manifest - Codex app automation manifest declares autonomous-game-lab-daily-owner-loop.
 - pass: cadence-codex-automation-installed - Codex app automation autonomous-game-lab-daily-owner-loop is active, scheduled, local, and pointed at this workspace.
 - pass: cadence-codex-automation-single-active-owner-loop - No duplicate active Codex owner-loop automations share this workspace.
@@ -351,7 +351,7 @@ Freshness: fresh; stale artifacts 0
 - pass: cadence-daily-loop-script - autonomous:daily regenerates game, analytics, readiness, cadence, audit, and automation evidence.
 - pass: cadence-automation-verifier - autonomous:verify is npm run test:automation; test:automation is npm run autonomous:security-audit && node scripts/event-collector-smoke.mjs && npm run autonomous:collector-deploy-plan && node scripts/event-ingest-smoke.mjs && node scripts/local-event-bridge.mjs && npm run autonomous:import-events && npm run autonomous:analytics && npm run autonomous:acquisition && npm run autonomous:retention && npm run autonomous:organic-seed-loop && npm run autonomous:pwa-install && npm run autonomous:gate-recovery && npm run autonomous:sample-plan && npm run autonomous:player-evidence-watchdog && npm run autonomous:measurement-status && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:readiness && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && npm run autonomous:cadence && npm run autonomous:self-update && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:deploy-plan && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run autonomous:bundle-sync && node scripts/verify-autonomy.mjs.
 - pass: cadence-browser-smoke - test:e2e is npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness && npm run build && npm run autonomous:performance && npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor && npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap && npm run autonomous:deploy-plan && npm run autonomous:bootstrap && npm run autonomous:activate-production && npm run autonomous:readiness && playwright test && npm run autonomous:objective-audit && npm run autonomous:owner-loop && npm run autonomous:operator && npm run autonomous:owner-loop && npm run autonomous:readiness.
-- pass: cadence-fresh-generated-evidence - All 41 required generated evidence artifacts are fresh within 36h.
+- blocker: cadence-fresh-generated-evidence - Stale or invalid generated artifact evidence: owner-loop (stale), operator (stale), autonomous-self-update (stale), post-deploy-artifact-sync (stale), objective-audit (stale).
 - pass: cadence-github-scheduled-workflow - GitHub Actions daily workflow can run the full autonomous owner loop and upload evidence artifacts.
 - pass: cadence-github-self-update-workflow - Gated GitHub workflow can persist allowlisted verified generated changes after daily runs once matching post-deploy evidence sync is complete, with production env and workflow token evidence when explicitly enabled.
 - pass: cadence-post-self-update-deploy - Pages deployment builds the committed PWA artifact from gated self-update, public-evidence, and production-input workflows, so persisted generated improvements can publish without manual dispatch.
@@ -362,17 +362,17 @@ Freshness: fresh; stale artifacts 0
 
 ## Autonomous Self Update
 
-Status: self-update-ready
+Status: self-update-needs-attention
 Workflow: .github/workflows/autonomous-self-update.yml
-Safe pending: 107
-Unsafe pending: 0
+Safe pending: 184
+Unsafe pending: 2
 Remote push ready: false
 - pass: self-update-script-registered - autonomous:self-update is node scripts/autonomous-self-update.mjs.
 - pass: self-update-daily-loop-refresh - autonomous:daily refreshes self-update evidence before owner/audit evidence.
 - pass: self-update-daily-workflow-read-only - The ordinary daily workflow remains read-only, runs the owner loop, and uploads evidence artifacts.
 - pass: self-update-self-update-workflow - A separate gated workflow starts from the daily run, waits for matching post-deploy evidence sync, refreshes main, verifies with production env, and persists allowlisted changes.
 - pass: self-update-post-self-update-deploy - Pages redeploys after gated self-update, public-evidence, and production-input workflows, then repeats deployability and post-deploy smoke checks.
-- pass: self-update-safe-path-allowlist - 107 safe pending file(s), 0 unsafe pending file(s).
+- blocker: self-update-safe-path-allowlist - 184 safe pending file(s), 2 unsafe pending file(s).
 - pass: self-update-repository-optional - Git worktree is available on main.
 - pass: self-update-remote-push-gated - Remote push remains held until GitHub credentials and AGL_AUTONOMOUS_SELF_UPDATE_DIRECT=1 are configured.
 - pass: self-update-zero-spend-controls - Self-update owner-loop verification includes browser smoke coverage and does not create accounts, stores, ads, paid traffic, or revenue.
@@ -380,19 +380,19 @@ Remote push ready: false
 ## Objective Audit
 
 Status: objective-in-progress
-Met: 6 / 8
+Met: 4 / 8
 Can mark complete: false
 
 ## Distribution
 
-Store package: draft-ready
+Store package: blocked
 - pass: store-listing - Generated store listing copy exists and fits Google Play short-description limits.
 - pass: store-listing-optimizer - Store listing optimizer is store-listing-optimizer-ready; focus market-pulse.
 - pass: google-data-safety - Google Play data safety draft exists.
 - pass: apple-privacy-labels - Apple App Privacy label draft exists.
 - pass: native-packaging-path - Android TWA packaging draft exists while signing remains blocked.
-- pass: native-package-handoff - Android native handoff is ready-for-bubblewrap-build.
-- pass: android-root-assetlinks-handoff - Android root asset links handoff is root-assetlinks-live.
+- pass: native-package-handoff - Android native handoff is blocked-draft-ready.
+- blocker: android-root-assetlinks-handoff - Android root asset links handoff is waiting-for-root-pages-repository.
 - pass: ios-app-store-handoff - iOS App Store handoff is deferred-until-ios-payback.
 - pass: android-signing-prep - Android signing is signing-prepared; fingerprint available.
 - pass: store-screenshots - Generated store screenshot assets are screenshots-ready; 4 screenshots attached.
@@ -416,20 +416,20 @@ Store compliance: draft-ready-external-blockers
 - external-blocker: compliance-google-play-account - Google Play developer account must be connected before Android submission.
 - external-blocker: compliance-apple-developer-account - Apple Developer account remains deferred until iOS spend is justified.
 
-Native package: ready-for-bubblewrap-build
+Native package: blocked-draft-ready
 - pass: native-production-host - Host is moshequ.github.io; base path is /autonomous-game-lab/.
-- pass: native-assetlinks-domain-verification - Digital Asset Links can be served from https://moshequ.github.io/.well-known/assetlinks.json; root verification is live-match.
+- blocker: native-assetlinks-domain-verification - Digital Asset Links must be reachable at https://moshequ.github.io/.well-known/assetlinks.json; current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
 - pass: native-hosted-privacy - Privacy URL status is hosted.
 - pass: native-android-signing-fingerprint - SHA-256 certificate fingerprint is configured.
 - pass: native-store-screenshots - 4 screenshot asset(s) available.
 - pass: native-icon-assets - 6 icon asset(s) available.
 - external-blocker: native-google-play-account - Google Play developer account is not connected; local TWA handoff can still be prepared.
 
-Android root asset links: root-assetlinks-live
+Android root asset links: waiting-for-root-pages-repository
 - actionable: android-root-assetlinks-root-assetlinks-needed - Android requires https://moshequ.github.io/.well-known/assetlinks.json; project Pages currently publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
 - pass: android-root-assetlinks-source-assetlinks - Generated public assetlinks file is ready.
-- pass: android-root-assetlinks-target-repository - Prepared to sync into moshequ/moshequ.github.io:main:.well-known/assetlinks.json.
-- pass: android-root-assetlinks-root-live-verification - Root Digital Asset Links match app.autonomousgamelab.portal.
+- repository-missing: android-root-assetlinks-target-repository - moshequ/moshequ.github.io does not exist yet; explicit repository bootstrap is available.
+- blocker: android-root-assetlinks-root-live-verification - fetch failed
 - owner-input-required: android-root-assetlinks-github-cli - A GitHub token with access to the root Pages repository is required before syncing.
 
 iOS release: deferred-until-ios-payback

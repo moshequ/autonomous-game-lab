@@ -1,13 +1,13 @@
 # Owner Unlock Brief
 
-Generated: 2026-05-31T13:15:05.043Z
+Generated: 2026-06-02T13:32:56.136Z
 Status: waiting-on-owner-input
-Source hash: e39405f4af5c
+Source hash: 305f190e2bff
 Next unlock: production-analytics-browser
 Recommended path: first-party-collector
 Lowest-input path: posthog-browser
 Lowest-input reason: PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.
-Parallel owner unlocks: production-analytics-browser, support-contact
+Parallel owner unlocks: support-contact, support-contact
 
 ## Setup Guard
 
@@ -136,7 +136,7 @@ Parallel owner unlocks: production-analytics-browser, support-contact
 
 ## Parallel Owner Unlocks
 
-### Browser production analytics (production-analytics-browser)
+### Web support channel and store support email (support-contact)
 
 - category: measurement
 - status: waiting-on-owner-input

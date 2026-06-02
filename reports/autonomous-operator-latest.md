@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-05-31T13:15:03.496Z
+Generated: 2026-06-02T13:32:54.729Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: seed-portfolio-traffic
@@ -30,17 +30,18 @@ Execution: not-requested
 
 ## Eligible Local Actions
 
+- refresh-autonomous-cadence
+- refresh-autonomous-self-update
 - seed-portfolio-traffic
-- refresh-support-feedback
 
 ## Blocked Actions
 
 - run-daily-owner-loop: daily-loop-recursion-blocked
 - hold-for-external-input: status-monitor
-- refresh-autonomous-cadence: status-monitor
-- refresh-autonomous-self-update: status-monitor
+- refresh-autonomous-cadence: not-selected-this-run
+- refresh-autonomous-self-update: not-selected-this-run
 - refresh-organic-seed-loop: status-monitor
-- refresh-support-feedback: not-selected-this-run
+- refresh-support-feedback: status-monitor
 - optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor

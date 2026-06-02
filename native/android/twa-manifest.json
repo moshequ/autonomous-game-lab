@@ -21,17 +21,14 @@
     "sha256CertFingerprint": "FC:92:04:44:5B:93:78:92:A9:8C:08:50:BF:97:7A:90:A5:62:61:81:53:E7:A9:AA:A9:39:86:74:AE:D3:52:C2"
   },
   "assetLinks": {
-    "status": "ready",
-    "domainVerificationReady": true,
+    "status": "domain-verification-blocked",
+    "domainVerificationReady": false,
     "rootAssetLinksLive": {
-      "checkedAt": "2026-05-26T13:47:12.307Z",
-      "status": "live-match",
-      "httpStatus": 200,
-      "finalUrl": "https://moshequ.github.io/.well-known/assetlinks.json",
-      "liveMatchesSource": true,
-      "bytes": 348,
-      "detail": "Root Digital Asset Links match app.autonomousgamelab.portal.",
-      "evidenceSource": "live-fetch"
+      "checkedAt": "2026-06-02T13:27:38.912Z",
+      "status": "fetch-failed",
+      "httpStatus": null,
+      "liveMatchesSource": false,
+      "detail": "fetch failed"
     },
     "requiredRootUrl": "https://moshequ.github.io/.well-known/assetlinks.json",
     "publishedUrl": "https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json",

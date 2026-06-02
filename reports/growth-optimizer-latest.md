@@ -1,6 +1,6 @@
 # Growth Optimizer
 
-Generated: 2026-05-22T09:12:28.201Z
+Generated: 2026-06-02T13:27:08.078Z
 Source: fixture-sample
 Source data hash: 86c3afd025e1
 
@@ -12,8 +12,9 @@ Source data hash: 86c3afd025e1
 
 ## Actions
 
-- applied: market-pulse; No organic entry data yet; seed strongest pages with daily challenge copy.; CTA daily-challenge; message daily.
-- applied: guild-garden; No organic entry data yet; seed strongest pages with daily challenge copy.; CTA daily-challenge; message daily.
+- skipped: market-pulse; same growth diagnosis already applied for this source data.
+- skipped: guild-garden; same growth diagnosis already applied for this source data.
+- applied: harbor-rings; No share clicks captured yet; test faster share-oriented CTA.; CTA quick-strategy; message generated-original.
 
 ## Active Policy
 

@@ -1,19 +1,19 @@
 # Production Blocker Handoff
 
-Generated: 2026-05-31T13:15:05.043Z
+Generated: 2026-06-02T13:32:56.136Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
 Live candidate: pwa-c1531259c9ed
-Source hash: e39405f4af5c
+Source hash: 305f190e2bff
 
 ## Summary
 
-- Owner inputs required: 4
-- Zero-cost first actions: 1
+- Owner inputs required: 5
+- Zero-cost first actions: 2
 - Missing environment entries: 7
 - Missing repository secrets: 5
 - Product-gate blockers: 3
-- Next best unlock: production-analytics-browser
+- Next best unlock: support-contact
 
 ## Source Status
 
@@ -21,7 +21,7 @@ Source hash: e39405f4af5c
 - productionBootstrap: production-bootstrap-ready
 - objectiveAudit: objective-in-progress
 - autonomousOwnerLoop: owner-loop-ready
-- supportChannel: support-channel-ready
+- supportChannel: support-channel-planned
 - monetization: blocked-by-product-gates
 - storeCompliance: draft-ready-external-blockers
 - storeReadiness: store-readiness-prepared-external-blockers
@@ -32,11 +32,11 @@ Source hash: e39405f4af5c
 
 ## Handoff Items
 
-- web-support-ready-store-email-deferred: support-contact - Web support channel and store support email
+- owner-input-required: support-contact - Web support channel and store support email
   - category: store-compliance
-  - cost: zero-spend-public-issues-ready
-  - owner input required: false
-  - unlocks: Hosted privacy/support pages already route web/PWA support to public GitHub Issues. A real support email remains deferred until store submission is economically justified.
+  - cost: zero-spend-if-existing-inbox
+  - owner input required: true
+  - unlocks: Hosted privacy/support pages can satisfy public store listing support-contact checks.
 - owner-input-required: production-analytics-browser - Browser production analytics
   - category: measurement
   - cost: zero-spend-use-existing-free-tier-or-first-party-collector

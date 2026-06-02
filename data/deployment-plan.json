@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-31T13:15:06.444Z",
-  "status": "ready-for-pages",
+  "generatedAt": "2026-06-02T13:32:57.440Z",
+  "status": "blocked",
   "target": {
     "provider": "github-pages",
     "cost": "$0 platform hosting for public/internal experiment traffic",
@@ -8,14 +8,15 @@
     "artifactPath": "dist"
   },
   "repositoryChannel": {
-    "status": "waiting-for-gh-auth",
+    "status": "waiting-for-repository-channel",
     "repository": "moshequ/autonomous-game-lab",
     "source": "origin-remote",
     "insideWorkTree": true,
     "ghCliAvailable": true,
     "workflowDispatchReady": false,
     "blockers": [
-      "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
+      "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
     ]
   },
   "eventCollector": {
@@ -52,11 +53,11 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-07c07906ca54",
+    "candidateId": "pwa-2f5ea05e99ce",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "07c07906ca541bcd0fa40ccd7316d8d6a3aa1629d1fcca27f1a6d5a8b8ae8364",
+    "aggregateHash": "2f5ea05e99ce506214fedbe34aff83d5eaa97f3a848c3155a0f6aab70c172040",
     "totalFiles": 101,
-    "totalKb": 4375.3,
+    "totalKb": 4375.9,
     "postDeploySmokeUrls": 33
   },
   "compliance": {
@@ -84,8 +85,8 @@
     },
     {
       "id": "web-readiness",
-      "status": "pass",
-      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build."
+      "status": "blocker",
+      "detail": "Web readiness is blocked."
     },
     {
       "id": "release-health",
@@ -125,7 +126,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-07c07906ca54."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-2f5ea05e99ce."
     },
     {
       "id": "deploy-workflow",

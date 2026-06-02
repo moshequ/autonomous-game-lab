@@ -1,8 +1,8 @@
 # Store Readiness
 
-Generated: 2026-05-31T13:14:51.702Z
+Generated: 2026-06-02T13:32:43.949Z
 Status: store-readiness-prepared-external-blockers
-Source hash: e4a339b8fa96
+Source hash: 46b14b779dd8
 
 ## Summary
 
@@ -134,7 +134,7 @@ Source hash: e4a339b8fa96
 - pass: store-compliance - Store compliance draft is draft-ready-external-blockers.
 - pass: store-listing - Store listing optimizer is store-listing-optimizer-ready.
 - pass: store-screenshots - 4 screenshot asset(s) are available.
-- pass: native-package - Native Android package handoff is ready-for-bubblewrap-build.
+- blocker: native-package - Native Android package handoff is blocked-draft-ready.
 - pass: android-release - Android release plan is blocked-needs-host-signing-play.
 - pass: ios-release - iOS handoff is deferred-until-ios-payback.
 - external-blocker: unit-economics - Store spend allowed is false.
@@ -161,6 +161,7 @@ Source hash: e4a339b8fa96
 - google-play-fee: Google Play developer account is not connected.
 - ios-fee: Apple Developer account is not connected.
 - ios-fee: Projected annual revenue is $0.00, below $99.00.
+- native-package: Native Android package handoff is blocked-draft-ready.
 - monetization: Revenue enabled is false.
 - support-contact: Production support email is required before public app-store submission.
 

@@ -1,28 +1,31 @@
 {
-  "generatedAt": "2026-05-31T13:15:02.473Z",
+  "generatedAt": "2026-06-02T13:32:53.786Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
     "requirements": 8,
-    "met": 6,
+    "met": 4,
     "prepared": 2,
-    "incomplete": 0,
+    "incomplete": 2,
     "externalBlockers": 17,
     "productBlockers": 7
   },
   "requirements": [
     {
       "id": "web-pwa-game-portal",
-      "status": "met",
+      "status": "incomplete",
       "summary": "A playable web/PWA portal exists and passes the production web readiness gate.",
       "evidence": [
-        "Web readiness: ready-after-build",
+        "Web readiness: blocked",
         "Manifest in dist: true",
         "Service worker in dist: true",
         "Release candidate: release-candidate-ready; 101 files",
-        "Deployment plan: ready-for-pages"
+        "Deployment plan: blocked"
       ],
-      "blockers": [],
+      "blockers": [
+        "Autonomous cadence is cadence-needs-attention; Codex active-confirmed; GitHub scheduled.",
+        "Autonomous self-update is self-update-needs-attention; safe pending 184; unsafe pending 2; remote push held."
+      ],
       "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist.",
       "completionCritical": true
     },
@@ -31,7 +34,7 @@
       "status": "met",
       "summary": "Trend signals produce original, low-IP-risk concepts and generated playable games.",
       "evidence": [
-        "Trend source: live-public",
+        "Trend source: cached-public",
         "Candidate concepts: 4",
         "Low-risk concepts: 4",
         "Playable games: 10",
@@ -84,12 +87,12 @@
     },
     {
       "id": "minimal-intervention-autonomy",
-      "status": "met-local",
+      "status": "incomplete",
       "summary": "A scheduled local loop, owner state, bootstrap handoff, and dry-run operator reduce manual maintenance.",
       "evidence": [
         "Owner loop: owner-loop-ready",
-        "Autonomous cadence: cadence-ready; Codex active-confirmed; GitHub scheduled",
-        "Autonomous self-update: self-update-ready; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 0",
+        "Autonomous cadence: cadence-needs-attention; Codex active-confirmed; GitHub scheduled",
+        "Autonomous self-update: self-update-needs-attention; workflow .github/workflows/autonomous-self-update.yml; unsafe pending 2",
         "Operator: operator-plan-ready",
         "Operator history: operator-history-ready; records 40; executed 3",
         "Bootstrap: production-bootstrap-ready",
@@ -99,12 +102,15 @@
         "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/34; local artifact predeploy-artifact-smoke-passed 34/34",
         "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26515368723; live matches artifact true; candidate pwa-c1531259c9ed",
         "Live site monitor: live-site-monitor-passed; checks 34/34; live matches synced deploy true",
-        "Repository channel: waiting-for-gh-auth; repository moshequ/autonomous-game-lab; git worktree true",
-        "Autonomy score: 98%",
+        "Repository channel: waiting-for-repository-channel; repository moshequ/autonomous-game-lab; git worktree true",
+        "Autonomy score: 89%",
         "Credential-gated actions: 12"
       ],
       "blockers": [
+        "fresh-generated-evidence: Stale or invalid generated artifact evidence: owner-loop (stale), operator (stale), autonomous-self-update (stale), post-deploy-artifact-sync (stale), objective-audit (stale).",
+        "safe-path-allowlist: 184 safe pending file(s), 2 unsafe pending file(s).",
         "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+        "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
         "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
         "AGL_SUPPORT_EMAIL: Production support contact for privacy and store listings.",
         "VITE_POSTHOG_KEY: Optional browser-side PostHog analytics forwarding.",
@@ -148,12 +154,12 @@
       "summary": "Store listing, compliance drafts, screenshots, Android TWA handoff, and iOS App Store handoff are prepared while store release stays gated.",
       "evidence": [
         "Store package privacy URL: hosted",
-        "Support channel: support-channel-ready; provider github-issues; store email still required true",
+        "Support channel: support-channel-planned; provider github-issues; store email still required true",
         "Store assets: screenshots-ready",
         "Store compliance: draft-ready-external-blockers",
         "Store owner next unlock: support-contact; lowest input 1 input(s), 0 secret(s)",
         "Android signing: signing-prepared; fingerprint available",
-        "Native package: ready-for-bubblewrap-build",
+        "Native package: blocked-draft-ready",
         "Android release: blocked-needs-host-signing-play",
         "iOS release: deferred-until-ios-payback; native project deferred true"
       ],
@@ -221,6 +227,7 @@
     ],
     "all": [
       "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.",
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.",
       "Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.",
       "Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.",
       "Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.",
@@ -251,14 +258,14 @@
     "zeroSpendGuard": true,
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
-    "currentWorktreeClean": true,
-    "currentWorktreeDirtyFiles": 110,
-    "currentGitWorktreeDirtyFiles": 110,
-    "currentGeneratedEvidenceDirtyFiles": 110,
-    "currentNonGeneratedWorktreeDirtyFiles": 0,
-    "currentWorktreeHasOnlyGeneratedEvidenceChanges": true,
+    "currentWorktreeClean": false,
+    "currentWorktreeDirtyFiles": 206,
+    "currentGitWorktreeDirtyFiles": 206,
+    "currentGeneratedEvidenceDirtyFiles": 204,
+    "currentNonGeneratedWorktreeDirtyFiles": 2,
+    "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
     "productionBootstrapFresh": true,
-    "productionBootstrapSourceDataHash": "6691ac7d5cb8",
+    "productionBootstrapSourceDataHash": "f4ee3d4defd0",
     "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },

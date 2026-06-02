@@ -1,10 +1,10 @@
 # Production Bootstrap
 
-Generated: 2026-05-31T13:14:58.990Z
+Generated: 2026-06-02T13:32:50.588Z
 Status: production-bootstrap-ready
 Mode: waiting-for-external-credentials
 GitHub repository: moshequ/autonomous-game-lab
-Repository channel: waiting-for-gh-auth
+Repository channel: waiting-for-repository-channel
 gh CLI available: true
 
 ## Local Env Files
@@ -17,10 +17,10 @@ gh CLI available: true
 
 ## Setup Groups
 
-- waiting-for-gh-auth: repository-channel; auto-run no; Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
+- waiting-for-repository-channel: repository-channel; auto-run no; Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
 - waiting-for-gh-auth: repository-bootstrap; auto-run no; Repository bootstrap waiting-for-gh-auth; helper ops/github/bootstrap-repository.sh; local git ready.
 - waiting-for-origin-support: production-environment; auto-run no; Environment production-env-missing; public origin inferred-github-pages; support missing-production-address.
-- ready: github-pages-hosting; auto-run no; Deployment plan is ready-for-pages; Pages workflow is .github/workflows/web-pwa-deploy.yml.
+- blocked: github-pages-hosting; auto-run no; Deployment plan is blocked; Pages workflow is .github/workflows/web-pwa-deploy.yml.
 - waiting-for-gh-auth: github-pages-settings; auto-run no; GitHub CLI authentication is required before Pages settings can be synced.
 - ready: autonomous-self-update; auto-run no; Self-update gate missing; direct push held.
 - partially-configured: github-actions-variables; auto-run no; 6/24 repository variable value(s) present in this environment.
@@ -28,7 +28,7 @@ gh CLI available: true
 - blocked-needs-cloudflare-env: event-collector; auto-run no; Collector deployment is blocked-needs-cloudflare-env; provider cloudflare-worker-r2.
 - held-by-product-gates: monetization-gate; auto-run no; Revenue disabled; spend mode no-spend.
 - draft-ready-external-blockers: store-compliance-unblock; auto-run no; 3 store compliance blocker(s) remain.
-- blocked-needs-host-signing-play: android-release-unblock; auto-run no; Native package ready-for-bubblewrap-build; Android release blocked-needs-host-signing-play.
+- blocked-needs-host-signing-play: android-release-unblock; auto-run no; Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.
 
 ## Setup Commands
 
@@ -82,6 +82,8 @@ gh CLI available: true
 ## External Blockers
 
 - repository-readiness: Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync.
+- repository-readiness: Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts.
+- repository-bootstrap: Commit current generated changes before pushing to GitHub Pages.
 - repository-bootstrap: Authenticate GitHub CLI or provide GH_TOKEN/GITHUB_TOKEN for remote repository bootstrap.
 - production-environment: Set AGL_SUPPORT_EMAIL to a real support inbox before public store submission.
 - production-environment: Set VITE_EVENT_COLLECTOR_URL or VITE_POSTHOG_KEY to forward browser analytics in production.
@@ -91,5 +93,3 @@ gh CLI available: true
 - production-environment: Connect Apple Developer account only after revenue justifies iOS spend.
 - event-collector: Collector environment is not configured.
 - store-compliance: support-contact: Production support email is required before public store submission.
-- store-compliance: google-play-account: Google Play developer account must be connected before Android submission.
-- store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.

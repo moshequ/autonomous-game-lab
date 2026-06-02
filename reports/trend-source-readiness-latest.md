@@ -1,8 +1,8 @@
 # Trend Source Readiness
 
-Generated: 2026-05-22T09:12:22.658Z
-Status: live-public
-Active source: public-rss-live
+Generated: 2026-06-02T13:27:02.647Z
+Status: cached-public
+Active source: public-rss-cache
 
 ## BGG Hotness
 
@@ -14,18 +14,18 @@ Active source: public-rss-live
 ## Public RSS/Atom Feeds
 
 - Configured: true
-- Public fetch ok: true
-- Reason: Fetched 36 public trend item(s) from 3/3 RSS/Atom feed(s).
+- Public fetch ok: false
+- Reason: Public trend feeds unavailable from 3 configured feed(s); using cache or fixtures.
 - Authorization required: false
-- https://www.boardgamequest.com/feed/: ok; 10 item(s); Fetched 10 public RSS/Atom item(s).
-- https://www.meeplemountain.com/feed/: ok; 13 item(s); Fetched 13 public RSS/Atom item(s).
-- https://www.reddit.com/r/boardgames/hot/.rss?limit=25: ok; 25 item(s); Fetched 25 public RSS/Atom item(s).
+- https://www.boardgamequest.com/feed/: unavailable; 0 item(s); Feed fetch failed: fetch failed.
+- https://www.meeplemountain.com/feed/: unavailable; 0 item(s); Feed fetch failed: fetch failed.
+- https://www.reddit.com/r/boardgames/hot/.rss?limit=25: unavailable; 0 item(s); Feed fetch failed: fetch failed.
 
 ## Cache
 
 - Status: fresh
 - Usable: true
-- Age days: 0
+- Age days: 11
 - Max age days: 30
 
 ## Signal Quality

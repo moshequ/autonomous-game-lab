@@ -1,6 +1,6 @@
 # Store Package
 
-Generated: 2026-05-31T13:14:50.954Z
+Generated: 2026-06-02T13:32:43.241Z
 
 ## Launch Candidate
 
@@ -12,7 +12,7 @@ Lantern Relay (lantern-relay)
 - Privacy production URL: https://moshequ.github.io/autonomous-game-lab/privacy.html
 - Support page path: /support.html
 - Support email: not configured
-- Support channel: support-channel-ready
+- Support channel: support-channel-planned
 - Compliance manifest path: /compliance.json
 - Compliance publish status: waiting-for-production-inputs
 - Production URL status: hosted

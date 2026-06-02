@@ -1,6 +1,6 @@
 # Product Gate Optimizer
 
-Generated: 2026-05-30T07:06:50.211Z
+Generated: 2026-06-02T13:27:11.463Z
 Status: product-optimization-ready
 Analytics source: fixture-sample
 Release health: monitoring

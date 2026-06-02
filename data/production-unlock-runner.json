@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-31T13:15:05.377Z",
+  "generatedAt": "2026-06-02T13:32:56.449Z",
   "status": "unlock-runner-idle",
   "mode": "execute-unlocked-local-followups",
   "sourceStatus": {
     "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
-    "productionBlockerHandoffSourceDataHash": "e39405f4af5c"
+    "productionBlockerHandoffSourceDataHash": "305f190e2bff"
   },
   "summary": {
     "handoffItems": 8,
@@ -51,9 +51,9 @@
       "id": "support-contact",
       "title": "Web support channel and store support email",
       "category": "store-compliance",
-      "status": "web-support-ready-store-email-deferred",
-      "ownerInputRequired": false,
-      "fingerprint": "3fe780906c42",
+      "status": "owner-input-required",
+      "ownerInputRequired": true,
+      "fingerprint": "c70b741a4576",
       "executableStatus": false,
       "alreadyCompleted": false,
       "runnable": false,
@@ -64,7 +64,7 @@
         "npm run autonomous:readiness"
       ],
       "unsafeCommands": [],
-      "reason": "Held because handoff status is web-support-ready-store-email-deferred."
+      "reason": "Held because handoff status is owner-input-required."
     },
     {
       "id": "production-analytics-browser",
