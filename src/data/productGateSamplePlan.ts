@@ -105,8 +105,8 @@ export const productGateSamplePlan = {
         "minimumCountedRunsNeeded": 10,
         "latencyDays": 1,
         "returnHandoffRequired": true,
-        "returnIntentDate": "2026-06-03",
-        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-03"
+        "returnIntentDate": "2026-06-04",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-04"
       }
     ],
     "controls": {
@@ -238,10 +238,10 @@ export const productGateSamplePlan = {
         "gameId": "market-pulse",
         "title": "Market Pulse",
         "campaignId": "gate-sample-20260603-d1Retention",
-        "challengeDate": "2026-06-02",
-        "intentDate": "2026-06-03",
+        "challengeDate": "2026-06-03",
+        "intentDate": "2026-06-04",
         "queryParam": "return_intent",
-        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-03",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-04",
         "copyCta": "Copy return link",
         "calendarCta": "Save reminder",
         "calendarFileExtension": ".ics",

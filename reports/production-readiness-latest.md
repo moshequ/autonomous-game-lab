@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-06-03T01:32:00.031Z
+Generated: 2026-06-03T13:26:36.853Z
 
 ## Environment
 
@@ -59,9 +59,9 @@ Status: ready-after-build
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 631 KB / 171.7 KB gzip; deferred game chunk GameCanvas-CEuDvgpy.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 630.9 KB / 171.4 KB gzip; deferred game chunk GameCanvas-CN2Wo6J9.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 106; smoke URLs 33.
-- pass: post-deploy-smoke-runner - Post-deploy smoke is post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed, 0 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
+- pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/34 passed, 34 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed; live matches synced deploy true.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 10; primary harbor-rings.
@@ -124,24 +124,24 @@ Installs: 0
 ## Performance Budget
 
 Status: performance-budget-ready
-Initial JS: 631 KB (171.7 KB gzip)
-Deferred game chunk: GameCanvas-CEuDvgpy.js
-- pass: performance-initial-js-target - Initial JS is 631 KB; target is 686 KB.
-- pass: performance-initial-js-budget - Initial JS is 631 KB; deploy cap is 700 KB.
-- pass: performance-initial-js-gzip-budget - Initial JS gzip is 171.7 KB; budget is 200 KB.
+Initial JS: 630.9 KB (171.4 KB gzip)
+Deferred game chunk: GameCanvas-CN2Wo6J9.js
+- pass: performance-initial-js-target - Initial JS is 630.9 KB; target is 686 KB.
+- pass: performance-initial-js-budget - Initial JS is 630.9 KB; deploy cap is 700 KB.
+- pass: performance-initial-js-gzip-budget - Initial JS gzip is 171.4 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 12.4 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-CEuDvgpy.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas-CN2Wo6J9.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-40034d579464
+Candidate: pwa-273d1633523e
 Files: 106
-Aggregate SHA-256: 40034d579464609b782c89d9801e14de2ccca3d82c6a7b921ada30056593ba53
+Aggregate SHA-256: 273d1633523edb47da03e27e3b8bd7e63c2b4bd782a03fa7ff6197470a108efe
 - pass: release-dist-inventory - 106 dist files inventoried.
 - pass: release-required-files - 38/38 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -153,45 +153,45 @@ Aggregate SHA-256: 40034d579464609b782c89d9801e14de2ccca3d82c6a7b921ada30056593b
 
 ## Post-Deploy Smoke
 
-Status: post-deploy-smoke-observed-live
-Origin: https://moshequ.github.io/autonomous-game-lab
-Candidate: pwa-40034d579464
-Checks: 34/34 passed (0 blocked)
+Status: blocked-missing-origin
+Origin: missing
+Candidate: pwa-273d1633523e
+Checks: 0/34 passed (34 blocked)
 Local artifact: predeploy-artifact-smoke-passed (34/34 passed)
-- pass: smoke-app-shell - Live URL matched status and required text.
-- pass: smoke-manifest-webmanifest - Live URL matched status and required text.
-- pass: smoke-sw-js - Live URL matched status and required text.
-- pass: smoke-privacy-html - Live URL matched status and required text.
-- pass: smoke-support-html - Live URL matched status and required text.
-- pass: smoke-measurement-status-html - Live URL matched status and required text.
-- pass: smoke-measurement-status-json - Live URL matched status and required text.
-- pass: smoke-owner-unlock-html - Live URL matched status and required text.
-- pass: smoke-owner-unlock-brief-json - Live URL matched status and required text.
-- pass: smoke-owner-unlock-preflight-json - Live URL matched status and required text.
-- pass: smoke-owner-runtime-config-json - Live URL matched status and required text.
-- pass: smoke-analytics-unlock-html - Live URL matched status and required text.
-- pass: smoke-analytics-unlock-json - Live URL matched status and required text.
-- pass: smoke-product-gate-recovery-html - Live URL matched status and required text.
-- pass: smoke-product-gate-recovery-json - Live URL matched status and required text.
-- pass: smoke-install-html - Live URL matched status and required text.
-- pass: smoke-compliance-json - Live URL matched status and required text.
-- pass: smoke-monetization-json - Live URL matched status and required text.
-- pass: smoke-store-readiness-html - Live URL matched status and required text.
-- pass: smoke-store-readiness-json - Live URL matched status and required text.
-- pass: smoke-app-ads-txt - Live URL matched status and required text.
-- pass: smoke-well-known-assetlinks-json - Live URL matched status and required text.
-- pass: smoke-gate-sample-html - Live URL matched status and required text.
-- pass: smoke-sample-next-html - Live URL matched status and required text.
-- pass: smoke-sample-next-json - Live URL matched status and required text.
-- pass: smoke-sample-fastest-html - Live URL matched status and required text.
-- pass: smoke-sample-fastest-json - Live URL matched status and required text.
-- pass: smoke-seed-kit-html - Live URL matched status and required text.
-- pass: smoke-seed-next-html - Live URL matched status and required text.
-- pass: smoke-seed-next-json - Live URL matched status and required text.
-- pass: smoke-sitemap-xml - Live URL matched status and required text.
-- pass: smoke-monetization-html - Live URL matched status and required text.
-- pass: smoke-games-canopy-bloom-html - Live URL matched status and required text.
-- pass: smoke-release-candidate-manifest - Live release manifest is reachable; it does not match the current local release candidate.
+- blocked: smoke-app-shell - fetch failed
+- blocked: smoke-manifest-webmanifest - fetch failed
+- blocked: smoke-sw-js - fetch failed
+- blocked: smoke-privacy-html - fetch failed
+- blocked: smoke-support-html - fetch failed
+- blocked: smoke-measurement-status-html - fetch failed
+- blocked: smoke-measurement-status-json - fetch failed
+- blocked: smoke-owner-unlock-html - fetch failed
+- blocked: smoke-owner-unlock-brief-json - fetch failed
+- blocked: smoke-owner-unlock-preflight-json - fetch failed
+- blocked: smoke-owner-runtime-config-json - fetch failed
+- blocked: smoke-analytics-unlock-html - fetch failed
+- blocked: smoke-analytics-unlock-json - fetch failed
+- blocked: smoke-product-gate-recovery-html - fetch failed
+- blocked: smoke-product-gate-recovery-json - fetch failed
+- blocked: smoke-install-html - fetch failed
+- blocked: smoke-compliance-json - fetch failed
+- blocked: smoke-monetization-json - fetch failed
+- blocked: smoke-store-readiness-html - fetch failed
+- blocked: smoke-store-readiness-json - fetch failed
+- blocked: smoke-app-ads-txt - fetch failed
+- blocked: smoke-well-known-assetlinks-json - fetch failed
+- blocked: smoke-gate-sample-html - fetch failed
+- blocked: smoke-sample-next-html - fetch failed
+- blocked: smoke-sample-next-json - fetch failed
+- blocked: smoke-sample-fastest-html - fetch failed
+- blocked: smoke-sample-fastest-json - fetch failed
+- blocked: smoke-seed-kit-html - fetch failed
+- blocked: smoke-seed-next-html - fetch failed
+- blocked: smoke-seed-next-json - fetch failed
+- blocked: smoke-sitemap-xml - fetch failed
+- blocked: smoke-monetization-html - fetch failed
+- blocked: smoke-games-canopy-bloom-html - fetch failed
+- blocked: smoke-release-candidate-manifest - fetch failed
 
 ## Post-Deploy Artifact Sync
 

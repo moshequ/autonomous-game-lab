@@ -1,16 +1,16 @@
 # Traffic Seeding
 
-Generated: 2026-06-02T13:27:14.457Z
+Generated: 2026-06-03T13:26:23.218Z
 Status: traffic-seeding-ready
 Analytics source: fixture-sample
 Max cost: $0.00
 
 ## Campaigns
 
-- #1 Market Pulse: armed, seed-needed, /?game=market-pulse&utm_source=seed_internal&utm_campaign=seed-20260602-market-pulse
-- #2 Guild Garden: armed, seed-needed, /?game=guild-garden&utm_source=seed_internal&utm_campaign=seed-20260602-guild-garden
-- #3 Canopy Bloom: armed, seed-needed, /?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260602-canopy-bloom
-- #4 Metro Loom: armed, seed-needed, /?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260602-metro-loom
+- #1 Market Pulse: armed, seed-needed, /?game=market-pulse&utm_source=seed_internal&utm_campaign=seed-20260603-market-pulse
+- #2 Guild Garden: armed, seed-needed, /?game=guild-garden&utm_source=seed_internal&utm_campaign=seed-20260603-guild-garden
+- #3 Canopy Bloom: armed, seed-needed, /?game=canopy-bloom&utm_source=seed_internal&utm_campaign=seed-20260603-canopy-bloom
+- #4 Metro Loom: armed, seed-needed, /?game=metro-loom&utm_source=seed_internal&utm_campaign=seed-20260603-metro-loom
 
 ## Channels
 
@@ -23,16 +23,16 @@ Max cost: $0.00
 ## Seed Kit
 
 - /seed-kit.html with 4 zero-spend seed campaign links and player-initiated copy/share controls.
-- /seed-next.html routes evergreen zero-spend traffic to seed-20260602-market-pulse without paid posting.
-- /sample-next.html routes evergreen zero-spend product-gate traffic to gate-sample-20260602-firstGameCompletion without paid posting.
-- /sample-fastest.html routes the quickest separate product-gate sample to gate-sample-20260602-d1Retention without paid posting.
-- /gate-sample.html with 3 product-gate sample link(s); default gate-sample-20260602-firstGameCompletion.
+- /seed-next.html routes evergreen zero-spend traffic to seed-20260603-market-pulse without paid posting.
+- /sample-next.html routes evergreen zero-spend product-gate traffic to gate-sample-20260603-firstGameCompletion without paid posting.
+- /sample-fastest.html routes the quickest separate product-gate sample to gate-sample-20260603-d1Retention without paid posting.
+- /gate-sample.html with 3 product-gate sample link(s); default gate-sample-20260603-firstGameCompletion.
 
 ## Next Actions
 
 - Feature Market Pulse in the internal growth loop and share manifest.
 - Feature Sample First game completion as the default product-gate sample share link.
 - Expose Sample D1 retention through /sample-fastest.html for the quickest separate gate validation.
-- Publish a player-initiated D1 return handoff on /sample-fastest.html for 2026-05-31.
+- Publish a player-initiated D1 return handoff on /sample-fastest.html for 2026-06-03.
 - Keep traffic sources organic/internal until paid acquisition gates pass.
 - Judge seeded games only after each reaches the target start sample.
