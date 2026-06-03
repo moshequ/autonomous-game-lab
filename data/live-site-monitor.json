@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T01:25:01.041Z",
+  "generatedAt": "2026-06-03T13:24:06.067Z",
   "status": "live-site-monitor-passed",
   "envFiles": {
     "loaded": true,
@@ -961,5 +961,11 @@
   "nextActions": [
     "Keep monitoring the public PWA between deploys with read-only live checks.",
     "Keep revenue, paid spend, and store submission disabled until product and account gates clear."
-  ]
+  ],
+  "preservation": {
+    "status": "network-blocked",
+    "preservedFromGeneratedAt": "2026-06-03T01:25:01.041Z",
+    "attemptedOrigin": "https://moshequ.github.io/autonomous-game-lab",
+    "note": "Network access was blocked; reused the previously verified live-site monitor evidence."
+  }
 }

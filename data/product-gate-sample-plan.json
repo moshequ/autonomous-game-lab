@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-03T01:22:59.550Z",
-  "sourceDataHash": "37e023274914",
+  "generatedAt": "2026-06-03T13:23:55.860Z",
+  "sourceDataHash": "b2870408e3d4",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -39,7 +39,7 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T13:53:13.086Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 275.5,
+    "scanAgeHours": 287.51,
     "cooldownRemainingHours": 0,
     "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
   },
@@ -215,13 +215,13 @@
         "latencyDays": 1,
         "sameSessionPlayable": false,
         "returnHandoffRequired": true,
-        "returnIntentDate": "2026-06-03",
-        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-03",
+        "returnIntentDate": "2026-06-04",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-04",
         "followUpWindow": {
-          "date": "2026-06-03",
+          "date": "2026-06-04",
           "dayOffset": 1,
           "action": "player-initiated-return-session",
-          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-03"
+          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-04"
         },
         "controls": {
           "zeroPaidSpend": true,
@@ -271,10 +271,10 @@
       ],
       "followUps": [
         {
-          "date": "2026-06-03",
+          "date": "2026-06-04",
           "dayOffset": 1,
           "action": "player-initiated-return-session",
-          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-03",
+          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-04",
           "routeId": "gate-sample-d1Retention",
           "campaignId": "gate-sample-20260603-d1Retention",
           "gateId": "d1Retention",
@@ -714,10 +714,10 @@
         "gameId": "market-pulse",
         "title": "Market Pulse",
         "campaignId": "gate-sample-20260603-d1Retention",
-        "challengeDate": "2026-06-02",
-        "intentDate": "2026-06-03",
+        "challengeDate": "2026-06-03",
+        "intentDate": "2026-06-04",
         "queryParam": "return_intent",
-        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-03",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-04",
         "copyCta": "Copy return link",
         "calendarCta": "Save reminder",
         "calendarFileExtension": ".ics",
@@ -737,7 +737,7 @@
           "noSyntheticEvents": true
         }
       },
-      "organicSeedCampaignId": "seed-20260602-market-pulse",
+      "organicSeedCampaignId": "seed-20260603-market-pulse",
       "current": {
         "actual": 0.167,
         "gate": 0.18,
@@ -805,8 +805,8 @@
         "latencyDays": 1,
         "sameSessionPlayable": false,
         "returnHandoffRequired": true,
-        "returnIntentDate": "2026-06-03",
-        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-03",
+        "returnIntentDate": "2026-06-04",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention&return_intent=2026-06-04",
         "reason": "D1 retention needs a return session, so it is not the best default route for immediate sample collection."
       },
       "sampleRole": "fastest-validation",
