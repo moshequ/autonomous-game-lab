@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T13:26:37.799Z",
+  "generatedAt": "2026-06-03T13:29:52.411Z",
   "status": "objective-in-progress",
   "objective": "Build a bootstrapped autonomous web/PWA game portal that can generate original board-game-inspired games, measure user behavior, propose and apply data-driven improvements, and prepare a path to monetization and app-store distribution with minimal manual intervention.",
   "summary": {
@@ -96,8 +96,8 @@
         "Unlock runner: unlock-runner-idle; runnable 0; queued 0; unsafe 0",
         "Repository bootstrap: repository-bootstrap-ready; helper ops/github/bootstrap-repository.sh",
         "Release candidate: release-candidate-ready; smoke URLs 33",
-        "Post-deploy smoke: blocked-missing-origin; origin missing; checks 0/34; local artifact predeploy-artifact-smoke-passed 34/34",
-        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26858191158; live matches artifact true; candidate pwa-1cfee0c2db84",
+        "Post-deploy smoke: post-deploy-smoke-observed-live; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34; local artifact predeploy-artifact-smoke-passed 34/34",
+        "Strict deploy artifact sync: post-deploy-artifact-sync-passed; run 26887865130; live matches artifact true; candidate pwa-b2cb4bc35a26",
         "Live site monitor: live-site-monitor-passed; checks 34/34; live matches synced deploy true",
         "Repository channel: repository-channel-ready; repository moshequ/autonomous-game-lab; git worktree true",
         "Autonomy score: 98%",
@@ -244,18 +244,14 @@
     "noRevenueEnablementUntilGatesPass": true,
     "noStoreSubmissionUntilExternalAccounts": true,
     "currentWorktreeClean": false,
-    "currentWorktreeDirtyFiles": 82,
-    "currentGitWorktreeDirtyFiles": 82,
-    "currentGeneratedEvidenceDirtyFiles": 81,
+    "currentWorktreeDirtyFiles": 102,
+    "currentGitWorktreeDirtyFiles": 102,
+    "currentGeneratedEvidenceDirtyFiles": 101,
     "currentNonGeneratedWorktreeDirtyFiles": 1,
     "currentWorktreeHasOnlyGeneratedEvidenceChanges": false,
-    "productionBootstrapFresh": false,
-    "productionBootstrapSourceDataHash": "192d0dd382cf",
-    "productionBootstrapStaleInputIds": [
-      "release-candidate",
-      "deployment-plan",
-      "production-environment"
-    ],
+    "productionBootstrapFresh": true,
+    "productionBootstrapSourceDataHash": "a93fbf9af3da",
+    "productionBootstrapStaleInputIds": [],
     "objectiveNextBestActionSource": "owner-loop"
   },
   "completion": {

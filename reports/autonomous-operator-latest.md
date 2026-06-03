@@ -1,6 +1,6 @@
 # Autonomous Operator
 
-Generated: 2026-06-03T13:26:37.547Z
+Generated: 2026-06-03T13:29:52.773Z
 Status: operator-plan-ready
 Mode: plan-only
 Owner decision: seed-portfolio-traffic
@@ -33,12 +33,8 @@ Execution: not-requested
 - seed-portfolio-traffic
 - refresh-organic-seed-loop
 - refresh-support-feedback
-- measure-pwa-install-loop
 - refresh-completion-loop
 - refresh-replay-loop
-- bootstrap-production-setup
-- refresh-objective-audit
-- optimize-store-listing
 
 ## Blocked Actions
 
@@ -49,7 +45,7 @@ Execution: not-requested
 - refresh-organic-seed-loop: not-selected-this-run
 - refresh-support-feedback: not-selected-this-run
 - optimize-daily-retention: status-monitor
-- measure-pwa-install-loop: not-selected-this-run
+- measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-06-03T13:26:35.753Z",
-  "sourceDataHash": "3ba80374f4cf",
+  "generatedAt": "2026-06-03T13:29:46.035Z",
+  "sourceDataHash": "dea781e5bb82",
   "status": "handoff-waiting-on-owner-inputs",
   "statusDetail": "blocked-external-inputs",
-  "liveCandidate": "pwa-1cfee0c2db84",
+  "liveCandidate": "pwa-b2cb4bc35a26",
   "sourceStatus": {
     "productionEnvironment": "production-env-missing",
     "productionBootstrap": "production-bootstrap-ready",
@@ -49,7 +49,7 @@
       "name": "AGL_PUBLIC_ORIGIN",
       "purpose": "HTTPS origin used for hosted privacy/support URLs, sitemap, TWA host, and Digital Asset Links. If no custom origin is set, the setup helper can infer the zero-cost GitHub Pages origin from the repository target.",
       "configured": true,
-      "source": "github-pages-target",
+      "source": "environment",
       "fallback": "github-pages-target"
     },
     {
