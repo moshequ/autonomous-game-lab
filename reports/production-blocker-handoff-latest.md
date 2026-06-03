@@ -1,17 +1,17 @@
 # Production Blocker Handoff
 
-Generated: 2026-06-02T13:32:56.136Z
+Generated: 2026-06-03T01:25:24.263Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
-Live candidate: pwa-c1531259c9ed
-Source hash: 305f190e2bff
+Live candidate: pwa-3e804a980eae
+Source hash: 19b15aef632f
 
 ## Summary
 
 - Owner inputs required: 5
 - Zero-cost first actions: 2
 - Missing environment entries: 7
-- Missing repository secrets: 5
+- Missing repository secrets: 3
 - Product-gate blockers: 3
 - Next best unlock: support-contact
 
@@ -97,8 +97,8 @@ Source hash: 305f190e2bff
 - status: waiting-on-owner-input
 - next unlock: production-analytics-browser
 - recommended path: first-party-collector
-- missing variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
-- missing secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+- missing variables: CLOUDFLARE_ACCOUNT_ID, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
+- missing secrets: CLOUDFLARE_API_TOKEN
 - setup commands: npm run autonomous:event-collector-smoke && npm run autonomous:collector-deploy-plan && ./ops/github/setup-production.sh && RUN_WORKFLOWS=1 ./ops/github/setup-production.sh && npm run autonomous:readiness
 - validation commands: npm run autonomous:event-collector-smoke && npm run autonomous:collector-deploy-plan && npm run autonomous:readiness && npm run test:e2e
 
@@ -115,8 +115,6 @@ Source hash: 305f190e2bff
 ## Missing Secrets
 
 - CLOUDFLARE_API_TOKEN: printf "%s" "$CLOUDFLARE_API_TOKEN" | gh secret set CLOUDFLARE_API_TOKEN
-- VITE_EVENT_COLLECTOR_WRITE_TOKEN: printf "%s" "$VITE_EVENT_COLLECTOR_WRITE_TOKEN" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN
-- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - POSTHOG_PERSONAL_API_KEY: printf "%s" "$POSTHOG_PERSONAL_API_KEY" | gh secret set POSTHOG_PERSONAL_API_KEY
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 

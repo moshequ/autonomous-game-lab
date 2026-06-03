@@ -189,7 +189,7 @@
         </div>
         <div class="card">
           <span>Missing secrets</span>
-          <strong>5</strong>
+          <strong>3</strong>
         </div>
       </div>
 
@@ -211,11 +211,11 @@
           </div>
           <div class="card">
             <span>Missing variables</span>
-            <strong>5</strong>
+            <strong>3</strong>
           </div>
           <div class="card">
             <span>Missing secrets</span>
-            <strong>3</strong>
+            <strong>1</strong>
           </div>
           <div class="card">
             <span>Minimal inputs</span>
@@ -253,9 +253,9 @@
               <h4>Commands</h4>
               <ol><li><strong>printBrief</strong> <code>node scripts/owner-unlock-brief.mjs --print</code></li><li><strong>combinedPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>analyticsPreflight</strong> <code>node scripts/owner-unlock-preflight.mjs --assert --print</code></li><li><strong>storeReadiness</strong> <code>npm run autonomous:store-readiness</code></li><li><strong>setupPreflight</strong> <code>./ops/github/setup-production.sh --owner-unlock-preflight</code></li><li><strong>npmWriteAnalyticsLocalEnvTemplate</strong> <code>npm run autonomous:analytics-input-template</code></li><li><strong>writeAnalyticsLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --analytics-input-template</code></li><li><strong>setupWriteAnalyticsLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --analytics-input-template</code></li><li><strong>npmWriteLocalEnvTemplate</strong> <code>npm run autonomous:owner-input-template</code></li><li><strong>writeLocalEnvTemplate</strong> <code>node scripts/owner-unlock-preflight.mjs --write-local-env-template</code></li><li><strong>setupWriteLocalEnvTemplate</strong> <code>./ops/github/setup-production.sh --owner-input-template</code></li><li><strong>npmWriteSupportLocalEnvTemplate</strong> <code>npm run autonomous:support-input-template</code></li><li><strong>syncConfiguredValues</strong> <code>./ops/github/setup-production.sh</code></li><li><strong>workflowDispatch</strong> <code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><strong>zeroSecretRuntimeConfig</strong> <code>npm run autonomous:owner-zero-secret-input-sync</code></li><li><strong>productionInputWatchUi</strong> <code>Production Input Watch workflow dispatch: publish_zero_secret_runtime_config + vite_posthog_key + vite_posthog_host + agl_support_email</code></li></ol>
         <h3>Missing Variables</h3>
-        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
         <h3>Missing Secrets</h3>
-        <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li></ul>
         <h3>Setup Commands</h3>
         <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>./ops/github/setup-production.sh</code></li><li><code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><code>npm run autonomous:readiness</code></li></ol>
         <h3>Validation Commands</h3>
@@ -275,7 +275,7 @@
           </div>
           <div class="card">
             <span>Ready inputs</span>
-            <strong>0/8</strong>
+            <strong>4/8</strong>
           </div>
           <div class="card">
             <span>Lowest-input path</span>
@@ -326,10 +326,10 @@
               <ul><li><code>VITE_POSTHOG_KEY=</code></li><li><code>AGL_SUPPORT_EMAIL=</code></li></ul>
         <h3>Path Options</h3>
         <ul>
-          <li><strong>recommended</strong>: first-party-collector - 8 missing input(s), 3 secret input(s)</li><li><strong>lowest-input</strong>: posthog-browser - 1 missing input(s), 0 secret input(s)</li>
+          <li><strong>recommended</strong>: first-party-collector - 4 missing input(s), 3 secret input(s)</li><li><strong>lowest-input</strong>: posthog-browser - 1 missing input(s), 0 secret input(s)</li>
         </ul>
         <h3>Missing Inputs</h3>
-        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
+        <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li></ul>
         <h3>Invalid Inputs</h3>
         <p>none</p>
       </section>
@@ -419,11 +419,11 @@
           <span>needs-variables-and-secrets</span>
           <h3>First-party event collector</h3>
           <p>zero-spend-use-existing-cloudflare-free-tier</p>
-          <p>Missing inputs: 5 variable(s), 3 secret(s)</p>
+          <p>Missing inputs: 3 variable(s), 1 secret(s)</p>
           <h3>Repository Variables</h3>
-          <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
+          <ul><li><strong>CLOUDFLARE_ACCOUNT_ID</strong> missing <code>gh variable set CLOUDFLARE_ACCOUNT_ID --body &quot;$CLOUDFLARE_ACCOUNT_ID&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_R2_BUCKET</strong> configured <code>gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body &quot;$AGL_EVENT_COLLECTOR_R2_BUCKET&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS</strong> configured <code>gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body &quot;$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS&quot;</code></li><li><strong>VITE_EVENT_COLLECTOR_URL</strong> missing <code>gh variable set VITE_EVENT_COLLECTOR_URL --body &quot;$VITE_EVENT_COLLECTOR_URL&quot;</code></li><li><strong>AGL_EVENT_COLLECTOR_EXPORT_URL</strong> missing <code>gh variable set AGL_EVENT_COLLECTOR_EXPORT_URL --body &quot;$AGL_EVENT_COLLECTOR_EXPORT_URL&quot;</code></li></ul>
           <h3>Repository Secrets</h3>
-          <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
+          <ul><li><strong>CLOUDFLARE_API_TOKEN</strong> missing <code>printf &quot;%s&quot; &quot;$CLOUDFLARE_API_TOKEN&quot; | gh secret set CLOUDFLARE_API_TOKEN</code></li><li><strong>VITE_EVENT_COLLECTOR_WRITE_TOKEN</strong> configured <code>printf &quot;%s&quot; &quot;$VITE_EVENT_COLLECTOR_WRITE_TOKEN&quot; | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN</code></li><li><strong>AGL_EVENT_COLLECTOR_ADMIN_TOKEN</strong> configured <code>printf &quot;%s&quot; &quot;$AGL_EVENT_COLLECTOR_ADMIN_TOKEN&quot; | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN</code></li></ul>
           <h3>Setup Commands</h3>
           <ol><li><code>npm run autonomous:event-collector-smoke</code></li><li><code>npm run autonomous:collector-deploy-plan</code></li><li><code>./ops/github/setup-production.sh</code></li><li><code>RUN_WORKFLOWS=1 ./ops/github/setup-production.sh</code></li><li><code>npm run autonomous:readiness</code></li></ol>
           <h3>Validation Commands</h3>

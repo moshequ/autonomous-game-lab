@@ -19,18 +19,13 @@ import {
 } from 'lucide-react'
 import './App.css'
 import type { PlayableGameId } from './components/GameCanvas'
-import { acquisitionLearning } from './data/acquisitionLearning'
-import { balanceReport } from './data/balanceReport'
 import { autonomousOwnerLoop } from './data/autonomousOwnerLoop'
 import { completionLoop } from './data/completionLoop'
 import { autonomyBacklog, games } from './data/games'
-import { experimentResults } from './data/experimentResults'
 import { generatedPlayableGames } from './data/generatedPlayableGames'
-import { growthPlan } from './data/growthPlan'
 import { monetizationPlan } from './data/monetizationPlan'
 import { portfolioPolicy } from './data/portfolioPolicy'
 import { promotionDecision } from './data/promotionDecision'
-import { prototypePipeline } from './data/prototypePipeline'
 import { productionResponse } from './data/productionResponse'
 import { objectiveAudit } from './data/objectiveAudit'
 import { organicSeedLoop } from './data/organicSeedLoop'
@@ -201,6 +196,11 @@ const formatPayback = (value: number | null | undefined) =>
   typeof value === 'number' ? `${value}d` : 'not ready'
 
 type LateOpsData = {
+  acquisitionLearning: typeof import('./data/acquisitionLearning').acquisitionLearning
+  balanceReport: typeof import('./data/balanceReport').balanceReport
+  experimentResults: typeof import('./data/experimentResults').experimentResults
+  growthPlan: typeof import('./data/growthPlan').growthPlan
+  prototypePipeline: typeof import('./data/prototypePipeline').prototypePipeline
   publicRepoSecurityAudit: typeof import('./data/publicRepoSecurityAudit').publicRepoSecurityAudit
   repositoryReadiness: typeof import('./data/repositoryReadiness').repositoryReadiness
   repositoryBootstrap: typeof import('./data/repositoryBootstrap').repositoryBootstrap
@@ -971,6 +971,11 @@ function App() {
     const loadLateOpsData = async () => {
       const [
         publicRepoSecurityAuditModule,
+        acquisitionLearningModule,
+        balanceReportModule,
+        experimentResultsModule,
+        growthPlanModule,
+        prototypePipelineModule,
         repositoryReadinessModule,
         repositoryBootstrapModule,
         localEventBridgeModule,
@@ -999,6 +1004,11 @@ function App() {
         iosReleaseModule,
       ] = await Promise.all([
         import('./data/publicRepoSecurityAudit'),
+        import('./data/acquisitionLearning'),
+        import('./data/balanceReport'),
+        import('./data/experimentResults'),
+        import('./data/growthPlan'),
+        import('./data/prototypePipeline'),
         import('./data/repositoryReadiness'),
         import('./data/repositoryBootstrap'),
         import('./data/localEventBridge'),
@@ -1033,6 +1043,11 @@ function App() {
 
       setLateOpsData({
         publicRepoSecurityAudit: publicRepoSecurityAuditModule.publicRepoSecurityAudit,
+        acquisitionLearning: acquisitionLearningModule.acquisitionLearning,
+        balanceReport: balanceReportModule.balanceReport,
+        experimentResults: experimentResultsModule.experimentResults,
+        growthPlan: growthPlanModule.growthPlan,
+        prototypePipeline: prototypePipelineModule.prototypePipeline,
         repositoryReadiness: repositoryReadinessModule.repositoryReadiness,
         repositoryBootstrap: repositoryBootstrapModule.repositoryBootstrap,
         localEventBridge: localEventBridgeModule.localEventBridge,
@@ -1099,20 +1114,23 @@ function App() {
   }, [])
 
   const completionRate = Math.min(100, Math.round((snapshot.moves / snapshot.maxMoves) * 100))
-  const nextPrototype = prototypePipeline.find((item) => (item.status as string) === 'next-build')
-  const monetizationReference = nextPrototype ?? prototypePipeline[0]
+  const prototypePipelineData = lateOpsData?.prototypePipeline ?? []
+  const nextPrototype = prototypePipelineData.find((item) => (item.status as string) === 'next-build') ?? null
+  const monetizationReference = nextPrototype ?? prototypePipelineData[0] ?? null
   const activeGame = playableGames.find((game) => game.id === selectedGameId) ?? playableGames[0]
+  const growthPlanData = lateOpsData?.growthPlan ?? null
   const activeGrowthPage =
-    growthPlan.gamePages.find((game) => game.gameId === selectedGameId) ?? growthPlan.gamePages[0]
+    growthPlanData?.gamePages.find((game) => game.gameId === selectedGameId) ?? growthPlanData?.gamePages[0] ?? null
+  const balanceReportData = lateOpsData?.balanceReport ?? null
   const activeBalance =
-    balanceReport.games.find((game) => game.gameId === selectedGameId) ?? balanceReport.games[0]
+    balanceReportData?.games.find((game) => game.gameId === selectedGameId) ?? balanceReportData?.games[0] ?? null
   const promotionDecisions = promotionDecision.decisions as readonly ChannelDecision[]
   const webPromotion = promotionDecisions.find((decision) => decision.channel === 'web-pwa')
   const monetizationPromotion = promotionDecisions.find(
     (decision) => decision.channel === 'monetization',
   )
-  const randomBalance = activeBalance.strategies.find((strategy) => strategy.strategy === 'random')
-  const greedyBalance = activeBalance.strategies.find((strategy) => strategy.strategy === 'greedy')
+  const randomBalance = activeBalance?.strategies.find((strategy) => strategy.strategy === 'random') ?? null
+  const greedyBalance = activeBalance?.strategies.find((strategy) => strategy.strategy === 'greedy') ?? null
   const firstPlacement = monetizationPlan.placements[0]
   const adProviderInputPack = monetizationPlan.adProviderOwnerInputPack
   const adProviderPrimaryPath =
@@ -1133,10 +1151,11 @@ function App() {
   })
   const googlePayback = unitEconomics.storeFees.googlePlay.paybackDays
   const applePayback = unitEconomics.storeFees.iosAppStore.paybackDays
-  const topGrowthPages = [...growthPlan.gamePages]
+  const topGrowthPages = [...(growthPlanData?.gamePages ?? [])]
     .sort((a, b) => b.metrics.qualityScore - a.metrics.qualityScore)
     .slice(0, 3)
-  const topExperimentRecommendations = experimentResults.recommendations.slice(0, 3)
+  const experimentResultsData = lateOpsData?.experimentResults ?? null
+  const topExperimentRecommendations = experimentResultsData?.recommendations.slice(0, 3) ?? []
   const activeProductionActions = productionResponse.actions
     .filter((action) => ['active', 'applied', 'monitoring'].includes(action.status))
     .slice(0, 3)
@@ -1246,6 +1265,7 @@ function App() {
     ) ?? productionBlockerNextUnlockKit?.paths[0]
   const productionActivationRunnableActions =
     productionActivationData?.plannedActions.filter((action) => action.runnableNow).length ?? 0
+  const acquisitionLearningData = lateOpsData?.acquisitionLearning ?? null
   const supportChannelStatus = supportChannel.status as string
   const supportChannelRepository = supportChannel.repository.target ?? 'missing'
   const supportChannelReady = supportChannelStatus === 'support-channel-ready'
@@ -1554,7 +1574,7 @@ function App() {
   const organicSeedCostUsd = organicSeedTargetCampaign?.costUsd ?? 0
   const organicSeedSurface = organicSeedLoop.runtimeSurface.surface
   const organicSeedPlacement = organicSeedLoop.runtimeSurface.placement
-  const acquisitionCampaigns = acquisitionLearning.campaigns.slice(0, 3)
+  const acquisitionCampaigns = acquisitionLearningData?.campaigns.slice(0, 3) ?? []
   const organicSeedProgress = organicSeedTargetCampaign
     ? trafficCampaignProgress.get(organicSeedTargetCampaign.id)
     : null
@@ -3629,7 +3649,7 @@ function App() {
           </div>
           <div className="metricStrip" aria-label="Studio operating metrics">
             <div className="metricTile">
-              <strong>{games.length + prototypePipeline.length}</strong>
+              <strong>{games.length + prototypePipelineData.length}</strong>
               <span>games in pipeline</span>
             </div>
             <div className="metricTile">
@@ -4283,7 +4303,7 @@ function App() {
           </div>
 
           <div className="prototypeGrid">
-            {prototypePipeline.slice(0, 4).map((item) => (
+            {prototypePipelineData.slice(0, 4).map((item) => (
               <article className="prototypeCard" key={item.id}>
                 <div className="prototypeTopline">
                   <span className="rankBadge">#{item.rank}</span>
@@ -5855,11 +5875,11 @@ function App() {
             <div className="panelList">
               <div className="factRow">
                 <span>Status</span>
-                <strong>{experimentResults.status}</strong>
+                <strong>{experimentResultsData?.status ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Source</span>
-                <strong>{experimentResults.sourceStatus.activeSource}</strong>
+                <strong>{experimentResultsData?.sourceStatus.activeSource ?? 'loading'}</strong>
               </div>
               {topExperimentRecommendations.map((recommendation) => (
                 <div className="backlogRow" key={recommendation.experiment}>
@@ -6264,7 +6284,7 @@ function App() {
               </div>
               <div className="factRow">
                 <span>Android cost gate</span>
-                <strong>${monetizationReference.distribution.googlePlay.estimatedCostUsd}</strong>
+                <strong>${monetizationReference?.distribution.googlePlay.estimatedCostUsd ?? '0.00'}</strong>
               </div>
               <div className="factRow">
                 <span>Google payback</span>
@@ -6272,7 +6292,7 @@ function App() {
               </div>
               <div className="factRow">
                 <span>iOS cost gate</span>
-                <strong>${monetizationReference.distribution.iosAppStore.estimatedCostUsd}/yr</strong>
+                <strong>${monetizationReference?.distribution.iosAppStore.estimatedCostUsd ?? '0.00'}/yr</strong>
               </div>
               <div className="factRow">
                 <span>iOS release</span>
@@ -6340,15 +6360,15 @@ function App() {
             <div className="panelList">
               <div className="factRow">
                 <span>Status</span>
-                <strong>{growthPlan.status}</strong>
+                <strong>{growthPlanData?.status ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Game pages</span>
-                <strong>{growthPlan.gamePages.length}</strong>
+                <strong>{growthPlanData?.gamePages.length ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Optimized pages</span>
-                <strong>{growthPlan.optimization?.optimizedGames ?? 0}</strong>
+                <strong>{growthPlanData?.optimization?.optimizedGames ?? 'loading'}</strong>
               </div>
               <div className="trafficSeedingPanel" aria-label="Traffic Seeding">
                 <div className="factRow">
@@ -6487,19 +6507,19 @@ function App() {
               <div className="trafficSeedingPanel" aria-label="Acquisition Learning">
                 <div className="factRow">
                   <span>Acquisition Learning</span>
-                  <strong>{acquisitionLearning.status}</strong>
+                  <strong>{acquisitionLearningData?.status ?? 'loading'}</strong>
                 </div>
                 <div className="factRow">
                   <span>Source</span>
                   <strong>
-                    {acquisitionLearning.sourceStatus.rawAttributionAvailable
+                    {acquisitionLearningData?.sourceStatus.rawAttributionAvailable
                       ? 'attributed'
-                      : acquisitionLearning.sourceStatus.analyticsSource}
+                      : acquisitionLearningData?.sourceStatus.analyticsSource ?? 'loading'}
                   </strong>
                 </div>
                 <div className="factRow">
                   <span>Attributed starts</span>
-                  <strong>{acquisitionLearning.summary.totalAttributedStarts}</strong>
+                  <strong>{acquisitionLearningData?.summary.totalAttributedStarts ?? 'loading'}</strong>
                 </div>
                 <div className="factRow">
                   <span>Local starts</span>
@@ -6507,11 +6527,11 @@ function App() {
                 </div>
                 <div className="factRow">
                   <span>Public evidence</span>
-                  <strong>{acquisitionLearning.summary.supportingAggregateEvidenceNotes} notes</strong>
+                  <strong>{acquisitionLearningData?.summary.supportingAggregateEvidenceNotes ?? 'loading'} notes</strong>
                 </div>
                 <div className="factRow">
                   <span>Next focus</span>
-                  <strong>{acquisitionLearning.summary.featuredGameId ?? 'collect data'}</strong>
+                  <strong>{acquisitionLearningData?.summary.featuredGameId ?? 'collect data'}</strong>
                 </div>
                 {acquisitionCampaigns.map((campaign) => (
                   <div className="backlogRow" key={campaign.id}>
@@ -6545,11 +6565,11 @@ function App() {
             <div className="panelList">
               <div className="factRow">
                 <span>Game</span>
-                <strong>{activeBalance.title}</strong>
+                <strong>{activeBalance?.title ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Target</span>
-                <strong>{activeBalance.targetScore}</strong>
+                <strong>{activeBalance?.targetScore ?? 'loading'}</strong>
               </div>
               <div className="factRow">
                 <span>Random bot</span>
@@ -6561,7 +6581,7 @@ function App() {
               </div>
               <div className="factRow">
                 <span>Verdict</span>
-                <strong>{activeBalance.recommendations[0]?.severity}</strong>
+                <strong>{activeBalance?.recommendations[0]?.severity ?? 'loading'}</strong>
               </div>
             </div>
           </div>

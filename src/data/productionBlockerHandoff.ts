@@ -8,7 +8,7 @@ export const productionBlockerHandoff = {
     "zeroCostFirstActions": 2,
     "missingEnv": 7,
     "missingEnvironmentItems": 7,
-    "missingSecrets": 5,
+    "missingSecrets": 3,
     "productGateBlockers": 3,
     "publicSupportChannelReady": false,
     "storeSupportEmailNeededNow": false,
@@ -98,11 +98,11 @@ export const productionBlockerHandoff = {
     "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
     "lowestInputMissingInputCount": 1,
-    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
+    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
     "commandCount": 7,
     "validationCommandCount": 4,
-    "missingVariableCount": 6,
-    "missingSecretCount": 3,
+    "missingVariableCount": 4,
+    "missingSecretCount": 1,
     "controls": {
       "zeroPaidSpend": true,
       "noSecretValues": true,
@@ -120,9 +120,9 @@ export const productionBlockerHandoff = {
         "status": "needs-variables-and-secrets",
         "costMode": "zero-spend-use-existing-cloudflare-free-tier",
         "ownerInputRequired": true,
-        "missingVariableCount": 5,
-        "missingSecretCount": 3,
-        "missingInputCount": 8,
+        "missingVariableCount": 3,
+        "missingSecretCount": 1,
+        "missingInputCount": 4,
         "commandCount": 5,
         "validationCommandCount": 4,
         "requiredVariables": [
@@ -138,16 +138,16 @@ export const productionBlockerHandoff = {
             "id": "var-agl-event-collector-r2-bucket",
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configured": false,
-            "valueSource": "missing",
+            "configured": true,
+            "valueSource": "github-variable",
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
             "id": "var-agl-event-collector-allowed-origins",
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configured": false,
-            "valueSource": "missing",
+            "configured": true,
+            "valueSource": "github-variable",
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -181,16 +181,16 @@ export const productionBlockerHandoff = {
             "id": "secret-vite-event-collector-write-token",
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": false,
-            "valueSource": "missing",
+            "configured": true,
+            "valueSource": "github-secret",
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
             "id": "secret-agl-event-collector-admin-token",
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": false,
-            "valueSource": "missing",
+            "configured": true,
+            "valueSource": "github-secret",
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -267,11 +267,11 @@ export const productionBlockerHandoff = {
       "id": "posthog-browser",
       "missingInputCount": 1,
       "missingSecretCount": 0,
-      "manualInputReduction": 7,
+      "manualInputReduction": 3,
       "noSecretsRequired": true
     },
-    "missingVariableCount": 5,
-    "missingSecretCount": 3,
+    "missingVariableCount": 3,
+    "missingSecretCount": 1,
     "setupCommands": [
       "npm run autonomous:event-collector-smoke",
       "npm run autonomous:collector-deploy-plan",

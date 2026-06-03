@@ -1,6 +1,6 @@
 # Retention Loop
 
-Generated: 2026-06-02T13:31:29.375Z
+Generated: 2026-06-03T01:22:58.577Z
 Status: retention-loop-ready
 Daily challenge: Market Pulse (market-pulse)
 D1 retention: 17%
@@ -61,7 +61,7 @@ Replay rate: 31%
 - Status: armed
 - CTA: Copy return link
 - Intent date: 2026-06-03
-- Campaign: gate-sample-20260602-d1Retention
+- Campaign: gate-sample-20260603-d1Retention
 - Telemetry: daily_return_link_copied
 
 ## Return Calendar Reminder
@@ -69,19 +69,19 @@ Replay rate: 31%
 - Status: armed
 - CTA: Save reminder
 - Intent date: 2026-06-03
-- Campaign: gate-sample-20260602-d1Retention
+- Campaign: gate-sample-20260603-d1Retention
 - Telemetry: daily_return_calendar_downloaded
 
 ## D1 Sample Policy
 
 - Status: collecting-sample
-- Campaign: gate-sample-20260602-d1Retention
-- Play path: /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260602-d1Retention
+- Campaign: gate-sample-20260603-d1Retention
+- Play path: /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention
 - Prompt views needed: 10
 - Observed retained starts needed: 1
 - Evidence: waiting-for-player-export
 - Downloads scan: no-evidence-found; cooling down false
-- Next action: Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260602-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).
+- Next action: Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).
 
 ## Guardrails
 
@@ -95,6 +95,6 @@ Replay rate: 31%
 ## Next Actions
 
 - Improve D1 retention from 17% toward 18% with local streak prompts.
-- Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260602-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).
+- Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).
 - Improve replay rate from 31% toward 35% with the daily return mission.
 - Do not use push notifications, accounts, paid rewards, or ads for retention until gates pass.

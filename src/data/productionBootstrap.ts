@@ -1,10 +1,10 @@
 export const productionBootstrap = {
   "status": "production-bootstrap-ready",
-  "mode": "waiting-for-external-credentials",
+  "mode": "can-apply-configured-actions",
   "summary": {
-    "readyGroups": 3,
+    "readyGroups": 7,
     "totalGroups": 12,
-    "externalBlockers": 18
+    "externalBlockers": 14
   }
 } as const
 

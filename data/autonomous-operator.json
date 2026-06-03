@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T13:32:54.729Z",
+  "generatedAt": "2026-06-03T01:25:21.557Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -25,8 +25,6 @@
   },
   "selectedRejection": null,
   "eligibleActionIds": [
-    "refresh-autonomous-cadence",
-    "refresh-autonomous-self-update",
     "seed-portfolio-traffic"
   ],
   "blockedActions": [
@@ -44,15 +42,15 @@
     },
     {
       "id": "refresh-autonomous-cadence",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:cadence",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:self-update",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -230,9 +228,9 @@
     },
     {
       "id": "deploy-web-pwa",
-      "status": "blocked-needs-repository-channel",
+      "status": "ready-when-repository-pages-enabled",
       "command": "Run the Web PWA Deploy workflow after GitHub Pages is enabled for the repository.",
-      "reason": "status-blocked-needs-repository-channel"
+      "reason": "status-ready-when-repository-pages-enabled"
     },
     {
       "id": "collect-live-events",
