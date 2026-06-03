@@ -580,7 +580,7 @@ export const releaseCandidate = {
       {
         "path": "owner-runtime-config.json",
         "bytes": 1030,
-        "sha256": "e8cc9038972522ad4be74fc106aecfbb0bde1ff39a0be166f05e9f17f52ecc28",
+        "sha256": "656e85efbee473865d1cccf4989a255769930e72a900b30aca34d7751d5b4866",
         "contentType": "application/json; charset=utf-8",
         "cacheControl": "public, max-age=3600"
       },
