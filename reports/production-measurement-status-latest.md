@@ -1,11 +1,11 @@
 # Production Measurement Status
 
-Generated: 2026-06-03T01:25:25.053Z
+Generated: 2026-06-03T01:31:58.101Z
 Status: production-measurement-blocked
 Active path: local-browser-buffer
-Live candidate: pwa-3e804a980eae
+Live candidate: pwa-1cfee0c2db84
 Exact live manifest: /release-candidate.json
-Source hash: 09901c46d5f3
+Source hash: df6c7151bc6d
 
 ## Analytics
 

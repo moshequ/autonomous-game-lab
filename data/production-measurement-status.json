@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-03T01:25:25.053Z",
-  "sourceDataHash": "09901c46d5f3",
+  "generatedAt": "2026-06-03T01:31:58.101Z",
+  "sourceDataHash": "df6c7151bc6d",
   "status": "production-measurement-blocked",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-3e804a980eae",
+  "liveCandidate": "pwa-1cfee0c2db84",
   "liveRelease": {
-    "syncedCandidateId": "pwa-3e804a980eae",
-    "syncedArtifactCandidateId": "pwa-3e804a980eae",
+    "syncedCandidateId": "pwa-1cfee0c2db84",
+    "syncedArtifactCandidateId": "pwa-1cfee0c2db84",
     "exactManifestPath": "/release-candidate.json",
     "runtimeManifestCheck": "read-only-browser-fetch",
     "staticJsonMayLagBehindLatestDeploy": true,
@@ -2936,7 +2936,7 @@
       "missingInputs": 4,
       "invalidInputs": 0,
       "repositoryConfiguredInputs": 4,
-      "localAvailableInputs": 0,
+      "localAvailableInputs": 4,
       "localUrlValidationsPassed": 0,
       "setupCanRun": false,
       "lowestInputMissingInputs": 1,
@@ -3012,11 +3012,9 @@
           "envName": "VITE_POSTHOG_KEY",
           "configuredInRepository": false,
           "availableInShell": false,
-          "availableInLocalEnvFile": true,
+          "availableInLocalEnvFile": false,
           "availableLocally": false,
-          "localEnvFiles": [
-            ".env.production.local"
-          ],
+          "localEnvFiles": [],
           "ready": false,
           "validation": {
             "kind": "posthog-public-key",
@@ -3100,7 +3098,7 @@
           "ready": false,
           "configuredInRepository": false,
           "availableLocally": false,
-          "availableInLocalEnvFile": true,
+          "availableInLocalEnvFile": false,
           "validation": {
             "kind": "posthog-public-key",
             "status": "not-checked-missing-input",
@@ -3117,7 +3115,7 @@
           "ready": false,
           "configuredInRepository": false,
           "availableLocally": false,
-          "availableInLocalEnvFile": true,
+          "availableInLocalEnvFile": false,
           "validation": {
             "kind": "email-shape",
             "status": "not-checked-missing-input",
@@ -3288,7 +3286,7 @@
           "variableInputs": 5,
           "secretInputs": 3,
           "repositoryConfiguredInputs": 4,
-          "localAvailableInputs": 0,
+          "localAvailableInputs": 4,
           "setupCanRun": false
         },
         "inputs": [
@@ -3321,16 +3319,22 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "configuredInRepository": true,
-            "availableInShell": false,
+            "availableInShell": true,
             "availableInLocalEnvFile": false,
-            "availableLocally": false,
+            "availableLocally": true,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "redacted-repository-presence",
-              "status": "not-inspected-repository-configured",
-              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
-              "checks": []
+              "kind": "variable-presence",
+              "status": "pass",
+              "detail": "Variable presence is checked without storing its content.",
+              "checks": [
+                {
+                  "id": "non-empty-local-input",
+                  "passed": true,
+                  "detail": "AGL_EVENT_COLLECTOR_R2_BUCKET is available locally."
+                }
+              ]
             },
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
@@ -3339,16 +3343,22 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "configuredInRepository": true,
-            "availableInShell": false,
+            "availableInShell": true,
             "availableInLocalEnvFile": false,
-            "availableLocally": false,
+            "availableLocally": true,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "redacted-repository-presence",
-              "status": "not-inspected-repository-configured",
-              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
-              "checks": []
+              "kind": "variable-presence",
+              "status": "pass",
+              "detail": "Variable presence is checked without storing its content.",
+              "checks": [
+                {
+                  "id": "non-empty-local-input",
+                  "passed": true,
+                  "detail": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS is available locally."
+                }
+              ]
             },
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
@@ -3439,16 +3449,22 @@
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "configuredInRepository": true,
-            "availableInShell": false,
+            "availableInShell": true,
             "availableInLocalEnvFile": false,
-            "availableLocally": false,
+            "availableLocally": true,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "redacted-repository-presence",
-              "status": "not-inspected-repository-configured",
-              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
-              "checks": []
+              "kind": "secret-presence",
+              "status": "pass",
+              "detail": "Secret presence is checked without inspecting or storing its content.",
+              "checks": [
+                {
+                  "id": "non-empty-local-input",
+                  "passed": true,
+                  "detail": "VITE_EVENT_COLLECTOR_WRITE_TOKEN is available locally."
+                }
+              ]
             },
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
@@ -3457,16 +3473,22 @@
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "configuredInRepository": true,
-            "availableInShell": false,
+            "availableInShell": true,
             "availableInLocalEnvFile": false,
-            "availableLocally": false,
+            "availableLocally": true,
             "localEnvFiles": [],
             "ready": true,
             "validation": {
-              "kind": "redacted-repository-presence",
-              "status": "not-inspected-repository-configured",
-              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
-              "checks": []
+              "kind": "secret-presence",
+              "status": "pass",
+              "detail": "Secret presence is checked without inspecting or storing its content.",
+              "checks": [
+                {
+                  "id": "non-empty-local-input",
+                  "passed": true,
+                  "detail": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN is available locally."
+                }
+              ]
             },
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
@@ -3544,11 +3566,9 @@
             "envName": "VITE_POSTHOG_KEY",
             "configuredInRepository": false,
             "availableInShell": false,
-            "availableInLocalEnvFile": true,
+            "availableInLocalEnvFile": false,
             "availableLocally": false,
-            "localEnvFiles": [
-              ".env.production.local"
-            ],
+            "localEnvFiles": [],
             "ready": false,
             "validation": {
               "kind": "posthog-public-key",
