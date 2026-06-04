@@ -1,5 +1,5 @@
 export const firstMoveCoach = {
-  "generatedAt": "2026-06-02T13:27:12.886Z",
+  "generatedAt": "2026-06-04T03:28:53.660Z",
   "sourceDataHash": "faf45bdf9a45",
   "status": "first-move-coach-ready",
   "sourceStatus": {

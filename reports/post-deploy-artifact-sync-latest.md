@@ -1,6 +1,6 @@
 # Post-Deploy Artifact Sync
 
-Generated: 2026-06-03T01:22:59.643Z
+Generated: 2026-06-04T03:28:43.028Z
 Status: post-deploy-artifact-sync-passed
 Repository: moshequ/autonomous-game-lab
 Workflow: web-pwa-deploy.yml
@@ -27,7 +27,7 @@ Deployment freshness: current-head-not-deployed
 
 ## Deployment Freshness
 
-- currentHeadSha: 0068c1c05f25494f8db70c30684ecfa2039f689b
+- currentHeadSha: 7482ce011f3a4014c33ce6915e11dc536df4fe42
 - selectedRunHeadSha: 0c4b8cd2ddd1923872dadae501985738c84eb1a5
 - currentHeadDeployed: false
 - currentHeadQueuedOrRunning: false
@@ -41,7 +41,7 @@ Deployment freshness: current-head-not-deployed
 - pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26537345764.
 - pass: strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
-- monitor: deployment-freshness - Current main 0068c1c05f25 is not the latest strict deployed artifact; freshness current-head-not-deployed.
+- monitor: deployment-freshness - Current main 7482ce011f3a is not the latest strict deployed artifact; freshness current-head-not-deployed.
 
 ## Controls
 
@@ -60,6 +60,7 @@ Deployment freshness: current-head-not-deployed
 
 ## Next Actions
 
+- Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.
 - Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.
 - Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.
 - Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass.

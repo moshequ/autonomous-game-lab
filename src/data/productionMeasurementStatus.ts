@@ -1,5 +1,5 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-06-03T13:24:08.625Z",
+  "generatedAt": "2026-06-04T03:30:40.088Z",
   "status": "production-measurement-blocked",
   "activePath": "local-browser-buffer",
   "liveCandidate": "pwa-3e804a980eae",
@@ -47,15 +47,15 @@ export const productionMeasurementStatus = {
       "status": "waiting-on-owner-input",
       "nextUnlockId": "production-analytics-browser",
       "recommendedPathId": "first-party-collector",
-      "missingVariableCount": 3,
-      "missingSecretCount": 1
+      "missingVariableCount": 5,
+      "missingSecretCount": 3
     }
   },
   "ownerUnlockPreflight": {
     "status": "owner-unlock-preflight-waiting-on-input",
     "readyForSetup": false,
     "lowestInputPathId": "posthog-browser",
-    "missingInputCount": 4,
+    "missingInputCount": 8,
     "invalidInputCount": 0,
     "lowestInputMissingInputCount": 1,
     "lowestInputSecretInputCount": 0,

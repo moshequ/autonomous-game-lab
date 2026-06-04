@@ -1,8 +1,8 @@
 export const autonomousOwnerLoop = {
   "status": "owner-loop-ready",
-  "mode": "zero-spend-web-ready",
+  "mode": "guarded-local-automation",
   "autonomyScore": {
-    "percent": 98
+    "percent": 93
   },
   "controls": {
     "externalAccountInterventionRequired": true
@@ -13,7 +13,7 @@ export const autonomousOwnerLoop = {
   "executionBackoff": {
     "status": "ready",
     "heldActionCount": 0,
-    "executableWithoutRepeatCount": 9,
+    "executableWithoutRepeatCount": 8,
     "nextResumeAt": null,
     "nextResumeInHours": null,
     "heldActionIds": []
@@ -23,8 +23,8 @@ export const autonomousOwnerLoop = {
     "recommendedPathId": "first-party-collector",
     "lowestInputPathId": "posthog-browser",
     "ownerActionRequired": 5,
-    "missingVariableCount": 4,
-    "missingSecretCount": 1,
+    "missingVariableCount": 6,
+    "missingSecretCount": 3,
     "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
     "publicStatusPage": "/measurement-status.html"
@@ -46,8 +46,8 @@ export const autonomousOwnerLoop = {
       "priority": "primary",
       "nextUnlockId": "support-contact",
       "publicStatusPage": "/measurement-status.html",
-      "missingVariableCount": 4,
-      "missingSecretCount": 1
+      "missingVariableCount": 6,
+      "missingSecretCount": 3
     },
     {
       "id": "store-readiness",

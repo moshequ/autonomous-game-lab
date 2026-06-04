@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T13:24:30.442Z",
+  "generatedAt": "2026-06-04T03:28:54.675Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
@@ -25,15 +25,13 @@
   },
   "selectedRejection": null,
   "eligibleActionIds": [
+    "refresh-autonomous-cadence",
+    "refresh-autonomous-self-update",
     "seed-portfolio-traffic",
     "refresh-organic-seed-loop",
-    "refresh-support-feedback",
-    "measure-pwa-install-loop",
+    "optimize-daily-retention",
     "refresh-completion-loop",
-    "refresh-replay-loop",
-    "bootstrap-production-setup",
-    "refresh-objective-audit",
-    "optimize-store-listing"
+    "refresh-replay-loop"
   ],
   "blockedActions": [
     {
@@ -50,15 +48,15 @@
     },
     {
       "id": "refresh-autonomous-cadence",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:cadence",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-autonomous-self-update",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:self-update",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-organic-seed-loop",
@@ -68,21 +66,21 @@
     },
     {
       "id": "refresh-support-feedback",
-      "status": "armed",
-      "command": "npm run autonomous:support-feedback",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "optimize-daily-retention",
       "status": "monitor",
-      "command": "npm run autonomous:retention",
+      "command": "npm run autonomous:support-feedback",
       "reason": "status-monitor"
     },
     {
-      "id": "measure-pwa-install-loop",
+      "id": "optimize-daily-retention",
       "status": "armed",
-      "command": "npm run autonomous:pwa-install",
+      "command": "npm run autonomous:retention",
       "reason": "not-selected-this-run"
+    },
+    {
+      "id": "measure-pwa-install-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:pwa-install",
+      "reason": "status-monitor"
     },
     {
       "id": "check-performance-budget",
@@ -176,9 +174,9 @@
     },
     {
       "id": "bootstrap-production-setup",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "activate-production-when-configured",
@@ -212,15 +210,15 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:objective-audit",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "optimize-store-listing",
-      "status": "armed",
+      "status": "monitor",
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "not-selected-this-run"
+      "reason": "status-monitor"
     },
     {
       "id": "prepare-android-signing",

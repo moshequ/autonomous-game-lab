@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-03T01:22:59.643Z",
+  "generatedAt": "2026-06-04T03:28:43.028Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
     "loaded": true,
@@ -78,29 +78,29 @@
   },
   "deploymentFreshness": {
     "status": "current-head-not-deployed",
-    "currentHeadSha": "0068c1c05f25494f8db70c30684ecfa2039f689b",
-    "currentHeadParentSha": "518312fc821def279811cee0689c8151b20727f6",
+    "currentHeadSha": "7482ce011f3a4014c33ce6915e11dc536df4fe42",
+    "currentHeadParentSha": "c4ae6e95b0ee1e10d3d39f0a4804461dcadca21e",
     "currentBranch": "main",
-    "currentHeadSubject": "Autonomy: harden owner unlock and icon generation",
+    "currentHeadSubject": "Autonomy: refresh traffic sample attribution evidence",
     "selectedRunHeadSha": "0c4b8cd2ddd1923872dadae501985738c84eb1a5",
     "selectedRunHeadMatchesCurrent": false,
     "selectedRunHeadMatchesDeploySource": false,
     "currentHeadIsPostDeployEvidenceCommit": false,
     "currentHeadDeployed": false,
-    "deploySourceHeadSha": "0068c1c05f25494f8db70c30684ecfa2039f689b",
+    "deploySourceHeadSha": "7482ce011f3a4014c33ce6915e11dc536df4fe42",
     "deploySourceDeployed": false,
     "currentHeadQueuedOrRunning": false,
     "currentHeadSuccessfulRunId": null,
     "currentHeadActiveRunId": null,
-    "latestRunId": 26849511678,
-    "latestRunStatus": "completed",
-    "latestRunConclusion": "skipped",
-    "latestRunHeadSha": "4f8be20222d9a2f41643b542a9b4c1f2ff44b05e",
+    "latestRunId": null,
+    "latestRunStatus": null,
+    "latestRunConclusion": null,
+    "latestRunHeadSha": null,
     "liveMatchesCurrentLocalCandidate": false,
-    "liveCandidateId": "pwa-3e804a980eae",
-    "localCandidateId": "pwa-2f5ea05e99ce",
-    "liveAggregateHash": "3e804a980eaecdb8b61c4265bf63efd871aa5a5fcea1c8b9f2fd3de9c8425860",
-    "localAggregateHash": "2f5ea05e99ce506214fedbe34aff83d5eaa97f3a848c3155a0f6aab70c172040",
+    "liveCandidateId": null,
+    "localCandidateId": "pwa-96de0f0f6dd8",
+    "liveAggregateHash": null,
+    "localAggregateHash": "96de0f0f6dd8d9682562bdf36aafc9c861bf5dd35e2fbb3c984ec6c99b1e2b5e",
     "workflowRunListAvailable": true
   },
   "artifact": {
@@ -221,10 +221,11 @@
     {
       "id": "deployment-freshness",
       "status": "monitor",
-      "detail": "Current main 0068c1c05f25 is not the latest strict deployed artifact; freshness current-head-not-deployed."
+      "detail": "Current main 7482ce011f3a is not the latest strict deployed artifact; freshness current-head-not-deployed."
     }
   ],
   "nextActions": [
+    "Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.",
     "Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.",
     "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.",
     "Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass."

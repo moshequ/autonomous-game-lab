@@ -2,10 +2,10 @@ export const objectiveAudit = {
   "status": "objective-in-progress",
   "summary": {
     "requirements": 8,
-    "met": 6,
+    "met": 5,
     "prepared": 2,
-    "incomplete": 0,
-    "externalBlockers": 15,
+    "incomplete": 1,
+    "externalBlockers": 17,
     "productBlockers": 7
   },
   "completion": {
