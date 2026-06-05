@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-04T03:28:52.962Z",
-  "sourceDataHash": "dc6b89060676",
+  "generatedAt": "2026-06-05T02:12:54.955Z",
+  "sourceDataHash": "9bc27de5d3b2",
   "status": "production-bootstrap-ready",
   "mode": "waiting-for-external-credentials",
   "envFiles": {
@@ -99,7 +99,7 @@
     "totalVariables": 24,
     "configuredSecrets": 3,
     "totalSecrets": 8,
-    "externalBlockers": 17
+    "externalBlockers": 20
   },
   "stages": [
     {
@@ -258,6 +258,9 @@
       "command": "gh workflow run android-twa-release.yml",
       "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
       "requires": [
+        "native-package-ready: Native package is blocked-draft-ready.",
+        "store-package-draft: Store package is blocked; data safety is draft-ready.",
+        "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are not available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -422,6 +425,9 @@
       "command": "gh workflow run android-twa-release.yml",
       "evidence": "Native package blocked-draft-ready; Android release blocked-needs-host-signing-play.",
       "requires": [
+        "native-package-ready: Native package is blocked-draft-ready.",
+        "store-package-draft: Store package is blocked; data safety is draft-ready.",
+        "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are not available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -1535,6 +1541,18 @@
     {
       "source": "store-compliance",
       "blocker": "apple-developer-account: Apple Developer account remains deferred until iOS spend is justified."
+    },
+    {
+      "source": "android-release",
+      "blocker": "native-package-ready: Native package is blocked-draft-ready."
+    },
+    {
+      "source": "android-release",
+      "blocker": "store-package-draft: Store package is blocked; data safety is draft-ready."
+    },
+    {
+      "source": "android-release",
+      "blocker": "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json."
     },
     {
       "source": "android-release",

@@ -1,8 +1,8 @@
 # Store Readiness
 
-Generated: 2026-06-04T03:28:32.568Z
+Generated: 2026-06-05T02:12:56.931Z
 Status: store-readiness-prepared-external-blockers
-Source hash: 36b23eb36f11
+Source hash: c5e090e648ed
 
 ## Summary
 
@@ -152,6 +152,9 @@ Source hash: 36b23eb36f11
 - store-compliance: support-contact: Production support email is required before public store submission.
 - store-compliance: google-play-account: Google Play developer account must be connected before Android submission.
 - store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.
+- android: native-package-ready: Native package is blocked-draft-ready.
+- android: store-package-draft: Store package is blocked; data safety is draft-ready.
+- android: asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.
 - android: google-play-account: Google Play account is not connected.
 - android: play-service-account: Google Play service account upload credentials are not available to CI.
 - ios: support-contact: Production support email is required before public store submission.

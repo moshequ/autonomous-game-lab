@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-04T03:28:00.814Z",
-  "sourceDataHash": "75e8c82d5372",
+  "generatedAt": "2026-06-05T02:12:54.563Z",
+  "sourceDataHash": "58768a958148",
   "status": "product-gate-sample-plan-ready",
   "sourceStatus": {
     "analyticsSource": "fixture-sample",
@@ -16,7 +16,7 @@
     "primaryGateId": "firstGameCompletion",
     "fastestGateId": "d1Retention",
     "defaultRouteGateId": "firstGameCompletion",
-    "defaultRouteCampaignId": "gate-sample-20260604-firstGameCompletion",
+    "defaultRouteCampaignId": "gate-sample-20260605-firstGameCompletion",
     "totalPromptViewsNeeded": 70,
     "totalObservedSuccessesNeeded": 139,
     "sampleReadyCount": 0,
@@ -29,7 +29,7 @@
     "returnHandoffMissionCount": 1,
     "downloadsScanStatus": "no-evidence-found",
     "downloadsScanCoolingDown": false,
-    "downloadsScanNextRecommendedAt": "2026-05-22T17:53:13.086Z",
+    "downloadsScanNextRecommendedAt": "2026-06-05T02:12:54.563Z",
     "nextOwnerAction": "collect-gate-sample-local-drops"
   },
   "downloadsScan": {
@@ -39,16 +39,16 @@
     "evidenceReadyNow": false,
     "lastScanAt": "2026-05-22T13:53:13.086Z",
     "lastScanStatus": "no-evidence-found",
-    "scanAgeHours": 301.58,
+    "scanAgeHours": 324.33,
     "cooldownRemainingHours": 0,
-    "nextRecommendedScanAt": "2026-05-22T17:53:13.086Z"
+    "nextRecommendedScanAt": "2026-06-05T02:12:54.563Z"
   },
   "publicSamplePage": {
     "path": "/gate-sample.html",
     "missionCount": 3,
-    "primaryCampaignId": "gate-sample-20260604-firstGameCompletion",
-    "fastestCampaignId": "gate-sample-20260604-d1Retention",
-    "defaultRouteCampaignId": "gate-sample-20260604-firstGameCompletion",
+    "primaryCampaignId": "gate-sample-20260605-firstGameCompletion",
+    "fastestCampaignId": "gate-sample-20260605-d1Retention",
+    "defaultRouteCampaignId": "gate-sample-20260605-firstGameCompletion",
     "defaultRoute": {
       "status": "active",
       "gateId": "firstGameCompletion",
@@ -56,8 +56,8 @@
       "title": "Harbor Rings",
       "ownerLoop": "completion-loop",
       "gameId": "harbor-rings",
-      "campaignId": "gate-sample-20260604-firstGameCompletion",
-      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260604-firstGameCompletion",
+      "campaignId": "gate-sample-20260605-firstGameCompletion",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-firstGameCompletion",
       "sampleRole": "primary-bottleneck",
       "evidenceStatus": "waiting-for-player-export",
       "neededPromptViews": 30,
@@ -109,14 +109,14 @@
     "id": "zero-spend-product-gate-evidence-sprint",
     "title": "Zero-spend product gate evidence sprint",
     "status": "ready-for-player-invite-sprint",
-    "sprintDate": "2026-06-04",
+    "sprintDate": "2026-06-05",
     "durationDays": 2,
     "primaryRouteId": "gate-sample-firstGameCompletion",
     "fastestRouteId": "gate-sample-d1Retention",
     "defaultRouteId": "gate-sample-firstGameCompletion",
-    "primaryCampaignId": "gate-sample-20260604-firstGameCompletion",
-    "fastestCampaignId": "gate-sample-20260604-d1Retention",
-    "defaultCampaignId": "gate-sample-20260604-firstGameCompletion",
+    "primaryCampaignId": "gate-sample-20260605-firstGameCompletion",
+    "fastestCampaignId": "gate-sample-20260605-d1Retention",
+    "defaultCampaignId": "gate-sample-20260605-firstGameCompletion",
     "publicSamplePage": "/gate-sample.html",
     "measurementStatusPage": "/measurement-status.html",
     "totals": {
@@ -137,8 +137,8 @@
         "label": "First game completion",
         "gameId": "harbor-rings",
         "title": "Harbor Rings",
-        "campaignId": "gate-sample-20260604-firstGameCompletion",
-        "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260604-firstGameCompletion",
+        "campaignId": "gate-sample-20260605-firstGameCompletion",
+        "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-firstGameCompletion",
         "publicSamplePage": "/gate-sample.html",
         "neededPromptViews": 30,
         "neededObservedSuccesses": 128,
@@ -170,8 +170,8 @@
         "label": "Replay rate",
         "gameId": "harbor-rings",
         "title": "Harbor Rings",
-        "campaignId": "gate-sample-20260604-replayRate",
-        "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260604-replayRate",
+        "campaignId": "gate-sample-20260605-replayRate",
+        "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-replayRate",
         "publicSamplePage": "/gate-sample.html",
         "neededPromptViews": 30,
         "neededObservedSuccesses": 10,
@@ -203,8 +203,8 @@
         "label": "D1 retention",
         "gameId": "market-pulse",
         "title": "Market Pulse",
-        "campaignId": "gate-sample-20260604-d1Retention",
-        "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260604-d1Retention",
+        "campaignId": "gate-sample-20260605-d1Retention",
+        "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention",
         "publicSamplePage": "/gate-sample.html",
         "neededPromptViews": 10,
         "neededObservedSuccesses": 1,
@@ -215,13 +215,13 @@
         "latencyDays": 1,
         "sameSessionPlayable": false,
         "returnHandoffRequired": true,
-        "returnIntentDate": "2026-06-04",
-        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260604-d1Retention&return_intent=2026-06-04",
+        "returnIntentDate": "2026-06-06",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention&return_intent=2026-06-06",
         "followUpWindow": {
-          "date": "2026-06-04",
+          "date": "2026-06-06",
           "dayOffset": 1,
           "action": "player-initiated-return-session",
-          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260604-d1Retention&return_intent=2026-06-04"
+          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention&return_intent=2026-06-06"
         },
         "controls": {
           "zeroPaidSpend": true,
@@ -235,48 +235,48 @@
       }
     ],
     "schedule": {
-      "startDate": "2026-06-04",
-      "endDate": "2026-06-05",
+      "startDate": "2026-06-05",
+      "endDate": "2026-06-06",
       "startActions": [
         {
-          "date": "2026-06-04",
+          "date": "2026-06-05",
           "dayOffset": 0,
           "routeId": "gate-sample-firstGameCompletion",
-          "campaignId": "gate-sample-20260604-firstGameCompletion",
+          "campaignId": "gate-sample-20260605-firstGameCompletion",
           "gateId": "firstGameCompletion",
-          "path": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260604-firstGameCompletion",
+          "path": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-firstGameCompletion",
           "minimumCountedRunsNeeded": 128,
           "action": "share-player-initiated-sample-route"
         },
         {
-          "date": "2026-06-04",
+          "date": "2026-06-05",
           "dayOffset": 0,
           "routeId": "gate-sample-replayRate",
-          "campaignId": "gate-sample-20260604-replayRate",
+          "campaignId": "gate-sample-20260605-replayRate",
           "gateId": "replayRate",
-          "path": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260604-replayRate",
+          "path": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-replayRate",
           "minimumCountedRunsNeeded": 30,
           "action": "share-player-initiated-sample-route"
         },
         {
-          "date": "2026-06-04",
+          "date": "2026-06-05",
           "dayOffset": 0,
           "routeId": "gate-sample-d1Retention",
-          "campaignId": "gate-sample-20260604-d1Retention",
+          "campaignId": "gate-sample-20260605-d1Retention",
           "gateId": "d1Retention",
-          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260604-d1Retention",
+          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention",
           "minimumCountedRunsNeeded": 10,
           "action": "share-player-initiated-sample-route"
         }
       ],
       "followUps": [
         {
-          "date": "2026-06-04",
+          "date": "2026-06-06",
           "dayOffset": 1,
           "action": "player-initiated-return-session",
-          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260604-d1Retention&return_intent=2026-06-04",
+          "path": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention&return_intent=2026-06-06",
           "routeId": "gate-sample-d1Retention",
-          "campaignId": "gate-sample-20260604-d1Retention",
+          "campaignId": "gate-sample-20260605-d1Retention",
           "gateId": "d1Retention",
           "minimumCountedRunsNeeded": 10
         }
@@ -415,7 +415,7 @@
     "defaultRouting": {
       "status": "active",
       "gateId": "firstGameCompletion",
-      "campaignId": "gate-sample-20260604-firstGameCompletion",
+      "campaignId": "gate-sample-20260605-firstGameCompletion",
       "gameId": "harbor-rings",
       "label": "First game completion",
       "title": "Harbor Rings",
@@ -504,8 +504,8 @@
       "gameId": "harbor-rings",
       "title": "Harbor Rings",
       "surface": "autonomy-cockpit-completion-card",
-      "campaignId": "gate-sample-20260604-firstGameCompletion",
-      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260604-firstGameCompletion",
+      "campaignId": "gate-sample-20260605-firstGameCompletion",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-firstGameCompletion",
       "returnHandoff": null,
       "organicSeedCampaignId": null,
       "current": {
@@ -609,8 +609,8 @@
       "gameId": "harbor-rings",
       "title": "Harbor Rings",
       "surface": "autonomy-cockpit-replay-card",
-      "campaignId": "gate-sample-20260604-replayRate",
-      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260604-replayRate",
+      "campaignId": "gate-sample-20260605-replayRate",
+      "playPath": "/?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-replayRate",
       "returnHandoff": null,
       "organicSeedCampaignId": null,
       "current": {
@@ -706,18 +706,18 @@
       "gameId": "market-pulse",
       "title": "Market Pulse",
       "surface": "autonomy-cockpit-return-intent-card",
-      "campaignId": "gate-sample-20260604-d1Retention",
-      "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260604-d1Retention",
+      "campaignId": "gate-sample-20260605-d1Retention",
+      "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention",
       "returnHandoff": {
         "status": "armed",
         "gateId": "d1Retention",
         "gameId": "market-pulse",
         "title": "Market Pulse",
-        "campaignId": "gate-sample-20260604-d1Retention",
-        "challengeDate": "2026-06-03",
-        "intentDate": "2026-06-04",
+        "campaignId": "gate-sample-20260605-d1Retention",
+        "challengeDate": "2026-06-05",
+        "intentDate": "2026-06-06",
         "queryParam": "return_intent",
-        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260604-d1Retention&return_intent=2026-06-04",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention&return_intent=2026-06-06",
         "copyCta": "Copy return link",
         "calendarCta": "Save reminder",
         "calendarFileExtension": ".ics",
@@ -737,7 +737,7 @@
           "noSyntheticEvents": true
         }
       },
-      "organicSeedCampaignId": "seed-20260603-market-pulse",
+      "organicSeedCampaignId": "seed-20260605-market-pulse",
       "current": {
         "actual": 0.167,
         "gate": 0.18,
@@ -805,8 +805,8 @@
         "latencyDays": 1,
         "sameSessionPlayable": false,
         "returnHandoffRequired": true,
-        "returnIntentDate": "2026-06-04",
-        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260604-d1Retention&return_intent=2026-06-04",
+        "returnIntentDate": "2026-06-06",
+        "returnPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention&return_intent=2026-06-06",
         "reason": "D1 retention needs a return session, so it is not the best default route for immediate sample collection."
       },
       "sampleRole": "fastest-validation",
@@ -866,7 +866,7 @@
     "aggregateEvidenceDoesNotPassGates": true
   },
   "nextActions": [
-    "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260604-firstGameCompletion.",
+    "First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-firstGameCompletion.",
     "D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).",
     "Export or collect real browser events, then run npm run autonomous:collect-local-event-drops; use npm run autonomous:collect-sample-downloads only after explicit owner opt-in."
   ]

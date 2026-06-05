@@ -1,17 +1,17 @@
 {
-  "generatedAt": "2026-06-04T03:28:21.542Z",
+  "generatedAt": "2026-06-05T02:29:43.510Z",
   "sourceDataHash": "1f95058dd357",
   "status": "store-package-ready",
   "launchCandidate": {
-    "id": "market-pulse",
-    "title": "Market Pulse",
-    "status": "generated-playable"
+    "id": "lantern-relay",
+    "title": "Lantern Relay",
+    "status": "playable"
   },
   "privacyPolicy": {
     "path": "/privacy.html",
     "productionUrl": "https://moshequ.github.io/autonomous-game-lab/privacy.html",
     "productionUrlStatus": "hosted",
-    "updatedAt": "2026-06-04",
+    "updatedAt": "2026-06-05",
     "summary": "Autonomous Game Lab collects anonymous gameplay events to improve game balance, onboarding, and replay quality. Accounts, paid purchases, and advertising are disabled until production gates pass.",
     "dataCollected": [
       {
@@ -204,61 +204,40 @@
     }
   },
   "storeListing": {
-    "source": "store-listing-optimizer",
-    "sourceGameId": "market-pulse",
+    "sourcePrototypeId": "lantern-relay",
     "appName": "Autonomous Game Lab",
-    "googlePlay": {
-      "title": "Autonomous Game Lab",
-      "shortDescription": "Original daily strategy puzzles led by Market Pulse. Quick solo board-game play.",
-      "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Market Pulse is the current data-led store focus: A generated auction puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
-      "keywordThemes": [
-        "auction",
-        "science desk",
-        "daily puzzle",
-        "solo board game",
-        "generated strategy game",
-        "board-game-inspired",
-        "worker placement",
-        "expedition planning",
-        "roll and write",
-        "compact city logistics",
-        "route building",
-        "cozy production"
-      ]
-    },
-    "appleAppStore": {
-      "name": "Autonomous Game Lab",
-      "subtitle": "Market Pulse daily strategy",
-      "promotionalText": "Play Market Pulse, today's data-led solo strategy puzzle.",
-      "keywords": "auction,science desk,daily puzzle,solo board game,generated strategy game,board-game-inspired"
-    },
-    "shortDescription": "Original daily strategy puzzles led by Market Pulse. Quick solo board-game play.",
-    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo strategy puzzles. Market Pulse is the current data-led store focus: A generated auction puzzle with quick science desk decisions. Every game is built for short touch-first sessions, clear scoring, daily replay, and measured improvements from anonymous gameplay signals. Accounts, user-generated content, purchases, gambling, and ads remain disabled until production gates and store review requirements pass.",
+    "shortDescription": "Original board-game-inspired daily strategy puzzles built for quick mobile play.",
+    "fullDescription": "Autonomous Game Lab is a web-first collection of original board-game-inspired solo puzzles. Each game focuses on short sessions, touch-first decisions, clear scoring, and measured improvements from anonymous gameplay signals. Current launch candidate: Lantern Relay. Lantern Relay is an original mobile-first board-game-inspired puzzle set in a tabletop research station. A complete tactical board-game feeling in 9 minutes, tuned for touch screens. Core loop: align instruments into reliable discoveries by making one strong card drafting decision per turn. The first release focuses on solo daily play, clear scoring, replayable seeds, and measured improvements from player behavior.",
     "keywords": [
-      "auction",
-      "science desk",
       "daily puzzle",
+      "strategy puzzle",
       "solo board game",
-      "generated strategy game",
-      "board-game-inspired",
-      "worker placement",
-      "expedition planning",
-      "roll and write",
-      "compact city logistics",
-      "route building",
-      "cozy production"
+      "card drafting",
+      "science desk",
+      "strategy solo"
     ],
     "screenshots": [
-      "lead gameplay board",
-      "daily challenge and streak surface",
-      "multi-game portal",
-      "generated public game page"
+      "first move tutorial",
+      "mid-game board state",
+      "result screen",
+      "daily challenge panel"
     ],
     "screenshotAssets": [
       {
-        "id": "phone-market-pulse-generated",
-        "label": "Market Pulse gameplay board",
-        "path": "/store-assets/screenshots/phone-market-pulse-generated.png",
+        "id": "desktop-growth-page",
+        "label": "Generated public game landing page",
+        "path": "/store-assets/screenshots/desktop-growth-page.png",
+        "width": 1440,
+        "height": 900,
+        "platformUse": [
+          "Web/PWA listing",
+          "press kit"
+        ]
+      },
+      {
+        "id": "phone-lantern-relay-game",
+        "label": "Lantern Relay playable board",
+        "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
         "width": 1170,
         "height": 2532,
         "platformUse": [
@@ -267,9 +246,9 @@
         ]
       },
       {
-        "id": "phone-lantern-relay-game",
-        "label": "Lantern Relay playable board",
-        "path": "/store-assets/screenshots/phone-lantern-relay-game.png",
+        "id": "phone-market-pulse-generated",
+        "label": "Market Pulse gameplay board",
+        "path": "/store-assets/screenshots/phone-market-pulse-generated.png",
         "width": 1170,
         "height": 2532,
         "platformUse": [
@@ -287,19 +266,9 @@
           "Google Play phone",
           "Apple iPhone draft"
         ]
-      },
-      {
-        "id": "desktop-growth-page",
-        "label": "Generated public game landing page",
-        "path": "/store-assets/screenshots/desktop-growth-page.png",
-        "width": 1440,
-        "height": 900,
-        "platformUse": [
-          "Web/PWA listing",
-          "press kit"
-        ]
       }
     ],
+    "screenshotAssetsStatus": "screenshots-ready",
     "contentRatingNotes": [
       "No gambling",
       "No real-money prizes",
@@ -328,13 +297,5 @@
     "googlePlayDataSafety": "https://support.google.com/googleplay/android-developer/answer/10787469",
     "appleDeveloperProgram": "https://developer.apple.com/programs/",
     "applePrivacyLabels": "https://developer.apple.com/app-store/app-privacy-details/"
-  },
-  "storeListingOptimization": {
-    "generatedAt": "2026-06-04T03:28:32.085Z",
-    "sourceDataHash": "beeca63bfb49",
-    "status": "store-listing-optimizer-ready",
-    "previousLaunchCandidateId": "lantern-relay",
-    "recommendedFocusGameId": "market-pulse",
-    "leadScreenshotId": "phone-market-pulse-generated"
   }
 }

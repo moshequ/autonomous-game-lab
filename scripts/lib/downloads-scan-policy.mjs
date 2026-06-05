@@ -20,9 +20,13 @@ export const buildExplicitDownloadsScanPolicy = ({
     !evidenceReadyNow &&
     typeof ageMs === 'number' &&
     ageMs + expiryBufferMs < cooldownHours * msPerHour
-  const nextRecommendedScanAt =
+  const cooldownExpiryMs =
     explicitDownloadsScan?.evidenceFound === false && Number.isFinite(scanAtMs) && !evidenceReadyNow
-      ? new Date(scanAtMs + cooldownHours * msPerHour).toISOString()
+      ? scanAtMs + cooldownHours * msPerHour
+      : null
+  const nextRecommendedScanAt =
+    typeof cooldownExpiryMs === 'number'
+      ? new Date(coolingDown ? cooldownExpiryMs : referenceMs).toISOString()
       : new Date(referenceMs).toISOString()
 
   return {

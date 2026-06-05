@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-06-03T13:23:55.388Z",
+  "generatedAt": "2026-06-05T01:47:20.794Z",
   "status": "retention-loop-ready",
-  "sourceDataHash": "afe9d7800d60",
+  "sourceDataHash": "19f4d031743a",
   "dailyChallenge": {
-    "date": "2026-06-03",
+    "date": "2026-06-05",
     "gameId": "market-pulse",
     "title": "Market Pulse",
-    "seed": "daily-20260603-53p",
+    "seed": "daily-20260605-21j",
     "reason": "Market Pulse has the strongest blended portfolio score (51.912)."
   },
   "sourceStatus": {
@@ -90,7 +90,7 @@
     "ctaLabel": "Queue tomorrow",
     "dismissLabel": "Not today",
     "copy": "Queue tomorrow's board to protect your local daily streak.",
-    "nextChallengeDate": "2026-06-04",
+    "nextChallengeDate": "2026-06-06",
     "cooldown": "one prompt per daily challenge date",
     "reason": "D1 retention is 17% and the gate is 18%; ask for a local return intent after a completed run.",
     "telemetry": {
@@ -140,8 +140,8 @@
     "trigger": "after-completed-run",
     "ctaLabel": "Copy return link",
     "queryParam": "return_intent",
-    "intentDate": "2026-06-04",
-    "campaignId": "gate-sample-20260603-d1Retention",
+    "intentDate": "2026-06-06",
+    "campaignId": "gate-sample-20260605-d1Retention",
     "telemetry": {
       "copied": "daily_return_link_copied"
     },
@@ -162,8 +162,8 @@
     "ctaLabel": "Save reminder",
     "queryParam": "return_intent",
     "fileExtension": ".ics",
-    "intentDate": "2026-06-04",
-    "campaignId": "gate-sample-20260603-d1Retention",
+    "intentDate": "2026-06-06",
+    "campaignId": "gate-sample-20260605-d1Retention",
     "telemetry": {
       "downloaded": "daily_return_calendar_downloaded"
     },
@@ -194,8 +194,8 @@
     "label": "D1 retention",
     "status": "collecting-sample",
     "sampleRole": "fastest-validation",
-    "campaignId": "gate-sample-20260603-d1Retention",
-    "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention",
+    "campaignId": "gate-sample-20260605-d1Retention",
+    "playPath": "/?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention",
     "publicSamplePath": "/gate-sample.html",
     "current": {
       "actual": 0.167,
@@ -267,7 +267,7 @@
       "downloadsImportRequiresExplicitOptIn": true,
       "downloadsScanBackoffRequired": true
     },
-    "nextAction": "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s)."
+    "nextAction": "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s)."
   },
   "controls": {
     "canNudgeRetention": true,
@@ -305,7 +305,7 @@
     },
     {
       "id": "confirm-return-intent",
-      "label": "Queue 2026-06-04 board intent",
+      "label": "Queue 2026-06-06 board intent",
       "event": "daily_return_prompt_clicked",
       "gameId": "market-pulse",
       "reward": "local-return-intent",
@@ -313,7 +313,7 @@
     },
     {
       "id": "show-return-commitment",
-      "label": "Show saved return path options for 2026-06-04",
+      "label": "Show saved return path options for 2026-06-06",
       "event": "daily_return_commitment_viewed",
       "gameId": "market-pulse",
       "reward": "return-path-followup",
@@ -321,7 +321,7 @@
     },
     {
       "id": "copy-return-link",
-      "label": "Copy 2026-06-04 return link",
+      "label": "Copy 2026-06-06 return link",
       "event": "daily_return_link_copied",
       "gameId": "market-pulse",
       "reward": "player-saved-return-link",
@@ -329,7 +329,7 @@
     },
     {
       "id": "save-return-reminder",
-      "label": "Save 2026-06-04 return reminder",
+      "label": "Save 2026-06-06 return reminder",
       "event": "daily_return_calendar_downloaded",
       "gameId": "market-pulse",
       "reward": "player-saved-calendar-reminder",
@@ -354,7 +354,7 @@
   ],
   "nextActions": [
     "Improve D1 retention from 17% toward 18% with local streak prompts.",
-    "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260603-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).",
+    "Feature the daily challenge via /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention and collect 10 prompt exposure(s) plus 1 retained start(s).",
     "Improve replay rate from 31% toward 35% with the daily return mission.",
     "Do not use push notifications, accounts, paid rewards, or ads for retention until gates pass."
   ]

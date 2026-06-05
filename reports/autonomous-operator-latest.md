@@ -1,10 +1,10 @@
 # Autonomous Operator
 
-Generated: 2026-06-04T03:28:54.675Z
+Generated: 2026-06-05T02:12:55.888Z
 Status: operator-plan-ready
 Mode: plan-only
-Owner decision: seed-portfolio-traffic
-Selected action: seed-portfolio-traffic
+Owner decision: bootstrap-production-setup
+Selected action: bootstrap-production-setup
 Execution: not-requested
 
 ## Controls
@@ -18,7 +18,7 @@ Execution: not-requested
 
 ## Selected Action
 
-- seed-portfolio-traffic: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
+- bootstrap-production-setup: npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap
 
 ## External Input Handoff
 
@@ -32,11 +32,14 @@ Execution: not-requested
 
 - refresh-autonomous-cadence
 - refresh-autonomous-self-update
-- seed-portfolio-traffic
-- refresh-organic-seed-loop
-- optimize-daily-retention
+- refresh-support-feedback
+- collect-gate-sample-local-drops
+- refresh-product-gate-sample-plan
 - refresh-completion-loop
 - refresh-replay-loop
+- bootstrap-production-setup
+- refresh-objective-audit
+- optimize-store-listing
 
 ## Blocked Actions
 
@@ -44,11 +47,11 @@ Execution: not-requested
 - hold-for-external-input: status-monitor
 - refresh-autonomous-cadence: not-selected-this-run
 - refresh-autonomous-self-update: not-selected-this-run
-- refresh-organic-seed-loop: not-selected-this-run
-- refresh-support-feedback: status-monitor
-- optimize-daily-retention: not-selected-this-run
+- seed-portfolio-traffic: status-monitor
+- refresh-organic-seed-loop: status-monitor
+- refresh-support-feedback: not-selected-this-run
+- optimize-daily-retention: status-monitor
 - measure-pwa-install-loop: status-monitor
 - check-performance-budget: status-monitor
 - prepare-release-candidate: status-monitor
 - run-post-deploy-smoke: status-monitor
-- sync-post-deploy-artifact: status-monitor

@@ -1,37 +1,39 @@
 {
-  "generatedAt": "2026-06-04T03:28:54.675Z",
+  "generatedAt": "2026-06-05T02:12:55.888Z",
   "status": "operator-plan-ready",
   "mode": "plan-only",
   "ownerDecision": {
-    "actionId": "seed-portfolio-traffic",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "actionId": "bootstrap-production-setup",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "locallyExecutable": true,
     "rejectionReason": null
   },
   "externalInputHandoff": null,
   "requestedActionId": null,
   "selectedAction": {
-    "id": "seed-portfolio-traffic",
+    "id": "bootstrap-production-setup",
     "status": "armed",
-    "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
+    "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
     "targets": [
-      "market-pulse",
-      "guild-garden",
-      "canopy-bloom",
-      "metro-loom"
+      "github-pages",
+      "repository-config",
+      "event-collector"
     ],
-    "reason": "Under-measured playable games need free organic/internal traffic before quality judgment.",
+    "reason": "Regenerates the zero-spend production setup handoff and exact GitHub variable/secret commands.",
     "costUsd": 0
   },
   "selectedRejection": null,
   "eligibleActionIds": [
     "refresh-autonomous-cadence",
     "refresh-autonomous-self-update",
-    "seed-portfolio-traffic",
-    "refresh-organic-seed-loop",
-    "optimize-daily-retention",
+    "refresh-support-feedback",
+    "collect-gate-sample-local-drops",
+    "refresh-product-gate-sample-plan",
     "refresh-completion-loop",
-    "refresh-replay-loop"
+    "refresh-replay-loop",
+    "bootstrap-production-setup",
+    "refresh-objective-audit",
+    "optimize-store-listing"
   ],
   "blockedActions": [
     {
@@ -59,22 +61,28 @@
       "reason": "not-selected-this-run"
     },
     {
-      "id": "refresh-organic-seed-loop",
-      "status": "armed",
-      "command": "npm run autonomous:organic-seed-loop",
-      "reason": "not-selected-this-run"
-    },
-    {
-      "id": "refresh-support-feedback",
+      "id": "seed-portfolio-traffic",
       "status": "monitor",
-      "command": "npm run autonomous:support-feedback",
+      "command": "npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop",
       "reason": "status-monitor"
     },
     {
-      "id": "optimize-daily-retention",
+      "id": "refresh-organic-seed-loop",
+      "status": "monitor",
+      "command": "npm run autonomous:organic-seed-loop",
+      "reason": "status-monitor"
+    },
+    {
+      "id": "refresh-support-feedback",
       "status": "armed",
-      "command": "npm run autonomous:retention",
+      "command": "npm run autonomous:support-feedback",
       "reason": "not-selected-this-run"
+    },
+    {
+      "id": "optimize-daily-retention",
+      "status": "monitor",
+      "command": "npm run autonomous:retention",
+      "reason": "status-monitor"
     },
     {
       "id": "measure-pwa-install-loop",
@@ -126,9 +134,9 @@
     },
     {
       "id": "collect-gate-sample-local-drops",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:collect-local-event-drops",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "collect-gate-sample-downloads",
@@ -144,9 +152,9 @@
     },
     {
       "id": "refresh-product-gate-sample-plan",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:sample-plan",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "refresh-first-move-coach",
@@ -170,12 +178,6 @@
       "id": "prepare-repository-channel",
       "status": "monitor",
       "command": "npm run autonomous:repo-readiness && npm run autonomous:repo-bootstrap",
-      "reason": "status-monitor"
-    },
-    {
-      "id": "bootstrap-production-setup",
-      "status": "monitor",
-      "command": "npm run autonomous:release-candidate && npm run autonomous:deploy-plan && npm run autonomous:bootstrap",
       "reason": "status-monitor"
     },
     {
@@ -210,15 +212,15 @@
     },
     {
       "id": "refresh-objective-audit",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:objective-audit",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "optimize-store-listing",
-      "status": "monitor",
+      "status": "armed",
       "command": "npm run autonomous:store-package && npm run autonomous:store-listing-optimize && npm run autonomous:store-compliance",
-      "reason": "status-monitor"
+      "reason": "not-selected-this-run"
     },
     {
       "id": "prepare-android-signing",
@@ -247,24 +249,16 @@
   ],
   "commandPlan": [
     {
-      "segment": "npm run autonomous:growth",
-      "script": "autonomous:growth"
+      "segment": "npm run autonomous:release-candidate",
+      "script": "autonomous:release-candidate"
     },
     {
-      "segment": "npm run autonomous:portfolio",
-      "script": "autonomous:portfolio"
+      "segment": "npm run autonomous:deploy-plan",
+      "script": "autonomous:deploy-plan"
     },
     {
-      "segment": "npm run autonomous:traffic",
-      "script": "autonomous:traffic"
-    },
-    {
-      "segment": "npm run autonomous:acquisition",
-      "script": "autonomous:acquisition"
-    },
-    {
-      "segment": "npm run autonomous:organic-seed-loop",
-      "script": "autonomous:organic-seed-loop"
+      "segment": "npm run autonomous:bootstrap",
+      "script": "autonomous:bootstrap"
     }
   ],
   "execution": {
@@ -341,7 +335,7 @@
     "RUN_WORKFLOWS=1"
   ],
   "nextActions": [
-    "Run npm run autonomous:operator -- --execute --action=seed-portfolio-traffic to execute exactly one allowed local action.",
+    "Run npm run autonomous:operator -- --execute --action=bootstrap-production-setup to execute exactly one allowed local action.",
     "Do not execute GitHub workflow, store, paid ads, or account setup commands from the local operator."
   ]
 }

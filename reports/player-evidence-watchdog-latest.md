@@ -1,8 +1,8 @@
 # Player Evidence Watchdog
 
-Generated: 2026-06-04T03:30:40.320Z
+Generated: 2026-06-05T02:12:59.474Z
 Status: watchdog-ready-for-explicit-scan
-Source hash: cbc8e19bf42c
+Source hash: 5438b35fec2a
 Public repo safe: true
 Inbox events: 0
 Imported events: 0
@@ -10,7 +10,7 @@ Gate sample inbox events: 0
 Gate sample imported events: 0
 Aggregate evidence notes: 0
 Downloads scan: no-evidence-found; cooling down false
-Next recommended Downloads scan: 2026-05-22T17:53:13.086Z
+Next recommended Downloads scan: 2026-06-05T02:12:54.563Z
 
 ## Commands
 

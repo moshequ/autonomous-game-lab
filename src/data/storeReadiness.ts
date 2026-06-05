@@ -1,6 +1,6 @@
 export const storeReadiness = {
-  "generatedAt": "2026-06-04T03:28:32.568Z",
-  "sourceDataHash": "36b23eb36f11",
+  "generatedAt": "2026-06-05T02:12:56.931Z",
+  "sourceDataHash": "c5e090e648ed",
   "status": "store-readiness-prepared-external-blockers",
   "sourceStatus": {
     "storePackage": "store-package-ready",
@@ -25,7 +25,7 @@ export const storeReadiness = {
     "revenueEnabled": false,
     "storePaybackStatus": "waiting-for-live-revenue",
     "screenshotCount": 4,
-    "externalBlockerCount": 15,
+    "externalBlockerCount": 18,
     "productBlockerCount": 11
   },
   "publicRoutes": {
@@ -407,6 +407,9 @@ export const storeReadiness = {
       "packageStrategy": "android-trusted-web-activity",
       "workflowPath": ".github/workflows/android-twa-release.yml",
       "blockers": [
+        "native-package-ready: Native package is blocked-draft-ready.",
+        "store-package-draft: Store package is blocked; data safety is draft-ready.",
+        "asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
         "google-play-account: Google Play account is not connected.",
         "play-service-account: Google Play service account upload credentials are not available to CI.",
         "unit-economics-store-spend: Store spend allowed is false; spend mode is no-spend.",
@@ -602,6 +605,9 @@ export const storeReadiness = {
       "store-compliance: support-contact: Production support email is required before public store submission.",
       "store-compliance: google-play-account: Google Play developer account must be connected before Android submission.",
       "store-compliance: apple-developer-account: Apple Developer account remains deferred until iOS spend is justified.",
+      "android: native-package-ready: Native package is blocked-draft-ready.",
+      "android: store-package-draft: Store package is blocked; data safety is draft-ready.",
+      "android: asset-links: Digital Asset Links are domain-verification-blocked; Android requires https://moshequ.github.io/.well-known/assetlinks.json and current artifact publishes https://moshequ.github.io/autonomous-game-lab/.well-known/assetlinks.json.",
       "android: google-play-account: Google Play account is not connected.",
       "android: play-service-account: Google Play service account upload credentials are not available to CI.",
       "ios: support-contact: Production support email is required before public store submission.",

@@ -1,6 +1,6 @@
 # Production Readiness
 
-Generated: 2026-06-04T03:30:40.435Z
+Generated: 2026-06-05T02:12:59.575Z
 
 ## Environment
 
@@ -39,7 +39,7 @@ Local git: true
 
 ## Web/PWA
 
-Status: blocked
+Status: ready-after-build
 - pass: manifest - PWA manifest exists in the production build.
 - pass: install-icons - Generated install/store icons are icons-ready; 6 icons checked.
 - pass: service-worker - Offline service worker exists.
@@ -59,9 +59,9 @@ Status: blocked
 - pass: organic-seed-loop - Organic seed loop is organic-seed-loop-ready; target market-pulse; player-initiated share guard active.
 - pass: retention-loop - Retention loop is retention-loop-ready; daily challenge market-pulse; no-push/no-account guardrails active.
 - pass: pwa-install-loop - PWA install loop is pwa-install-loop-ready; prompt surface autonomy-cockpit; cost $0.
-- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 630.6 KB / 171.3 KB gzip; deferred game chunk GameCanvas-COkVW9c0.js.
+- pass: performance-budget - Performance budget is performance-budget-ready; initial JS 630.6 KB / 171.3 KB gzip; deferred game chunk GameCanvas-DI60jY7N.js.
 - pass: release-candidate - Release candidate is release-candidate-ready; files 106; smoke URLs 33.
-- blocker: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/34 passed, 34 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
+- pass: post-deploy-smoke-runner - Post-deploy smoke is blocked-missing-origin; origin missing; checks 0/34 passed, 34 blocked; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - pass: live-site-monitor - Live monitor is live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34 passed; live matches synced deploy true.
 - pass: product-optimization - Product optimizer is product-optimization-ready; completion 0.397 vs gate 0.55; latest action already-applied.
 - pass: first-move-coach - First-move coach is first-move-coach-ready; enabled targets 10; primary harbor-rings.
@@ -69,15 +69,15 @@ Status: blocked
 - pass: replay-loop - Replay loop is replay-loop-ready; prompt armed; target harbor-rings.
 - pass: release-health - Release health guard is monitoring.
 - pass: production-environment - Production environment status is production-env-missing.
-- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 17.
+- pass: production-bootstrap - Production bootstrap is production-bootstrap-ready; mode waiting-for-external-credentials; external blockers 20.
 - pass: production-blocker-handoff - Production blocker handoff is handoff-waiting-on-owner-inputs; owner inputs 5; next unlock support-contact.
 - pass: production-unlock-runner - Production unlock runner is unlock-runner-idle; runnable 0; queued 0; unsafe 0.
 - pass: production-activation - Production activation is activation-waiting-for-credentials; mode dry-run; execution dry-run.
-- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected seed-portfolio-traffic; execution not-requested.
+- pass: autonomous-operator - Autonomous operator is operator-plan-ready; selected bootstrap-production-setup; execution not-requested.
 - pass: autonomous-operator-history - Autonomous operator history is operator-history-ready; records 40; executed 3.
 - pass: autonomous-cadence - Autonomous cadence is cadence-ready; Codex active-confirmed; GitHub scheduled.
 - pass: autonomous-self-update - Autonomous self-update is self-update-ready; safe pending 92; unsafe pending 0; remote push held.
-- pass: objective-audit - Objective audit is objective-in-progress; met 5 / 8; can complete false.
+- pass: objective-audit - Objective audit is objective-in-progress; met 6 / 8; can complete false.
 
 ## Monetization
 
@@ -125,23 +125,23 @@ Installs: 0
 
 Status: performance-budget-ready
 Initial JS: 630.6 KB (171.3 KB gzip)
-Deferred game chunk: GameCanvas-COkVW9c0.js
+Deferred game chunk: GameCanvas-DI60jY7N.js
 - pass: performance-initial-js-target - Initial JS is 630.6 KB; target is 686 KB.
 - pass: performance-initial-js-budget - Initial JS is 630.6 KB; deploy cap is 700 KB.
 - pass: performance-initial-js-gzip-budget - Initial JS gzip is 171.3 KB; budget is 200 KB.
 - pass: performance-initial-css-budget - Initial CSS is 12.4 KB; budget is 40 KB.
 - pass: performance-manifest - PWA manifest exists in dist.
 - pass: performance-service-worker - Service worker exists in dist.
-- pass: performance-game-runtime-deferred - GameCanvas-COkVW9c0.js is deferred from the initial shell.
+- pass: performance-game-runtime-deferred - GameCanvas-DI60jY7N.js is deferred from the initial shell.
 - pass: performance-largest-js-deferred - Largest JS chunk is phaser.esm-Bs14CRsP.js at 1321.4 KB.
 - pass: performance-deferred-game-budget - Deferred game chunk is 3.3 KB; monitor budget is 1600 KB.
 
 ## Release Candidate
 
 Status: release-candidate-ready
-Candidate: pwa-96de0f0f6dd8
+Candidate: pwa-be7576c1bbc1
 Files: 106
-Aggregate SHA-256: 96de0f0f6dd8d9682562bdf36aafc9c861bf5dd35e2fbb3c984ec6c99b1e2b5e
+Aggregate SHA-256: be7576c1bbc1214c6321b10e014daeede9c3ec6cd41721985d207ae839802da2
 - pass: release-dist-inventory - 106 dist files inventoried.
 - pass: release-required-files - 38/38 required files present.
 - pass: release-game-pages - 10 generated game page(s) in dist.
@@ -155,7 +155,7 @@ Aggregate SHA-256: 96de0f0f6dd8d9682562bdf36aafc9c861bf5dd35e2fbb3c984ec6c99b1e2
 
 Status: blocked-missing-origin
 Origin: missing
-Candidate: pwa-96de0f0f6dd8
+Candidate: pwa-be7576c1bbc1
 Checks: 0/34 passed (34 blocked)
 Local artifact: predeploy-artifact-smoke-passed (34/34 passed)
 - blocked: smoke-app-shell - fetch failed
@@ -323,7 +323,7 @@ Execution: idle
 
 Status: operator-plan-ready
 Mode: plan-only
-Selected action: seed-portfolio-traffic
+Selected action: bootstrap-production-setup
 Execution: not-requested
 
 ## Autonomous Operator History
@@ -380,7 +380,7 @@ Remote push ready: false
 ## Objective Audit
 
 Status: objective-in-progress
-Met: 5 / 8
+Met: 6 / 8
 Can mark complete: false
 
 ## Distribution
