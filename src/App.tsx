@@ -175,15 +175,19 @@ const getInitialGateSampleCampaignId = () => {
   return getAutonomousDefaultGateSampleMission()?.campaignId ?? ''
 }
 
-const defaultSnapshot: GameSnapshot = {
-  gameId: 'harbor-rings',
-  title: 'Harbor Rings',
-  score: 0,
-  moves: 0,
-  maxMoves: 12,
-  nextLabel: 'Tide',
-  completed: false,
-  result: 'playing',
+const getDefaultSnapshot = (gameId: PlayableGameId): GameSnapshot => {
+  const game = playableGames.find((item) => item.id === gameId)
+
+  return {
+    gameId,
+    title: game?.title ?? 'Harbor Rings',
+    score: 0,
+    moves: 0,
+    maxMoves: 12,
+    nextLabel: 'Tide',
+    completed: false,
+    result: 'playing',
+  }
 }
 
 const formatPercent = (value: number | null | undefined) =>
@@ -651,7 +655,7 @@ function App() {
   const [activeGateSampleCampaignId, setActiveGateSampleCampaignId] = useState(() =>
     getInitialGateSampleCampaignId(),
   )
-  const [snapshot, setSnapshot] = useState<GameSnapshot>(defaultSnapshot)
+  const [snapshot, setSnapshot] = useState<GameSnapshot>(() => getDefaultSnapshot(getInitialGameId()))
   const [events, setEvents] = useState<AnalyticsEvent[]>(() => getBufferedEvents())
   const [rewardOfferConsumed, setRewardOfferConsumed] = useState(() =>
     wasMonetizationOfferConsumed(monetizationPlan.runtime?.firstPlacementId ?? monetizationPlan.placements[0].id),
@@ -1896,6 +1900,28 @@ function App() {
   const currentLocalRouterRecommendationKey = localRouterRecommendationKey(localRouterRecommendation)
   const currentLocalRouterSkipped =
     localRouterDismissedRecommendationKey === currentLocalRouterRecommendationKey
+  const beginFreshRun = useCallback(
+    (
+      gameId: PlayableGameId,
+      options: {
+        scrollToCanvas?: boolean
+      } = {},
+    ) => {
+      setRunSeed(crypto.randomUUID())
+      setSnapshot(getDefaultSnapshot(gameId))
+
+      if (selectedGameId !== gameId) {
+        setSelectedGameId(gameId)
+      }
+
+      if (options.scrollToCanvas) {
+        window.requestAnimationFrame(() => {
+          document.querySelector('canvas')?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+        })
+      }
+    },
+    [selectedGameId],
+  )
   const toggleExternalAnalytics = () => {
     const next = !externalAnalyticsOptedOut
     setExternalAnalyticsOptOut(next)
@@ -2495,7 +2521,7 @@ function App() {
       variantId: pacingVariant.id,
       rewardVariantId: rewardVariant.id,
     })
-    window.location.reload()
+    beginFreshRun(selectedGameId)
   }
   const dismissReplayPrompt = () => {
     window.localStorage.setItem(replayLoop.localState.dismissedRunKey, replayRunKey)
@@ -3449,7 +3475,7 @@ function App() {
       variantId: pacingVariant.id,
       rewardVariantId: rewardVariant.id,
     })
-    window.location.reload()
+    beginFreshRun(selectedGameId)
   }
   const shareActiveGame = async () => {
     const url = new URL(window.location.href)
