@@ -61,6 +61,14 @@ const previousSmokeIsReusable = ({ origin, releaseCandidate }) => {
   const maxAgeMs = 72 * 60 * 60 * 1000
   return ageMs >= 0 && ageMs <= maxAgeMs
 }
+const previousSmokeMatchesOrigin = (origin) => {
+  if (!previousSmoke || typeof previousSmoke !== 'object') {
+    return false
+  }
+
+  const previousOrigin = String(previousSmoke.target?.origin ?? '').trim()
+  return Boolean(previousOrigin && previousOrigin === (origin?.toString() ?? ''))
+}
 
 const normalizeOrigin = (value) => {
   const trimmed = String(value ?? '').trim()
@@ -493,7 +501,8 @@ const status = !origin
         ? 'post-deploy-smoke-observed-live'
         : 'post-deploy-smoke-passed'
 
-const originForPayload = liveChecksBlocked ? null : origin
+const preservedLiveRelease = liveChecksBlocked && previousSmokeMatchesOrigin(origin) ? previousSmoke.liveRelease ?? null : null
+const originForPayload = origin
 
 if (!payload) {
   payload = {
@@ -508,7 +517,7 @@ if (!payload) {
       aggregateHash: releaseCandidate.integrity?.aggregateHash ?? null,
       strictManifestComparison,
     },
-    liveRelease: originForPayload ? liveRelease : null,
+    liveRelease: liveChecksBlocked ? preservedLiveRelease : originForPayload ? liveRelease : null,
     sourceStatus: {
       deployment: deployment.status,
       releaseCandidate: releaseCandidate.status,
@@ -535,7 +544,9 @@ if (!payload) {
     checks,
     nextActions: [
       origin
-        ? failedChecks.length
+        ? liveChecksBlocked
+          ? 'Network access was blocked locally; rerun post-deploy smoke with connectivity to refresh live proof for the current candidate.'
+          : failedChecks.length
           ? 'Hold promotion and inspect failed post-deploy smoke checks.'
           : observedDifferentLiveCandidate
             ? `Live Pages is reachable and serving ${liveRelease.candidateId}; run the deploy workflow for strict proof of the current local candidate if needed.`
