@@ -1,6 +1,6 @@
 # Live Site Monitor
 
-Generated: 2026-06-05T02:12:43.479Z
+Generated: 2026-06-07T14:55:58.236Z
 Status: live-site-monitor-passed
 Origin: https://moshequ.github.io/autonomous-game-lab
 Checks: 34/34 passed (0 failed, 0 blocked)
@@ -8,6 +8,14 @@ Live candidate: pwa-3e804a980eae
 Synced candidate: pwa-3e804a980eae
 Live matches synced deploy: true
 Latency p95 ms: 312
+
+## Evidence Freshness
+
+- status: network-blocked
+- preserved from: 2026-06-07T14:40:11.430Z
+- attempted origin: https://moshequ.github.io/autonomous-game-lab
+- note: Network access was blocked; reused the previously verified live-site monitor evidence.
+
 
 ## Controls
 

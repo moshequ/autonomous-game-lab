@@ -567,6 +567,17 @@ const report = [
   `Candidate: ${payload.target.candidateId}`,
   `Live candidate: ${payload.liveRelease?.candidateId ?? 'missing'}`,
   '',
+  ...(payload.preservation
+    ? [
+        '## Evidence Freshness',
+        '',
+        `- status: ${payload.preservation.status}`,
+        `- preserved from: ${payload.preservation.preservedFromGeneratedAt ?? 'unknown'}`,
+        `- note: ${payload.preservation.note}`,
+        '',
+      ]
+    : []),
+  '',
   '## Summary',
   '',
   `- Planned: ${payload.summary.planned}`,

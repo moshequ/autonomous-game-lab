@@ -428,6 +428,7 @@ const appPayload = {
   origin: payload.origin,
   summary: payload.summary,
   controls: payload.controls,
+  preservation: payload.preservation ?? null,
   topChecks: payload.checks.slice(0, 6).map((check) => ({
     id: check.id,
     path: check.path,
@@ -448,6 +449,18 @@ const report = [
   `Synced candidate: ${payload.summary.syncedCandidateId ?? 'missing'}`,
   `Live matches synced deploy: ${payload.summary.liveMatchesSyncedDeploy}`,
   `Latency p95 ms: ${payload.summary.latencyP95Ms ?? 'n/a'}`,
+  '',
+  ...(payload.preservation
+    ? [
+        '## Evidence Freshness',
+        '',
+        `- status: ${payload.preservation.status}`,
+        `- preserved from: ${payload.preservation.preservedFromGeneratedAt ?? 'unknown'}`,
+        `- attempted origin: ${payload.preservation.attemptedOrigin ?? 'unknown'}`,
+        `- note: ${payload.preservation.note}`,
+        '',
+      ]
+    : []),
   '',
   '## Controls',
   '',

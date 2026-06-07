@@ -1501,6 +1501,16 @@ function App() {
     }
   ).storeExternalInputHandoff
   const liveSiteMonitorOrigin = liveSiteMonitorData?.origin.origin ?? 'missing'
+  const liveSiteMonitorPreservation = (
+    liveSiteMonitorData as {
+      preservation?: { preservedFromGeneratedAt?: string | null } | null
+    } | null
+  )?.preservation
+  const liveSiteMonitorFreshness = liveSiteMonitorPreservation?.preservedFromGeneratedAt
+    ? `preserved ${new Date(liveSiteMonitorPreservation.preservedFromGeneratedAt).toLocaleString()}`
+    : liveSiteMonitorData
+      ? 'live'
+      : 'loading'
   const operatorSelectedAction = (autonomousOperatorData?.selectedAction as { id: string } | null) ?? null
   const operatorExternalInputHandoff = (
     (autonomousOperatorData ?? {}) as {
@@ -4517,6 +4527,10 @@ function App() {
                     {liveSiteMonitorData?.summary.passed ?? 'loading'}/
                     {liveSiteMonitorData?.summary.planned ?? 'loading'}
                   </strong>
+                </div>
+                <div>
+                  <span>Freshness</span>
+                  <strong>{liveSiteMonitorFreshness}</strong>
                 </div>
                 <div>
                   <span>Synced release</span>

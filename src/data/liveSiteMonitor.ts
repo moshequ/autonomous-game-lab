@@ -1,5 +1,5 @@
 export const liveSiteMonitor = {
-  "generatedAt": "2026-06-05T02:12:43.479Z",
+  "generatedAt": "2026-06-07T14:55:58.236Z",
   "status": "live-site-monitor-passed",
   "origin": {
     "origin": "https://moshequ.github.io/autonomous-game-lab",
@@ -33,6 +33,12 @@ export const liveSiteMonitor = {
     "noRevenueEnablement": true,
     "noCookiesOrCredentials": true,
     "strictSyncedManifestComparison": true
+  },
+  "preservation": {
+    "status": "network-blocked",
+    "preservedFromGeneratedAt": "2026-06-07T14:40:11.430Z",
+    "attemptedOrigin": "https://moshequ.github.io/autonomous-game-lab",
+    "note": "Network access was blocked; reused the previously verified live-site monitor evidence."
   },
   "topChecks": [
     {
