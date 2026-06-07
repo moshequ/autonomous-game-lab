@@ -98,8 +98,14 @@ const coachDecision = !shouldCoach
       ? 'soften'
       : 'active'
 const effectiveCoachEnabled = shouldCoach && coachDecision !== 'retire'
-const coachCopy = coachDecision === 'soften' ? 'Try this start' : 'Start here'
 const coachSampleStatus = coachSampleReady ? 'ready-for-coach-decision' : 'collecting-sample'
+const coachCopyFor = (label) => {
+  if (coachDecision === 'soften') {
+    return label === 'center' ? 'Try center' : 'Try this lane'
+  }
+
+  return label === 'center' ? 'Center start' : 'Start lane'
+}
 
 const boardShapeFor = (gameId) => {
   const balance = gameBalance.games?.[gameId]
@@ -182,7 +188,7 @@ const targets = [...playableIds]
       evidence,
       decision: coachDecision,
       sourceReason,
-      copy: coachCopy,
+      copy: coachCopyFor(shape.rows === shape.cols ? 'center' : 'lane'),
       telemetryId: `first-move-coach-${gameId}`,
     }
   })

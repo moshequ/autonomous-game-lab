@@ -19,10 +19,12 @@ const targetScore = harborConfig.targetScore
 
 type Cell = HarborColor | null
 
-export const harborRingsTutorialCopy = (pacingVariant: string) =>
+export const harborRingsTutorialCopy = (pacingVariant: string, emphasizeCenter = false) =>
   pacingVariant === 'guided'
     ? `Match adjacent colors for +3; close a 2x2 corner for +8; beat ${targetScore}.`
-    : `Tap a dock to match colors and beat ${targetScore} in ${maxMoves} turns.`
+    : emphasizeCenter
+      ? `Start in the center, then match colors to beat ${targetScore} in ${maxMoves} turns.`
+      : `Tap a dock to match colors and beat ${targetScore} in ${maxMoves} turns.`
 
 const tutorialSentenceCount = (copy: string) => Math.max(1, copy.split(/[.!?]+/).filter(Boolean).length)
 
@@ -340,7 +342,7 @@ export class HarborRingsScene extends Phaser.Scene {
   }
 
   private tutorialCopy() {
-    return harborRingsTutorialCopy(this.pacingVariant)
+    return harborRingsTutorialCopy(this.pacingVariant, this.shouldShowFirstMoveCoach())
   }
 
   private shouldShowFirstMoveCoach() {
