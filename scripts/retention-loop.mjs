@@ -35,13 +35,16 @@ const roundMetric = (value) => (typeof value === 'number' ? Math.round(value * 1
 const pct = (value) => (typeof value === 'number' ? `${Math.round(value * 100)}%` : 'n/a')
 const today = localIsoDate()
 const todaySlug = () => localIsoDate().replaceAll('-', '')
+const isIsoDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(String(value ?? ''))
 const addDays = (isoDate, days) => {
   const date = new Date(`${isoDate}T00:00:00.000Z`)
   date.setUTCDate(date.getUTCDate() + days)
   return date.toISOString().slice(0, 10)
 }
 const dailyChallenge = portfolio.dailyChallenge
-const challengeDate = dailyChallenge?.date ?? today
+// Never keep a stale daily challenge date once the local day has advanced.
+const challengeDate =
+  isIsoDate(dailyChallenge?.date) && dailyChallenge.date >= today ? dailyChallenge.date : today
 const nextChallengeDate = addDays(challengeDate, 1)
 const playableIds = new Set(playable.games ?? [])
 const rewardExperiment = experimentResults.recommendations?.find(

@@ -1,11 +1,11 @@
 # Product Gate Sample Plan
 
-Generated: 2026-06-05T02:12:54.563Z
+Generated: 2026-06-08T14:21:37.861Z
 Status: product-gate-sample-plan-ready
-Source hash: 58768a958148
+Source hash: 0bdba11ded5f
 Analytics source: fixture-sample
 Primary gate: firstGameCompletion
-Default route: firstGameCompletion (gate-sample-20260605-firstGameCompletion)
+Default route: firstGameCompletion (gate-sample-20260608-firstGameCompletion)
 Default route reason: First game completion is the primary revenue-blocking gap and can collect same-session evidence from the next player.
 Prompt views needed: 70
 Observed successes needed: 139
@@ -15,7 +15,7 @@ Supporting aggregate evidence notes: 0
 Return handoff missions: 1
 Evidence sprint: ready-for-player-invite-sprint; routes 3; minimum counted runs 168
 Downloads scan: no-evidence-found; cooling down false
-Next recommended Downloads scan: 2026-06-05T02:12:54.563Z
+Next recommended Downloads scan: 2026-06-08T14:21:37.861Z
 Public sample page: /gate-sample.html
 Safe local drop inbox: data/player-events/inbox
 Safe local drop import: npm run autonomous:collect-local-event-drops
@@ -23,18 +23,18 @@ Runtime evidence policy: active
 
 ## Missions
 
-- #1 firstGameCompletion: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 40% / 55%; needs 30 prompt view(s), 128 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-firstGameCompletion
-- #2 replayRate: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 31% / 35%; needs 30 prompt view(s), 10 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-replayRate
-- #3 d1Retention: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention
+- #1 firstGameCompletion: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 40% / 55%; needs 30 prompt view(s), 128 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260608-firstGameCompletion
+- #2 replayRate: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 31% / 35%; needs 30 prompt view(s), 10 success(es); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260608-replayRate
+- #3 d1Retention: collecting-sample; evidence waiting-for-player-export; aggregate notes 0; 17% / 18%; needs 10 prompt view(s), 1 success(es); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260608-d1Retention
 
 ## Evidence Sprint
 
 - Status: ready-for-player-invite-sprint
-- Window: 2026-06-05 to 2026-06-06
+- Window: 2026-06-08 to 2026-06-09
 - Minimum counted runs: 168
-- gate-sample-firstGameCompletion: 30 prompt view(s), 128 success(es), 128 counted run(s); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-firstGameCompletion
-- gate-sample-replayRate: 30 prompt view(s), 10 success(es), 30 counted run(s); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-replayRate
-- gate-sample-d1Retention: 10 prompt view(s), 1 success(es), 10 counted run(s); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260605-d1Retention
+- gate-sample-firstGameCompletion: 30 prompt view(s), 128 success(es), 128 counted run(s); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260608-firstGameCompletion
+- gate-sample-replayRate: 30 prompt view(s), 10 success(es), 30 counted run(s); /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260608-replayRate
+- gate-sample-d1Retention: 10 prompt view(s), 1 success(es), 10 counted run(s); /?game=market-pulse&utm_source=gate_sample&utm_campaign=gate-sample-20260608-d1Retention
 
 ## Commands
 
@@ -68,6 +68,6 @@ Runtime evidence policy: active
 
 ## Next Actions
 
-- First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260605-firstGameCompletion.
+- First game completion needs 30 more prompt exposure(s) and 128 observed success(es); feature Harbor Rings via /?game=harbor-rings&utm_source=gate_sample&utm_campaign=gate-sample-20260608-firstGameCompletion.
 - D1 retention is the fastest gate sample: 10 prompt exposure(s), 1 observed success(es).
 - Export or collect real browser events, then run npm run autonomous:collect-local-event-drops; use npm run autonomous:collect-sample-downloads only after explicit owner opt-in.

@@ -1,6 +1,6 @@
 # Organic Seed Loop
 
-Generated: 2026-06-05T02:12:21.919Z
+Generated: 2026-06-08T14:21:37.615Z
 Status: organic-seed-loop-ready
 Analytics source: fixture-sample
 Target: market-pulse
@@ -8,10 +8,10 @@ Max cost: $0.00
 
 ## Campaigns
 
-- #1 Market Pulse: collecting-attribution, sample 0%, score 1
-- #2 Guild Garden: collecting-attribution, sample 0%, score 0.875
-- #3 Canopy Bloom: collecting-attribution, sample 0%, score 0.833
-- #4 Metro Loom: collecting-attribution, sample 0%, score 0.813
+- #1 Market Pulse: armed, sample 0%, score 1
+- #2 Guild Garden: armed, sample 0%, score 0.875
+- #3 Canopy Bloom: armed, sample 0%, score 0.833
+- #4 Metro Loom: armed, sample 0%, score 0.813
 
 ## Guardrails
 
