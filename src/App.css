@@ -548,6 +548,23 @@
   overflow-wrap: anywhere;
 }
 
+.organicSeedSummary {
+  margin: 0;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.organicSeedTagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.organicSeedTagRow .tag {
+  background: rgba(31, 109, 92, 0.14);
+}
+
 .organicSeedActions {
   justify-content: flex-end;
   flex-wrap: wrap;

@@ -2,7 +2,7 @@ export const autonomousOwnerLoop = {
   "status": "owner-loop-ready",
   "mode": "zero-spend-web-ready",
   "autonomyScore": {
-    "percent": 96
+    "percent": 93
   },
   "controls": {
     "externalAccountInterventionRequired": true
@@ -13,7 +13,7 @@ export const autonomousOwnerLoop = {
   "executionBackoff": {
     "status": "ready",
     "heldActionCount": 0,
-    "executableWithoutRepeatCount": 10,
+    "executableWithoutRepeatCount": 14,
     "nextResumeAt": null,
     "nextResumeInHours": null,
     "heldActionIds": []

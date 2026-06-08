@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-07T14:57:08.628Z",
+  "generatedAt": "2026-06-08T02:21:43.422Z",
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
@@ -483,7 +483,7 @@
       {
         "id": "performance-budget",
         "status": "pass",
-        "detail": "Performance budget is performance-budget-ready; initial JS 631 KB / 171.4 KB gzip; deferred game chunk GameCanvas-CKo0uGo6.js."
+        "detail": "Performance budget is performance-budget-ready; initial JS 631.7 KB / 171.6 KB gzip; deferred game chunk GameCanvas-ruf4wg0W.js."
       },
       {
         "id": "release-candidate",
@@ -1161,21 +1161,21 @@
     },
     "initial": {
       "entryScripts": [
-        "index-6qKt_km2.js",
+        "index-CnhW_hqw.js",
         "registerSW.js"
       ],
       "scriptPaths": [
-        "assets/index-6qKt_km2.js",
+        "assets/index-CnhW_hqw.js",
         "registerSW.js"
       ],
       "jsFiles": [
         {
-          "file": "index-6qKt_km2.js",
-          "path": "assets/index-6qKt_km2.js",
-          "bytes": 646011,
-          "kb": 630.9,
-          "gzipBytes": 175408,
-          "gzipKb": 171.3
+          "file": "index-CnhW_hqw.js",
+          "path": "assets/index-CnhW_hqw.js",
+          "bytes": 646694,
+          "kb": 631.5,
+          "gzipBytes": 175557,
+          "gzipKb": 171.4
         },
         {
           "file": "registerSW.js",
@@ -1186,23 +1186,23 @@
           "gzipKb": 0.1
         }
       ],
-      "jsBytes": 646185,
-      "jsKb": 631,
-      "gzipBytes": 175549,
-      "gzipKb": 171.4,
+      "jsBytes": 646868,
+      "jsKb": 631.7,
+      "gzipBytes": 175698,
+      "gzipKb": 171.6,
       "cssFiles": [
         {
-          "file": "index-eoNuDxve.css",
-          "path": "assets/index-eoNuDxve.css",
-          "bytes": 12718,
-          "kb": 12.4,
-          "gzipBytes": 3277,
+          "file": "index-CseRq44Z.css",
+          "path": "assets/index-CseRq44Z.css",
+          "bytes": 12896,
+          "kb": 12.6,
+          "gzipBytes": 3316,
           "gzipKb": 3.2
         }
       ],
-      "cssBytes": 12718,
-      "cssKb": 12.4,
-      "cssGzipBytes": 3277,
+      "cssBytes": 12896,
+      "cssKb": 12.6,
+      "cssGzipBytes": 3316,
       "cssGzipKb": 3.2
     },
     "deferred": {
@@ -1216,11 +1216,11 @@
           "gzipKb": 1.1
         },
         {
-          "file": "aggregateEvidenceIssue-78V6JME4.js",
-          "path": "assets/aggregateEvidenceIssue-78V6JME4.js",
+          "file": "aggregateEvidenceIssue-CcWqP1Yy.js",
+          "path": "assets/aggregateEvidenceIssue-CcWqP1Yy.js",
           "bytes": 3717,
           "kb": 3.6,
-          "gzipBytes": 1483,
+          "gzipBytes": 1480,
           "gzipKb": 1.4
         },
         {
@@ -1288,8 +1288,8 @@
           "gzipKb": 1.1
         },
         {
-          "file": "calendarReminder-BiVTcdQ9.js",
-          "path": "assets/calendarReminder-BiVTcdQ9.js",
+          "file": "calendarReminder--gmqzgCJ.js",
+          "path": "assets/calendarReminder--gmqzgCJ.js",
           "bytes": 1627,
           "kb": 1.6,
           "gzipBytes": 922,
@@ -1336,11 +1336,11 @@
           "gzipKb": 0.8
         },
         {
-          "file": "GameCanvas-CKo0uGo6.js",
-          "path": "assets/GameCanvas-CKo0uGo6.js",
+          "file": "GameCanvas-ruf4wg0W.js",
+          "path": "assets/GameCanvas-ruf4wg0W.js",
           "bytes": 3430,
           "kb": 3.3,
-          "gzipBytes": 1240,
+          "gzipBytes": 1239,
           "gzipKb": 1.2
         },
         {
@@ -1400,12 +1400,12 @@
           "gzipKb": 2.4
         },
         {
-          "file": "liveSiteMonitor-B1rPBMwR.js",
-          "path": "assets/liveSiteMonitor-B1rPBMwR.js",
-          "bytes": 1346,
-          "kb": 1.3,
-          "gzipBytes": 634,
-          "gzipKb": 0.6
+          "file": "liveSiteMonitor-C1OZuAI2.js",
+          "path": "assets/liveSiteMonitor-C1OZuAI2.js",
+          "bytes": 1596,
+          "kb": 1.6,
+          "gzipBytes": 733,
+          "gzipKb": 0.7
         },
         {
           "file": "localEventBridge-DYEj2X7S.js",
@@ -1472,19 +1472,19 @@
           "gzipKb": 0.1
         },
         {
-          "file": "productionEnvironment-Cs8oqADr.js",
-          "path": "assets/productionEnvironment-Cs8oqADr.js",
+          "file": "productionEnvironment-DuHNBYjG.js",
+          "path": "assets/productionEnvironment-DuHNBYjG.js",
           "bytes": 5409,
           "kb": 5.3,
-          "gzipBytes": 2007,
+          "gzipBytes": 2006,
           "gzipKb": 2
         },
         {
-          "file": "productionMeasurementStatus-CYVlMP-m.js",
-          "path": "assets/productionMeasurementStatus-CYVlMP-m.js",
+          "file": "productionMeasurementStatus-CvpK1O1_.js",
+          "path": "assets/productionMeasurementStatus-CvpK1O1_.js",
           "bytes": 7078,
           "kb": 6.9,
-          "gzipBytes": 1935,
+          "gzipBytes": 1936,
           "gzipKb": 1.9
         },
         {
@@ -1496,11 +1496,11 @@
           "gzipKb": 3.1
         },
         {
-          "file": "publicRepoSecurityAudit-B4d5A2qi.js",
-          "path": "assets/publicRepoSecurityAudit-B4d5A2qi.js",
+          "file": "publicRepoSecurityAudit-B-zo1JGQ.js",
+          "path": "assets/publicRepoSecurityAudit-B-zo1JGQ.js",
           "bytes": 460,
           "kb": 0.4,
-          "gzipBytes": 321,
+          "gzipBytes": 323,
           "gzipKb": 0.3
         },
         {
@@ -1561,11 +1561,11 @@
         }
       ],
       "gameChunk": {
-        "file": "GameCanvas-CKo0uGo6.js",
-        "path": "assets/GameCanvas-CKo0uGo6.js",
+        "file": "GameCanvas-ruf4wg0W.js",
+        "path": "assets/GameCanvas-ruf4wg0W.js",
         "bytes": 3430,
         "kb": 3.3,
-        "gzipBytes": 1240,
+        "gzipBytes": 1239,
         "gzipKb": 1.2
       },
       "largestDeferredChunk": {
@@ -1584,8 +1584,8 @@
         "gzipBytes": 348935,
         "gzipKb": 340.8
       },
-      "chunksBytes": 1561992,
-      "chunksKb": 1525.4
+      "chunksBytes": 1562242,
+      "chunksKb": 1525.6
     },
     "controls": {
       "phaserDeferredFromInitialShell": true,
@@ -1599,22 +1599,22 @@
       {
         "id": "initial-js-target",
         "status": "pass",
-        "detail": "Initial JS is 631 KB; target is 686 KB."
+        "detail": "Initial JS is 631.7 KB; target is 686 KB."
       },
       {
         "id": "initial-js-budget",
         "status": "pass",
-        "detail": "Initial JS is 631 KB; deploy cap is 700 KB."
+        "detail": "Initial JS is 631.7 KB; deploy cap is 700 KB."
       },
       {
         "id": "initial-js-gzip-budget",
         "status": "pass",
-        "detail": "Initial JS gzip is 171.4 KB; budget is 200 KB."
+        "detail": "Initial JS gzip is 171.6 KB; budget is 200 KB."
       },
       {
         "id": "initial-css-budget",
         "status": "pass",
-        "detail": "Initial CSS is 12.4 KB; budget is 40 KB."
+        "detail": "Initial CSS is 12.6 KB; budget is 40 KB."
       },
       {
         "id": "manifest",
@@ -1629,7 +1629,7 @@
       {
         "id": "game-runtime-deferred",
         "status": "pass",
-        "detail": "GameCanvas-CKo0uGo6.js is deferred from the initial shell."
+        "detail": "GameCanvas-ruf4wg0W.js is deferred from the initial shell."
       },
       {
         "id": "largest-js-deferred",
@@ -1645,7 +1645,7 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-6b68d9e196a8",
+    "candidateId": "pwa-d2dccb02906b",
     "target": {
       "provider": "github-pages",
       "artifactPath": "dist",
@@ -1656,8 +1656,8 @@
     },
     "summary": {
       "totalFiles": 106,
-      "totalBytes": 4485500,
-      "totalKb": 4380.4,
+      "totalBytes": 4486611,
+      "totalKb": 4381.5,
       "assetFiles": 46,
       "htmlFiles": 25,
       "gamePages": 10,
@@ -1666,7 +1666,7 @@
     },
     "integrity": {
       "algorithm": "sha256",
-      "aggregateHash": "6b68d9e196a881efce7ed832c98561d538808ba643b43aaec005b51e94c31a84",
+      "aggregateHash": "d2dccb02906b5f0b939c69598f8ad0ae6bde2a07794a1d48b85ee4d8620ab1b1",
       "requiredFileChecks": [
         {
           "path": "index.html",
@@ -5563,7 +5563,7 @@
     "mode": "execute-unlocked-local-followups",
     "sourceStatus": {
       "productionBlockerHandoff": "handoff-waiting-on-owner-inputs",
-      "productionBlockerHandoffSourceDataHash": "cb829980f179"
+      "productionBlockerHandoffSourceDataHash": "2e681452a4e3"
     },
     "summary": {
       "handoffItems": 8,

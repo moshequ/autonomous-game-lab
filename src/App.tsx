@@ -1592,9 +1592,18 @@ function App() {
   const organicSeedProgress = organicSeedTargetCampaign
     ? trafficCampaignProgress.get(organicSeedTargetCampaign.id)
     : null
+  const organicSeedStartsTarget =
+    organicSeedProgress?.targetStarts ?? organicSeedTargetCampaign?.measurement.targetStartsBeforeJudgment ?? 0
+  const organicSeedStarts = organicSeedProgress?.starts ?? 0
+  const organicSeedStartsRemaining = Math.max(0, organicSeedStartsTarget - organicSeedStarts)
   const organicSeedSamplePercent = organicSeedProgress
-    ? organicSeedProgress.starts / Math.max(organicSeedProgress.targetStarts, 1)
+    ? organicSeedStarts / Math.max(organicSeedStartsTarget, 1)
     : organicSeedLoop.target?.sampleProgress
+  const organicSeedStoreFocusAligned =
+    lateOpsData?.storeListingOptimizer.recommendation.focusGameId === organicSeedGameId
+  const organicSeedAcquisitionFeatured =
+    acquisitionLearningData?.summary.featuredGameId === organicSeedGameId
+  const organicSeedDailyChallengeAligned = retentionLoop.dailyChallenge.gameId === organicSeedGameId
   const localTrafficStarts = [...trafficCampaignProgress.values()].reduce(
     (sum, progress) => sum + progress.starts,
     0,
@@ -6451,6 +6460,13 @@ function App() {
                         {formatPercent(organicSeedSamplePercent)} sample
                       </strong>
                     </div>
+                    <p className="organicSeedSummary">{organicSeedTargetCampaign.copy.text}</p>
+                    <div className="organicSeedTagRow" aria-label="Seed target alignment">
+                      {organicSeedDailyChallengeAligned ? <span className="tag">daily challenge</span> : null}
+                      {organicSeedAcquisitionFeatured ? <span className="tag">acquisition focus</span> : null}
+                      {organicSeedStoreFocusAligned ? <span className="tag">store focus</span> : null}
+                      <span className="tag">zero spend</span>
+                    </div>
                     <div>
                       <span>Runtime pick</span>
                       <strong>{organicSeedTargetSource}</strong>
@@ -6458,11 +6474,12 @@ function App() {
                     <div>
                       <span>Local sample</span>
                       <strong>
-                        {organicSeedProgress?.starts ?? 0}/
-                        {organicSeedProgress?.targetStarts ??
-                          organicSeedTargetCampaign.measurement.targetStartsBeforeJudgment}{' '}
-                        starts
+                        {organicSeedStarts}/{organicSeedStartsTarget} starts
                       </strong>
+                    </div>
+                    <div>
+                      <span>Starts to judgment</span>
+                      <strong>{organicSeedStartsRemaining} remaining</strong>
                     </div>
                     <div>
                       <span>Local actions</span>
@@ -6482,14 +6499,14 @@ function App() {
                         type="button"
                         onClick={() => openSeedCampaign(organicSeedTargetCampaign)}
                       >
-                        {organicSeedLoop.runtimeSurface.primaryCtaLabel}
+                        Play {organicSeedTargetCampaign.title}
                       </button>
                       <button
                         className="tinyButton"
                         type="button"
                         onClick={() => shareSeedCampaign(organicSeedTargetCampaign)}
                       >
-                        {organicSeedLoop.runtimeSurface.secondaryCtaLabel}
+                        Share {organicSeedTargetCampaign.title}
                       </button>
                       <button
                         className="tinyButton"
