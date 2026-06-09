@@ -1,22 +1,22 @@
 # Autonomous Owner Loop
 
-Generated: 2026-06-08T02:21:40.993Z
+Generated: 2026-06-09T14:27:09.024Z
 Status: owner-loop-ready
 Mode: zero-spend-web-ready
 Autonomy score: 42/45 (93%)
 
 ## Owner Decision
 
-- Next action: seed-portfolio-traffic
-- Command: npm run autonomous:growth && npm run autonomous:portfolio && npm run autonomous:traffic && npm run autonomous:acquisition && npm run autonomous:organic-seed-loop
-- Rationale: Under-measured playable games need free organic/internal traffic before quality judgment.
+- Next action: refresh-live-site-monitor
+- Command: npm run autonomous:live-monitor
+- Rationale: Runs read-only live checks between deploys so public PWA drift is caught without waiting for a new release.
 - Last executed action: apply-safe-improvements
 - Recent executed actions: none
 
 ## Execution Backoff
 
 - Status: ready
-- Selectable actions: refresh-autonomous-cadence, refresh-autonomous-self-update, seed-portfolio-traffic, refresh-support-feedback, optimize-daily-retention, prepare-release-candidate, run-post-deploy-smoke, collect-gate-sample-local-drops, refresh-product-gate-sample-plan, refresh-completion-loop, refresh-replay-loop, bootstrap-production-setup, refresh-objective-audit, optimize-store-listing
+- Selectable actions: refresh-autonomous-cadence, refresh-autonomous-self-update, seed-portfolio-traffic, refresh-support-feedback, optimize-daily-retention, measure-pwa-install-loop, prepare-release-candidate, run-post-deploy-smoke, refresh-live-site-monitor, collect-gate-sample-local-drops, refresh-product-gate-sample-plan, refresh-completion-loop, refresh-replay-loop, bootstrap-production-setup, refresh-objective-audit, optimize-store-listing
 - Held actions: none
 - Next resume: new evidence or owner input
 - No repeat cycling: true
@@ -58,7 +58,7 @@ Autonomy score: 42/45 (93%)
 - ready: organic-seed-loop - Target market-pulse; surface portal-growth-loop; share telemetry organic_seed_share_clicked.
 - ready: retention-loop - Daily market-pulse; D1 17%; streak variant daily-streak; return prompt armed; return intent armed.
 - ready: pwa-install-loop - Prompt autonomy-cockpit; installs 0; launch events 0; sample collecting-sample needs 20 prompt(s) and 10 launch event(s).
-- ready: performance-budget - Initial JS 631.7 KB; gzip 171.6 KB; deferred chunks 44.
+- ready: performance-budget - Initial JS 633 KB; gzip 171.9 KB; deferred chunks 45.
 - ready: product-optimization - Completion 40% / gate 55%; latest already-applied.
 - ready: support-feedback - Support feedback support-feedback-empty; issues 0; routable signals 0; aggregate notes 0.
 - ready: product-gate-recovery - Recovery product-gate-recovery-ready; primary firstGameCompletion; experiment collecting-sample; failing gates 3; next lift 128.
@@ -71,7 +71,7 @@ Autonomy score: 42/45 (93%)
 - ready: repository-channel - Repository moshequ/autonomous-game-lab; git worktree ready; workflow dispatch blocked.
 - ready: repository-bootstrap - Bootstrap waiting-for-gh-auth; mode plan-only; helper ops/github/bootstrap-repository.sh; local git ready.
 - ready: web-deployment - Deployment ready-for-pages; web readiness ready-after-build; promotion promotable-internal.
-- ready: release-candidate - Release candidate release-candidate-ready; files 106; smoke URLs 33.
+- ready: release-candidate - Release candidate release-candidate-ready; files 107; smoke URLs 33.
 - waiting-for-origin: post-deploy-smoke - Smoke blocked-missing-origin; origin https://moshequ.github.io/autonomous-game-lab; manifest comparison required; checks 0/34 passed; local artifact predeploy-artifact-smoke-passed 34/34 passed.
 - ready: post-deploy-artifact-sync - Artifact sync post-deploy-artifact-sync-passed; run 26537345764; live matches artifact true; strict true.
 - ready: live-site-monitor - Live monitor live-site-monitor-passed; origin https://moshequ.github.io/autonomous-game-lab; checks 34/34; live matches synced deploy true.
@@ -100,12 +100,12 @@ Autonomy score: 42/45 (93%)
 - monitor: refresh-organic-seed-loop - npm run autonomous:organic-seed-loop
 - armed: refresh-support-feedback - npm run autonomous:support-feedback
 - armed: optimize-daily-retention - npm run autonomous:retention
-- monitor: measure-pwa-install-loop - npm run autonomous:pwa-install
+- armed: measure-pwa-install-loop - npm run autonomous:pwa-install
 - monitor: check-performance-budget - npm run build && npm run autonomous:performance && npm run autonomous:release-candidate
 - armed: prepare-release-candidate - npm run autonomous:release-candidate && npm run autonomous:post-deploy-smoke && npm run autonomous:live-monitor
 - armed: run-post-deploy-smoke - npm run autonomous:post-deploy-smoke
 - monitor: sync-post-deploy-artifact - npm run autonomous:post-deploy-artifact-sync
-- monitor: refresh-live-site-monitor - npm run autonomous:live-monitor
+- armed: refresh-live-site-monitor - npm run autonomous:live-monitor
 - monitor: optimize-product-gates - npm run autonomous:analyze && npm run autonomous:product-optimize && npm run autonomous:sync-config && npm run autonomous:simulate
 - monitor: refresh-product-gate-recovery - npm run autonomous:gate-recovery && npm run autonomous:sample-plan
 - armed: collect-gate-sample-local-drops - npm run autonomous:collect-local-event-drops

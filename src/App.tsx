@@ -199,6 +199,9 @@ const formatUsd = (value: number | null | undefined) =>
 const formatPayback = (value: number | null | undefined) =>
   typeof value === 'number' ? `${value}d` : 'not ready'
 
+const formatShortSha = (value: string | null | undefined, length = 12) =>
+  typeof value === 'string' && value.length > 0 ? value.slice(0, length) : 'missing'
+
 type LateOpsData = {
   acquisitionLearning: typeof import('./data/acquisitionLearning').acquisitionLearning
   balanceReport: typeof import('./data/balanceReport').balanceReport
@@ -215,6 +218,7 @@ type LateOpsData = {
   releaseHealth: typeof import('./data/releaseHealth').releaseHealth
   productionEnvironment: typeof import('./data/productionEnvironment').productionEnvironment
   liveSiteMonitor: typeof import('./data/liveSiteMonitor').liveSiteMonitor
+  postDeployArtifactSync: typeof import('./data/postDeployArtifactSync').postDeployArtifactSync
   productionBootstrap: typeof import('./data/productionBootstrap').productionBootstrap
   productionBlockerHandoff: typeof import('./data/productionBlockerHandoff').productionBlockerHandoff
   productionActivation: typeof import('./data/productionActivation').productionActivation
@@ -989,6 +993,7 @@ function App() {
         releaseHealthModule,
         productionEnvironmentModule,
         liveSiteMonitorModule,
+        postDeployArtifactSyncModule,
         productionBootstrapModule,
         productionBlockerHandoffModule,
         productionActivationModule,
@@ -1022,6 +1027,7 @@ function App() {
         import('./data/releaseHealth'),
         import('./data/productionEnvironment'),
         import('./data/liveSiteMonitor'),
+        import('./data/postDeployArtifactSync'),
         import('./data/productionBootstrap'),
         import('./data/productionBlockerHandoff'),
         import('./data/productionActivation'),
@@ -1061,6 +1067,7 @@ function App() {
         releaseHealth: releaseHealthModule.releaseHealth,
         productionEnvironment: productionEnvironmentModule.productionEnvironment,
         liveSiteMonitor: liveSiteMonitorModule.liveSiteMonitor,
+        postDeployArtifactSync: postDeployArtifactSyncModule.postDeployArtifactSync,
         productionBootstrap: productionBootstrapModule.productionBootstrap,
         productionBlockerHandoff: productionBlockerHandoffModule.productionBlockerHandoff,
         productionActivation: productionActivationModule.productionActivation,
@@ -1511,6 +1518,27 @@ function App() {
     : liveSiteMonitorData
       ? 'live'
       : 'loading'
+  const postDeployArtifactSyncData = lateOpsData?.postDeployArtifactSync ?? null
+  const postDeployWorkflow = postDeployArtifactSyncData?.workflow ?? null
+  const postDeployFreshness = postDeployArtifactSyncData?.deploymentFreshness ?? null
+  const deployedRunLabel = postDeployWorkflow?.runId ? `#${postDeployWorkflow.runId}` : 'loading'
+  const deployedRunAt = postDeployWorkflow?.createdAt
+    ? new Date(postDeployWorkflow.createdAt).toLocaleString()
+    : 'loading'
+  const liveDeployHead = formatShortSha(postDeployWorkflow?.headSha)
+  const currentHeadLabel = formatShortSha(postDeployFreshness?.currentHeadSha)
+  const deployFreshnessLabel =
+    postDeployFreshness?.status === 'current-head-not-deployed'
+      ? 'local main ahead'
+      : postDeployFreshness?.currentHeadDeployed
+        ? 'current main live'
+        : postDeployFreshness?.status ?? 'loading'
+  const liveVsLocalLabel =
+    liveSiteMonitorData?.summary.liveMatchesCurrentLocalCandidate
+      ? 'matched'
+      : liveSiteMonitorData
+        ? 'drifted'
+        : 'loading'
   const operatorSelectedAction = (autonomousOperatorData?.selectedAction as { id: string } | null) ?? null
   const operatorExternalInputHandoff = (
     (autonomousOperatorData ?? {}) as {
@@ -4550,6 +4578,38 @@ function App() {
                         ? 'review'
                         : 'loading'}
                   </strong>
+                </div>
+                <div>
+                  <span>Current local build</span>
+                  <strong>{liveVsLocalLabel}</strong>
+                </div>
+                <div>
+                  <span>Deploy freshness</span>
+                  <strong>{deployFreshnessLabel}</strong>
+                </div>
+                <div>
+                  <span>Deployed run</span>
+                  <strong>
+                    {postDeployWorkflow?.url ? (
+                      <a href={postDeployWorkflow.url} target="_blank" rel="noreferrer">
+                        {deployedRunLabel}
+                      </a>
+                    ) : (
+                      deployedRunLabel
+                    )}
+                  </strong>
+                </div>
+                <div>
+                  <span>Run created</span>
+                  <strong>{deployedRunAt}</strong>
+                </div>
+                <div>
+                  <span>Deployed head</span>
+                  <strong>{liveDeployHead}</strong>
+                </div>
+                <div>
+                  <span>Current head</span>
+                  <strong>{currentHeadLabel}</strong>
                 </div>
               </div>
               <div className="monetizationRuntime" aria-label="Production Bootstrap">
