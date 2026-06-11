@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-04T03:28:43.028Z",
+  "generatedAt": "2026-06-11T02:47:42.814Z",
   "status": "post-deploy-artifact-sync-passed",
   "envFiles": {
     "loaded": true,
@@ -69,49 +69,49 @@
   "workflow": {
     "workflowFile": "web-pwa-deploy.yml",
     "artifactName": "post-deploy-smoke",
-    "runId": 26537345764,
-    "headSha": "0c4b8cd2ddd1923872dadae501985738c84eb1a5",
-    "createdAt": "2026-05-27T20:38:15Z",
-    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26537345764",
+    "runId": 26887865130,
+    "headSha": "af6277a15a3efe0b38ee16c4c4173ffbf2814cdc",
+    "createdAt": "2026-06-03T13:27:05Z",
+    "url": "https://github.com/moshequ/autonomous-game-lab/actions/runs/26887865130",
     "source": "latest-successful-run",
     "runListAvailable": true
   },
   "deploymentFreshness": {
     "status": "current-head-not-deployed",
-    "currentHeadSha": "7482ce011f3a4014c33ce6915e11dc536df4fe42",
-    "currentHeadParentSha": "c4ae6e95b0ee1e10d3d39f0a4804461dcadca21e",
+    "currentHeadSha": "0cd67d9d6259268926086eba8ac95697f4b224c3",
+    "currentHeadParentSha": "e52e754e478b780685c4654bf394cd5216604f7b",
     "currentBranch": "main",
-    "currentHeadSubject": "Autonomy: refresh traffic sample attribution evidence",
-    "selectedRunHeadSha": "0c4b8cd2ddd1923872dadae501985738c84eb1a5",
+    "currentHeadSubject": "Shorten Harbor Rings first-turn tutorial",
+    "selectedRunHeadSha": "af6277a15a3efe0b38ee16c4c4173ffbf2814cdc",
     "selectedRunHeadMatchesCurrent": false,
     "selectedRunHeadMatchesDeploySource": false,
     "currentHeadIsPostDeployEvidenceCommit": false,
     "currentHeadDeployed": false,
-    "deploySourceHeadSha": "7482ce011f3a4014c33ce6915e11dc536df4fe42",
+    "deploySourceHeadSha": "0cd67d9d6259268926086eba8ac95697f4b224c3",
     "deploySourceDeployed": false,
     "currentHeadQueuedOrRunning": false,
     "currentHeadSuccessfulRunId": null,
     "currentHeadActiveRunId": null,
-    "latestRunId": null,
-    "latestRunStatus": null,
-    "latestRunConclusion": null,
-    "latestRunHeadSha": null,
+    "latestRunId": 27306727125,
+    "latestRunStatus": "completed",
+    "latestRunConclusion": "skipped",
+    "latestRunHeadSha": "de01bc1f269b2d2e2942ed10b99ee6139d6c1fd8",
     "liveMatchesCurrentLocalCandidate": false,
-    "liveCandidateId": null,
-    "localCandidateId": "pwa-96de0f0f6dd8",
-    "liveAggregateHash": null,
-    "localAggregateHash": "96de0f0f6dd8d9682562bdf36aafc9c861bf5dd35e2fbb3c984ec6c99b1e2b5e",
+    "liveCandidateId": "pwa-b2cb4bc35a26",
+    "localCandidateId": "pwa-0e2e246fa492",
+    "liveAggregateHash": "b2cb4bc35a26e4c35aeeaa58d85cf602ccd9a6b87d284cf784d26bc11cd0f921",
+    "localAggregateHash": "0e2e246fa49209224e357d1b15ad28fea6796c142564d829c35929d080bd23a7",
     "workflowRunListAvailable": true
   },
   "artifact": {
     "status": "post-deploy-smoke-passed",
-    "generatedAt": "2026-05-27T20:38:59.726Z",
+    "generatedAt": "2026-06-03T13:28:33.837Z",
     "target": {
       "origin": "https://moshequ.github.io/autonomous-game-lab/",
       "originSource": "agl-deployed-pwa-origin",
       "provider": "github-pages",
-      "candidateId": "pwa-3e804a980eae",
-      "aggregateHash": "3e804a980eaecdb8b61c4265bf63efd871aa5a5fcea1c8b9f2fd3de9c8425860",
+      "candidateId": "pwa-b2cb4bc35a26",
+      "aggregateHash": "b2cb4bc35a26e4c35aeeaa58d85cf602ccd9a6b87d284cf784d26bc11cd0f921",
       "strictManifestComparison": true
     },
     "sourceStatus": {
@@ -127,8 +127,8 @@
     },
     "liveRelease": {
       "status": "release-candidate-ready",
-      "candidateId": "pwa-3e804a980eae",
-      "aggregateHash": "3e804a980eaecdb8b61c4265bf63efd871aa5a5fcea1c8b9f2fd3de9c8425860",
+      "candidateId": "pwa-b2cb4bc35a26",
+      "aggregateHash": "b2cb4bc35a26e4c35aeeaa58d85cf602ccd9a6b87d284cf784d26bc11cd0f921",
       "localCandidateMatches": true,
       "strictManifestComparison": true,
       "postDeploySmokeUrls": 33,
@@ -145,7 +145,7 @@
       "strictManifestComparison": true,
       "inferredLiveObservationAllowed": false
     },
-    "reportSha256": "07dacf750f1e49db60c2ebd5c338b948f6ea5d7f4de34310e05d16bf4d458a3c"
+    "reportSha256": "c886aa1cbf95df7a858c58543cc075dacfc008b2f460fa9f7308193f0dd814ee"
   },
   "live": {
     "origin": "https://moshequ.github.io/autonomous-game-lab/",
@@ -153,11 +153,11 @@
     "status": 200,
     "finalUrl": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
     "contentType": "application/json; charset=utf-8",
-    "bytes": 42017,
-    "textSha256": "0580e7baa1b2fd40598d89ffe2817b0c6f4b58684268b6d2dbf4252f28b75319",
+    "bytes": 43526,
+    "textSha256": "c73e50820bb0ad1232d2303031e0ae6e053e3ead1ec820339c769a7ac7e44af8",
     "releaseStatus": "release-candidate-ready",
-    "candidateId": "pwa-3e804a980eae",
-    "aggregateHash": "3e804a980eaecdb8b61c4265bf63efd871aa5a5fcea1c8b9f2fd3de9c8425860",
+    "candidateId": "pwa-b2cb4bc35a26",
+    "aggregateHash": "b2cb4bc35a26e4c35aeeaa58d85cf602ccd9a6b87d284cf784d26bc11cd0f921",
     "matchesArtifact": true
   },
   "validation": {
@@ -201,12 +201,12 @@
     {
       "id": "successful-pages-run",
       "status": "pass",
-      "detail": "Latest successful web-pwa-deploy.yml run is 26537345764."
+      "detail": "Latest successful web-pwa-deploy.yml run is 26887865130."
     },
     {
       "id": "post-deploy-smoke-artifact",
       "status": "pass",
-      "detail": "Downloaded post-deploy-smoke artifact from run 26537345764."
+      "detail": "Downloaded post-deploy-smoke artifact from run 26887865130."
     },
     {
       "id": "strict-smoke-artifact",
@@ -221,11 +221,10 @@
     {
       "id": "deployment-freshness",
       "status": "monitor",
-      "detail": "Current main 7482ce011f3a is not the latest strict deployed artifact; freshness current-head-not-deployed."
+      "detail": "Current main 0cd67d9d6259 is not the latest strict deployed artifact; freshness current-head-not-deployed."
     }
   ],
   "nextActions": [
-    "Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.",
     "Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.",
     "Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.",
     "Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass."

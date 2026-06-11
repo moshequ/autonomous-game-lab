@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-09T14:27:30.342Z",
+  "generatedAt": "2026-06-11T02:46:25.472Z",
   "status": "post-deploy-smoke-observed-live",
   "envFiles": {
     "loaded": true,
@@ -66,8 +66,8 @@
     "origin": "https://moshequ.github.io/autonomous-game-lab",
     "originSource": "release-candidate-public-origin",
     "provider": "github-pages",
-    "candidateId": "pwa-db3386713744",
-    "aggregateHash": "db3386713744fda330a29724ab59296d48fd70750691521c144c4b40ea129b67",
+    "candidateId": "pwa-0e2e246fa492",
+    "aggregateHash": "0e2e246fa49209224e357d1b15ad28fea6796c142564d829c35929d080bd23a7",
     "strictManifestComparison": false
   },
   "liveRelease": {
@@ -80,7 +80,7 @@
     "smokePlanSource": "live-release-manifest"
   },
   "sourceStatus": {
-    "deployment": "ready-for-pages",
+    "deployment": "blocked",
     "releaseCandidate": "release-candidate-ready",
     "productionResponse": "guarded-operations"
   },
@@ -161,7 +161,7 @@
         "file": "dist/measurement-status.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 94681,
+        "bytes": 93179,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -171,7 +171,7 @@
         "file": "dist/measurement-status.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 166594,
+        "bytes": 163629,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -191,7 +191,7 @@
         "file": "dist/owner-unlock-brief.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 33494,
+        "bytes": 33498,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -201,7 +201,7 @@
         "file": "dist/owner-unlock-preflight.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 38782,
+        "bytes": 35532,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -221,7 +221,7 @@
         "file": "dist/analytics-unlock.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 29953,
+        "bytes": 28463,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -231,7 +231,7 @@
         "file": "dist/analytics-unlock.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 106030,
+        "bytes": 103069,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -291,7 +291,7 @@
         "file": "dist/store-readiness.html",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 28287,
+        "bytes": 28436,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -301,7 +301,7 @@
         "file": "dist/store-readiness.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 18680,
+        "bytes": 18904,
         "textMatched": true,
         "detail": "Local production artifact matched required text."
       },
@@ -441,11 +441,11 @@
         "file": "dist/release-candidate.json",
         "expectedStatus": 200,
         "status": "pass",
-        "bytes": 43832,
+        "bytes": 43821,
         "candidateMatches": true,
         "hashMatches": true,
-        "localCandidateId": "pwa-db3386713744",
-        "localAggregateHash": "db3386713744fda330a29724ab59296d48fd70750691521c144c4b40ea129b67",
+        "localCandidateId": "pwa-0e2e246fa492",
+        "localAggregateHash": "0e2e246fa49209224e357d1b15ad28fea6796c142564d829c35929d080bd23a7",
         "detail": "Local release manifest matches the release candidate."
       }
     ]
@@ -929,7 +929,7 @@
       "path": "/release-candidate.json",
       "url": "https://moshequ.github.io/autonomous-game-lab/release-candidate.json",
       "expectedStatus": 200,
-      "requiredText": "pwa-db3386713744",
+      "requiredText": "pwa-0e2e246fa492",
       "status": "pass",
       "detail": "Live release manifest is reachable; it does not match the current local release candidate.",
       "actualStatus": 200,

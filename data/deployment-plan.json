@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-08T02:21:43.631Z",
-  "status": "ready-for-pages",
+  "generatedAt": "2026-06-11T02:48:28.821Z",
+  "status": "blocked",
   "target": {
     "provider": "github-pages",
     "cost": "$0 platform hosting for public/internal experiment traffic",
@@ -8,14 +8,14 @@
     "artifactPath": "dist"
   },
   "repositoryChannel": {
-    "status": "waiting-for-gh-auth",
+    "status": "waiting-for-repository-channel",
     "repository": "moshequ/autonomous-game-lab",
     "source": "origin-remote",
     "insideWorkTree": true,
     "ghCliAvailable": true,
     "workflowDispatchReady": false,
     "blockers": [
-      "Authenticate GitHub CLI or configure GH_TOKEN/GITHUB_TOKEN for workflow dispatch and repository settings sync."
+      "Refresh build, release candidate, post-deploy smoke, and deployment plan artifacts."
     ]
   },
   "eventCollector": {
@@ -25,8 +25,8 @@
     "costPosture": "free-tier-friendly-no-paid-traffic"
   },
   "promotion": {
-    "webStatus": "promotable-internal",
-    "nextAction": "Connect a free static host or GitHub Pages environment, then publish dist."
+    "webStatus": "blocked",
+    "nextAction": "Fix web readiness blockers."
   },
   "releaseHealth": {
     "status": "monitoring",
@@ -52,11 +52,11 @@
   },
   "releaseCandidate": {
     "status": "release-candidate-ready",
-    "candidateId": "pwa-d2dccb02906b",
+    "candidateId": "pwa-0e2e246fa492",
     "manifestPath": "dist/release-candidate.json",
-    "aggregateHash": "d2dccb02906b5f0b939c69598f8ad0ae6bde2a07794a1d48b85ee4d8620ab1b1",
-    "totalFiles": 106,
-    "totalKb": 4381.5,
+    "aggregateHash": "0e2e246fa49209224e357d1b15ad28fea6796c142564d829c35929d080bd23a7",
+    "totalFiles": 107,
+    "totalKb": 4379.1,
     "postDeploySmokeUrls": 33
   },
   "compliance": {
@@ -67,7 +67,7 @@
   "environment": {
     "status": "production-env-missing",
     "publicOrigin": "https://moshequ.github.io/autonomous-game-lab",
-    "publicOriginStatus": "inferred-github-pages",
+    "publicOriginStatus": "configured",
     "analyticsStatus": "local-or-fixture"
   },
   "setupRequiredOnce": [
@@ -80,12 +80,12 @@
     {
       "id": "web-promotion",
       "status": "pass",
-      "detail": "Web promotion decision is promotable-internal: Promote the current PWA build to an internal/public web experiment when hosting is connected."
+      "detail": "Web promotion decision is blocked: Hold web deploy until readiness blockers clear."
     },
     {
       "id": "web-readiness",
-      "status": "pass",
-      "detail": "Pre-deploy web readiness passed; live post-deploy smoke remains ready-after-build."
+      "status": "blocker",
+      "detail": "Web readiness is blocked."
     },
     {
       "id": "release-health",
@@ -125,7 +125,7 @@
     {
       "id": "release-candidate",
       "status": "pass",
-      "detail": "Release candidate is release-candidate-ready; candidate pwa-d2dccb02906b."
+      "detail": "Release candidate is release-candidate-ready; candidate pwa-0e2e246fa492."
     },
     {
       "id": "deploy-workflow",

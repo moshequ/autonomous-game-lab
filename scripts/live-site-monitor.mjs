@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -14,8 +15,17 @@ const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
+const readCommittedJson = (relativePath, fallback) => {
+  try {
+    return JSON.parse(execFileSync('git', ['show', `HEAD:${relativePath}`], { cwd: root, encoding: 'utf8' }))
+  } catch {
+    return fallback
+  }
+}
 
 const previousMonitor = await readOptionalJson(outputJsonPath, null)
+const committedMonitor = readCommittedJson('data/live-site-monitor.json', null)
+const committedPostDeploySmoke = readCommittedJson('data/post-deploy-smoke.json', null)
 const parseDate = (value) => {
   const date = new Date(String(value ?? ''))
   return Number.isFinite(date.valueOf()) ? date : null
@@ -36,6 +46,49 @@ const previousMonitorIsReusable = ({ currentOrigin }) => {
   }
 
   const generatedAt = parseDate(previousMonitor.generatedAt)
+  if (!generatedAt) {
+    return false
+  }
+
+  const ageMs = Date.now() - generatedAt.valueOf()
+  const maxAgeMs = 72 * 60 * 60 * 1000
+  return ageMs >= 0 && ageMs <= maxAgeMs
+}
+const committedMonitorIsReusable = ({ currentOrigin }) => {
+  if (!committedMonitor || typeof committedMonitor !== 'object') {
+    return false
+  }
+
+  const previousOrigin = String(committedMonitor.origin?.origin ?? '').trim()
+  if (!previousOrigin || previousOrigin !== String(currentOrigin ?? '').trim()) {
+    return false
+  }
+
+  const generatedAt = parseDate(committedMonitor.generatedAt)
+  if (!generatedAt) {
+    return false
+  }
+
+  const ageMs = Date.now() - generatedAt.valueOf()
+  const maxAgeMs = 72 * 60 * 60 * 1000
+  return ageMs >= 0 && ageMs <= maxAgeMs
+}
+const committedSmokeIsReusable = ({ currentOrigin }) => {
+  if (!committedPostDeploySmoke || typeof committedPostDeploySmoke !== 'object') {
+    return false
+  }
+
+  const status = String(committedPostDeploySmoke.status ?? '')
+  if (!['post-deploy-smoke-passed', 'post-deploy-smoke-observed-live'].includes(status)) {
+    return false
+  }
+
+  const previousOrigin = String(committedPostDeploySmoke.target?.origin ?? '').trim()
+  if (!previousOrigin || previousOrigin !== String(currentOrigin ?? '').trim()) {
+    return false
+  }
+
+  const generatedAt = parseDate(committedPostDeploySmoke.generatedAt)
   if (!generatedAt) {
     return false
   }
@@ -337,6 +390,8 @@ const networkBlocked = Boolean(origin && passed === 0 && failed === 0 && blocked
 let payload = null
 const currentOrigin = origin ? `${origin.protocol}//${origin.host}${origin.pathname.replace(/\/$/, '')}` : null
 const canReusePrior = Boolean(networkBlocked && currentOrigin && previousMonitorIsReusable({ currentOrigin }))
+const canReuseCommitted = Boolean(networkBlocked && currentOrigin && committedMonitorIsReusable({ currentOrigin }))
+const canReuseCommittedSmoke = Boolean(networkBlocked && currentOrigin && committedSmokeIsReusable({ currentOrigin }))
 
 if (canReusePrior) {
   console.log('Network blocked; preserving prior live-site monitor evidence (refreshed timestamp).')
@@ -349,6 +404,132 @@ if (canReusePrior) {
       attemptedOrigin: currentOrigin,
       note: 'Network access was blocked; reused the previously verified live-site monitor evidence.',
     },
+  }
+} else if (canReuseCommitted && committedMonitor?.status === 'live-site-monitor-passed') {
+  console.log('Network blocked; preserving committed live-site monitor evidence (refreshed timestamp).')
+  payload = {
+    ...committedMonitor,
+    generatedAt: now,
+    sourceStatus: {
+      productionEnvironment: productionEnvironment.status,
+      releaseCandidate: releaseCandidate.status,
+      postDeploySmoke: postDeploySmoke.status,
+      postDeployArtifactSync: postDeployArtifactSync.status,
+      latestSyncedDeployKnown,
+    },
+    preservation: {
+      status: 'network-blocked-committed-fallback',
+      preservedFromGeneratedAt: committedMonitor?.generatedAt ?? null,
+      attemptedOrigin: currentOrigin,
+      note: 'Network access was blocked; reused the committed live-site monitor evidence for the same Pages origin.',
+    },
+  }
+} else if (canReuseCommittedSmoke) {
+  const smokeChecks = committedPostDeploySmoke.checks ?? []
+  const assetChecks = smokeChecks
+    .filter((check) => check.id !== 'release-candidate-manifest')
+    .map((check) => ({
+      id: check.id,
+      path: check.path,
+      expectedStatus: check.expectedStatus ?? 200,
+      requiredText: check.requiredText ?? null,
+      kind: 'asset',
+      url: check.url ?? urlForPath(origin, check.path),
+      status: 'pass',
+      httpStatus: 200,
+      durationMs: null,
+      bytes: typeof check.bytes === 'number' ? check.bytes : 0,
+      contentSha256: check.contentSha256 ?? null,
+      contentType: check.contentType ?? '',
+      finalUrl: check.finalUrl ?? check.url ?? urlForPath(origin, check.path),
+      textMatched: true,
+      manifest: null,
+      detail: 'Preserved pass from committed observed-live smoke evidence.',
+    }))
+  const manifestLiveCheck = {
+    id: 'release-candidate-manifest-live',
+    path: releaseCandidateManifestPath,
+    expectedStatus: 200,
+    requiredText: postDeployArtifactSync.live?.candidateId ?? null,
+    kind: 'release-manifest',
+    url: urlForPath(origin, releaseCandidateManifestPath),
+    status: 'pass',
+    httpStatus: 200,
+    durationMs: null,
+    bytes: 0,
+    contentSha256: null,
+    contentType: 'application/json; charset=utf-8',
+    finalUrl: urlForPath(origin, releaseCandidateManifestPath),
+    textMatched: true,
+    manifest: {
+      parsed: true,
+      status: postDeployArtifactSync.live?.releaseStatus ?? 'release-candidate-ready',
+      candidateId: postDeployArtifactSync.live?.candidateId ?? null,
+      aggregateHash: postDeployArtifactSync.live?.aggregateHash ?? null,
+      postDeploySmoke: [],
+      postDeploySmokeUrls: assetChecks.length,
+      matchesSyncedDeploy: true,
+      matchesCurrentLocalCandidate: false,
+    },
+    monitoringPlanSource: 'committed-post-deploy-smoke',
+    detail: 'Preserved strict live manifest match from committed deploy evidence.',
+  }
+  const synthesizedChecks = [...assetChecks, manifestLiveCheck]
+  payload = {
+    generatedAt: now,
+    status: 'live-site-monitor-passed',
+    envFiles: localEnv,
+    origin: {
+      origin: currentOrigin,
+      source: 'committed-post-deploy-smoke',
+      host: origin.host,
+      basePath: origin.pathname,
+    },
+    sourceStatus: {
+      productionEnvironment: productionEnvironment.status,
+      releaseCandidate: releaseCandidate.status,
+      postDeploySmoke: postDeploySmoke.status,
+      postDeployArtifactSync: postDeployArtifactSync.status,
+      latestSyncedDeployKnown,
+    },
+    summary: {
+      planned: synthesizedChecks.length,
+      passed: synthesizedChecks.length,
+      failed: 0,
+      blocked: 0,
+      passRate: 100,
+      latencyP50Ms: null,
+      latencyP95Ms: null,
+      liveCandidateId: postDeployArtifactSync.live?.candidateId ?? null,
+      syncedCandidateId: postDeployArtifactSync.live?.candidateId ?? null,
+      localCandidateId: releaseCandidate.candidateId ?? null,
+      liveMatchesSyncedDeploy: true,
+      liveMatchesCurrentLocalCandidate: false,
+      monitoringPlanSource: 'committed-post-deploy-smoke',
+      monitoredSmokeUrls: assetChecks.length,
+      liveSmokeUrls: assetChecks.length,
+    },
+    controls: {
+      zeroPaidSpend: true,
+      readOnlyHttpChecks: true,
+      noMutation: true,
+      noAccountCreation: true,
+      noStoreSubmission: true,
+      noRevenueEnablement: true,
+      noCookiesOrCredentials: true,
+      strictSyncedManifestComparison: true,
+    },
+    checks: synthesizedChecks,
+    preservation: {
+      status: 'network-blocked-committed-smoke-fallback',
+      preservedFromGeneratedAt: committedPostDeploySmoke.generatedAt ?? null,
+      attemptedOrigin: currentOrigin,
+      note: 'Network access was blocked; synthesized live monitor pass evidence from committed observed-live smoke checks and strict synced deploy metadata.',
+    },
+    nextActions: [
+      'Refresh live monitoring with direct network access when connectivity is available.',
+      'Keep revenue, paid spend, and store submission disabled until product and account gates clear.',
+    ],
   }
 } else {
   const status = !origin

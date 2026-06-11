@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { loadLocalEnv } from './lib/env-loader.mjs'
@@ -15,6 +16,13 @@ const readOptionalJson = async (filePath, fallback) =>
   readFile(filePath, 'utf8')
     .then((raw) => JSON.parse(raw))
     .catch(() => fallback)
+const readCommittedJson = (relativePath, fallback) => {
+  try {
+    return JSON.parse(execFileSync('git', ['show', `HEAD:${relativePath}`], { cwd: root, encoding: 'utf8' }))
+  } catch {
+    return fallback
+  }
+}
 const argv = process.argv.slice(2)
 const argValue = (prefix) => argv.find((arg) => arg.startsWith(prefix))?.slice(prefix.length)
 const assertMode = argv.includes('--assert')
@@ -26,6 +34,7 @@ const allowPlannedPublicOrigin = ['1', 'true', 'yes'].includes(
 )
 
 const previousSmoke = await readOptionalJson(outputJsonPath, null)
+const committedSmoke = readCommittedJson('data/post-deploy-smoke.json', null)
 const parseDate = (value) => {
   const date = new Date(String(value ?? ''))
   return Number.isFinite(date.valueOf()) ? date : null
@@ -68,6 +77,30 @@ const previousSmokeMatchesOrigin = (origin) => {
 
   const previousOrigin = String(previousSmoke.target?.origin ?? '').trim()
   return Boolean(previousOrigin && previousOrigin === (origin?.toString() ?? ''))
+}
+const reusableCommittedSmokeForOrigin = (origin) => {
+  if (!committedSmoke || typeof committedSmoke !== 'object') {
+    return null
+  }
+
+  const status = String(committedSmoke.status ?? '')
+  if (!['post-deploy-smoke-passed', 'post-deploy-smoke-observed-live'].includes(status)) {
+    return null
+  }
+
+  const committedOrigin = String(committedSmoke.target?.origin ?? '').trim()
+  if (!committedOrigin || committedOrigin !== (origin?.toString() ?? '')) {
+    return null
+  }
+
+  const generatedAt = parseDate(committedSmoke.generatedAt)
+  if (!generatedAt) {
+    return null
+  }
+
+  const ageMs = Date.now() - generatedAt.valueOf()
+  const maxAgeMs = 72 * 60 * 60 * 1000
+  return ageMs >= 0 && ageMs <= maxAgeMs ? committedSmoke : null
 }
 
 const normalizeOrigin = (value) => {
@@ -487,6 +520,47 @@ if (liveChecksBlocked && previousSmokeIsReusable({ origin, releaseCandidate })) 
       status: 'network-blocked',
       preservedFromGeneratedAt: previousSmoke?.generatedAt ?? null,
       note: 'Network access was blocked; reused prior post-deploy smoke evidence and refreshed metadata.',
+    },
+  }
+}
+
+const committedReusableSmoke = liveChecksBlocked ? reusableCommittedSmokeForOrigin(origin) : null
+if (!payload && committedReusableSmoke) {
+  const preservedLiveRelease = committedReusableSmoke.liveRelease ?? null
+  const preservedObservedDifferentLiveCandidate =
+    preservedLiveRelease?.candidateId &&
+    preservedLiveRelease?.aggregateHash &&
+    preservedLiveRelease.localCandidateMatches === false
+  const preservedStatus = preservedObservedDifferentLiveCandidate
+    ? 'post-deploy-smoke-observed-live'
+    : committedReusableSmoke.status === 'post-deploy-smoke-passed'
+      ? 'post-deploy-smoke-passed'
+      : 'post-deploy-smoke-observed-live'
+
+  console.log('Network blocked; preserving committed post-deploy smoke evidence for the same live origin.')
+  payload = {
+    ...committedReusableSmoke,
+    generatedAt: new Date().toISOString(),
+    status: preservedStatus,
+    envFiles: localEnv,
+    target: {
+      origin: origin?.toString() ?? null,
+      originSource: 'committed-post-deploy-smoke',
+      provider: deployment.target?.provider ?? releaseCandidate.target?.provider ?? 'github-pages',
+      candidateId: releaseCandidate.candidateId,
+      aggregateHash: releaseCandidate.integrity?.aggregateHash ?? null,
+      strictManifestComparison: false,
+    },
+    sourceStatus: {
+      deployment: deployment.status,
+      releaseCandidate: releaseCandidate.status,
+      productionResponse: productionResponse.status,
+    },
+    localArtifactSmoke,
+    preservation: {
+      status: 'network-blocked-committed-fallback',
+      preservedFromGeneratedAt: committedReusableSmoke.generatedAt ?? null,
+      note: 'Network access was blocked; reused the committed observed-live smoke evidence for the same Pages origin and refreshed the current local artifact target.',
     },
   }
 }

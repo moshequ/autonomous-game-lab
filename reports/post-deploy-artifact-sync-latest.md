@@ -1,13 +1,13 @@
 # Post-Deploy Artifact Sync
 
-Generated: 2026-06-04T03:28:43.028Z
+Generated: 2026-06-11T02:47:42.814Z
 Status: post-deploy-artifact-sync-passed
 Repository: moshequ/autonomous-game-lab
 Workflow: web-pwa-deploy.yml
-Run: 26537345764
+Run: 26887865130
 Origin: https://moshequ.github.io/autonomous-game-lab/
-Artifact candidate: pwa-3e804a980eae
-Live candidate: pwa-3e804a980eae
+Artifact candidate: pwa-b2cb4bc35a26
+Live candidate: pwa-b2cb4bc35a26
 Deployment freshness: current-head-not-deployed
 
 ## Summary
@@ -27,8 +27,8 @@ Deployment freshness: current-head-not-deployed
 
 ## Deployment Freshness
 
-- currentHeadSha: 7482ce011f3a4014c33ce6915e11dc536df4fe42
-- selectedRunHeadSha: 0c4b8cd2ddd1923872dadae501985738c84eb1a5
+- currentHeadSha: 0cd67d9d6259268926086eba8ac95697f4b224c3
+- selectedRunHeadSha: af6277a15a3efe0b38ee16c4c4173ffbf2814cdc
 - currentHeadDeployed: false
 - currentHeadQueuedOrRunning: false
 - liveMatchesCurrentLocalCandidate: false
@@ -37,11 +37,11 @@ Deployment freshness: current-head-not-deployed
 
 - pass: gh-cli - gh version 2.92.0 (2026-04-28)
 - pass: github-repository - Target repository is moshequ/autonomous-game-lab.
-- pass: successful-pages-run - Latest successful web-pwa-deploy.yml run is 26537345764.
-- pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26537345764.
+- pass: successful-pages-run - Latest successful web-pwa-deploy.yml run is 26887865130.
+- pass: post-deploy-smoke-artifact - Downloaded post-deploy-smoke artifact from run 26887865130.
 - pass: strict-smoke-artifact - Artifact status post-deploy-smoke-passed; strict manifest comparison true; checks 34/34.
 - pass: live-release-manifest - Live release-candidate.json still matches the strict smoke artifact.
-- monitor: deployment-freshness - Current main 7482ce011f3a is not the latest strict deployed artifact; freshness current-head-not-deployed.
+- monitor: deployment-freshness - Current main 0cd67d9d6259 is not the latest strict deployed artifact; freshness current-head-not-deployed.
 
 ## Controls
 
@@ -60,7 +60,6 @@ Deployment freshness: current-head-not-deployed
 
 ## Next Actions
 
-- Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.
 - Wait for or rerun Web PWA Deploy before treating the current main head as live; the previous deployed artifact remains valid but stale for the current commit.
 - Keep this strict deploy artifact as live-production evidence while local candidates continue to iterate.
 - Keep revenue, paid acquisition, and store submission disabled until product, credential, and account gates pass.
