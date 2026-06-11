@@ -1,32 +1,32 @@
 # Production Measurement Status
 
-Generated: 2026-06-08T02:21:43.105Z
-Status: production-measurement-blocked
+Generated: 2026-06-11T14:28:25.294Z
+Status: production-measurement-local-intake-ready
 Active path: local-browser-buffer
-Live candidate: pwa-3e804a980eae
+Live candidate: pwa-b2cb4bc35a26
 Exact live manifest: /release-candidate.json
-Source hash: aa313d925c55
+Source hash: b849e34042eb
 
 ## Analytics
 
 - rollup source: fixture-sample
 - browser forwarding configured: false
 - autonomous rollups configured: false
-- local evidence ready: false
-- public aggregate handoff: aggregate-evidence-channel-blocked
+- local evidence ready: true
+- public aggregate handoff: awaiting-player-initiated-aggregate-notes
 - analytics unlock: owner-input-required
 - analytics unlock path: first-party-collector
 - lowest-input analytics path: posthog-browser
 - input watch UI: https://github.com/moshequ/autonomous-game-lab/actions/workflows/production-input-watch.yml
 - external unlock queue: handoff-waiting-on-owner-inputs
-- next external unlock: support-contact
+- next external unlock: production-analytics-browser
 - owner unlock brief: first-party-collector
 - aggregate evidence notes: 0
 - supporting aggregate mission notes: 0
-- player evidence invite pack: player-evidence-invite-pack-blocked
+- player evidence invite pack: player-evidence-invite-pack-ready
 - player evidence primary route: /sample-next.html
 - player evidence follow-up: npm run autonomous:collect-local-event-drops && npm run autonomous:player-evidence-watchdog && npm run autonomous:measurement-status
-- measurement page export: measurement-page-export-needs-bridge
+- measurement page export: measurement-page-export-ready
 - measurement page export import: npm run autonomous:collect-local-event-drops
 
 ## Public Routes
@@ -65,10 +65,10 @@ Source hash: aa313d925c55
 
 ## Next Actions
 
-- Repair the support or local event bridge route before relying on production evidence.
+- Use the player-initiated local evidence route until PostHog or the first-party collector is configured.
 - Unlock production analytics with first-party-collector; minimal-intervention path is posthog-browser with 1 missing input(s) and 0 secret(s).
 - First-party collector deployment is blocked-needs-cloudflare-env; smoke is pass.
-- External unlock queue has 5 owner action(s); next zero-spend unlock is support-contact.
+- External unlock queue has 4 owner action(s); next zero-spend unlock is production-analytics-browser.
 - Product gate recovery is product-gate-recovery-ready; public recovery route is /product-gate-recovery.html.
 - Invite players to start the current sample through /sample-next.html, or the fastest separate gate through /sample-fastest.html, then use Share evidence after the play session so public aggregate evidence can be reviewed without raw events.
 - Do not pass product gates, enable revenue, or submit stores from public aggregate notes alone.

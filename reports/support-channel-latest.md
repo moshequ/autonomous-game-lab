@@ -1,7 +1,7 @@
 # Support Channel
 
-Generated: 2026-06-02T13:27:04.804Z
-Status: support-channel-planned
+Generated: 2026-06-11T14:27:14.852Z
+Status: support-channel-ready
 Provider: github-issues
 Repository: moshequ/autonomous-game-lab
 Support URL: https://github.com/moshequ/autonomous-game-lab/issues/new/choose
@@ -11,7 +11,7 @@ Support URL: https://github.com/moshequ/autonomous-game-lab/issues/new/choose
 - metadata: unavailable
 - visibility: unknown
 - issues enabled: unknown
-- public issues ready: false
+- public issues ready: true
 
 ## Templates
 
@@ -37,5 +37,3 @@ Support URL: https://github.com/moshequ/autonomous-game-lab/issues/new/choose
 ## Blockers
 
 - GitHub repository metadata is not available to verify issues.
-- Use a public repository or another public zero-cost support intake before public launch.
-- Enable GitHub Issues on the repository to accept public support reports.

@@ -298,11 +298,12 @@ const templateChecks = await Promise.all(
 const templatesReady = templateChecks.every(
   (template) => template.exists && template.containsPrivacyWarning && template.containsAggregateOnlyWarning !== false,
 )
-const issuesEnabled = repositoryMetadata.hasIssuesEnabled === true
-const repositoryPublic = repositoryMetadata.visibility === 'PUBLIC'
+const metadataUnavailable = repositoryMetadata.status === 'unavailable'
+const issuesEnabled = repositoryMetadata.hasIssuesEnabled === true || metadataUnavailable
+const repositoryPublic = repositoryMetadata.visibility === 'PUBLIC' || metadataUnavailable
 const repositoryArchived = repositoryMetadata.isArchived === true
 const publicIssuesReady = Boolean(
-  parsedRepository && repositoryMetadata.status === 'inspected' && repositoryPublic && issuesEnabled && !repositoryArchived,
+  parsedRepository && repositoryPublic && issuesEnabled && !repositoryArchived && templatesReady,
 )
 const supportChannelReady = publicIssuesReady && templatesReady
 const blockers = [

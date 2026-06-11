@@ -1,8 +1,8 @@
 # Store Readiness
 
-Generated: 2026-06-05T02:12:56.931Z
+Generated: 2026-06-11T14:27:14.719Z
 Status: store-readiness-prepared-external-blockers
-Source hash: c5e090e648ed
+Source hash: ad6a6a1c490f
 
 ## Summary
 
@@ -161,7 +161,9 @@ Source hash: c5e090e648ed
 - ios: apple-developer-account: Apple Developer Program account is not connected.
 - ios: app-store-connect-api: App Store Connect API credentials are not available to CI.
 - monetization: Web/PWA or native ad provider is not configured for gated revenue tests.
+- google-play-fee: Store package draft is not ready.
 - google-play-fee: Google Play developer account is not connected.
+- google-play-fee: Native package is blocked-draft-ready.
 - ios-fee: Apple Developer account is not connected.
 - ios-fee: Projected annual revenue is $0.00, below $99.00.
 - native-package: Native Android package handoff is blocked-draft-ready.

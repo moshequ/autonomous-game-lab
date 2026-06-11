@@ -1,19 +1,19 @@
 # Production Blocker Handoff
 
-Generated: 2026-06-08T02:21:42.327Z
+Generated: 2026-06-11T14:28:24.508Z
 Status: handoff-waiting-on-owner-inputs
 Detail: blocked-external-inputs
-Live candidate: pwa-3e804a980eae
-Source hash: 2e681452a4e3
+Live candidate: pwa-b2cb4bc35a26
+Source hash: d52c210d037d
 
 ## Summary
 
-- Owner inputs required: 5
-- Zero-cost first actions: 2
+- Owner inputs required: 4
+- Zero-cost first actions: 1
 - Missing environment entries: 7
-- Missing repository secrets: 5
+- Missing repository secrets: 3
 - Product-gate blockers: 3
-- Next best unlock: support-contact
+- Next best unlock: production-analytics-browser
 
 ## Source Status
 
@@ -21,7 +21,7 @@ Source hash: 2e681452a4e3
 - productionBootstrap: production-bootstrap-ready
 - objectiveAudit: objective-in-progress
 - autonomousOwnerLoop: owner-loop-ready
-- supportChannel: support-channel-planned
+- supportChannel: support-channel-ready
 - monetization: blocked-by-product-gates
 - storeCompliance: draft-ready-external-blockers
 - storeReadiness: store-readiness-prepared-external-blockers
@@ -32,11 +32,11 @@ Source hash: 2e681452a4e3
 
 ## Handoff Items
 
-- owner-input-required: support-contact - Web support channel and store support email
+- web-support-ready-store-email-deferred: support-contact - Web support channel and store support email
   - category: store-compliance
-  - cost: zero-spend-if-existing-inbox
-  - owner input required: true
-  - unlocks: Hosted privacy/support pages can satisfy public store listing support-contact checks.
+  - cost: zero-spend-public-issues-ready
+  - owner input required: false
+  - unlocks: Hosted privacy/support pages already route web/PWA support to public GitHub Issues. A real support email remains deferred until store submission is economically justified.
 - owner-input-required: production-analytics-browser - Browser production analytics
   - category: measurement
   - cost: zero-spend-use-existing-free-tier-or-first-party-collector
@@ -97,8 +97,8 @@ Source hash: 2e681452a4e3
 - status: waiting-on-owner-input
 - next unlock: production-analytics-browser
 - recommended path: first-party-collector
-- missing variables: CLOUDFLARE_ACCOUNT_ID, AGL_EVENT_COLLECTOR_R2_BUCKET, AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
-- missing secrets: CLOUDFLARE_API_TOKEN, VITE_EVENT_COLLECTOR_WRITE_TOKEN, AGL_EVENT_COLLECTOR_ADMIN_TOKEN
+- missing variables: CLOUDFLARE_ACCOUNT_ID, VITE_EVENT_COLLECTOR_URL, AGL_EVENT_COLLECTOR_EXPORT_URL
+- missing secrets: CLOUDFLARE_API_TOKEN
 - setup commands: npm run autonomous:event-collector-smoke && npm run autonomous:collector-deploy-plan && ./ops/github/setup-production.sh && RUN_WORKFLOWS=1 ./ops/github/setup-production.sh && npm run autonomous:readiness
 - validation commands: npm run autonomous:event-collector-smoke && npm run autonomous:collector-deploy-plan && npm run autonomous:readiness && npm run test:e2e
 
@@ -115,8 +115,6 @@ Source hash: 2e681452a4e3
 ## Missing Secrets
 
 - CLOUDFLARE_API_TOKEN: printf "%s" "$CLOUDFLARE_API_TOKEN" | gh secret set CLOUDFLARE_API_TOKEN
-- VITE_EVENT_COLLECTOR_WRITE_TOKEN: printf "%s" "$VITE_EVENT_COLLECTOR_WRITE_TOKEN" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN
-- AGL_EVENT_COLLECTOR_ADMIN_TOKEN: printf "%s" "$AGL_EVENT_COLLECTOR_ADMIN_TOKEN" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN
 - POSTHOG_PERSONAL_API_KEY: printf "%s" "$POSTHOG_PERSONAL_API_KEY" | gh secret set POSTHOG_PERSONAL_API_KEY
 - GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: printf "%s" "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" | gh secret set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON
 

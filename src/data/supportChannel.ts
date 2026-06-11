@@ -1,6 +1,6 @@
 export const supportChannel = {
-  "generatedAt": "2026-06-02T13:27:04.804Z",
-  "status": "support-channel-planned",
+  "generatedAt": "2026-06-11T14:27:14.852Z",
+  "status": "support-channel-ready",
   "provider": "github-issues",
   "envFiles": {
     "loaded": true,
@@ -86,7 +86,7 @@ export const supportChannel = {
         "secretValuesNeverRead": true
       }
     },
-    "publicIssuesReady": false
+    "publicIssuesReady": true
   },
   "issueTemplates": [
     {
@@ -152,12 +152,10 @@ export const supportChannel = {
     "supportEmailStillRequiredForStoreSubmission": true
   },
   "blockers": [
-    "GitHub repository metadata is not available to verify issues.",
-    "Use a public repository or another public zero-cost support intake before public launch.",
-    "Enable GitHub Issues on the repository to accept public support reports."
+    "GitHub repository metadata is not available to verify issues."
   ],
   "nextActions": [
-    "Finish the zero-cost GitHub Issues support channel or configure another public support intake.",
+    "Link the generated support page to GitHub Issues and review public support reports before applying product changes.",
     "Keep a real support email as a separate app-store blocker.",
     "Keep player analytics exports voluntary, summarized as aggregate counts, and never uploaded automatically."
   ]

@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-06-08T02:21:43.105Z",
+  "generatedAt": "2026-06-11T14:28:25.294Z",
   "status": "owner-input-required",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-3e804a980eae",
+  "liveCandidate": "pwa-b2cb4bc35a26",
   "recommendedPathId": "first-party-collector",
   "lowestInputPathId": "posthog-browser",
   "lowestInputMissingVariableCount": 1,
@@ -18,11 +18,11 @@
     "lowestInputMissingVariableCount": 1,
     "lowestInputMissingSecretCount": 0,
     "lowestInputMissingInputCount": 1,
-    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
+    "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
     "commandCount": 7,
     "validationCommandCount": 4,
-    "missingVariableCount": 6,
-    "missingSecretCount": 3,
+    "missingVariableCount": 4,
+    "missingSecretCount": 1,
     "controls": {
       "zeroPaidSpend": true,
       "noSecretValues": true,
@@ -40,9 +40,9 @@
         "status": "needs-variables-and-secrets",
         "costMode": "zero-spend-use-existing-cloudflare-free-tier",
         "ownerInputRequired": true,
-        "missingVariableCount": 5,
-        "missingSecretCount": 3,
-        "missingInputCount": 8,
+        "missingVariableCount": 3,
+        "missingSecretCount": 1,
+        "missingInputCount": 4,
         "commandCount": 5,
         "validationCommandCount": 4,
         "requiredVariables": [
@@ -55,13 +55,13 @@
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configured": false,
+            "configured": true,
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configured": false,
+            "configured": true,
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
@@ -87,13 +87,13 @@
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": false,
+            "configured": true,
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": false,
+            "configured": true,
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
@@ -835,21 +835,21 @@
   },
   "externalUnlockQueue": {
     "status": "handoff-waiting-on-owner-inputs",
-    "nextBestUnlockId": "support-contact",
-    "nextBestZeroCostUnlockId": "support-contact",
-    "ownerActionRequired": 5,
+    "nextBestUnlockId": "production-analytics-browser",
+    "nextBestZeroCostUnlockId": "production-analytics-browser",
+    "ownerActionRequired": 4,
     "missingEnvironmentItems": 7,
-    "missingSecrets": 5,
+    "missingSecrets": 3,
     "productGateBlockers": 3,
     "topItems": [
       {
         "id": "support-contact",
         "title": "Web support channel and store support email",
         "category": "store-compliance",
-        "status": "owner-input-required",
+        "status": "web-support-ready-store-email-deferred",
         "priority": 100,
-        "costMode": "zero-spend-if-existing-inbox",
-        "ownerInputRequired": true,
+        "costMode": "zero-spend-public-issues-ready",
+        "ownerInputRequired": false,
         "requiredEnv": [
           {
             "name": "AGL_SUPPORT_EMAIL",
@@ -863,7 +863,8 @@
           "support-contact: Production support email is required before public store submission."
         ],
         "unlocks": [
-          "Hosted privacy/support pages can satisfy public store listing support-contact checks."
+          "Hosted privacy/support pages already route web/PWA support to public GitHub Issues.",
+          "A real support email remains deferred until store submission is economically justified."
         ],
         "afterUnlockCommands": [
           "npm run autonomous:env",
@@ -897,7 +898,7 @@
           {
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configured": false,
+            "configured": true,
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
           {
@@ -934,11 +935,11 @@
           "lowestInputMissingVariableCount": 1,
           "lowestInputMissingSecretCount": 0,
           "lowestInputMissingInputCount": 1,
-          "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
+          "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
           "commandCount": 7,
           "validationCommandCount": 4,
-          "missingVariableCount": 6,
-          "missingSecretCount": 3,
+          "missingVariableCount": 4,
+          "missingSecretCount": 1,
           "controls": {
             "zeroPaidSpend": true,
             "noSecretValues": true,
@@ -955,9 +956,9 @@
               "status": "needs-variables-and-secrets",
               "costMode": "zero-spend-use-existing-cloudflare-free-tier",
               "ownerInputRequired": true,
-              "missingVariableCount": 5,
-              "missingSecretCount": 3,
-              "missingInputCount": 8,
+              "missingVariableCount": 3,
+              "missingSecretCount": 1,
+              "missingInputCount": 4,
               "commandCount": 5,
               "validationCommandCount": 4,
               "requiredVariables": [
@@ -970,13 +971,13 @@
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
                   "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-                  "configured": false,
+                  "configured": true,
                   "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
                 },
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
                   "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-                  "configured": false,
+                  "configured": true,
                   "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
                 },
                 {
@@ -1002,13 +1003,13 @@
                 {
                   "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
                   "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-                  "configured": false,
+                  "configured": true,
                   "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
                 },
                 {
                   "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
                   "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-                  "configured": false,
+                  "configured": true,
                   "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
                 }
               ],
@@ -1085,7 +1086,7 @@
           {
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configured": false,
+            "configured": true,
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           },
           {
@@ -1268,7 +1269,7 @@
       "lowestInputMissingVariableCount": 1,
       "lowestInputMissingSecretCount": 0,
       "lowestInputMissingInputCount": 1,
-      "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
+      "lowestInputReason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
       "lowestInputPath": {
         "id": "posthog-browser",
         "title": "PostHog browser capture",
@@ -1278,7 +1279,7 @@
         "missingVariableCount": 1,
         "missingSecretCount": 0,
         "missingInputCount": 1,
-        "manualInputReduction": 7,
+        "manualInputReduction": 3,
         "noSecretsRequired": true,
         "missingVariables": [
           {
@@ -1323,9 +1324,9 @@
         "missingInputCount": 1,
         "missingVariableCount": 1,
         "missingSecretCount": 0,
-        "manualInputReduction": 7,
+        "manualInputReduction": 3,
         "noSecretsRequired": true,
-        "reason": "PostHog browser capture currently needs 1 missing input(s), compared with 8 for the recommended path.",
+        "reason": "PostHog browser capture currently needs 1 missing input(s), compared with 4 for the recommended path.",
         "setupCommands": [
           "./ops/github/setup-production.sh --analytics-input-template",
           "./ops/github/setup-production.sh",
@@ -1419,18 +1420,6 @@
           "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
         },
         {
-          "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-          "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-          "configured": false,
-          "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
-        },
-        {
-          "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-          "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-          "configured": false,
-          "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
-        },
-        {
           "repositoryName": "VITE_EVENT_COLLECTOR_URL",
           "envName": "VITE_EVENT_COLLECTOR_URL",
           "configured": false,
@@ -1449,22 +1438,36 @@
           "envName": "CLOUDFLARE_API_TOKEN",
           "configured": false,
           "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
+        }
+      ],
+      "configuredVariables": [
+        {
+          "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+          "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
+          "configured": true,
+          "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
         },
+        {
+          "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+          "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
+          "configured": true,
+          "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
+        }
+      ],
+      "configuredSecrets": [
         {
           "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
           "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-          "configured": false,
+          "configured": true,
           "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
         },
         {
           "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
           "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-          "configured": false,
+          "configured": true,
           "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
         }
       ],
-      "configuredVariables": [],
-      "configuredSecrets": [],
       "setupCommands": [
         "npm run autonomous:event-collector-smoke",
         "npm run autonomous:collector-deploy-plan",
@@ -1489,8 +1492,8 @@
       ],
       "parallelOwnerUnlocks": [
         {
-          "id": "support-contact",
-          "title": "Web support channel and store support email",
+          "id": "production-analytics-browser",
+          "title": "Browser production analytics",
           "category": "measurement",
           "status": "waiting-on-owner-input",
           "costMode": "zero-spend-use-existing-posthog-free-project",
@@ -1503,8 +1506,8 @@
           "lowestInputPathId": "posthog-browser",
           "lowestInputUnlockId": null,
           "activePathId": "posthog-browser",
-          "recommendedMissingInputCount": 8,
-          "recommendedMissingSecretCount": 3,
+          "recommendedMissingInputCount": 4,
+          "recommendedMissingSecretCount": 1,
           "missingVariableCount": 1,
           "missingSecretCount": 0,
           "missingInputCount": 1,
@@ -1632,9 +1635,9 @@
       "status": "needs-variables-and-secrets",
       "costMode": "zero-spend-use-existing-cloudflare-free-tier",
       "ownerInputRequired": true,
-      "missingVariableCount": 5,
-      "missingSecretCount": 3,
-      "missingInputCount": 8
+      "missingVariableCount": 3,
+      "missingSecretCount": 1,
+      "missingInputCount": 4
     },
     "lowestInputPath": {
       "id": "posthog-browser",
@@ -1648,10 +1651,10 @@
     },
     "summary": {
       "totalInputs": 8,
-      "readyInputs": 0,
-      "missingInputs": 8,
+      "readyInputs": 4,
+      "missingInputs": 4,
       "invalidInputs": 0,
-      "repositoryConfiguredInputs": 0,
+      "repositoryConfiguredInputs": 4,
       "localAvailableInputs": 0,
       "localUrlValidationsPassed": 0,
       "setupCanRun": false,
@@ -1661,7 +1664,7 @@
       "lowestInputTotalInputs": 1,
       "lowestInputSecretInputs": 0,
       "lowestInputSetupCanRun": false,
-      "manualInputReduction": 7,
+      "manualInputReduction": 3,
       "combinedMissingInputs": 2,
       "combinedInvalidInputs": 0,
       "combinedReadyInputs": 0,
@@ -1675,18 +1678,6 @@
         "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
         "envName": "CLOUDFLARE_ACCOUNT_ID",
         "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
-      },
-      {
-        "kind": "github-variable",
-        "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-        "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
-      },
-      {
-        "kind": "github-variable",
-        "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-        "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
       },
       {
         "kind": "github-variable",
@@ -1705,18 +1696,6 @@
         "repositoryName": "CLOUDFLARE_API_TOKEN",
         "envName": "CLOUDFLARE_API_TOKEN",
         "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-      },
-      {
-        "kind": "github-secret",
-        "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-        "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
-      },
-      {
-        "kind": "github-secret",
-        "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-        "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
       }
     ],
     "invalidInputs": [],
@@ -1934,7 +1913,7 @@
       "readyForSetup": false,
       "missingInputs": 1,
       "secretInputs": 0,
-      "manualInputReduction": 7,
+      "manualInputReduction": 3,
       "noSecretsRequired": true,
       "commandSequence": [
         "./ops/github/setup-production.sh --analytics-input-template",
@@ -2016,18 +1995,18 @@
           "status": "needs-variables-and-secrets",
           "costMode": "zero-spend-use-existing-cloudflare-free-tier",
           "ownerInputRequired": true,
-          "missingVariableCount": 5,
-          "missingSecretCount": 3,
-          "missingInputCount": 8
+          "missingVariableCount": 3,
+          "missingSecretCount": 1,
+          "missingInputCount": 4
         },
         "summary": {
           "totalInputs": 8,
-          "readyInputs": 0,
-          "missingInputs": 8,
+          "readyInputs": 4,
+          "missingInputs": 4,
           "invalidInputs": 0,
           "variableInputs": 5,
           "secretInputs": 3,
-          "repositoryConfiguredInputs": 0,
+          "repositoryConfiguredInputs": 4,
           "localAvailableInputs": 0,
           "setupCanRun": false
         },
@@ -2060,23 +2039,17 @@
             "kind": "github-variable",
             "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
             "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "configuredInRepository": false,
+            "configuredInRepository": true,
             "availableInShell": false,
             "availableInLocalEnvFile": false,
             "availableLocally": false,
             "localEnvFiles": [],
-            "ready": false,
+            "ready": true,
             "validation": {
-              "kind": "presence",
-              "status": "not-checked-missing-input",
-              "detail": "No local input is available yet.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": false,
-                  "detail": "AGL_EVENT_COLLECTOR_R2_BUCKET must be exported before setup can sync it."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
           },
@@ -2084,23 +2057,17 @@
             "kind": "github-variable",
             "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
             "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "configuredInRepository": false,
+            "configuredInRepository": true,
             "availableInShell": false,
             "availableInLocalEnvFile": false,
             "availableLocally": false,
             "localEnvFiles": [],
-            "ready": false,
+            "ready": true,
             "validation": {
-              "kind": "presence",
-              "status": "not-checked-missing-input",
-              "detail": "No local input is available yet.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": false,
-                  "detail": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS must be exported before setup can sync it."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
@@ -2190,23 +2157,17 @@
             "kind": "github-secret",
             "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
             "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "configuredInRepository": false,
+            "configuredInRepository": true,
             "availableInShell": false,
             "availableInLocalEnvFile": false,
             "availableLocally": false,
             "localEnvFiles": [],
-            "ready": false,
+            "ready": true,
             "validation": {
-              "kind": "presence",
-              "status": "not-checked-missing-input",
-              "detail": "No local input is available yet.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": false,
-                  "detail": "VITE_EVENT_COLLECTOR_WRITE_TOKEN must be exported before setup can sync it."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
           },
@@ -2214,23 +2175,17 @@
             "kind": "github-secret",
             "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
             "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "configuredInRepository": false,
+            "configuredInRepository": true,
             "availableInShell": false,
             "availableInLocalEnvFile": false,
             "availableLocally": false,
             "localEnvFiles": [],
-            "ready": false,
+            "ready": true,
             "validation": {
-              "kind": "presence",
-              "status": "not-checked-missing-input",
-              "detail": "No local input is available yet.",
-              "checks": [
-                {
-                  "id": "non-empty-local-input",
-                  "passed": false,
-                  "detail": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN must be exported before setup can sync it."
-                }
-              ]
+              "kind": "redacted-repository-presence",
+              "status": "not-inspected-repository-configured",
+              "detail": "GitHub stores the configured value redacted; export it locally to validate shape before changing it.",
+              "checks": []
             },
             "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
@@ -2241,18 +2196,6 @@
             "repositoryName": "CLOUDFLARE_ACCOUNT_ID",
             "envName": "CLOUDFLARE_ACCOUNT_ID",
             "command": "gh variable set CLOUDFLARE_ACCOUNT_ID --body \"$CLOUDFLARE_ACCOUNT_ID\""
-          },
-          {
-            "kind": "github-variable",
-            "repositoryName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "envName": "AGL_EVENT_COLLECTOR_R2_BUCKET",
-            "command": "gh variable set AGL_EVENT_COLLECTOR_R2_BUCKET --body \"$AGL_EVENT_COLLECTOR_R2_BUCKET\""
-          },
-          {
-            "kind": "github-variable",
-            "repositoryName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "envName": "AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS",
-            "command": "gh variable set AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS --body \"$AGL_EVENT_COLLECTOR_ALLOWED_ORIGINS\""
           },
           {
             "kind": "github-variable",
@@ -2271,18 +2214,6 @@
             "repositoryName": "CLOUDFLARE_API_TOKEN",
             "envName": "CLOUDFLARE_API_TOKEN",
             "command": "printf \"%s\" \"$CLOUDFLARE_API_TOKEN\" | gh secret set CLOUDFLARE_API_TOKEN"
-          },
-          {
-            "kind": "github-secret",
-            "repositoryName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "envName": "VITE_EVENT_COLLECTOR_WRITE_TOKEN",
-            "command": "printf \"%s\" \"$VITE_EVENT_COLLECTOR_WRITE_TOKEN\" | gh secret set VITE_EVENT_COLLECTOR_WRITE_TOKEN"
-          },
-          {
-            "kind": "github-secret",
-            "repositoryName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "envName": "AGL_EVENT_COLLECTOR_ADMIN_TOKEN",
-            "command": "printf \"%s\" \"$AGL_EVENT_COLLECTOR_ADMIN_TOKEN\" | gh secret set AGL_EVENT_COLLECTOR_ADMIN_TOKEN"
           }
         ],
         "invalidInputs": [],

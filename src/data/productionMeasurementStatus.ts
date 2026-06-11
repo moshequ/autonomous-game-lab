@@ -1,15 +1,15 @@
 export const productionMeasurementStatus = {
-  "generatedAt": "2026-06-08T02:21:43.105Z",
-  "status": "production-measurement-blocked",
+  "generatedAt": "2026-06-11T14:28:25.294Z",
+  "status": "production-measurement-local-intake-ready",
   "activePath": "local-browser-buffer",
-  "liveCandidate": "pwa-3e804a980eae",
+  "liveCandidate": "pwa-b2cb4bc35a26",
   "liveRelease": {
-    "syncedCandidateId": "pwa-3e804a980eae",
+    "syncedCandidateId": "pwa-b2cb4bc35a26",
     "exactManifestPath": "/release-candidate.json",
     "staticJsonMayLagBehindLatestDeploy": true
   },
   "publicEvidenceHandoff": {
-    "status": "aggregate-evidence-channel-blocked",
+    "status": "awaiting-player-initiated-aggregate-notes",
     "aggregateEvidence": {
       "notes": 0,
       "starts": 0,
@@ -40,22 +40,22 @@ export const productionMeasurementStatus = {
   },
   "externalUnlockQueue": {
     "status": "handoff-waiting-on-owner-inputs",
-    "nextBestUnlockId": "support-contact",
-    "nextBestZeroCostUnlockId": "support-contact",
-    "ownerActionRequired": 5,
+    "nextBestUnlockId": "production-analytics-browser",
+    "nextBestZeroCostUnlockId": "production-analytics-browser",
+    "ownerActionRequired": 4,
     "ownerUnlockBrief": {
       "status": "waiting-on-owner-input",
       "nextUnlockId": "production-analytics-browser",
       "recommendedPathId": "first-party-collector",
-      "missingVariableCount": 5,
-      "missingSecretCount": 3
+      "missingVariableCount": 3,
+      "missingSecretCount": 1
     }
   },
   "ownerUnlockPreflight": {
     "status": "owner-unlock-preflight-waiting-on-input",
     "readyForSetup": false,
     "lowestInputPathId": "posthog-browser",
-    "missingInputCount": 8,
+    "missingInputCount": 4,
     "invalidInputCount": 0,
     "lowestInputMissingInputCount": 1,
     "lowestInputSecretInputCount": 0,
